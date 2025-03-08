@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:path_provider/path_provider.dart';
-import 'data_access_object/goal_task_dao.dart';
-import 'data_access_object/tag_dao.dart';
-import 'data_access_object/task_dao.dart';
-import 'data_access_object/user_setting_dao.dart';
-import 'tables/tables.dart';
+import '../data_access_object/goal_task_dao.dart';
+import '../data_access_object/tag_dao.dart';
+import '../data_access_object/task_dao.dart';
+import '../data_access_object/user_setting_dao.dart';
+import 'tables.dart';
 
 part 'database.g.dart';
 

@@ -1,4 +1,4 @@
-package com.amirhosseinzamani.planza.planza
+package com.amirhosseinzamani.planza
 
 import io.flutter.embedding.android.FlutterActivity
 
