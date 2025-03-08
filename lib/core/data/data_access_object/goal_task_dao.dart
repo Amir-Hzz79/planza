@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
-import 'package:planza/core/data/database.dart';
+import 'package:planza/core/data/database/database.dart';
 
-import '../tables/tables.dart';
+import '../database/tables.dart';
 
 part 'goal_task_dao.g.dart';
 
