@@ -11,12 +11,13 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
 
   Future<List<Goal>> getAllGoals() => select(goals).get();
   Stream<List<Goal>> watchAllGoals() => select(goals).watch();
+  Future<List<Goal>> getAllGoalsWhere(
+          Expression<bool> Function(Goals goal) filter) =>
+      (select(goals)..where(filter)).get();
   Future<Goal> getGoalById(int id) =>
       (select(goals)..where((g) => g.id.equals(id))).getSingle();
-  Future<int> insertGoal(Goal goal) => into(goals).insert(goal)
-;
-  Future<bool> updateGoal(Goal goal) => update(goals).replace(goal)
-;
+  Future<int> insertGoal(Goal goal) => into(goals).insert(goal);
+  Future<bool> updateGoal(Goal goal) => update(goals).replace(goal);
   Future<int> deleteGoal(int id) =>
       (delete(goals)..where((g) => g.id.equals(id))).go();
 }

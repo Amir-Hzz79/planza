@@ -11,6 +11,9 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
 
   Future<List<Task>> getAllTasks() => select(tasks).get();
   Stream<List<Task>> watchAllTasks() => select(tasks).watch();
+  Future<List<Task>> getAllTasksWhere(
+          Expression<bool> Function(Tasks task) filter) =>
+      (select(tasks)..where(filter)).get();
   Future<Task> getTaskById(int id) =>
       (select(tasks)..where((t) => t.id.equals(id))).getSingle();
   Future<int> insertTask(Task task) => into(tasks).insert(task);

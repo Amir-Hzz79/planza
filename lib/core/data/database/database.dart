@@ -19,13 +19,38 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 1;
+  int get schemaVersion => 2;
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
       final dbFolder = await getApplicationDocumentsDirectory();
-      final file = File('${dbFolder.path}/my_database.sqlite');
+      final dbFolderPath = '${dbFolder.path}/database';
+      final file = File('$dbFolderPath/planza_db.sqlite');
+
+      // Ensure the directory exists
+      if (!(await Directory(dbFolderPath).exists())) {
+        await Directory(dbFolderPath).create(recursive: true);
+      }
+
       return NativeDatabase(file);
     });
   }
+
+  @override
+  // TODO: implement migration
+  MigrationStrategy get migration => MigrationStrategy(
+        onUpgrade: (migrator, from, to) async {
+          if (from < 2) {
+            await migrator.addColumn(
+              goals,
+              GeneratedColumn(
+                'color',
+                'Goals',
+                false,
+                type: DriftSqlType.int,
+              ),
+            );
+          }
+        },
+      );
 }
