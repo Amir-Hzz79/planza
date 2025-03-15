@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import 'package:planza/features/goal_managment/presentation/pages/goal_details.dart';
 
 class GoalCounterListItem extends StatelessWidget {
@@ -34,7 +35,7 @@ class GoalCounterListItem extends StatelessWidget {
             Text(
               goal.name,
               style: TextStyle(
-                color: Colors.black,
+                color: goal.color.matchTextColor(),
               ),
               overflow: TextOverflow.ellipsis,
             ),
@@ -43,7 +44,7 @@ class GoalCounterListItem extends StatelessWidget {
             ),
             CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.surface,
-              child: Text('$counter'),
+              child: Text('${goal.tasks.length}'),
             ),
             SizedBox(
               width: 5,
