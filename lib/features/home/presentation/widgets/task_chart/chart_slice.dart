@@ -24,11 +24,24 @@ class ChartSlice extends StatelessWidget {
         decoration: BoxDecoration(
           color: color,
           borderRadius: BorderRadius.only(
-            topLeft: topRadius ? Radius.circular(20) : Radius.circular(0),
-            topRight: topRadius ? Radius.circular(20) : Radius.circular(0),
-            bottomLeft: bottomRadius ? Radius.circular(20) : Radius.circular(0),
-            bottomRight:
-                bottomRadius ? Radius.circular(20) : Radius.circular(0),
+            topLeft: topRadius ? Radius.circular(20) : Radius.zero,
+            topRight: topRadius ? Radius.circular(20) : Radius.zero,
+            bottomLeft: bottomRadius ? Radius.circular(20) : Radius.zero,
+            bottomRight: bottomRadius ? Radius.circular(20) : Radius.zero,
+          ),
+          border: Border(
+            top: !topRadius
+                ? BorderSide(
+                    width: 0.5,
+                    color: Colors.grey[800]!,
+                  )
+                : BorderSide.none,
+            bottom: !bottomRadius
+                ? BorderSide(
+                    width: 0.51,
+                    color: Colors.grey[800]!,
+                  )
+                : BorderSide.none,
           ),
         ),
       ),

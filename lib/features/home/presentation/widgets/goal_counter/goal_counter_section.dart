@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planza/core/constants/dummy_data.dart';
+import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/widgets/scrollables/scrollable_row.dart';
 
 import 'goal_counter_grid_item.dart';
@@ -7,19 +7,20 @@ import 'goal_counter_grid.dart';
 import 'goal_counter_list.dart';
 import 'goal_counter_list_item.dart';
 
-class GoalSection extends StatefulWidget {
-  const GoalSection({super.key});
+class GoalCounterSection extends StatefulWidget {
+  const GoalCounterSection({super.key, required this.goals});
 
+  final List<GoalModel> goals;
   @override
-  State<GoalSection> createState() => _GoalSectionState();
+  State<GoalCounterSection> createState() => _GoalCounterSectionState();
 }
 
-class _GoalSectionState extends State<GoalSection> {
+class _GoalCounterSectionState extends State<GoalCounterSection> {
   bool expandMode = false;
 
   @override
   Widget build(BuildContext context) {
-    final double expandHeight = 185;
+    final double expandHeight = (widget.goals.length / 2).ceil() * 63;
     final double height = 50;
 
     return Column(
@@ -45,7 +46,7 @@ class _GoalSectionState extends State<GoalSection> {
               child: Container(
                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
                 /* width: 40,
-                height: 50, */
+                    height: 50, */
                 decoration: BoxDecoration(
                   color: Colors.grey[200],
                   borderRadius: BorderRadius.circular(15),
@@ -72,9 +73,9 @@ class _GoalSectionState extends State<GoalSection> {
                   padding: EdgeInsets.symmetric(horizontal: 10),
                   child: GoalCounterGrid(
                     taskCounters: List.generate(
-                      dummyGoals.length,
+                      widget.goals.length,
                       (index) => GoalCounterGridItem(
-                        goal: dummyGoals[index],
+                        goal: widget.goals[index],
                         counter: index,
                       ),
                     ),
@@ -90,9 +91,9 @@ class _GoalSectionState extends State<GoalSection> {
                     GoalCounterList(
                       spacing: 5,
                       items: List.generate(
-                        dummyGoals.length,
+                        widget.goals.length,
                         (index) => GoalCounterListItem(
-                          goal: dummyGoals[index],
+                          goal: widget.goals[index],
                           counter: index,
                         ),
                       ),

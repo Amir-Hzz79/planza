@@ -1,27 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:planza/core/constants/month_names.dart';
 import 'package:planza/core/constants/week_days.dart';
+import 'package:planza/core/data/models/goal_model.dart';
 
 import 'chart_column.dart';
 
 enum ChartTimeZone {
-  day,
+  week,
   month,
   year,
 }
 
 class TaskChart extends StatefulWidget {
-  const TaskChart({super.key});
+  const TaskChart({super.key, required this.goals});
+
+  final List<GoalModel> goals;
 
   @override
   State<TaskChart> createState() => _TaskChartState();
 }
 
 class _TaskChartState extends State<TaskChart> {
-  ChartTimeZone selectedTimeZone = ChartTimeZone.day;
+  ChartTimeZone selectedTimeZone = ChartTimeZone.week;
 
   @override
   Widget build(BuildContext context) {
     final double screenWidth = MediaQuery.of(context).size.width;
+    int columnCount = selectedTimeZone == ChartTimeZone.week
+        ? 7
+        : selectedTimeZone == ChartTimeZone.month
+            ? 30
+            : 12;
 
     return Column(
       children: [
@@ -46,11 +55,11 @@ class _TaskChartState extends State<TaskChart> {
               onPressed: () {
                 setState(
                   () {
-                    selectedTimeZone = ChartTimeZone.day;
+                    selectedTimeZone = ChartTimeZone.week;
                   },
                 );
               },
-              style: selectedTimeZone == ChartTimeZone.day
+              style: selectedTimeZone == ChartTimeZone.week
                   ? FilledButton.styleFrom(
                       backgroundColor:
                           Theme.of(context).colorScheme.inversePrimary,
@@ -61,7 +70,7 @@ class _TaskChartState extends State<TaskChart> {
                       foregroundColor: Colors.black,
                     ),
               child: Text(
-                'Day',
+                'Week',
                 style: TextStyle(
                   fontSize: 14,
                   fontWeight: FontWeight.w500,
@@ -140,15 +149,46 @@ class _TaskChartState extends State<TaskChart> {
               width: 5,
             ),
             ...List.generate(
-              7,
+              columnCount,
               (index) {
                 final double containerHeight = 300;
-                final double containerWidth = (screenWidth - 80) / 7;
+                //final double containerWidth = (screenWidth - 80) / columnCount;
 
-                return ChartColumn(
-                  width: containerWidth,
-                  height: containerHeight,
-                  text: WeekDays.values[index].name.characters.first,
+                String columnText = selectedTimeZone == ChartTimeZone.week
+                    ? WeekDays.values[index].name.characters.first
+                    : selectedTimeZone == ChartTimeZone.month
+                        ? '$index'
+                        : Months.values[index].name.characters.first;
+                double spacing = selectedTimeZone == ChartTimeZone.week
+                    ? 7
+                    : selectedTimeZone == ChartTimeZone.month
+                        ? 2
+                        : 5;
+
+                DateTime dateTime = selectedTimeZone == ChartTimeZone.week
+                    ? DateTime.now().add(Duration(days: index))
+                    : selectedTimeZone == ChartTimeZone.month
+                        ? DateTime(
+                            DateTime.now().year, DateTime.now().month, index)
+                        : DateTime(DateTime.now().year, index);
+                
+                return Expanded(
+                  child: ChartColumn(
+                    spacing: spacing,
+                    height: containerHeight,
+                    text: columnText,
+                    goals: widget.goals
+                        .where(
+                          (element) => element.tasks.any(
+                            (element) =>
+                                selectedTimeZone == ChartTimeZone.week ||
+                                        selectedTimeZone == ChartTimeZone.month
+                                    ? element.dueDate == dateTime
+                                    : element.dueDate?.month == dateTime.month,
+                          ),
+                        )
+                        .toList(),
+                  ),
                 );
               },
             ),

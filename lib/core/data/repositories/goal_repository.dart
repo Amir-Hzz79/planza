@@ -7,8 +7,7 @@ class GoalRepository {
   GoalRepository(this._goalDao);
 
   Future<List<GoalModel>> getAllGoals() async {
-    final goals = await _goalDao.getAllGoals();
-    return goals.map((goal) => GoalModel.fromEntity(goal)).toList();
+    return _goalDao.getAllGoals();
   }
 
   Future<GoalModel?> getGoalById(int id) async {
