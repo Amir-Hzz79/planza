@@ -69,84 +69,6 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFa2d2ff),
         ));
 
-    // Insert Tasks
-    await db.into(db.tasks).insert(TasksCompanion(
-          id: Value(1),
-          title: Value("Morning Jogging"),
-          description: Value("Jog every morning"),
-          isCompleted: Value(false),
-          dueDate: Value(DateTime(2025, 3, 1)),
-          priority: Value(1),
-          parentTaskId: Value(null),
-        ));
-
-    await db.into(db.tasks).insert(TasksCompanion(
-          id: Value(2),
-          title: Value("Gym Session"),
-          description: Value("Strength training"),
-          isCompleted: Value(true),
-          dueDate: Value(DateTime(2025, 3, 3)),
-          priority: Value(2),
-          parentTaskId: Value(null),
-        ));
-
-    await db.into(db.tasks).insert(TasksCompanion(
-          id: Value(3),
-          title: Value("Start Reading Novel"),
-          description: Value("Read a new fiction book"),
-          isCompleted: Value(false),
-          dueDate: Value(DateTime(2025, 3, 4)),
-          priority: Value(2),
-          parentTaskId: Value(null),
-        ));
-
-    await db.into(db.tasks).insert(TasksCompanion(
-          id: Value(4),
-          title: Value("Create Vacation Budget"),
-          description: Value("Budget your expenses"),
-          isCompleted: Value(true),
-          dueDate: Value(DateTime(2025, 3, 4)),
-          priority: Value(1),
-          parentTaskId: Value(null),
-        ));
-
-    await db.into(db.tasks).insert(TasksCompanion(
-          id: Value(5),
-          title: Value("Finalize Flight Tickets"),
-          description: Value("Book flights for the trip"),
-          isCompleted: Value(false),
-          dueDate: Value(DateTime(2025, 3, 5)),
-          priority: Value(3),
-          parentTaskId: Value(null),
-        ));
-
-    // Insert GoalTasks
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(1),
-          taskId: Value(1),
-        ));
-
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(1),
-          taskId: Value(2),
-        ));
-
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(2),
-          taskId: Value(3),
-        ));
-
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(3),
-          taskId: Value(4),
-        ));
-
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(3),
-          taskId: Value(5),
-        ));
-
-    // Insert Goals
     await db.into(db.goals).insert(GoalsCompanion(
           id: Value(4),
           name: Value("Cooking Challenge"),
@@ -174,7 +96,84 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFb9fbc0),
         ));
 
-// Insert Tasks
+    await db.into(db.goals).insert(GoalsCompanion(
+          id: Value(7),
+          name: Value("Gardening Project"),
+          description: Value("Grow vegetables and flowers in the backyard"),
+          deadline: Value(DateTime(2025, 8, 15)),
+          completed: Value(false),
+          color: Value(0xFFffd6a5),
+        ));
+
+    await db.into(db.goals).insert(GoalsCompanion(
+          id: Value(8),
+          name: Value("Tech Skills Improvement"),
+          description: Value("Complete an advanced programming course"),
+          deadline: Value(DateTime(2025, 9, 30)),
+          completed: Value(false),
+          color: Value(0xFFf4a261),
+        ));
+
+    await db.into(db.goals).insert(GoalsCompanion(
+          id: Value(9),
+          name: Value("Fitness Milestone"),
+          description: Value("Run a half marathon"),
+          deadline: Value(DateTime(2025, 10, 20)),
+          completed: Value(false),
+          color: Value(0xFFe9c46a),
+        ));
+
+    // Insert Tasks
+    await db.into(db.tasks).insert(TasksCompanion(
+          id: Value(1),
+          title: Value("Morning Jogging"),
+          description: Value("Jog every morning"),
+          isCompleted: Value(true),
+          dueDate: Value(DateTime(2025, 3, 1)),
+          priority: Value(1),
+          parentTaskId: Value(null),
+        ));
+
+    await db.into(db.tasks).insert(TasksCompanion(
+          id: Value(2),
+          title: Value("Gym Session"),
+          description: Value("Strength training"),
+          isCompleted: Value(true),
+          dueDate: Value(DateTime(2025, 3, 17)),
+          priority: Value(2),
+          parentTaskId: Value(null),
+        ));
+
+    await db.into(db.tasks).insert(TasksCompanion(
+          id: Value(3),
+          title: Value("Start Reading Novel"),
+          description: Value("Read a new fiction book"),
+          isCompleted: Value(true),
+          dueDate: Value(DateTime(2025, 3, 20)),
+          priority: Value(2),
+          parentTaskId: Value(null),
+        ));
+
+    await db.into(db.tasks).insert(TasksCompanion(
+          id: Value(4),
+          title: Value("Create Vacation Budget"),
+          description: Value("Budget your expenses"),
+          isCompleted: Value(true),
+          dueDate: Value(DateTime(2025, 3, 22)),
+          priority: Value(1),
+          parentTaskId: Value(null),
+        ));
+
+    await db.into(db.tasks).insert(TasksCompanion(
+          id: Value(5),
+          title: Value("Finalize Flight Tickets"),
+          description: Value("Book flights for the trip"),
+          isCompleted: Value(false),
+          dueDate: Value(DateTime(2025, 3, 5)),
+          priority: Value(3),
+          parentTaskId: Value(null),
+        ));
+
     await db.into(db.tasks).insert(TasksCompanion(
           id: Value(6),
           title: Value("Try Italian Recipe"),
@@ -225,59 +224,6 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(7),
         ));
 
-// Insert GoalTasks
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(4),
-          taskId: Value(6),
-        ));
-
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(4),
-          taskId: Value(9),
-        ));
-
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(5),
-          taskId: Value(7),
-        ));
-
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(5),
-          taskId: Value(10),
-        ));
-
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
-          goalId: Value(6),
-          taskId: Value(8),
-        )); // Insert Goals
-    await db.into(db.goals).insert(GoalsCompanion(
-          id: Value(7),
-          name: Value("Gardening Project"),
-          description: Value("Grow vegetables and flowers in the backyard"),
-          deadline: Value(DateTime(2025, 8, 15)),
-          completed: Value(false),
-          color: Value(0xFFffd6a5),
-        ));
-
-    await db.into(db.goals).insert(GoalsCompanion(
-          id: Value(8),
-          name: Value("Tech Skills Improvement"),
-          description: Value("Complete an advanced programming course"),
-          deadline: Value(DateTime(2025, 9, 30)),
-          completed: Value(false),
-          color: Value(0xFFf4a261),
-        ));
-
-    await db.into(db.goals).insert(GoalsCompanion(
-          id: Value(9),
-          name: Value("Fitness Milestone"),
-          description: Value("Run a half marathon"),
-          deadline: Value(DateTime(2025, 10, 20)),
-          completed: Value(false),
-          color: Value(0xFFe9c46a),
-        ));
-
-// Insert Tasks
     await db.into(db.tasks).insert(TasksCompanion(
           id: Value(11),
           title: Value("Prepare Soil for Planting"),
@@ -328,8 +274,66 @@ class AppDatabase extends _$AppDatabase {
           priority: Value(3),
           parentTaskId: Value(13),
         ));
+    await db.into(db.tasks).insert(TasksCompanion(
+          id: Value(16),
+          title: Value("Practice Running"),
+          description:
+              Value("Follow a training schedule for the half marathon"),
+          isCompleted: Value(false),
+          dueDate: Value(DateTime(2025, 4, 25)),
+          priority: Value(3),
+          parentTaskId: Value(13),
+        ));
 
-// Insert GoalTasks
+    // Insert GoalTasks
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(1),
+          taskId: Value(1),
+        ));
+
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(1),
+          taskId: Value(2),
+        ));
+
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(2),
+          taskId: Value(3),
+        ));
+
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(3),
+          taskId: Value(4),
+        ));
+
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(3),
+          taskId: Value(5),
+        ));
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(4),
+          taskId: Value(6),
+        ));
+
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(4),
+          taskId: Value(9),
+        ));
+
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(5),
+          taskId: Value(7),
+        ));
+
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(5),
+          taskId: Value(10),
+        ));
+
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(6),
+          taskId: Value(8),
+        ));
     await db.into(db.goalTasks).insert(GoalTasksCompanion(
           goalId: Value(7),
           taskId: Value(11),
@@ -353,6 +357,10 @@ class AppDatabase extends _$AppDatabase {
     await db.into(db.goalTasks).insert(GoalTasksCompanion(
           goalId: Value(9),
           taskId: Value(15),
+        ));
+    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+          goalId: Value(1),
+          taskId: Value(16),
         ));
   }
 

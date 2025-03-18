@@ -63,9 +63,17 @@ final ColorScheme darkColorScheme = ColorScheme(
 final ThemeData lightTheme = ThemeData(
   colorScheme: lightColorScheme,
   useMaterial3: true,
+  datePickerTheme: const DatePickerThemeData(
+    backgroundColor: Colors.white,
+    surfaceTintColor: Colors.white,
+  ),
 );
 
 final ThemeData darkTheme = ThemeData(
   colorScheme: darkColorScheme,
   useMaterial3: true,
+  datePickerTheme: DatePickerThemeData(
+    backgroundColor: Colors.white,
+    surfaceTintColor: Colors.white,
+  ),
 );

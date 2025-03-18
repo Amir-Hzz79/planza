@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
+import 'package:planza/core/data/database/database.dart';
 import 'package:planza/core/widgets/buttons/profile_button.dart';
 
 class HomePageAppBar extends StatelessWidget {
@@ -10,6 +12,7 @@ class HomePageAppBar extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         Expanded(
+          flex: 2,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -23,6 +26,26 @@ class HomePageAppBar extends StatelessWidget {
                   );
                 },
               ),
+              const SizedBox(
+                width: 5,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'AmirHosein Zamani',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    'Good morning',
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
@@ -30,11 +53,17 @@ class HomePageAppBar extends StatelessWidget {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              CircleAvatar(
-                backgroundColor: Theme.of(context).colorScheme.inverseSurface,
-                child: Icon(
-                  Icons.add_rounded,
-                  color: Theme.of(context).colorScheme.onInverseSurface,
+              InkWell(
+                onTap: () {
+                  AppDatabase db = GetIt.I.get<AppDatabase>();
+                  db.insertDummyData(db);
+                },
+                child: CircleAvatar(
+                  backgroundColor: Theme.of(context).colorScheme.inverseSurface,
+                  child: Icon(
+                    Icons.add_rounded,
+                    color: Theme.of(context).colorScheme.onInverseSurface,
+                  ),
                 ),
               ),
               const SizedBox(
@@ -43,7 +72,7 @@ class HomePageAppBar extends StatelessWidget {
               CircleAvatar(
                 child: Icon(
                   Icons.notifications_outlined,
-                  color: Colors.black,
+                  /* color: Colors.black, */
                 ),
               ),
               const SizedBox(

@@ -25,12 +25,16 @@ class _TaskChartState extends State<TaskChart> {
 
   @override
   Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
+    final theme = Theme.of(context);
     int columnCount = selectedTimeZone == ChartTimeZone.week
         ? 7
         : selectedTimeZone == ChartTimeZone.month
-            ? 30
+            ? 15
             : 12;
+    final double columnHeight = selectedTimeZone == ChartTimeZone.week ||
+            selectedTimeZone == ChartTimeZone.year
+        ? 250
+        : 115;
 
     return Column(
       children: [
@@ -40,13 +44,18 @@ class _TaskChartState extends State<TaskChart> {
             const SizedBox(
               width: 10,
             ),
-            Container(
-              padding: EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.grey[200],
-                shape: BoxShape.circle,
+            InkWell(
+              onTap: () {
+                //Open Calendar maybe
+              },
+              child: Container(
+                padding: EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.onInverseSurface,
+                  shape: BoxShape.circle,
+                ),
+                child: Icon(Icons.calendar_month_outlined),
               ),
-              child: Icon(Icons.calendar_month_outlined),
             ),
             const SizedBox(
               width: 5,
@@ -66,8 +75,7 @@ class _TaskChartState extends State<TaskChart> {
                       //foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     )
                   : FilledButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.black,
+                      backgroundColor: theme.colorScheme.onInverseSurface,
                     ),
               child: Text(
                 'Week',
@@ -95,8 +103,7 @@ class _TaskChartState extends State<TaskChart> {
                       //foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     )
                   : FilledButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.black,
+                      backgroundColor: theme.colorScheme.onInverseSurface,
                     ),
               child: Text(
                 'Month',
@@ -124,8 +131,7 @@ class _TaskChartState extends State<TaskChart> {
                       //foregroundColor: Theme.of(context).colorScheme.onPrimary,
                     )
                   : FilledButton.styleFrom(
-                      backgroundColor: Colors.grey[200],
-                      foregroundColor: Colors.black,
+                      backgroundColor: theme.colorScheme.onInverseSurface,
                     ),
               child: Text(
                 'Year',
@@ -151,13 +157,10 @@ class _TaskChartState extends State<TaskChart> {
             ...List.generate(
               columnCount,
               (index) {
-                final double containerHeight = 300;
-                //final double containerWidth = (screenWidth - 80) / columnCount;
-
                 String columnText = selectedTimeZone == ChartTimeZone.week
                     ? WeekDays.values[index].name.characters.first
                     : selectedTimeZone == ChartTimeZone.month
-                        ? '$index'
+                        ? '${index + 1}'
                         : Months.values[index].name.characters.first;
                 double spacing = selectedTimeZone == ChartTimeZone.week
                     ? 7
@@ -171,11 +174,11 @@ class _TaskChartState extends State<TaskChart> {
                         ? DateTime(
                             DateTime.now().year, DateTime.now().month, index)
                         : DateTime(DateTime.now().year, index);
-                
+
                 return Expanded(
                   child: ChartColumn(
                     spacing: spacing,
-                    height: containerHeight,
+                    height: columnHeight,
                     text: columnText,
                     goals: widget.goals
                         .where(
@@ -197,6 +200,64 @@ class _TaskChartState extends State<TaskChart> {
             ),
           ],
         ),
+        if (selectedTimeZone == ChartTimeZone.month)
+          const SizedBox(
+            height: 20,
+          ),
+        if (selectedTimeZone == ChartTimeZone.month)
+          Row(
+            children: [
+              const SizedBox(
+                width: 5,
+              ),
+              ...List.generate(
+                columnCount,
+                (i) {
+                  int index = i + 15;
+
+                  String columnText = selectedTimeZone == ChartTimeZone.week
+                      ? WeekDays.values[index].name.characters.first
+                      : selectedTimeZone == ChartTimeZone.month
+                          ? '${index + 1}'
+                          : Months.values[index].name.characters.first;
+                  double spacing = selectedTimeZone == ChartTimeZone.week
+                      ? 7
+                      : selectedTimeZone == ChartTimeZone.month
+                          ? 2
+                          : 5;
+
+                  DateTime dateTime = selectedTimeZone == ChartTimeZone.week
+                      ? DateTime.now().add(Duration(days: index))
+                      : selectedTimeZone == ChartTimeZone.month
+                          ? DateTime(
+                              DateTime.now().year, DateTime.now().month, index)
+                          : DateTime(DateTime.now().year, index);
+
+                  return Expanded(
+                    child: ChartColumn(
+                      spacing: spacing,
+                      height: columnHeight,
+                      text: columnText,
+                      goals: widget.goals
+                          .where(
+                            (element) => element.tasks.any(
+                              (element) => selectedTimeZone ==
+                                          ChartTimeZone.week ||
+                                      selectedTimeZone == ChartTimeZone.month
+                                  ? element.dueDate == dateTime
+                                  : element.dueDate?.month == dateTime.month,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  );
+                },
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+            ],
+          ),
       ],
     );
   }

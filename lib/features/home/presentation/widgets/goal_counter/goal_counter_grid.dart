@@ -1,20 +1,22 @@
 import 'package:flutter/material.dart';
-import 'package:planza/features/home/presentation/widgets/goal_counter/goal_counter_grid_item.dart';
+
+import 'goal_counter_list_item.dart';
 
 class GoalCounterGrid extends StatelessWidget {
-  const GoalCounterGrid({super.key, required this.taskCounters});
+  const GoalCounterGrid({super.key, required this.items});
 
-  final List<GoalCounterGridItem> taskCounters;
+  final List<GoalCounterListItem> items;
 
   @override
   Widget build(BuildContext context) {
     return GridView.count(
+      physics: NeverScrollableScrollPhysics(),
       crossAxisCount: 2,
       childAspectRatio: 3.5,
       mainAxisSpacing: 10,
       crossAxisSpacing: 10,
       shrinkWrap: false,
-      children: taskCounters,
+      children: items,
     );
   }
 }
