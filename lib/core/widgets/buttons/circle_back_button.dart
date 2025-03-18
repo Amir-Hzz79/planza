@@ -12,7 +12,7 @@ class CircleBackButton extends StatelessWidget {
           InkWell(
             onTap: () => Navigator.of(context).pop(),
             child: CircleAvatar(
-              backgroundColor: Colors.grey[200],
+              backgroundColor: Theme.of(context).colorScheme.onInverseSurface,
               child: Icon(
                 Icons.arrow_back_rounded,
               ),

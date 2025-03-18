@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planza/core/theme/bloc/theme_event.dart';
+import 'package:planza/core/theme/bloc/theme_state.dart';
 import 'package:planza/core/widgets/buttons/profile_button.dart';
+
+import '../../../../../core/theme/bloc/theme_bloc.dart';
 
 class DrawerSection extends StatelessWidget {
   const DrawerSection({super.key});
@@ -22,10 +27,22 @@ class DrawerSection extends StatelessWidget {
                     ),
                     InkWell(
                       borderRadius: BorderRadius.circular(50),
-                      onTap: () {},
+                      onTap: () {
+                        print('here 1');
+                        context.read<ThemeBloc>().add(ThemeChangeEvent());
+                        print('here 2');
+                      },
                       child: Padding(
                         padding: const EdgeInsets.all(5),
-                        child: Icon(Icons.dark_mode_rounded),
+                        child: BlocConsumer<ThemeBloc, ThemeState>(
+                            listener: (context, state) {},
+                            builder: (context, state) {
+                              return Icon(
+                                state is DarkModeState
+                                    ? Icons.dark_mode_rounded
+                                    : Icons.light_mode_rounded,
+                              );
+                            }),
                       ),
                     ),
                   ],

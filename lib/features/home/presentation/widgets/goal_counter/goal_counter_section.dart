@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/widgets/scrollables/scrollable_row.dart';
 
-import 'goal_counter_grid_item.dart';
 import 'goal_counter_grid.dart';
 import 'goal_counter_list.dart';
 import 'goal_counter_list_item.dart';
@@ -20,8 +19,9 @@ class _GoalCounterSectionState extends State<GoalCounterSection> {
 
   @override
   Widget build(BuildContext context) {
-    final double expandHeight = (widget.goals.length / 2).ceil() * 63;
-    final double height = 50;
+    final Size screenSize = MediaQuery.of(context).size;
+    final double expandHeight = (widget.goals.length / 2).ceil() * 70;
+    final double height = 60;
 
     return Column(
       children: [
@@ -30,7 +30,7 @@ class _GoalCounterSectionState extends State<GoalCounterSection> {
           children: [
             /* const SizedBox(width: 15), */
             Text(
-              'Manage Your Tasks',
+              'Manage Your Goals',
               style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
@@ -48,7 +48,9 @@ class _GoalCounterSectionState extends State<GoalCounterSection> {
                 /* width: 40,
                     height: 50, */
                 decoration: BoxDecoration(
-                  color: Colors.grey[200],
+                  color: Theme.of(context)
+                      .colorScheme
+                      .onInverseSurface /*  Colors.grey[200] */,
                   borderRadius: BorderRadius.circular(15),
                 ),
                 child: Icon(
@@ -62,47 +64,49 @@ class _GoalCounterSectionState extends State<GoalCounterSection> {
         const SizedBox(
           height: 20,
         ),
-        AnimatedContainer(
-          height: expandMode ? expandHeight : height,
-          width: MediaQuery.of(context).size.width,
-          duration: Duration(
-            milliseconds: 400,
-          ),
-          child: expandMode
-              ? Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 10),
-                  child: GoalCounterGrid(
-                    taskCounters: List.generate(
-                      widget.goals.length,
-                      (index) => GoalCounterGridItem(
-                        goal: widget.goals[index],
-                        counter: index,
-                      ),
-                    ),
-                  ),
-                )
-              : ScrollableRow(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const SizedBox(
-                      width: 10,
-                    ),
-                    GoalCounterList(
-                      spacing: 5,
+        IntrinsicHeight(
+          child: AnimatedContainer(
+            height: expandMode ? expandHeight : height,
+            width: MediaQuery.of(context).size.width,
+            duration: Duration(
+              milliseconds: 400,
+            ),
+            child: expandMode
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 10),
+                    child: GoalCounterGrid(
                       items: List.generate(
                         widget.goals.length,
                         (index) => GoalCounterListItem(
                           goal: widget.goals[index],
-                          counter: index,
+                          width: (screenSize.width - 40) / 2,
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      width: 10,
-                    ),
-                  ],
-                ),
+                  )
+                : ScrollableRow(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      const SizedBox(
+                        width: 10,
+                      ),
+                      GoalCounterList(
+                        spacing: 10,
+                        items: List.generate(
+                          widget.goals.length,
+                          (index) => GoalCounterListItem(
+                            goal: widget.goals[index],
+                            width: (screenSize.width - 40) / 2,
+                          ),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 10,
+                      ),
+                    ],
+                  ),
+          ),
         ),
       ],
     );

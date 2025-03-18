@@ -45,6 +45,7 @@ class GoalCounterGridItem extends StatelessWidget {
             ),
             CircleAvatar(
               backgroundColor: Theme.of(context).colorScheme.surface,
+              foregroundColor: goal.color,
               child: Text('${goal.tasks.length}'),
             ),
             SizedBox(

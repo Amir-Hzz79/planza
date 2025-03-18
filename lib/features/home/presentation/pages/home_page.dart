@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:planza/core/data/data_access_object/goal_dao.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:easy_date_timeline/easy_date_timeline.dart';
 
-import 'package:planza/core/data/database/database.dart';
-import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/features/home/presentation/widgets/appbart/home_page_app_bar.dart';
 import 'package:planza/features/home/presentation/widgets/drawer/drawer_section.dart';
 import 'package:planza/features/home/presentation/widgets/goal_counter/goal_counter_section.dart';
 
 import '../../../../core/widgets/scrollables/scrollable_column.dart';
+import '../../bloc/goal_bloc.dart';
+import '../../bloc/goal_evet.dart';
+import '../../bloc/goal_state.dart';
 import '../widgets/task_chart/task_chart.dart';
 
 class HomePage extends StatefulWidget {
@@ -19,14 +20,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final GoalDao goalDao = GetIt.I.get<GoalDao>();
-  late Future<List<GoalModel>> futureGoals;
+  /* late Future<List<GoalModel>> futureGoals; */
 
   @override
   void initState() {
-    futureGoals = goalDao.getAllGoalsWithTasks();
+    context.read<GoalBloc>().add(LoadGoalsEvent());
     super.initState();
   }
+
+  DateTime selectedDate = DateTime.now();
 
   @override
   Widget build(BuildContext context) {
@@ -48,18 +50,40 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 20,
           ),
-          FutureBuilder(
-            future: futureGoals,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
+          EasyDateTimeLinePicker(
+            focusedDate: selectedDate,
+            firstDate: DateTime(DateTime.now().year, 1, 1),
+            lastDate: DateTime(DateTime.now().year, 12, 31),
+            onDateChange: (date) {
+              setState(
+                () {
+                  selectedDate = date;
+                },
+              );
+            },
+            selectionMode: SelectionMode.autoCenter(),
+            ignoreUserInteractionOnAnimating: true,
+          ),
+          const SizedBox(
+            height: 20,
+          ),
+          BlocBuilder<GoalBloc, GoalState>(
+            builder: (context, state) {
+              if (state is GoalLoadedState) {
+                return GoalCounterSection(
+                  goals: state.goals,
+                );
+              } else if (state is GoalErrorState) {
+                return Text('Error: ${state.message}');
+              } else {
                 return Container(
                   width: double.infinity,
-                  height: 300,
-                  color: Colors.grey[200],
-                );
-              } else {
-                return GoalCounterSection(
-                  goals: snapshot.data ?? [],
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 );
               }
             },
@@ -67,28 +91,26 @@ class _HomePageState extends State<HomePage> {
           const SizedBox(
             height: 20,
           ),
-          FutureBuilder(
-            future: futureGoals,
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
+          BlocBuilder<GoalBloc, GoalState>(
+            builder: (context, state) {
+              if (state is GoalLoadedState) {
+                return TaskChart(
+                  goals: state.goals,
+                );
+              } else if (state is GoalErrorState) {
+                return Text('Error: ${state.message}');
+              } else {
                 return Container(
                   width: double.infinity,
-                  height: 300,
-                  color: Colors.grey[200],
-                );
-              } else {
-                return TaskChart(
-                  goals: snapshot.data ?? [],
+                  margin: EdgeInsets.symmetric(horizontal: 10),
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                 );
               }
             },
-          ),
-          TextButton(
-            onPressed: () {
-              AppDatabase db = GetIt.I.get<AppDatabase>();
-              db.insertDummyData(db);
-            },
-            child: Text('Insert dummy data'),
           ),
           const SizedBox(
             height: 1000,

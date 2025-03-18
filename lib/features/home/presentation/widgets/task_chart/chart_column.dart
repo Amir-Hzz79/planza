@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/features/goal_managment/presentation/pages/goal_details.dart';
 
 import 'chart_slice.dart';
 
@@ -21,6 +22,8 @@ class ChartColumn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     int totalTaskCount = 0;
     for (var goal in goals) {
       totalTaskCount += goal.tasks.length;
@@ -33,23 +36,13 @@ class ChartColumn extends StatelessWidget {
           height: height,
           margin: EdgeInsets.symmetric(horizontal: spacing),
           decoration: BoxDecoration(
-            color: Colors.grey[200],
+            color: theme.colorScheme.onInverseSurface,
             gradient: LinearGradient(
-              /* end: Alignment.topCenter, */
-              /* begin: Alignment.bottomCenter, */
               colors: [
-                Colors.grey[200]!,
-                Colors.grey[300]!,
+                theme.colorScheme.onInverseSurface,
+                theme.colorScheme.onInverseSurface.withAlpha(128),
               ],
             ),
-            /* boxShadow: [
-              BoxShadow(
-                color: Colors.grey[300]!,
-                spreadRadius: 2,
-                blurStyle: BlurStyle.inner,
-                blurRadius: 5,
-              ),
-            ], */
             borderRadius: BorderRadius.circular(20),
           ),
           child: Column(
@@ -67,6 +60,11 @@ class ChartColumn extends StatelessWidget {
                   height: columnHeight,
                   bottomRadius: index == goals.length - 1,
                   topRadius: index == 0,
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => GoalDetails(goal: goals[index]),
+                    ),
+                  ),
                 );
               },
             ),
@@ -76,16 +74,15 @@ class ChartColumn extends StatelessWidget {
           height: 10,
         ),
         CircleAvatar(
-          backgroundColor: Colors.grey[200],
+          backgroundColor: theme.colorScheme.onInverseSurface,
           maxRadius: spacing * 2.5,
           child: FittedBox(
             fit: BoxFit.fitWidth,
             child: Text(
               text,
               style: TextStyle(
-                fontSize: 16,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+                fontSize: 14,
+                /* fontWeight: FontWeight.bold, */
                 fontStyle: FontStyle.italic,
               ),
             ),
