@@ -77,7 +77,7 @@ class _GoalCounterSectionState extends State<GoalCounterSection> {
                     child: GoalCounterGrid(
                       items: List.generate(
                         widget.goals.length,
-                        (index) => GoalCounterListItem(
+                        (index) => GoalCounterItem(
                           goal: widget.goals[index],
                           width: (screenSize.width - 40) / 2,
                         ),
@@ -95,7 +95,7 @@ class _GoalCounterSectionState extends State<GoalCounterSection> {
                         spacing: 10,
                         items: List.generate(
                           widget.goals.length,
-                          (index) => GoalCounterListItem(
+                          (index) => GoalCounterItem(
                             goal: widget.goals[index],
                             width: (screenSize.width - 40) / 2,
                           ),
