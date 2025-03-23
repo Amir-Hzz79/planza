@@ -10,10 +10,7 @@ class ThemeState extends Equatable {
   ThemeData? get theme => null;
 }
 
-class ThemeLoadingState extends ThemeState {
-  /* @override
-  ThemeData get theme => lightTheme; */
-}
+class ThemeLoadingState extends ThemeState {}
 
 class DarkModeState extends ThemeState {
   @override

@@ -5,7 +5,7 @@ import 'goal_counter_list_item.dart';
 class GoalCounterGrid extends StatelessWidget {
   const GoalCounterGrid({super.key, required this.items});
 
-  final List<GoalCounterListItem> items;
+  final List<GoalCounterItem> items;
 
   @override
   Widget build(BuildContext context) {

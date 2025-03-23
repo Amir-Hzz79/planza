@@ -48,6 +48,7 @@ class _TaskChartState extends State<TaskChart> {
               onTap: () {
                 //Open Calendar maybe
               },
+              borderRadius: BorderRadius.circular(50),
               child: Container(
                 padding: EdgeInsets.all(10),
                 decoration: BoxDecoration(

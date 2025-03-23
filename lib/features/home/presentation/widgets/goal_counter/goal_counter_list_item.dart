@@ -3,13 +3,12 @@ import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import 'package:planza/features/goal_managment/presentation/pages/goal_details.dart';
 
-class GoalCounterListItem extends StatelessWidget {
-  const GoalCounterListItem(
-      {super.key, required this.goal, required this.width});
+class GoalCounterItem extends StatelessWidget {
+  const GoalCounterItem({super.key, required this.goal, required this.width});
 
   final GoalModel goal;
   final double width;
-  
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(

@@ -7,7 +7,7 @@ class GoalCounterList extends StatelessWidget {
   const GoalCounterList(
       {super.key, required this.items, required this.spacing});
 
-  final List<GoalCounterListItem> items;
+  final List<GoalCounterItem> items;
   final double spacing;
 
   @override

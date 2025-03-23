@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planza/core/locale/app_localization.dart';
+import 'package:planza/core/locale/bloc/locale_bloc.dart';
+import 'package:planza/core/locale/bloc/locale_event.dart';
+import 'package:planza/core/locale/bloc/locale_state.dart';
 import 'package:planza/core/theme/app_theme.dart';
 import 'package:planza/core/theme/bloc/theme_bloc.dart';
 import 'package:planza/core/theme/bloc/theme_event.dart';
@@ -24,20 +29,40 @@ class MyApp extends StatelessWidget {
         BlocProvider(
           create: (context) => ThemeBloc()..add(LoadThemeEvent(context)),
         ),
+        BlocProvider(
+          create: (context) => LocaleBloc()..add(LoadLocaleEvent(context)),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
-        builder: (context, state) {
-          return state is ThemeLoadingState
-              ? CircularProgressIndicator()
-              : MaterialApp(
-                  title: 'Planza',
-                  theme: state is DarkModeState ? darkTheme : lightTheme,
-                  /* darkTheme: lightTheme, */
-                  debugShowCheckedModeBanner: false,
-                  home: SafeArea(
-                    child: const HomePage(),
-                  ),
-                );
+        builder: (context, themeState) {
+          return BlocBuilder<LocaleBloc, LocaleState>(
+            builder: (context, localeState) {
+              return (themeState is ThemeLoadingState) ||
+                      (localeState is LocaleLoadingState)
+                  ? CircularProgressIndicator()
+                  : MaterialApp(
+                      title: 'Planza',
+                      theme:
+                          themeState is DarkModeState ? darkTheme : lightTheme,
+                      /* darkTheme: lightTheme, */
+                      debugShowCheckedModeBanner: false,
+                      locale: (localeState as LocaleLoadedState).locale,
+                      supportedLocales: [
+                        Locale('en'), // English
+                        Locale('fa'), // Farsi
+                      ],
+                      localizationsDelegates: [
+                        AppLocalizations.delegate,
+                        GlobalMaterialLocalizations.delegate,
+                        GlobalWidgetsLocalizations.delegate,
+                        GlobalCupertinoLocalizations.delegate,
+                      ],
+                      home: SafeArea(
+                        child: const HomePage(),
+                      ),
+                    );
+            },
+          );
         },
       ),
     );
