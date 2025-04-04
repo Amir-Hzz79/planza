@@ -1,5 +1,20 @@
 {
-    "profile":"My Profile",
-    "settings":"Settings",
-    "language":"Languages"
+    "profile": "My Profile",
+    "settings": "Settings",
+    "language": "Languages",
+    "support": "Help & Support",
+    "about": "About Me",
+    "goal_title": "Manage Your Goals",
+    "add_modal_goal_title": "Add a new GOAL!",
+    "add_modal_goal_subtitle": "Let's go",
+    "add_modal_task_title": "Add a new Task",
+    "add_modal_task_subtitle": "Let's add it",
+    "title": "Title",
+    "add": "Add",
+    "add_task": "Add a new task",
+    "deadline": "Deadline",
+    "start_date": "Start Time",
+    "end_date": "End Time",
+    "choose_date": "Choose a time for it",
+    "description": "Description"
 }

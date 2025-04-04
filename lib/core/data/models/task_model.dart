@@ -1,7 +1,7 @@
 import '../database/database.dart' show Task;
 
 class TaskModel {
-  final int id;
+  final int? id;
   final String title;
   final String? description;
   final bool isCompleted;
@@ -10,7 +10,7 @@ class TaskModel {
   final int? parentTaskId;
 
   TaskModel({
-    required this.id,
+    this.id,
     required this.title,
     this.description,
     required this.isCompleted,
@@ -35,7 +35,7 @@ class TaskModel {
   // Convert a TaskModel to a Task entity
   Task toEntity() {
     return Task(
-      id: id,
+      id: id ?? -1,
       title: title,
       description: description,
       isCompleted: isCompleted,

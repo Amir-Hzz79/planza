@@ -2,15 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 
-import 'package:planza/features/home/presentation/widgets/appbart/home_page_app_bar.dart';
-import 'package:planza/features/home/presentation/widgets/drawer/drawer_section.dart';
-import 'package:planza/features/home/presentation/widgets/goal_counter/goal_counter_section.dart';
-
-import '../../../../core/widgets/scrollables/scrollable_column.dart';
 import '../../bloc/goal_bloc.dart';
 import '../../bloc/goal_evet.dart';
-import '../../bloc/goal_state.dart';
-import '../widgets/task_chart/task_chart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -30,93 +23,70 @@ class _HomePageState extends State<HomePage> {
 
   DateTime selectedDate = DateTime.now();
 
+  /*  final String sentence =
+      "Got it! You can achieve this using Stream to emit words one by one with a delay, and then display them in a Text widget using StreamBuilder";
+
+  Stream<String> wordStream(String sentence) async* {
+    final words = sentence.split(' '); // Split the sentence into words
+    String showingText = '';
+    for (String word in words) {
+      await Future.delayed(Duration(milliseconds: 300)); // Add a delay
+
+      showingText += '$word ';
+
+      yield showingText; // Emit the word
+    }
+  } */
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      /*  appBar: AppBar(
-        /* toolbarHeight: kToolbarHeight + 50, */
-        leading: ,
-        actions: [
-        ],
-      ), */
-      drawer: DrawerSection(),
-      body: ScrollableColumn(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          HomePageAppBar(),
-          const SizedBox(
-            height: 20,
-          ),
-          EasyDateTimeLinePicker(
-            focusedDate: selectedDate,
-            firstDate: DateTime(DateTime.now().year, 1, 1),
-            lastDate: DateTime(DateTime.now().year, 12, 31),
-            onDateChange: (date) {
-              setState(
-                () {
-                  selectedDate = date;
-                },
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        EasyDateTimeLinePicker(
+          focusedDate: selectedDate,
+          firstDate: DateTime(DateTime.now().year, 1, 1),
+          lastDate: DateTime(DateTime.now().year, 12, 31),
+          onDateChange: (date) {
+            setState(
+              () {
+                selectedDate = date;
+              },
+            );
+          },
+          selectionMode: SelectionMode.autoCenter(),
+          ignoreUserInteractionOnAnimating: true,
+        ),
+        const SizedBox(
+          height: 20,
+        ),
+        /* StreamBuilder<String>(
+          stream: wordStream(sentence),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return CircularProgressIndicator(); // Show loading state
+            } else if (snapshot.hasError) {
+              return Text('Error: ${snapshot.error}');
+            } else if (snapshot.hasData) {
+              return Text(
+                snapshot.data!,
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                textAlign: TextAlign.justify,
               );
-            },
-            selectionMode: SelectionMode.autoCenter(),
-            ignoreUserInteractionOnAnimating: true,
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          BlocBuilder<GoalBloc, GoalState>(
-            builder: (context, state) {
-              if (state is GoalLoadedState) {
-                return GoalCounterSection(
-                  goals: state.goals,
-                );
-              } else if (state is GoalErrorState) {
-                return Text('Error: ${state.message}');
-              } else {
-                return Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 250,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                );
-              }
-            },
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          BlocBuilder<GoalBloc, GoalState>(
-            builder: (context, state) {
-              if (state is GoalLoadedState) {
-                return TaskChart(
-                  goals: state.goals,
-                );
-              } else if (state is GoalErrorState) {
-                return Text('Error: ${state.message}');
-              } else {
-                return Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 10),
-                  height: 250,
-                  decoration: BoxDecoration(
-                    color: Colors.grey,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                );
-              }
-            },
-          ),
-          const SizedBox(
-            height: 1000,
-          ),
-        ],
-      ),
+            }
+            return Text('Stream Completed!'); // When all words are shown
+          },
+        ), */
+        /* ReorderableListView(
+            children: [
+              Text('1'),
+            ],
+            onReorder: (oldIndex, newIndex) {},
+          ), */
+        const SizedBox(
+          height: 1000,
+        ),
+      ],
     );
   }
 }

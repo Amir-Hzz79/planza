@@ -74,6 +74,16 @@ class DrawerSection extends StatelessWidget {
             text: AppLocalizations.of(context).translate('settings'),
             icon: Icons.settings_rounded,
           ),
+          DrawerListButton(
+            onTap: () {},
+            text: AppLocalizations.of(context).translate('support'),
+            icon: Icons.message_rounded,
+          ),
+          DrawerListButton(
+            onTap: () {},
+            text: AppLocalizations.of(context).translate('about'),
+            icon: Icons.info_rounded,
+          ),
         ],
       ),
     );

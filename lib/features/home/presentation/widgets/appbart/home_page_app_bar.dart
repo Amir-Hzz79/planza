@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:get_it/get_it.dart';
-import 'package:planza/core/data/database/database.dart';
+
+import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/widgets/buttons/profile_button.dart';
+import 'package:planza/features/task_managment/presentation/widgets/add_task_fields.dart';
 
 class HomePageAppBar extends StatelessWidget {
   const HomePageAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
+    AppLocalizations appLocalizations = AppLocalizations.of(context);
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
@@ -55,8 +58,70 @@ class HomePageAppBar extends StatelessWidget {
             children: [
               InkWell(
                 onTap: () {
-                  AppDatabase db = GetIt.I.get<AppDatabase>();
-                  db.insertDummyData(db);
+                  Navigator.of(context).push(
+                    ModalBottomSheetRoute(
+                      showDragHandle: true,
+                      builder: (context) => IntrinsicHeight(
+                        child: Column(
+                          children: [
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: ListTile(
+                                leading: Icon(Icons.golf_course_rounded),
+                                title: Text(
+                                  appLocalizations
+                                      .translate('add_modal_goal_title'),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                trailing: Text(
+                                  appLocalizations
+                                      .translate('add_modal_goal_subtitle'),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                                Navigator.of(context).push(
+                                  ModalBottomSheetRoute(
+                                    showDragHandle: true,
+                                    builder: (context) => IntrinsicHeight(
+                                      child: Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10),
+                                        child: AddTaskFields(),
+                                      ),
+                                    ),
+                                    isScrollControlled: true,
+                                  ),
+                                );
+                              },
+                              child: ListTile(
+                                leading: Icon(Icons.task_alt_rounded),
+                                title: Text(
+                                  appLocalizations
+                                      .translate('add_modal_task_title'),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                trailing: Text(
+                                  appLocalizations
+                                      .translate('add_modal_task_subtitle'),
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                          ],
+                        ),
+                      ),
+                      isScrollControlled: true,
+                    ),
+                  );
                 },
                 child: CircleAvatar(
                   backgroundColor: Theme.of(context).colorScheme.inverseSurface,

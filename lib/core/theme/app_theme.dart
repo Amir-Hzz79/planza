@@ -60,20 +60,23 @@ final ColorScheme darkColorScheme = ColorScheme(
   surfaceTint: Color(0xFF90CAF9),
 );
 
+final InputDecorationTheme inputTheme = InputDecorationTheme(
+  border: OutlineInputBorder(
+    borderRadius: BorderRadius.circular(20),
+    borderSide: BorderSide(
+      color: darkColorScheme.primary,
+    ),
+  ),
+);
+
 final ThemeData lightTheme = ThemeData(
   colorScheme: lightColorScheme,
   useMaterial3: true,
-  datePickerTheme: const DatePickerThemeData(
-    backgroundColor: Colors.white,
-    surfaceTintColor: Colors.white,
-  ),
+  inputDecorationTheme: inputTheme,
 );
 
 final ThemeData darkTheme = ThemeData(
   colorScheme: darkColorScheme,
   useMaterial3: true,
-  datePickerTheme: DatePickerThemeData(
-    backgroundColor: Colors.white,
-    surfaceTintColor: Colors.white,
-  ),
+  inputDecorationTheme: inputTheme,
 );
