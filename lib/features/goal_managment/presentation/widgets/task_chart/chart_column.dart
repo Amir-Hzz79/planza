@@ -40,7 +40,7 @@ class ChartColumn extends StatelessWidget {
             gradient: LinearGradient(
               colors: [
                 theme.colorScheme.onInverseSurface,
-                theme.colorScheme.onInverseSurface.withAlpha(128),
+                theme.colorScheme.onInverseSurface.withAlpha(200),
               ],
             ),
             borderRadius: BorderRadius.circular(20),

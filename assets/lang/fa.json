@@ -1,5 +1,20 @@
 {
     "profile": "نمایه کاربری",
     "settings": "تنظیمات",
-    "language": "زبان ها"
+    "language": "زبان ها",
+    "support": "پشتیبانی",
+    "about": "درباره من",
+    "goal_title": "اهدافتو مدیریت کن",
+    "add_modal_goal_title": "اضافه کردن هدف!",
+    "add_modal_goal_subtitle": "بزن بریم",
+    "add_modal_task_title": "اضافه کردن کار",
+    "add_modal_task_subtitle": "بریم اضافه کنیم",
+    "title": "عنوان",
+    "add": "اضافش کن",
+    "add_task": "اضافه کردن کار جدید",
+    "deadline": "موعد",
+    "start_date": "از تاریخ",
+    "end_date": "تا تاریخ",
+    "choose_date": "یک زمانی براش مشخص کن",
+    "description": "توضیحات"
 }

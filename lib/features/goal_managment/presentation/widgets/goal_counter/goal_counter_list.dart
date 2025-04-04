@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planza/features/home/presentation/widgets/goal_counter/goal_counter_list_item.dart';
+import 'package:planza/features/goal_managment/presentation/widgets/goal_counter/goal_counter_list_item.dart';
 
 import '../../../../../core/widgets/scrollables/scrollable_row.dart';
 

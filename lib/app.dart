@@ -13,7 +13,7 @@ import 'package:planza/core/theme/bloc/theme_state.dart';
 import 'package:planza/features/home/bloc/goal_bloc.dart';
 
 import 'features/home/bloc/goal_evet.dart';
-import 'features/home/presentation/pages/home_page.dart';
+import 'root_page.dart';
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -44,7 +44,6 @@ class MyApp extends StatelessWidget {
                       title: 'Planza',
                       theme:
                           themeState is DarkModeState ? darkTheme : lightTheme,
-                      /* darkTheme: lightTheme, */
                       debugShowCheckedModeBanner: false,
                       locale: (localeState as LocaleLoadedState).locale,
                       supportedLocales: [
@@ -58,7 +57,7 @@ class MyApp extends StatelessWidget {
                         GlobalCupertinoLocalizations.delegate,
                       ],
                       home: SafeArea(
-                        child: const HomePage(),
+                        child: const RootPage(),
                       ),
                     );
             },

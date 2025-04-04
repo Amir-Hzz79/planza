@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/widgets/scrollables/scrollable_row.dart';
 
 import 'goal_counter_grid.dart';
@@ -26,39 +27,46 @@ class _GoalCounterSectionState extends State<GoalCounterSection> {
     return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          /* mainAxisAlignment: MainAxisAlignment.spaceBetween, */
           children: [
-            /* const SizedBox(width: 15), */
-            Text(
-              'Manage Your Goals',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.w700,
-              ),
-            ),
-            InkWell(
-              borderRadius: BorderRadius.circular(15),
-              onTap: () {
-                setState(
-                  () => expandMode = !expandMode,
-                );
-              },
-              child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
-                /* width: 40,
-                    height: 50, */
-                decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .colorScheme
-                      .onInverseSurface /*  Colors.grey[200] */,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Icon(
-                  Icons.auto_awesome_mosaic_outlined,
+            const SizedBox(width: 15),
+            Expanded(
+              flex: 8,
+              child: Text(
+                AppLocalizations.of(context).translate('goal_title'),
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
                 ),
               ),
             ),
-            /* const SizedBox(width: 10), */
+            Expanded(
+              child: InkWell(
+                borderRadius: BorderRadius.circular(15),
+                onTap: () {
+                  setState(
+                    () => expandMode = !expandMode,
+                  );
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+                  /* width: 40,
+                      height: 50, */
+                  decoration: BoxDecoration(
+                    color: Theme.of(context)
+                        .colorScheme
+                        .onInverseSurface /*  Colors.grey[200] */,
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Icon(
+                    expandMode
+                        ? Icons.more_horiz_rounded
+                        : Icons.more_vert_rounded,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 10),
           ],
         ),
         const SizedBox(
