@@ -21,7 +21,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
       emit(TaskLoadedState(tasks));
     } catch (e) {
-      emit(TaskErrorState('خطا در بارگیری اهداف'));
+      emit(TaskErrorState('Failed to load Tasks'));
     }
   }
 
@@ -34,7 +34,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
       emit(TaskLoadedState(tasks));
     } catch (e) {
-      emit(TaskErrorState('خطا در بارگیری اهداف'));
+      emit(TaskErrorState('Failed to Insert Task'));
     }
   }
 }

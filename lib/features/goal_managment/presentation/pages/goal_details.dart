@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 import 'package:planza/core/widgets/buttons/circle_back_button.dart';
@@ -18,6 +19,7 @@ class GoalDetails extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: ScrollableColumn(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
               height: 20,
@@ -77,6 +79,25 @@ class GoalDetails extends StatelessWidget {
                       ),
                     ),
                 ],
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              child: Text(
+                AppLocalizations.of(context).translate('tasks'),
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
+            ),
+            ...goal.tasks.map(
+              (e) => ListTile(
+                leading: Checkbox(
+                  value: e.isCompleted,
+                  onChanged: (value) {},
+                ),
+                title: Text(e.title),
               ),
             ),
           ],

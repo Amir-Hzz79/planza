@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'my_single_child_scroll_view.dart';
 
-
 class ScrollableColumn extends StatelessWidget {
   const ScrollableColumn({
     super.key,
@@ -12,6 +11,7 @@ class ScrollableColumn extends StatelessWidget {
     this.scrollController,
     this.mainAxisSize,
     this.scrollPhysics = const ClampingScrollPhysics(),
+    this.spacing = 0,
   });
 
   final List<Widget> children;
@@ -20,6 +20,7 @@ class ScrollableColumn extends StatelessWidget {
   final ScrollController? scrollController;
   final MainAxisSize? mainAxisSize;
   final ScrollPhysics? scrollPhysics;
+  final double spacing;
 
   @override
   Widget build(BuildContext context) {
@@ -30,6 +31,7 @@ class ScrollableColumn extends StatelessWidget {
         mainAxisAlignment: mainAxisAlignment,
         mainAxisSize: mainAxisSize ?? MainAxisSize.max,
         crossAxisAlignment: crossAxisAlignment,
+        spacing: spacing,
         children: children,
       ),
     );

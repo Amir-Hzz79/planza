@@ -1,4 +1,7 @@
-import '../database/database.dart' show Task;
+import 'package:drift/drift.dart' show Value;
+import 'package:planza/core/data/models/goal_model.dart';
+
+import '../database/database.dart' show Task, TasksCompanion;
 
 class TaskModel {
   final int? id;
@@ -8,6 +11,7 @@ class TaskModel {
   final DateTime? dueDate;
   final int? priority;
   final int? parentTaskId;
+  final GoalModel? goal;
 
   TaskModel({
     this.id,
@@ -17,6 +21,7 @@ class TaskModel {
     this.dueDate,
     this.priority,
     this.parentTaskId,
+    this.goal,
   });
 
   // Convert a Task entity to a TaskModel
@@ -42,6 +47,18 @@ class TaskModel {
       dueDate: dueDate,
       priority: priority,
       parentTaskId: parentTaskId,
+    );
+  }
+
+  // Convert a TaskModel to a Task entity
+  TasksCompanion toInsertCompanion() {
+    return TasksCompanion(
+      title: Value(title),
+      description: Value(description),
+      isCompleted: Value(isCompleted),
+      dueDate: Value(dueDate),
+      priority: Value(priority),
+      parentTaskId: Value(parentTaskId),
     );
   }
 }
