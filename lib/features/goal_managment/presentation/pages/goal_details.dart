@@ -98,6 +98,10 @@ class GoalDetails extends StatelessWidget {
                   onChanged: (value) {},
                 ),
                 title: Text(e.title),
+                trailing: e.dueDate != null
+                    ? Text(e.dueDate!.formatShortDate())
+                    : null,
+                subtitle: e.description != null ? Text(e.description!) : null,
               ),
             ),
           ],

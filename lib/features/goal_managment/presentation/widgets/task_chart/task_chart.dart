@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planza/core/constants/month_names.dart';
 import 'package:planza/core/constants/week_days.dart';
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 
 import 'chart_column.dart';
 
@@ -172,23 +173,38 @@ class _TaskChartState extends State<TaskChart> {
                 DateTime dateTime = selectedTimeZone == ChartTimeZone.week
                     ? DateTime.now().add(Duration(days: index))
                     : selectedTimeZone == ChartTimeZone.month
-                        ? DateTime(
-                            DateTime.now().year, DateTime.now().month, index)
+                        ? DateTime.now().copyWith(day: index)
                         : DateTime(DateTime.now().year, index);
+
+                /* print('index: $index');
+                print('columnText: $columnText');
+                print('spacing: $spacing');
+                print('dateTime: $dateTime');
+                print('dateTime: $dateTime');
+                print(
+                    'element.dueDate?.formatShortDate(): ${dateTime.formatShortDate()}'); */
 
                 return Expanded(
                   child: ChartColumn(
                     spacing: spacing,
                     height: columnHeight,
-                    text: columnText,
+                    text: columnText.toUpperCase(),
                     goals: widget.goals
                         .where(
                           (element) => element.tasks.any(
-                            (element) =>
-                                selectedTimeZone == ChartTimeZone.week ||
-                                        selectedTimeZone == ChartTimeZone.month
-                                    ? element.dueDate == dateTime
-                                    : element.dueDate?.month == dateTime.month,
+                            (element) {
+                              /* print(
+                                  'element.dueDate?.formatShortDate(): ${element.dueDate?.formatShortDate()}');
+                              print(element.dueDate?.formatShortDate() ==
+                                  dateTime.formatShortDate());
+                              print(
+                                  '--------------------------------------------------\n'); */
+                              return selectedTimeZone == ChartTimeZone.week ||
+                                      selectedTimeZone == ChartTimeZone.month
+                                  ? element.dueDate?.formatShortDate() ==
+                                      dateTime.formatShortDate()
+                                  : element.dueDate?.month == dateTime.month;
+                            },
                           ),
                         )
                         .toList(),

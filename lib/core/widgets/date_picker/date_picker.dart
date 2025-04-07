@@ -4,9 +4,10 @@ import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 import '../../locale/app_localization.dart';
 
 class DatePicker extends StatefulWidget {
-  const DatePicker({super.key, required this.title});
+  const DatePicker({super.key, required this.title, required this.onChange});
 
   final String title;
+  final void Function(DateTime? selectedDate) onChange;
 
   @override
   State<DatePicker> createState() => _DatePickerState();
@@ -14,7 +15,7 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   DateTime? selectedDate;
-//TODO : Implement
+
   @override
   Widget build(BuildContext context) {
     return InkWell(
@@ -28,6 +29,8 @@ class _DatePickerState extends State<DatePicker> {
             Duration(days: 365),
           ),
         );
+
+        widget.onChange.call(selectedDate);
 
         setState(() {});
       },

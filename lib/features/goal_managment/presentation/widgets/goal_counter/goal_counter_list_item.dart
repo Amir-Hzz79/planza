@@ -56,11 +56,12 @@ class GoalCounterItem extends StatelessWidget {
                 width: width - 15,
                 child: Row(
                   children: [
-                    /* SizedBox(
-                      width: 15,
-                    ), */
                     Expanded(
-                      flex: 3,
+                      flex: 5,
+                      child: SizedBox(),
+                    ),
+                    Expanded(
+                      flex: 70,
                       child: Text(
                         goal.name,
                         style: TextStyle(
@@ -69,19 +70,18 @@ class GoalCounterItem extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
-                    /* SizedBox(
-                      width: 15,
-                    ), */
                     Expanded(
+                      flex: 20,
                       child: CircleAvatar(
                         backgroundColor: Theme.of(context).colorScheme.surface,
                         foregroundColor: goal.color,
                         child: Text('${goal.tasks.length}'),
                       ),
                     ),
-                    /* SizedBox(
-                      width: 5,
-                    ), */
+                    Expanded(
+                      flex: 5,
+                      child: SizedBox(),
+                    ),
                   ],
                 ),
               ),

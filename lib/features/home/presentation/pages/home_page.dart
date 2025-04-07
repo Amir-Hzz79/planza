@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:easy_date_timeline/easy_date_timeline.dart';
 
-import '../../bloc/goal_bloc.dart';
-import '../../bloc/goal_evet.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -15,11 +12,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   /* late Future<List<GoalModel>> futureGoals; */
 
-  @override
+ /*  @override
   void initState() {
     context.read<GoalBloc>().add(LoadGoalsEvent());
     super.initState();
-  }
+  } */
 
   DateTime selectedDate = DateTime.now();
 

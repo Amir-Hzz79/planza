@@ -31,6 +31,7 @@ class GoalModel {
       deadline: goalEntity.deadline,
       completed: goalEntity.completed,
       color: Color(goalEntity.color),
+      tasks: tasks.map((task) => TaskModel.fromEntity(task)).toList(),
     );
   }
 

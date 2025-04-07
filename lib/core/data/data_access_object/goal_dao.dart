@@ -1,11 +1,9 @@
-import 'dart:ui' show Color;
 
 import 'package:drift/drift.dart';
 import 'package:planza/core/data/database/database.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 
 import '../database/tables.dart';
-import '../models/task_model.dart';
 
 part 'goal_dao.g.dart';
 
@@ -52,17 +50,41 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
         final Goal goalEntity = entry.key;
         final List<Task> tasks = entry.value;
 
-        return GoalModel(
-          id: goalEntity.id,
-          name: goalEntity.name,
-          description: goalEntity.description,
-          deadline: goalEntity.deadline,
-          completed: goalEntity.completed,
-          color: Color(goalEntity.color), // Convert int to Color
-          tasks: tasks.map((task) => TaskModel.fromEntity(task)).toList(),
-        );
+        return GoalModel.fromEntity(goalEntity, tasks: tasks);
       },
     ).toList();
+  }
+
+  Stream<List<GoalModel>> watchAllGoalsWithTasks() {
+    final query = select(goals).join([
+      leftOuterJoin(goalTasks, goalTasks.goalId.equalsExp(goals.id)),
+      leftOuterJoin(tasks, tasks.id.equalsExp(goalTasks.taskId)),
+    ]);
+
+    return query.watch().map(
+      (rows) {
+        final goalsMap = <Goal, List<Task>>{};
+
+        for (final row in rows) {
+          final Goal goal = row.readTable(goals);
+          final Task? task = row.readTableOrNull(tasks);
+
+          goalsMap.putIfAbsent(goal, () => []);
+          if (task != null) {
+            goalsMap[goal]!.add(task);
+          }
+        }
+
+        return goalsMap.entries.map(
+          (entry) {
+            final Goal goalEntity = entry.key;
+            final List<Task> taskList = entry.value;
+
+            return GoalModel.fromEntity(goalEntity, tasks: taskList);
+          },
+        ).toList();
+      },
+    );
   }
 
   Stream<List<Goal>> watchAllGoals() => select(goals).watch();

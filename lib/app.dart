@@ -10,9 +10,9 @@ import 'package:planza/core/theme/bloc/theme_bloc.dart';
 import 'package:planza/core/theme/bloc/theme_event.dart';
 
 import 'package:planza/core/theme/bloc/theme_state.dart';
-import 'package:planza/features/home/bloc/goal_bloc.dart';
+import 'package:planza/features/goal_managment/bloc/goal_bloc.dart';
 
-import 'features/home/bloc/goal_evet.dart';
+import 'features/goal_managment/bloc/goal_evet.dart';
 import 'features/task_managment/bloc/task_bloc.dart';
 import 'features/task_managment/bloc/task_event.dart';
 import 'root_page.dart';
@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
           create: (context) => LocaleBloc()..add(LoadLocaleEvent(context)),
         ),
         BlocProvider(
-          create: (context) => GoalBloc()..add(LoadGoalsEvent()),
+          create: (context) => GoalBloc()..add(StartWatchingGoalsEvent()),
         ),
         BlocProvider(
           create: (context) => TaskBloc()..add(LoadTasksEvent()),

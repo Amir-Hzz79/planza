@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
-import 'package:planza/features/task_managment/bloc/task_bloc.dart';
-import 'package:planza/features/task_managment/bloc/task_event.dart';
 
 import '../../../../core/locale/app_localization.dart';
 import '../../../../core/widgets/date_picker/date_picker.dart';
@@ -20,12 +17,13 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
   void submitTask(BuildContext context) {
     TaskModel task = TaskModel(
       title: _titleController.text,
+      dueDate: selectedDateTime,
       description: _descriptionController.text,
       goal: selectedGoal,
       isCompleted: false,
     );
 
-    context.read<TaskBloc>().add(TaskSubmittedEvent(task: task));
+    /* context.read<TaskBloc>().add(TaskSubmittedEvent(task: task)); */
 
     Navigator.pop(context);
   }
@@ -35,6 +33,7 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
   final TextEditingController _descriptionController = TextEditingController();
 
   GoalModel? selectedGoal;
+  DateTime? selectedDateTime;
 
   @override
   Widget build(BuildContext context) {
@@ -63,10 +62,13 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
               if (value == null || value.isEmpty) {
                 return 'title can\'t be empty';
               }
+
+              return null;
             },
           ),
           DatePicker(
             title: appLocalizations.translate('deadline'),
+            onChange: (selectedDate) => selectedDateTime = selectedDate,
           ),
           GoalSelection(
             onChanged: (selectedGoal) {
@@ -89,6 +91,9 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
                 appLocalizations.translate('add'),
               ),
             ),
+          ),
+          const SizedBox(
+            height: 20,
           ),
           SizedBox(
             height: MediaQuery.of(context).viewInsets.bottom,

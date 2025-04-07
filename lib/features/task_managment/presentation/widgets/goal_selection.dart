@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/locale/app_localization.dart';
 
-import '../../../home/bloc/goal_bloc.dart';
-import '../../../home/bloc/goal_state.dart';
+import '../../../goal_managment/bloc/goal_bloc.dart';
+import '../../../goal_managment/bloc/goal_state.dart';
 
 class GoalSelection extends StatefulWidget {
   const GoalSelection({super.key, required this.onChanged, this.validator});
@@ -25,14 +25,14 @@ class _GoalSelectionState extends State<GoalSelection> {
       if (state is GoalLoadedState) {
         return SizedBox(
           width: double.infinity,
-          child: DropdownButtonFormField(
+          child: DropdownButtonFormField<GoalModel>(
             hint: Text(
               AppLocalizations.of(context).translate('goal'),
             ),
             value: selectedGoal,
             items: List.generate(
               state.goals.length,
-              (index) => DropdownMenuItem(
+              (index) => DropdownMenuItem<GoalModel>(
                 value: state.goals[index],
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width - 80,
@@ -58,10 +58,6 @@ class _GoalSelectionState extends State<GoalSelection> {
                         ),
                       ),
                     ],
-
-                    /*   selected: state.goals[index] == selectedGoal,
-                    leading: ,
-                    title: , */
                   ),
                 ),
               ),
