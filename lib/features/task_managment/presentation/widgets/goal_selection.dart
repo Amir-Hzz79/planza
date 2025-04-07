@@ -4,7 +4,6 @@ import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/locale/app_localization.dart';
 
 import '../../../goal_managment/bloc/goal_bloc.dart';
-import '../../../goal_managment/bloc/goal_state.dart';
 
 class GoalSelection extends StatefulWidget {
   const GoalSelection({super.key, required this.onChanged, this.validator});

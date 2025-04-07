@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/goal_bloc.dart';
-import '../../bloc/goal_state.dart';
 import '../widgets/goal_counter/goal_counter_section.dart';
 import '../widgets/task_chart/task_chart.dart';
 import 'package:http/http.dart' as http;

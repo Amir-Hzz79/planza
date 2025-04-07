@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planza/core/locale/app_localization.dart';
-import 'package:planza/core/locale/bloc/locale_bloc.dart';
-import 'package:planza/core/locale/bloc/locale_event.dart';
-import 'package:planza/core/locale/bloc/locale_state.dart';
-import 'package:planza/core/theme/app_theme.dart';
-import 'package:planza/core/theme/bloc/theme_bloc.dart';
-import 'package:planza/core/theme/bloc/theme_event.dart';
 
-import 'package:planza/core/theme/bloc/theme_state.dart';
-import 'package:planza/features/goal_managment/bloc/goal_bloc.dart';
-
-import 'features/goal_managment/bloc/goal_evet.dart';
+import 'core/locale/app_localization.dart';
+import 'core/locale/bloc/locale_bloc.dart';
+import 'core/locale/bloc/locale_event.dart';
+import 'core/locale/bloc/locale_state.dart';
+import 'core/theme/app_theme.dart';
+import 'core/theme/bloc/theme_bloc.dart';
+import 'features/goal_managment/bloc/goal_bloc.dart';
 import 'features/task_managment/bloc/task_bloc.dart';
-import 'features/task_managment/bloc/task_event.dart';
 import 'root_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -35,7 +30,7 @@ class MyApp extends StatelessWidget {
           create: (context) => GoalBloc()..add(StartWatchingGoalsEvent()),
         ),
         BlocProvider(
-          create: (context) => TaskBloc()..add(LoadTasksEvent()),
+          create: (context) => TaskBloc()..add(StartWatchingTasksEvent()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(

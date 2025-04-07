@@ -3,8 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/locale/bloc/locale_bloc.dart';
 import 'package:planza/core/locale/bloc/locale_event.dart';
-import 'package:planza/core/theme/bloc/theme_event.dart';
-import 'package:planza/core/theme/bloc/theme_state.dart';
 import 'package:planza/core/widgets/buttons/profile_button.dart';
 
 import '../../../../../core/theme/bloc/theme_bloc.dart';

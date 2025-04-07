@@ -6,6 +6,8 @@ import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 import 'package:planza/core/widgets/buttons/circle_back_button.dart';
 import 'package:planza/core/widgets/scrollables/scrollable_column.dart';
 
+import '../../../task_managment/presentation/widgets/task_tile.dart';
+
 class GoalDetails extends StatelessWidget {
   const GoalDetails({
     super.key,
@@ -92,16 +94,8 @@ class GoalDetails extends StatelessWidget {
               ),
             ),
             ...goal.tasks.map(
-              (e) => ListTile(
-                leading: Checkbox(
-                  value: e.isCompleted,
-                  onChanged: (value) {},
-                ),
-                title: Text(e.title),
-                trailing: e.dueDate != null
-                    ? Text(e.dueDate!.formatShortDate())
-                    : null,
-                subtitle: e.description != null ? Text(e.description!) : null,
+              (task) => TaskTile(
+                task: task,
               ),
             ),
           ],

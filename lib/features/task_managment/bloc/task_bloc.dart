@@ -1,40 +1,60 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
-
+import 'package:planza/core/data/models/task_model.dart';
+import 'package:equatable/equatable.dart';
+import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 import '../../../core/data/data_access_object/task_dao.dart';
-import 'task_event.dart';
-import 'task_state.dart';
+
+part 'task_event.dart';
+part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TaskDao _taskDao = GetIt.instance.get<TaskDao>();
+  StreamSubscription<List<TaskModel>>? _subscription;
 
   TaskBloc() : super(TaskInitial()) {
-    on<LoadTasksEvent>(_onLoadTasks);
-    on<TaskSubmittedEvent>(_onSubmittedTask);
+    on<StartWatchingTasksEvent>(_onLoadTasks);
+    on<TasksUpdatedEvent>(_onTasksUpdated);
+    on<TaskAddedEvent>(_onTaskAdded);
   }
 
   Future<void> _onLoadTasks(
-      LoadTasksEvent event, Emitter<TaskState> emit) async {
+      StartWatchingTasksEvent event, Emitter<TaskState> emit) async {
     emit(TaskLoadingState());
     try {
-      final tasks = await _taskDao.getAllTasks();
-
-      emit(TaskLoadedState(tasks));
+      _subscription?.cancel();
+      _subscription = _taskDao.watchAllTasks().listen(
+        (tasks) {
+          add(
+            TasksUpdatedEvent(tasks: tasks),
+          );
+        },
+      );
     } catch (e) {
       emit(TaskErrorState('Failed to load Tasks'));
     }
   }
 
-  Future<void> _onSubmittedTask(
-      TaskSubmittedEvent event, Emitter<TaskState> emit) async {
+  Future<void> _onTasksUpdated(
+      TasksUpdatedEvent event, Emitter<TaskState> emit) async {
+    emit(TasksLoadedState(event.tasks));
+  }
+
+  Future<void> _onTaskAdded(
+      TaskAddedEvent event, Emitter<TaskState> emit) async {
     emit(TaskLoadingState());
     try {
-      await _taskDao.insertTask(event.task);
-      final tasks = await _taskDao.getAllTasks();
-
-      emit(TaskLoadedState(tasks));
+      await _taskDao.insertTask(event.newTask);
     } catch (e) {
       emit(TaskErrorState('Failed to Insert Task'));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _subscription?.cancel();
+    return super.close();
   }
 }

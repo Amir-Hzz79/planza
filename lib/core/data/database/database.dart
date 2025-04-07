@@ -36,13 +36,13 @@ class AppDatabase extends _$AppDatabase {
     });
   }
 
-  Future<void> insertDummyData(AppDatabase db) async {
-    await db.goals.deleteAll();
-    await db.tasks.deleteAll();
-    await db.goalTasks.deleteAll();
+  Future<void> insertDummyData() async {
+    await goals.deleteAll();
+    await tasks.deleteAll();
+    await goalTasks.deleteAll();
 
     // Insert Goals
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(1),
           name: Value("Fitness Challenge"),
           description: Value("Get fit in 3 months"),
@@ -51,7 +51,7 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFffc8dd),
         ));
 
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(2),
           name: Value("Read More Books"),
           description: Value("Read 12 books this year"),
@@ -60,7 +60,7 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFbde0fe),
         ));
 
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(3),
           name: Value("Vacation Planning"),
           description: Value("Plan summer vacation"),
@@ -69,7 +69,7 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFa2d2ff),
         ));
 
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(4),
           name: Value("Cooking Challenge"),
           description: Value("Learn to cook 10 new recipes"),
@@ -78,7 +78,7 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFffafcc),
         ));
 
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(5),
           name: Value("Home Renovation"),
           description: Value("Redesign the living room and kitchen"),
@@ -87,7 +87,7 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFcdb4db),
         ));
 
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(6),
           name: Value("Language Learning"),
           description: Value("Learn conversational Spanish"),
@@ -96,7 +96,7 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFb9fbc0),
         ));
 
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(7),
           name: Value("Gardening Project"),
           description: Value("Grow vegetables and flowers in the backyard"),
@@ -105,7 +105,7 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFffd6a5),
         ));
 
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(8),
           name: Value("Tech Skills Improvement"),
           description: Value("Complete an advanced programming course"),
@@ -114,7 +114,7 @@ class AppDatabase extends _$AppDatabase {
           color: Value(0xFFf4a261),
         ));
 
-    await db.into(db.goals).insert(GoalsCompanion(
+    await into(goals).insert(GoalsCompanion(
           id: Value(9),
           name: Value("Fitness Milestone"),
           description: Value("Run a half marathon"),
@@ -124,7 +124,7 @@ class AppDatabase extends _$AppDatabase {
         ));
 
     // Insert Tasks
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(1),
           title: Value("Morning Jogging"),
           description: Value("Jog every morning"),
@@ -134,7 +134,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(2),
           title: Value("Gym Session"),
           description: Value("Strength training"),
@@ -144,7 +144,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(3),
           title: Value("Start Reading Novel"),
           description: Value("Read a new fiction book"),
@@ -154,7 +154,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(4),
           title: Value("Create Vacation Budget"),
           description: Value("Budget your expenses"),
@@ -164,7 +164,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(5),
           title: Value("Finalize Flight Tickets"),
           description: Value("Book flights for the trip"),
@@ -174,7 +174,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(6),
           title: Value("Try Italian Recipe"),
           description: Value("Cook pasta from scratch"),
@@ -184,7 +184,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(7),
           title: Value("Buy Paint for Walls"),
           description: Value("Choose a color palette and purchase paint"),
@@ -194,7 +194,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(8),
           title: Value("Practice Spanish Verbs"),
           description: Value("Master the 20 most common verbs"),
@@ -204,7 +204,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(9),
           title: Value("Bake a Cake"),
           description: Value("Bake a chocolate cake for dessert"),
@@ -214,7 +214,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(6),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(10),
           title: Value("Sand and Prep Walls"),
           description: Value("Prepare the walls for painting"),
@@ -224,7 +224,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(7),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(11),
           title: Value("Prepare Soil for Planting"),
           description: Value("Clear weeds and add compost"),
@@ -234,7 +234,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(12),
           title: Value("Enroll in Online Course"),
           description: Value("Sign up for an advanced programming course"),
@@ -244,7 +244,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(13),
           title: Value("Research Running Gear"),
           description: Value("Find the best running shoes and clothes"),
@@ -254,7 +254,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(null),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(14),
           title: Value("Plant Vegetables"),
           description: Value("Plant tomatoes, carrots, and peppers"),
@@ -264,7 +264,7 @@ class AppDatabase extends _$AppDatabase {
           parentTaskId: Value(11),
         ));
 
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(15),
           title: Value("Practice Running"),
           description:
@@ -274,7 +274,7 @@ class AppDatabase extends _$AppDatabase {
           priority: Value(3),
           parentTaskId: Value(13),
         ));
-    await db.into(db.tasks).insert(TasksCompanion(
+    await into(tasks).insert(TasksCompanion(
           id: Value(16),
           title: Value("Practice Running"),
           description:
@@ -286,79 +286,79 @@ class AppDatabase extends _$AppDatabase {
         ));
 
     // Insert GoalTasks
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(1),
           taskId: Value(1),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(1),
           taskId: Value(2),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(2),
           taskId: Value(3),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(3),
           taskId: Value(4),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(3),
           taskId: Value(5),
         ));
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(4),
           taskId: Value(6),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(4),
           taskId: Value(9),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(5),
           taskId: Value(7),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(5),
           taskId: Value(10),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(6),
           taskId: Value(8),
         ));
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(7),
           taskId: Value(11),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(7),
           taskId: Value(14),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(8),
           taskId: Value(12),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(9),
           taskId: Value(13),
         ));
 
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(9),
           taskId: Value(15),
         ));
-    await db.into(db.goalTasks).insert(GoalTasksCompanion(
+    await into(goalTasks).insert(GoalTasksCompanion(
           goalId: Value(1),
           taskId: Value(16),
         ));

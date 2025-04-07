@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
 
 import '../../../../core/locale/app_localization.dart';
 import '../../../../core/widgets/date_picker/date_picker.dart';
+import '../../bloc/task_bloc.dart';
 import 'goal_selection.dart';
 
 class AddTaskFields extends StatefulWidget {
@@ -15,6 +17,12 @@ class AddTaskFields extends StatefulWidget {
 
 class _AddTaskFieldsState extends State<AddTaskFields> {
   void submitTask(BuildContext context) {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
+    Navigator.pop(context);
+
     TaskModel task = TaskModel(
       title: _titleController.text,
       dueDate: selectedDateTime,
@@ -23,10 +31,10 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
       isCompleted: false,
     );
 
-    /* context.read<TaskBloc>().add(TaskSubmittedEvent(task: task)); */
-
-    Navigator.pop(context);
+    context.read<TaskBloc>().add(TaskAddedEvent(newTask: task));
   }
+
+  final _formKey = GlobalKey<FormState>();
 
   final TextEditingController _titleController = TextEditingController();
 
@@ -40,6 +48,7 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
     AppLocalizations appLocalizations = AppLocalizations.of(context);
 
     return Form(
+      key: _formKey,
       child: Column(
         spacing: 20,
         crossAxisAlignment: CrossAxisAlignment.start,

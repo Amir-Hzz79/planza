@@ -1,15 +1,20 @@
-import 'package:equatable/equatable.dart';
-import 'package:planza/core/data/models/task_model.dart';
+part of 'task_bloc.dart';
 
 abstract class TaskEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
 
-class LoadTasksEvent extends TaskEvent {}
+class StartWatchingTasksEvent extends TaskEvent {}
 
-class TaskSubmittedEvent extends TaskEvent {
-  final TaskModel task;
+class TasksUpdatedEvent extends TaskEvent {
+  final List<TaskModel> tasks;
 
-  TaskSubmittedEvent({required this.task});
+  TasksUpdatedEvent({required this.tasks});
+}
+
+class TaskAddedEvent extends TaskEvent {
+  final TaskModel newTask;
+
+  TaskAddedEvent({required this.newTask});
 }

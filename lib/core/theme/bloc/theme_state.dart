@@ -1,7 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
-
-import 'package:planza/core/theme/app_theme.dart';
+part of 'theme_bloc.dart';
 
 class ThemeState extends Equatable {
   @override

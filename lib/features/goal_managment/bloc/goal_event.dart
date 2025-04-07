@@ -1,7 +1,4 @@
-
-import 'package:equatable/equatable.dart';
-
-import '../../../core/data/models/goal_model.dart';
+part of 'goal_bloc.dart';
 
 abstract class GoalEvent extends Equatable {
   @override

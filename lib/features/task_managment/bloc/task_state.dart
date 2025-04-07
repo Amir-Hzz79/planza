@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-import '../../../core/data/models/task_model.dart';
+part of 'task_bloc.dart';
 
 abstract class TaskState extends Equatable {
   @override
@@ -11,10 +9,19 @@ class TaskInitial extends TaskState {}
 
 class TaskLoadingState extends TaskState {}
 
-class TaskLoadedState extends TaskState {
+class TasksLoadedState extends TaskState {
   final List<TaskModel> tasks;
 
-  TaskLoadedState(this.tasks);
+  List<TaskModel> filterOnDate(DateTime date) {
+    return tasks
+        .where(
+          (element) =>
+              element.dueDate == null ? false : element.dueDate!.sameDay(date),
+        )
+        .toList();
+  }
+
+  TasksLoadedState(this.tasks);
 
   @override
   List<Object> get props => [tasks];
