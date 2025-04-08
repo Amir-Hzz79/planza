@@ -3,6 +3,349 @@
 part of 'database.dart';
 
 // ignore_for_file: type=lint
+class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GoalsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _deadlineMeta =
+      const VerificationMeta('deadline');
+  @override
+  late final GeneratedColumn<DateTime> deadline = GeneratedColumn<DateTime>(
+      'deadline', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _completedMeta =
+      const VerificationMeta('completed');
+  @override
+  late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
+      'completed', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  @override
+  late final GeneratedColumn<int> color = GeneratedColumn<int>(
+      'color', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, name, description, deadline, completed, color];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'goals';
+  @override
+  VerificationContext validateIntegrity(Insertable<Goal> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('deadline')) {
+      context.handle(_deadlineMeta,
+          deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta));
+    }
+    if (data.containsKey('completed')) {
+      context.handle(_completedMeta,
+          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
+    }
+    if (data.containsKey('color')) {
+      context.handle(
+          _colorMeta, color.isAcceptableOrUnknown(data['color']!, _colorMeta));
+    } else if (isInserting) {
+      context.missing(_colorMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Goal map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Goal(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      deadline: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}deadline']),
+      completed: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
+      color: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}color'])!,
+    );
+  }
+
+  @override
+  $GoalsTable createAlias(String alias) {
+    return $GoalsTable(attachedDatabase, alias);
+  }
+}
+
+class Goal extends DataClass implements Insertable<Goal> {
+  final int id;
+  final String name;
+  final String? description;
+  final DateTime? deadline;
+  final bool completed;
+  final int color;
+  const Goal(
+      {required this.id,
+      required this.name,
+      this.description,
+      this.deadline,
+      required this.completed,
+      required this.color});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    if (!nullToAbsent || deadline != null) {
+      map['deadline'] = Variable<DateTime>(deadline);
+    }
+    map['completed'] = Variable<bool>(completed);
+    map['color'] = Variable<int>(color);
+    return map;
+  }
+
+  GoalsCompanion toCompanion(bool nullToAbsent) {
+    return GoalsCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      deadline: deadline == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deadline),
+      completed: Value(completed),
+      color: Value(color),
+    );
+  }
+
+  factory Goal.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Goal(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String?>(json['description']),
+      deadline: serializer.fromJson<DateTime?>(json['deadline']),
+      completed: serializer.fromJson<bool>(json['completed']),
+      color: serializer.fromJson<int>(json['color']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String?>(description),
+      'deadline': serializer.toJson<DateTime?>(deadline),
+      'completed': serializer.toJson<bool>(completed),
+      'color': serializer.toJson<int>(color),
+    };
+  }
+
+  Goal copyWith(
+          {int? id,
+          String? name,
+          Value<String?> description = const Value.absent(),
+          Value<DateTime?> deadline = const Value.absent(),
+          bool? completed,
+          int? color}) =>
+      Goal(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description.present ? description.value : this.description,
+        deadline: deadline.present ? deadline.value : this.deadline,
+        completed: completed ?? this.completed,
+        color: color ?? this.color,
+      );
+  Goal copyWithCompanion(GoalsCompanion data) {
+    return Goal(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      description:
+          data.description.present ? data.description.value : this.description,
+      deadline: data.deadline.present ? data.deadline.value : this.deadline,
+      completed: data.completed.present ? data.completed.value : this.completed,
+      color: data.color.present ? data.color.value : this.color,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Goal(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('deadline: $deadline, ')
+          ..write('completed: $completed, ')
+          ..write('color: $color')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, name, description, deadline, completed, color);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Goal &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.deadline == this.deadline &&
+          other.completed == this.completed &&
+          other.color == this.color);
+}
+
+class GoalsCompanion extends UpdateCompanion<Goal> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String?> description;
+  final Value<DateTime?> deadline;
+  final Value<bool> completed;
+  final Value<int> color;
+  const GoalsCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.deadline = const Value.absent(),
+    this.completed = const Value.absent(),
+    this.color = const Value.absent(),
+  });
+  GoalsCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.description = const Value.absent(),
+    this.deadline = const Value.absent(),
+    this.completed = const Value.absent(),
+    required int color,
+  })  : name = Value(name),
+        color = Value(color);
+  static Insertable<Goal> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<DateTime>? deadline,
+    Expression<bool>? completed,
+    Expression<int>? color,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (deadline != null) 'deadline': deadline,
+      if (completed != null) 'completed': completed,
+      if (color != null) 'color': color,
+    });
+  }
+
+  GoalsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? name,
+      Value<String?>? description,
+      Value<DateTime?>? deadline,
+      Value<bool>? completed,
+      Value<int>? color}) {
+    return GoalsCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      deadline: deadline ?? this.deadline,
+      completed: completed ?? this.completed,
+      color: color ?? this.color,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (deadline.present) {
+      map['deadline'] = Variable<DateTime>(deadline.value);
+    }
+    if (completed.present) {
+      map['completed'] = Variable<bool>(completed.value);
+    }
+    if (color.present) {
+      map['color'] = Variable<int>(color.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GoalsCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('deadline: $deadline, ')
+          ..write('completed: $completed, ')
+          ..write('color: $color')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -53,6 +396,13 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   late final GeneratedColumn<int> priority = GeneratedColumn<int>(
       'priority', aliasedName, true,
       type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _goalIdMeta = const VerificationMeta('goalId');
+  @override
+  late final GeneratedColumn<int> goalId = GeneratedColumn<int>(
+      'goal_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'REFERENCES goals(id)');
   static const VerificationMeta _parentTaskIdMeta =
       const VerificationMeta('parentTaskId');
   @override
@@ -62,8 +412,16 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
       requiredDuringInsert: false,
       $customConstraints: 'REFERENCES tasks(id)');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, title, description, isCompleted, dueDate, priority, parentTaskId];
+  List<GeneratedColumn> get $columns => [
+        id,
+        title,
+        description,
+        isCompleted,
+        dueDate,
+        priority,
+        goalId,
+        parentTaskId
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -103,6 +461,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
       context.handle(_priorityMeta,
           priority.isAcceptableOrUnknown(data['priority']!, _priorityMeta));
     }
+    if (data.containsKey('goal_id')) {
+      context.handle(_goalIdMeta,
+          goalId.isAcceptableOrUnknown(data['goal_id']!, _goalIdMeta));
+    }
     if (data.containsKey('parent_task_id')) {
       context.handle(
           _parentTaskIdMeta,
@@ -130,6 +492,8 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
           .read(DriftSqlType.dateTime, data['${effectivePrefix}due_date']),
       priority: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}priority']),
+      goalId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}goal_id']),
       parentTaskId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}parent_task_id']),
     );
@@ -148,6 +512,7 @@ class Task extends DataClass implements Insertable<Task> {
   final bool isCompleted;
   final DateTime? dueDate;
   final int? priority;
+  final int? goalId;
   final int? parentTaskId;
   const Task(
       {required this.id,
@@ -156,6 +521,7 @@ class Task extends DataClass implements Insertable<Task> {
       required this.isCompleted,
       this.dueDate,
       this.priority,
+      this.goalId,
       this.parentTaskId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
@@ -171,6 +537,9 @@ class Task extends DataClass implements Insertable<Task> {
     }
     if (!nullToAbsent || priority != null) {
       map['priority'] = Variable<int>(priority);
+    }
+    if (!nullToAbsent || goalId != null) {
+      map['goal_id'] = Variable<int>(goalId);
     }
     if (!nullToAbsent || parentTaskId != null) {
       map['parent_task_id'] = Variable<int>(parentTaskId);
@@ -192,6 +561,8 @@ class Task extends DataClass implements Insertable<Task> {
       priority: priority == null && nullToAbsent
           ? const Value.absent()
           : Value(priority),
+      goalId:
+          goalId == null && nullToAbsent ? const Value.absent() : Value(goalId),
       parentTaskId: parentTaskId == null && nullToAbsent
           ? const Value.absent()
           : Value(parentTaskId),
@@ -208,6 +579,7 @@ class Task extends DataClass implements Insertable<Task> {
       isCompleted: serializer.fromJson<bool>(json['isCompleted']),
       dueDate: serializer.fromJson<DateTime?>(json['dueDate']),
       priority: serializer.fromJson<int?>(json['priority']),
+      goalId: serializer.fromJson<int?>(json['goalId']),
       parentTaskId: serializer.fromJson<int?>(json['parentTaskId']),
     );
   }
@@ -221,6 +593,7 @@ class Task extends DataClass implements Insertable<Task> {
       'isCompleted': serializer.toJson<bool>(isCompleted),
       'dueDate': serializer.toJson<DateTime?>(dueDate),
       'priority': serializer.toJson<int?>(priority),
+      'goalId': serializer.toJson<int?>(goalId),
       'parentTaskId': serializer.toJson<int?>(parentTaskId),
     };
   }
@@ -232,6 +605,7 @@ class Task extends DataClass implements Insertable<Task> {
           bool? isCompleted,
           Value<DateTime?> dueDate = const Value.absent(),
           Value<int?> priority = const Value.absent(),
+          Value<int?> goalId = const Value.absent(),
           Value<int?> parentTaskId = const Value.absent()}) =>
       Task(
         id: id ?? this.id,
@@ -240,6 +614,7 @@ class Task extends DataClass implements Insertable<Task> {
         isCompleted: isCompleted ?? this.isCompleted,
         dueDate: dueDate.present ? dueDate.value : this.dueDate,
         priority: priority.present ? priority.value : this.priority,
+        goalId: goalId.present ? goalId.value : this.goalId,
         parentTaskId:
             parentTaskId.present ? parentTaskId.value : this.parentTaskId,
       );
@@ -253,6 +628,7 @@ class Task extends DataClass implements Insertable<Task> {
           data.isCompleted.present ? data.isCompleted.value : this.isCompleted,
       dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
       priority: data.priority.present ? data.priority.value : this.priority,
+      goalId: data.goalId.present ? data.goalId.value : this.goalId,
       parentTaskId: data.parentTaskId.present
           ? data.parentTaskId.value
           : this.parentTaskId,
@@ -268,14 +644,15 @@ class Task extends DataClass implements Insertable<Task> {
           ..write('isCompleted: $isCompleted, ')
           ..write('dueDate: $dueDate, ')
           ..write('priority: $priority, ')
+          ..write('goalId: $goalId, ')
           ..write('parentTaskId: $parentTaskId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(
-      id, title, description, isCompleted, dueDate, priority, parentTaskId);
+  int get hashCode => Object.hash(id, title, description, isCompleted, dueDate,
+      priority, goalId, parentTaskId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -286,6 +663,7 @@ class Task extends DataClass implements Insertable<Task> {
           other.isCompleted == this.isCompleted &&
           other.dueDate == this.dueDate &&
           other.priority == this.priority &&
+          other.goalId == this.goalId &&
           other.parentTaskId == this.parentTaskId);
 }
 
@@ -296,6 +674,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
   final Value<bool> isCompleted;
   final Value<DateTime?> dueDate;
   final Value<int?> priority;
+  final Value<int?> goalId;
   final Value<int?> parentTaskId;
   const TasksCompanion({
     this.id = const Value.absent(),
@@ -304,6 +683,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.isCompleted = const Value.absent(),
     this.dueDate = const Value.absent(),
     this.priority = const Value.absent(),
+    this.goalId = const Value.absent(),
     this.parentTaskId = const Value.absent(),
   });
   TasksCompanion.insert({
@@ -313,6 +693,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.isCompleted = const Value.absent(),
     this.dueDate = const Value.absent(),
     this.priority = const Value.absent(),
+    this.goalId = const Value.absent(),
     this.parentTaskId = const Value.absent(),
   }) : title = Value(title);
   static Insertable<Task> custom({
@@ -322,6 +703,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Expression<bool>? isCompleted,
     Expression<DateTime>? dueDate,
     Expression<int>? priority,
+    Expression<int>? goalId,
     Expression<int>? parentTaskId,
   }) {
     return RawValuesInsertable({
@@ -331,6 +713,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       if (isCompleted != null) 'is_completed': isCompleted,
       if (dueDate != null) 'due_date': dueDate,
       if (priority != null) 'priority': priority,
+      if (goalId != null) 'goal_id': goalId,
       if (parentTaskId != null) 'parent_task_id': parentTaskId,
     });
   }
@@ -342,6 +725,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       Value<bool>? isCompleted,
       Value<DateTime?>? dueDate,
       Value<int?>? priority,
+      Value<int?>? goalId,
       Value<int?>? parentTaskId}) {
     return TasksCompanion(
       id: id ?? this.id,
@@ -350,6 +734,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       isCompleted: isCompleted ?? this.isCompleted,
       dueDate: dueDate ?? this.dueDate,
       priority: priority ?? this.priority,
+      goalId: goalId ?? this.goalId,
       parentTaskId: parentTaskId ?? this.parentTaskId,
     );
   }
@@ -375,6 +760,9 @@ class TasksCompanion extends UpdateCompanion<Task> {
     if (priority.present) {
       map['priority'] = Variable<int>(priority.value);
     }
+    if (goalId.present) {
+      map['goal_id'] = Variable<int>(goalId.value);
+    }
     if (parentTaskId.present) {
       map['parent_task_id'] = Variable<int>(parentTaskId.value);
     }
@@ -390,6 +778,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
           ..write('isCompleted: $isCompleted, ')
           ..write('dueDate: $dueDate, ')
           ..write('priority: $priority, ')
+          ..write('goalId: $goalId, ')
           ..write('parentTaskId: $parentTaskId')
           ..write(')'))
         .toString();
@@ -1036,547 +1425,6 @@ class TaskTagsCompanion extends UpdateCompanion<TaskTag> {
   }
 }
 
-class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $GoalsTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _nameMeta = const VerificationMeta('name');
-  @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  @override
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _deadlineMeta =
-      const VerificationMeta('deadline');
-  @override
-  late final GeneratedColumn<DateTime> deadline = GeneratedColumn<DateTime>(
-      'deadline', aliasedName, true,
-      type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _completedMeta =
-      const VerificationMeta('completed');
-  @override
-  late final GeneratedColumn<bool> completed = GeneratedColumn<bool>(
-      'completed', aliasedName, false,
-      type: DriftSqlType.bool,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('CHECK ("completed" IN (0, 1))'),
-      defaultValue: const Constant(false));
-  static const VerificationMeta _colorMeta = const VerificationMeta('color');
-  @override
-  late final GeneratedColumn<int> color = GeneratedColumn<int>(
-      'color', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, name, description, deadline, completed, color];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'goals';
-  @override
-  VerificationContext validateIntegrity(Insertable<Goal> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
-    } else if (isInserting) {
-      context.missing(_nameMeta);
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    }
-    if (data.containsKey('deadline')) {
-      context.handle(_deadlineMeta,
-          deadline.isAcceptableOrUnknown(data['deadline']!, _deadlineMeta));
-    }
-    if (data.containsKey('completed')) {
-      context.handle(_completedMeta,
-          completed.isAcceptableOrUnknown(data['completed']!, _completedMeta));
-    }
-    if (data.containsKey('color')) {
-      context.handle(
-          _colorMeta, color.isAcceptableOrUnknown(data['color']!, _colorMeta));
-    } else if (isInserting) {
-      context.missing(_colorMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  Goal map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Goal(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      deadline: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}deadline']),
-      completed: attachedDatabase.typeMapping
-          .read(DriftSqlType.bool, data['${effectivePrefix}completed'])!,
-      color: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}color'])!,
-    );
-  }
-
-  @override
-  $GoalsTable createAlias(String alias) {
-    return $GoalsTable(attachedDatabase, alias);
-  }
-}
-
-class Goal extends DataClass implements Insertable<Goal> {
-  final int id;
-  final String name;
-  final String? description;
-  final DateTime? deadline;
-  final bool completed;
-  final int color;
-  const Goal(
-      {required this.id,
-      required this.name,
-      this.description,
-      this.deadline,
-      required this.completed,
-      required this.color});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['name'] = Variable<String>(name);
-    if (!nullToAbsent || description != null) {
-      map['description'] = Variable<String>(description);
-    }
-    if (!nullToAbsent || deadline != null) {
-      map['deadline'] = Variable<DateTime>(deadline);
-    }
-    map['completed'] = Variable<bool>(completed);
-    map['color'] = Variable<int>(color);
-    return map;
-  }
-
-  GoalsCompanion toCompanion(bool nullToAbsent) {
-    return GoalsCompanion(
-      id: Value(id),
-      name: Value(name),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      deadline: deadline == null && nullToAbsent
-          ? const Value.absent()
-          : Value(deadline),
-      completed: Value(completed),
-      color: Value(color),
-    );
-  }
-
-  factory Goal.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return Goal(
-      id: serializer.fromJson<int>(json['id']),
-      name: serializer.fromJson<String>(json['name']),
-      description: serializer.fromJson<String?>(json['description']),
-      deadline: serializer.fromJson<DateTime?>(json['deadline']),
-      completed: serializer.fromJson<bool>(json['completed']),
-      color: serializer.fromJson<int>(json['color']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'name': serializer.toJson<String>(name),
-      'description': serializer.toJson<String?>(description),
-      'deadline': serializer.toJson<DateTime?>(deadline),
-      'completed': serializer.toJson<bool>(completed),
-      'color': serializer.toJson<int>(color),
-    };
-  }
-
-  Goal copyWith(
-          {int? id,
-          String? name,
-          Value<String?> description = const Value.absent(),
-          Value<DateTime?> deadline = const Value.absent(),
-          bool? completed,
-          int? color}) =>
-      Goal(
-        id: id ?? this.id,
-        name: name ?? this.name,
-        description: description.present ? description.value : this.description,
-        deadline: deadline.present ? deadline.value : this.deadline,
-        completed: completed ?? this.completed,
-        color: color ?? this.color,
-      );
-  Goal copyWithCompanion(GoalsCompanion data) {
-    return Goal(
-      id: data.id.present ? data.id.value : this.id,
-      name: data.name.present ? data.name.value : this.name,
-      description:
-          data.description.present ? data.description.value : this.description,
-      deadline: data.deadline.present ? data.deadline.value : this.deadline,
-      completed: data.completed.present ? data.completed.value : this.completed,
-      color: data.color.present ? data.color.value : this.color,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('Goal(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('description: $description, ')
-          ..write('deadline: $deadline, ')
-          ..write('completed: $completed, ')
-          ..write('color: $color')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, name, description, deadline, completed, color);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is Goal &&
-          other.id == this.id &&
-          other.name == this.name &&
-          other.description == this.description &&
-          other.deadline == this.deadline &&
-          other.completed == this.completed &&
-          other.color == this.color);
-}
-
-class GoalsCompanion extends UpdateCompanion<Goal> {
-  final Value<int> id;
-  final Value<String> name;
-  final Value<String?> description;
-  final Value<DateTime?> deadline;
-  final Value<bool> completed;
-  final Value<int> color;
-  const GoalsCompanion({
-    this.id = const Value.absent(),
-    this.name = const Value.absent(),
-    this.description = const Value.absent(),
-    this.deadline = const Value.absent(),
-    this.completed = const Value.absent(),
-    this.color = const Value.absent(),
-  });
-  GoalsCompanion.insert({
-    this.id = const Value.absent(),
-    required String name,
-    this.description = const Value.absent(),
-    this.deadline = const Value.absent(),
-    this.completed = const Value.absent(),
-    required int color,
-  })  : name = Value(name),
-        color = Value(color);
-  static Insertable<Goal> custom({
-    Expression<int>? id,
-    Expression<String>? name,
-    Expression<String>? description,
-    Expression<DateTime>? deadline,
-    Expression<bool>? completed,
-    Expression<int>? color,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (name != null) 'name': name,
-      if (description != null) 'description': description,
-      if (deadline != null) 'deadline': deadline,
-      if (completed != null) 'completed': completed,
-      if (color != null) 'color': color,
-    });
-  }
-
-  GoalsCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? name,
-      Value<String?>? description,
-      Value<DateTime?>? deadline,
-      Value<bool>? completed,
-      Value<int>? color}) {
-    return GoalsCompanion(
-      id: id ?? this.id,
-      name: name ?? this.name,
-      description: description ?? this.description,
-      deadline: deadline ?? this.deadline,
-      completed: completed ?? this.completed,
-      color: color ?? this.color,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (name.present) {
-      map['name'] = Variable<String>(name.value);
-    }
-    if (description.present) {
-      map['description'] = Variable<String>(description.value);
-    }
-    if (deadline.present) {
-      map['deadline'] = Variable<DateTime>(deadline.value);
-    }
-    if (completed.present) {
-      map['completed'] = Variable<bool>(completed.value);
-    }
-    if (color.present) {
-      map['color'] = Variable<int>(color.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('GoalsCompanion(')
-          ..write('id: $id, ')
-          ..write('name: $name, ')
-          ..write('description: $description, ')
-          ..write('deadline: $deadline, ')
-          ..write('completed: $completed, ')
-          ..write('color: $color')
-          ..write(')'))
-        .toString();
-  }
-}
-
-class $GoalTasksTable extends GoalTasks
-    with TableInfo<$GoalTasksTable, GoalTask> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  $GoalTasksTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _goalIdMeta = const VerificationMeta('goalId');
-  @override
-  late final GeneratedColumn<int> goalId = GeneratedColumn<int>(
-      'goal_id', aliasedName, true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'REFERENCES goals(id)');
-  static const VerificationMeta _taskIdMeta = const VerificationMeta('taskId');
-  @override
-  late final GeneratedColumn<int> taskId = GeneratedColumn<int>(
-      'task_id', aliasedName, true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'REFERENCES tasks(id)');
-  @override
-  List<GeneratedColumn> get $columns => [goalId, taskId];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'goal_tasks';
-  @override
-  VerificationContext validateIntegrity(Insertable<GoalTask> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('goal_id')) {
-      context.handle(_goalIdMeta,
-          goalId.isAcceptableOrUnknown(data['goal_id']!, _goalIdMeta));
-    }
-    if (data.containsKey('task_id')) {
-      context.handle(_taskIdMeta,
-          taskId.isAcceptableOrUnknown(data['task_id']!, _taskIdMeta));
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {goalId, taskId};
-  @override
-  GoalTask map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return GoalTask(
-      goalId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}goal_id']),
-      taskId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}task_id']),
-    );
-  }
-
-  @override
-  $GoalTasksTable createAlias(String alias) {
-    return $GoalTasksTable(attachedDatabase, alias);
-  }
-}
-
-class GoalTask extends DataClass implements Insertable<GoalTask> {
-  final int? goalId;
-  final int? taskId;
-  const GoalTask({this.goalId, this.taskId});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (!nullToAbsent || goalId != null) {
-      map['goal_id'] = Variable<int>(goalId);
-    }
-    if (!nullToAbsent || taskId != null) {
-      map['task_id'] = Variable<int>(taskId);
-    }
-    return map;
-  }
-
-  GoalTasksCompanion toCompanion(bool nullToAbsent) {
-    return GoalTasksCompanion(
-      goalId:
-          goalId == null && nullToAbsent ? const Value.absent() : Value(goalId),
-      taskId:
-          taskId == null && nullToAbsent ? const Value.absent() : Value(taskId),
-    );
-  }
-
-  factory GoalTask.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return GoalTask(
-      goalId: serializer.fromJson<int?>(json['goalId']),
-      taskId: serializer.fromJson<int?>(json['taskId']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'goalId': serializer.toJson<int?>(goalId),
-      'taskId': serializer.toJson<int?>(taskId),
-    };
-  }
-
-  GoalTask copyWith(
-          {Value<int?> goalId = const Value.absent(),
-          Value<int?> taskId = const Value.absent()}) =>
-      GoalTask(
-        goalId: goalId.present ? goalId.value : this.goalId,
-        taskId: taskId.present ? taskId.value : this.taskId,
-      );
-  GoalTask copyWithCompanion(GoalTasksCompanion data) {
-    return GoalTask(
-      goalId: data.goalId.present ? data.goalId.value : this.goalId,
-      taskId: data.taskId.present ? data.taskId.value : this.taskId,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('GoalTask(')
-          ..write('goalId: $goalId, ')
-          ..write('taskId: $taskId')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode => Object.hash(goalId, taskId);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is GoalTask &&
-          other.goalId == this.goalId &&
-          other.taskId == this.taskId);
-}
-
-class GoalTasksCompanion extends UpdateCompanion<GoalTask> {
-  final Value<int?> goalId;
-  final Value<int?> taskId;
-  final Value<int> rowid;
-  const GoalTasksCompanion({
-    this.goalId = const Value.absent(),
-    this.taskId = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  GoalTasksCompanion.insert({
-    this.goalId = const Value.absent(),
-    this.taskId = const Value.absent(),
-    this.rowid = const Value.absent(),
-  });
-  static Insertable<GoalTask> custom({
-    Expression<int>? goalId,
-    Expression<int>? taskId,
-    Expression<int>? rowid,
-  }) {
-    return RawValuesInsertable({
-      if (goalId != null) 'goal_id': goalId,
-      if (taskId != null) 'task_id': taskId,
-      if (rowid != null) 'rowid': rowid,
-    });
-  }
-
-  GoalTasksCompanion copyWith(
-      {Value<int?>? goalId, Value<int?>? taskId, Value<int>? rowid}) {
-    return GoalTasksCompanion(
-      goalId: goalId ?? this.goalId,
-      taskId: taskId ?? this.taskId,
-      rowid: rowid ?? this.rowid,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (goalId.present) {
-      map['goal_id'] = Variable<int>(goalId.value);
-    }
-    if (taskId.present) {
-      map['task_id'] = Variable<int>(taskId.value);
-    }
-    if (rowid.present) {
-      map['rowid'] = Variable<int>(rowid.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('GoalTasksCompanion(')
-          ..write('goalId: $goalId, ')
-          ..write('taskId: $taskId, ')
-          ..write('rowid: $rowid')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class $UserSettingsTable extends UserSettings
     with TableInfo<$UserSettingsTable, UserSetting> {
   @override
@@ -1812,16 +1660,14 @@ class UserSettingsCompanion extends UpdateCompanion<UserSetting> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final $GoalsTable goals = $GoalsTable(this);
   late final $TasksTable tasks = $TasksTable(this);
   late final $SubtasksTable subtasks = $SubtasksTable(this);
   late final $TagsTable tags = $TagsTable(this);
   late final $TaskTagsTable taskTags = $TaskTagsTable(this);
-  late final $GoalsTable goals = $GoalsTable(this);
-  late final $GoalTasksTable goalTasks = $GoalTasksTable(this);
   late final $UserSettingsTable userSettings = $UserSettingsTable(this);
   late final TaskDao taskDao = TaskDao(this as AppDatabase);
   late final TagDao tagDao = TagDao(this as AppDatabase);
-  late final GoalTaskDao goalTaskDao = GoalTaskDao(this as AppDatabase);
   late final UserSettingsDao userSettingsDao =
       UserSettingsDao(this as AppDatabase);
   @override
@@ -1829,9 +1675,265 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [tasks, subtasks, tags, taskTags, goals, goalTasks, userSettings];
+      [goals, tasks, subtasks, tags, taskTags, userSettings];
 }
 
+typedef $$GoalsTableCreateCompanionBuilder = GoalsCompanion Function({
+  Value<int> id,
+  required String name,
+  Value<String?> description,
+  Value<DateTime?> deadline,
+  Value<bool> completed,
+  required int color,
+});
+typedef $$GoalsTableUpdateCompanionBuilder = GoalsCompanion Function({
+  Value<int> id,
+  Value<String> name,
+  Value<String?> description,
+  Value<DateTime?> deadline,
+  Value<bool> completed,
+  Value<int> color,
+});
+
+final class $$GoalsTableReferences
+    extends BaseReferences<_$AppDatabase, $GoalsTable, Goal> {
+  $$GoalsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<$TasksTable, List<Task>> _tasksRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.tasks,
+          aliasName: $_aliasNameGenerator(db.goals.id, db.tasks.goalId));
+
+  $$TasksTableProcessedTableManager get tasksRefs {
+    final manager = $$TasksTableTableManager($_db, $_db.tasks)
+        .filter((f) => f.goalId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_tasksRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$GoalsTableFilterComposer extends Composer<_$AppDatabase, $GoalsTable> {
+  $$GoalsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get deadline => $composableBuilder(
+      column: $table.deadline, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get completed => $composableBuilder(
+      column: $table.completed, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get color => $composableBuilder(
+      column: $table.color, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> tasksRefs(
+      Expression<bool> Function($$TasksTableFilterComposer f) f) {
+    final $$TasksTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.tasks,
+        getReferencedColumn: (t) => t.goalId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TasksTableFilterComposer(
+              $db: $db,
+              $table: $db.tasks,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$GoalsTableOrderingComposer
+    extends Composer<_$AppDatabase, $GoalsTable> {
+  $$GoalsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get deadline => $composableBuilder(
+      column: $table.deadline, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get completed => $composableBuilder(
+      column: $table.completed, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get color => $composableBuilder(
+      column: $table.color, builder: (column) => ColumnOrderings(column));
+}
+
+class $$GoalsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $GoalsTable> {
+  $$GoalsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deadline =>
+      $composableBuilder(column: $table.deadline, builder: (column) => column);
+
+  GeneratedColumn<bool> get completed =>
+      $composableBuilder(column: $table.completed, builder: (column) => column);
+
+  GeneratedColumn<int> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+
+  Expression<T> tasksRefs<T extends Object>(
+      Expression<T> Function($$TasksTableAnnotationComposer a) f) {
+    final $$TasksTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.tasks,
+        getReferencedColumn: (t) => t.goalId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$TasksTableAnnotationComposer(
+              $db: $db,
+              $table: $db.tasks,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$GoalsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $GoalsTable,
+    Goal,
+    $$GoalsTableFilterComposer,
+    $$GoalsTableOrderingComposer,
+    $$GoalsTableAnnotationComposer,
+    $$GoalsTableCreateCompanionBuilder,
+    $$GoalsTableUpdateCompanionBuilder,
+    (Goal, $$GoalsTableReferences),
+    Goal,
+    PrefetchHooks Function({bool tasksRefs})> {
+  $$GoalsTableTableManager(_$AppDatabase db, $GoalsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$GoalsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$GoalsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$GoalsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+            Value<DateTime?> deadline = const Value.absent(),
+            Value<bool> completed = const Value.absent(),
+            Value<int> color = const Value.absent(),
+          }) =>
+              GoalsCompanion(
+            id: id,
+            name: name,
+            description: description,
+            deadline: deadline,
+            completed: completed,
+            color: color,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String name,
+            Value<String?> description = const Value.absent(),
+            Value<DateTime?> deadline = const Value.absent(),
+            Value<bool> completed = const Value.absent(),
+            required int color,
+          }) =>
+              GoalsCompanion.insert(
+            id: id,
+            name: name,
+            description: description,
+            deadline: deadline,
+            completed: completed,
+            color: color,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$GoalsTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({tasksRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [if (tasksRefs) db.tasks],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (tasksRefs)
+                    await $_getPrefetchedData<Goal, $GoalsTable, Task>(
+                        currentTable: table,
+                        referencedTable:
+                            $$GoalsTableReferences._tasksRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$GoalsTableReferences(db, table, p0).tasksRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.goalId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$GoalsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $GoalsTable,
+    Goal,
+    $$GoalsTableFilterComposer,
+    $$GoalsTableOrderingComposer,
+    $$GoalsTableAnnotationComposer,
+    $$GoalsTableCreateCompanionBuilder,
+    $$GoalsTableUpdateCompanionBuilder,
+    (Goal, $$GoalsTableReferences),
+    Goal,
+    PrefetchHooks Function({bool tasksRefs})>;
 typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
   Value<int> id,
   required String title,
@@ -1839,6 +1941,7 @@ typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
   Value<bool> isCompleted,
   Value<DateTime?> dueDate,
   Value<int?> priority,
+  Value<int?> goalId,
   Value<int?> parentTaskId,
 });
 typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
@@ -1848,12 +1951,27 @@ typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
   Value<bool> isCompleted,
   Value<DateTime?> dueDate,
   Value<int?> priority,
+  Value<int?> goalId,
   Value<int?> parentTaskId,
 });
 
 final class $$TasksTableReferences
     extends BaseReferences<_$AppDatabase, $TasksTable, Task> {
   $$TasksTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $GoalsTable _goalIdTable(_$AppDatabase db) =>
+      db.goals.createAlias($_aliasNameGenerator(db.tasks.goalId, db.goals.id));
+
+  $$GoalsTableProcessedTableManager? get goalId {
+    final $_column = $_itemColumn<int>('goal_id');
+    if ($_column == null) return null;
+    final manager = $$GoalsTableTableManager($_db, $_db.goals)
+        .filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_goalIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
 
   static MultiTypedResultKey<$SubtasksTable, List<Subtask>> _subtasksRefsTable(
           _$AppDatabase db) =>
@@ -1879,20 +1997,6 @@ final class $$TasksTableReferences
         .filter((f) => f.taskId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_taskTagsRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
-  }
-
-  static MultiTypedResultKey<$GoalTasksTable, List<GoalTask>>
-      _goalTasksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-          db.goalTasks,
-          aliasName: $_aliasNameGenerator(db.tasks.id, db.goalTasks.taskId));
-
-  $$GoalTasksTableProcessedTableManager get goalTasksRefs {
-    final manager = $$GoalTasksTableTableManager($_db, $_db.goalTasks)
-        .filter((f) => f.taskId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_goalTasksRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -1926,6 +2030,26 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
 
   ColumnFilters<int> get parentTaskId => $composableBuilder(
       column: $table.parentTaskId, builder: (column) => ColumnFilters(column));
+
+  $$GoalsTableFilterComposer get goalId {
+    final $$GoalsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableFilterComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
 
   Expression<bool> subtasksRefs(
       Expression<bool> Function($$SubtasksTableFilterComposer f) f) {
@@ -1968,27 +2092,6 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
             ));
     return f(composer);
   }
-
-  Expression<bool> goalTasksRefs(
-      Expression<bool> Function($$GoalTasksTableFilterComposer f) f) {
-    final $$GoalTasksTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.goalTasks,
-        getReferencedColumn: (t) => t.taskId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$GoalTasksTableFilterComposer(
-              $db: $db,
-              $table: $db.goalTasks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
 }
 
 class $$TasksTableOrderingComposer
@@ -2021,6 +2124,26 @@ class $$TasksTableOrderingComposer
   ColumnOrderings<int> get parentTaskId => $composableBuilder(
       column: $table.parentTaskId,
       builder: (column) => ColumnOrderings(column));
+
+  $$GoalsTableOrderingComposer get goalId {
+    final $$GoalsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableOrderingComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
 }
 
 class $$TasksTableAnnotationComposer
@@ -2052,6 +2175,26 @@ class $$TasksTableAnnotationComposer
 
   GeneratedColumn<int> get parentTaskId => $composableBuilder(
       column: $table.parentTaskId, builder: (column) => column);
+
+  $$GoalsTableAnnotationComposer get goalId {
+    final $$GoalsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
 
   Expression<T> subtasksRefs<T extends Object>(
       Expression<T> Function($$SubtasksTableAnnotationComposer a) f) {
@@ -2094,27 +2237,6 @@ class $$TasksTableAnnotationComposer
             ));
     return f(composer);
   }
-
-  Expression<T> goalTasksRefs<T extends Object>(
-      Expression<T> Function($$GoalTasksTableAnnotationComposer a) f) {
-    final $$GoalTasksTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.goalTasks,
-        getReferencedColumn: (t) => t.taskId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$GoalTasksTableAnnotationComposer(
-              $db: $db,
-              $table: $db.goalTasks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
 }
 
 class $$TasksTableTableManager extends RootTableManager<
@@ -2129,7 +2251,7 @@ class $$TasksTableTableManager extends RootTableManager<
     (Task, $$TasksTableReferences),
     Task,
     PrefetchHooks Function(
-        {bool subtasksRefs, bool taskTagsRefs, bool goalTasksRefs})> {
+        {bool goalId, bool subtasksRefs, bool taskTagsRefs})> {
   $$TasksTableTableManager(_$AppDatabase db, $TasksTable table)
       : super(TableManagerState(
           db: db,
@@ -2147,6 +2269,7 @@ class $$TasksTableTableManager extends RootTableManager<
             Value<bool> isCompleted = const Value.absent(),
             Value<DateTime?> dueDate = const Value.absent(),
             Value<int?> priority = const Value.absent(),
+            Value<int?> goalId = const Value.absent(),
             Value<int?> parentTaskId = const Value.absent(),
           }) =>
               TasksCompanion(
@@ -2156,6 +2279,7 @@ class $$TasksTableTableManager extends RootTableManager<
             isCompleted: isCompleted,
             dueDate: dueDate,
             priority: priority,
+            goalId: goalId,
             parentTaskId: parentTaskId,
           ),
           createCompanionCallback: ({
@@ -2165,6 +2289,7 @@ class $$TasksTableTableManager extends RootTableManager<
             Value<bool> isCompleted = const Value.absent(),
             Value<DateTime?> dueDate = const Value.absent(),
             Value<int?> priority = const Value.absent(),
+            Value<int?> goalId = const Value.absent(),
             Value<int?> parentTaskId = const Value.absent(),
           }) =>
               TasksCompanion.insert(
@@ -2174,6 +2299,7 @@ class $$TasksTableTableManager extends RootTableManager<
             isCompleted: isCompleted,
             dueDate: dueDate,
             priority: priority,
+            goalId: goalId,
             parentTaskId: parentTaskId,
           ),
           withReferenceMapper: (p0) => p0
@@ -2181,17 +2307,38 @@ class $$TasksTableTableManager extends RootTableManager<
                   (e.readTable(table), $$TasksTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: (
-              {subtasksRefs = false,
-              taskTagsRefs = false,
-              goalTasksRefs = false}) {
+              {goalId = false, subtasksRefs = false, taskTagsRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (subtasksRefs) db.subtasks,
-                if (taskTagsRefs) db.taskTags,
-                if (goalTasksRefs) db.goalTasks
+                if (taskTagsRefs) db.taskTags
               ],
-              addJoins: null,
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (goalId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.goalId,
+                    referencedTable: $$TasksTableReferences._goalIdTable(db),
+                    referencedColumn:
+                        $$TasksTableReferences._goalIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
               getPrefetchedDataCallback: (items) async {
                 return [
                   if (subtasksRefs)
@@ -2215,17 +2362,6 @@ class $$TasksTableTableManager extends RootTableManager<
                         referencedItemsForCurrentItem: (item,
                                 referencedItems) =>
                             referencedItems.where((e) => e.taskId == item.id),
-                        typedResults: items),
-                  if (goalTasksRefs)
-                    await $_getPrefetchedData<Task, $TasksTable, GoalTask>(
-                        currentTable: table,
-                        referencedTable:
-                            $$TasksTableReferences._goalTasksRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$TasksTableReferences(db, table, p0).goalTasksRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.taskId == item.id),
                         typedResults: items)
                 ];
               },
@@ -2246,7 +2382,7 @@ typedef $$TasksTableProcessedTableManager = ProcessedTableManager<
     (Task, $$TasksTableReferences),
     Task,
     PrefetchHooks Function(
-        {bool subtasksRefs, bool taskTagsRefs, bool goalTasksRefs})>;
+        {bool goalId, bool subtasksRefs, bool taskTagsRefs})>;
 typedef $$SubtasksTableCreateCompanionBuilder = SubtasksCompanion Function({
   Value<int> id,
   Value<int?> taskId,
@@ -2988,564 +3124,6 @@ typedef $$TaskTagsTableProcessedTableManager = ProcessedTableManager<
     (TaskTag, $$TaskTagsTableReferences),
     TaskTag,
     PrefetchHooks Function({bool taskId, bool tagId})>;
-typedef $$GoalsTableCreateCompanionBuilder = GoalsCompanion Function({
-  Value<int> id,
-  required String name,
-  Value<String?> description,
-  Value<DateTime?> deadline,
-  Value<bool> completed,
-  required int color,
-});
-typedef $$GoalsTableUpdateCompanionBuilder = GoalsCompanion Function({
-  Value<int> id,
-  Value<String> name,
-  Value<String?> description,
-  Value<DateTime?> deadline,
-  Value<bool> completed,
-  Value<int> color,
-});
-
-final class $$GoalsTableReferences
-    extends BaseReferences<_$AppDatabase, $GoalsTable, Goal> {
-  $$GoalsTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static MultiTypedResultKey<$GoalTasksTable, List<GoalTask>>
-      _goalTasksRefsTable(_$AppDatabase db) => MultiTypedResultKey.fromTable(
-          db.goalTasks,
-          aliasName: $_aliasNameGenerator(db.goals.id, db.goalTasks.goalId));
-
-  $$GoalTasksTableProcessedTableManager get goalTasksRefs {
-    final manager = $$GoalTasksTableTableManager($_db, $_db.goalTasks)
-        .filter((f) => f.goalId.id.sqlEquals($_itemColumn<int>('id')!));
-
-    final cache = $_typedResult.readTableOrNull(_goalTasksRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
-  }
-}
-
-class $$GoalsTableFilterComposer extends Composer<_$AppDatabase, $GoalsTable> {
-  $$GoalsTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get deadline => $composableBuilder(
-      column: $table.deadline, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<bool> get completed => $composableBuilder(
-      column: $table.completed, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<int> get color => $composableBuilder(
-      column: $table.color, builder: (column) => ColumnFilters(column));
-
-  Expression<bool> goalTasksRefs(
-      Expression<bool> Function($$GoalTasksTableFilterComposer f) f) {
-    final $$GoalTasksTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.goalTasks,
-        getReferencedColumn: (t) => t.goalId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$GoalTasksTableFilterComposer(
-              $db: $db,
-              $table: $db.goalTasks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-}
-
-class $$GoalsTableOrderingComposer
-    extends Composer<_$AppDatabase, $GoalsTable> {
-  $$GoalsTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get name => $composableBuilder(
-      column: $table.name, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get deadline => $composableBuilder(
-      column: $table.deadline, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<bool> get completed => $composableBuilder(
-      column: $table.completed, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<int> get color => $composableBuilder(
-      column: $table.color, builder: (column) => ColumnOrderings(column));
-}
-
-class $$GoalsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $GoalsTable> {
-  $$GoalsTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get name =>
-      $composableBuilder(column: $table.name, builder: (column) => column);
-
-  GeneratedColumn<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get deadline =>
-      $composableBuilder(column: $table.deadline, builder: (column) => column);
-
-  GeneratedColumn<bool> get completed =>
-      $composableBuilder(column: $table.completed, builder: (column) => column);
-
-  GeneratedColumn<int> get color =>
-      $composableBuilder(column: $table.color, builder: (column) => column);
-
-  Expression<T> goalTasksRefs<T extends Object>(
-      Expression<T> Function($$GoalTasksTableAnnotationComposer a) f) {
-    final $$GoalTasksTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.goalTasks,
-        getReferencedColumn: (t) => t.goalId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$GoalTasksTableAnnotationComposer(
-              $db: $db,
-              $table: $db.goalTasks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-}
-
-class $$GoalsTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $GoalsTable,
-    Goal,
-    $$GoalsTableFilterComposer,
-    $$GoalsTableOrderingComposer,
-    $$GoalsTableAnnotationComposer,
-    $$GoalsTableCreateCompanionBuilder,
-    $$GoalsTableUpdateCompanionBuilder,
-    (Goal, $$GoalsTableReferences),
-    Goal,
-    PrefetchHooks Function({bool goalTasksRefs})> {
-  $$GoalsTableTableManager(_$AppDatabase db, $GoalsTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$GoalsTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$GoalsTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$GoalsTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> name = const Value.absent(),
-            Value<String?> description = const Value.absent(),
-            Value<DateTime?> deadline = const Value.absent(),
-            Value<bool> completed = const Value.absent(),
-            Value<int> color = const Value.absent(),
-          }) =>
-              GoalsCompanion(
-            id: id,
-            name: name,
-            description: description,
-            deadline: deadline,
-            completed: completed,
-            color: color,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String name,
-            Value<String?> description = const Value.absent(),
-            Value<DateTime?> deadline = const Value.absent(),
-            Value<bool> completed = const Value.absent(),
-            required int color,
-          }) =>
-              GoalsCompanion.insert(
-            id: id,
-            name: name,
-            description: description,
-            deadline: deadline,
-            completed: completed,
-            color: color,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$GoalsTableReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: ({goalTasksRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (goalTasksRefs) db.goalTasks],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (goalTasksRefs)
-                    await $_getPrefetchedData<Goal, $GoalsTable, GoalTask>(
-                        currentTable: table,
-                        referencedTable:
-                            $$GoalsTableReferences._goalTasksRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $$GoalsTableReferences(db, table, p0).goalTasksRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.goalId == item.id),
-                        typedResults: items)
-                ];
-              },
-            );
-          },
-        ));
-}
-
-typedef $$GoalsTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $GoalsTable,
-    Goal,
-    $$GoalsTableFilterComposer,
-    $$GoalsTableOrderingComposer,
-    $$GoalsTableAnnotationComposer,
-    $$GoalsTableCreateCompanionBuilder,
-    $$GoalsTableUpdateCompanionBuilder,
-    (Goal, $$GoalsTableReferences),
-    Goal,
-    PrefetchHooks Function({bool goalTasksRefs})>;
-typedef $$GoalTasksTableCreateCompanionBuilder = GoalTasksCompanion Function({
-  Value<int?> goalId,
-  Value<int?> taskId,
-  Value<int> rowid,
-});
-typedef $$GoalTasksTableUpdateCompanionBuilder = GoalTasksCompanion Function({
-  Value<int?> goalId,
-  Value<int?> taskId,
-  Value<int> rowid,
-});
-
-final class $$GoalTasksTableReferences
-    extends BaseReferences<_$AppDatabase, $GoalTasksTable, GoalTask> {
-  $$GoalTasksTableReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static $GoalsTable _goalIdTable(_$AppDatabase db) => db.goals
-      .createAlias($_aliasNameGenerator(db.goalTasks.goalId, db.goals.id));
-
-  $$GoalsTableProcessedTableManager? get goalId {
-    final $_column = $_itemColumn<int>('goal_id');
-    if ($_column == null) return null;
-    final manager = $$GoalsTableTableManager($_db, $_db.goals)
-        .filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_goalIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
-
-  static $TasksTable _taskIdTable(_$AppDatabase db) => db.tasks
-      .createAlias($_aliasNameGenerator(db.goalTasks.taskId, db.tasks.id));
-
-  $$TasksTableProcessedTableManager? get taskId {
-    final $_column = $_itemColumn<int>('task_id');
-    if ($_column == null) return null;
-    final manager = $$TasksTableTableManager($_db, $_db.tasks)
-        .filter((f) => f.id.sqlEquals($_column));
-    final item = $_typedResult.readTableOrNull(_taskIdTable($_db));
-    if (item == null) return manager;
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: [item]));
-  }
-}
-
-class $$GoalTasksTableFilterComposer
-    extends Composer<_$AppDatabase, $GoalTasksTable> {
-  $$GoalTasksTableFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  $$GoalsTableFilterComposer get goalId {
-    final $$GoalsTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.goalId,
-        referencedTable: $db.goals,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$GoalsTableFilterComposer(
-              $db: $db,
-              $table: $db.goals,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-
-  $$TasksTableFilterComposer get taskId {
-    final $$TasksTableFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.taskId,
-        referencedTable: $db.tasks,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TasksTableFilterComposer(
-              $db: $db,
-              $table: $db.tasks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$GoalTasksTableOrderingComposer
-    extends Composer<_$AppDatabase, $GoalTasksTable> {
-  $$GoalTasksTableOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  $$GoalsTableOrderingComposer get goalId {
-    final $$GoalsTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.goalId,
-        referencedTable: $db.goals,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$GoalsTableOrderingComposer(
-              $db: $db,
-              $table: $db.goals,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-
-  $$TasksTableOrderingComposer get taskId {
-    final $$TasksTableOrderingComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.taskId,
-        referencedTable: $db.tasks,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TasksTableOrderingComposer(
-              $db: $db,
-              $table: $db.tasks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$GoalTasksTableAnnotationComposer
-    extends Composer<_$AppDatabase, $GoalTasksTable> {
-  $$GoalTasksTableAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  $$GoalsTableAnnotationComposer get goalId {
-    final $$GoalsTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.goalId,
-        referencedTable: $db.goals,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$GoalsTableAnnotationComposer(
-              $db: $db,
-              $table: $db.goals,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-
-  $$TasksTableAnnotationComposer get taskId {
-    final $$TasksTableAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.taskId,
-        referencedTable: $db.tasks,
-        getReferencedColumn: (t) => t.id,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $$TasksTableAnnotationComposer(
-              $db: $db,
-              $table: $db.tasks,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return composer;
-  }
-}
-
-class $$GoalTasksTableTableManager extends RootTableManager<
-    _$AppDatabase,
-    $GoalTasksTable,
-    GoalTask,
-    $$GoalTasksTableFilterComposer,
-    $$GoalTasksTableOrderingComposer,
-    $$GoalTasksTableAnnotationComposer,
-    $$GoalTasksTableCreateCompanionBuilder,
-    $$GoalTasksTableUpdateCompanionBuilder,
-    (GoalTask, $$GoalTasksTableReferences),
-    GoalTask,
-    PrefetchHooks Function({bool goalId, bool taskId})> {
-  $$GoalTasksTableTableManager(_$AppDatabase db, $GoalTasksTable table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $$GoalTasksTableFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $$GoalTasksTableOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $$GoalTasksTableAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int?> goalId = const Value.absent(),
-            Value<int?> taskId = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              GoalTasksCompanion(
-            goalId: goalId,
-            taskId: taskId,
-            rowid: rowid,
-          ),
-          createCompanionCallback: ({
-            Value<int?> goalId = const Value.absent(),
-            Value<int?> taskId = const Value.absent(),
-            Value<int> rowid = const Value.absent(),
-          }) =>
-              GoalTasksCompanion.insert(
-            goalId: goalId,
-            taskId: taskId,
-            rowid: rowid,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (
-                    e.readTable(table),
-                    $$GoalTasksTableReferences(db, table, e)
-                  ))
-              .toList(),
-          prefetchHooksCallback: ({goalId = false, taskId = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [],
-              addJoins: <
-                  T extends TableManagerState<
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic,
-                      dynamic>>(state) {
-                if (goalId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.goalId,
-                    referencedTable:
-                        $$GoalTasksTableReferences._goalIdTable(db),
-                    referencedColumn:
-                        $$GoalTasksTableReferences._goalIdTable(db).id,
-                  ) as T;
-                }
-                if (taskId) {
-                  state = state.withJoin(
-                    currentTable: table,
-                    currentColumn: table.taskId,
-                    referencedTable:
-                        $$GoalTasksTableReferences._taskIdTable(db),
-                    referencedColumn:
-                        $$GoalTasksTableReferences._taskIdTable(db).id,
-                  ) as T;
-                }
-
-                return state;
-              },
-              getPrefetchedDataCallback: (items) async {
-                return [];
-              },
-            );
-          },
-        ));
-}
-
-typedef $$GoalTasksTableProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    $GoalTasksTable,
-    GoalTask,
-    $$GoalTasksTableFilterComposer,
-    $$GoalTasksTableOrderingComposer,
-    $$GoalTasksTableAnnotationComposer,
-    $$GoalTasksTableCreateCompanionBuilder,
-    $$GoalTasksTableUpdateCompanionBuilder,
-    (GoalTask, $$GoalTasksTableReferences),
-    GoalTask,
-    PrefetchHooks Function({bool goalId, bool taskId})>;
 typedef $$UserSettingsTableCreateCompanionBuilder = UserSettingsCompanion
     Function({
   Value<int> id,
@@ -3689,6 +3267,8 @@ typedef $$UserSettingsTableProcessedTableManager = ProcessedTableManager<
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $$GoalsTableTableManager get goals =>
+      $$GoalsTableTableManager(_db, _db.goals);
   $$TasksTableTableManager get tasks =>
       $$TasksTableTableManager(_db, _db.tasks);
   $$SubtasksTableTableManager get subtasks =>
@@ -3696,10 +3276,6 @@ class $AppDatabaseManager {
   $$TagsTableTableManager get tags => $$TagsTableTableManager(_db, _db.tags);
   $$TaskTagsTableTableManager get taskTags =>
       $$TaskTagsTableTableManager(_db, _db.taskTags);
-  $$GoalsTableTableManager get goals =>
-      $$GoalsTableTableManager(_db, _db.goals);
-  $$GoalTasksTableTableManager get goalTasks =>
-      $$GoalTasksTableTableManager(_db, _db.goalTasks);
   $$UserSettingsTableTableManager get userSettings =>
       $$UserSettingsTableTableManager(_db, _db.userSettings);
 }

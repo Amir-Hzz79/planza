@@ -22,7 +22,7 @@ class Goals extends Table {
   IntColumn get color => integer()();
 }
 
-class GoalTasks extends Table {
+/* class GoalTasks extends Table {
   IntColumn get goalId =>
       integer().customConstraint('REFERENCES goals(id)').nullable()();
   IntColumn get taskId =>
@@ -31,7 +31,7 @@ class GoalTasks extends Table {
   @override
   Set<Column> get primaryKey =>
       {goalId, taskId}; // ترکیب دو ستون به عنوان کلید اصلی
-}
+} */
 
 class TaskTags extends Table {
   IntColumn get taskId =>
@@ -51,6 +51,8 @@ class Tasks extends Table {
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
   DateTimeColumn get dueDate => dateTime().nullable()();
   IntColumn get priority => integer().nullable()();
+  IntColumn get goalId =>
+      integer().nullable().customConstraint('REFERENCES goals(id)')();
   IntColumn get parentTaskId =>
       integer().nullable().customConstraint('REFERENCES tasks(id)')();
 }

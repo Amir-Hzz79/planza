@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:planza/core/data/models/goal_model.dart';
 
-import '../database/database.dart' show Task, TasksCompanion;
+import '../database/database.dart' show Goal, Task, TasksCompanion;
 
 class TaskModel {
   final int? id;
@@ -25,9 +25,10 @@ class TaskModel {
   });
 
   // Convert a Task entity to a TaskModel
-  factory TaskModel.fromEntity(Task taskEntity) {
+  factory TaskModel.fromEntity(Task taskEntity, {Goal? goal}) {
     return TaskModel(
       id: taskEntity.id,
+      goal: goal == null ? null : GoalModel.fromEntity(goal),
       title: taskEntity.title,
       description: taskEntity.description,
       isCompleted: taskEntity.isCompleted,
@@ -52,7 +53,11 @@ class TaskModel {
 
   // Convert a TaskModel to a Task entity
   TasksCompanion toInsertCompanion() {
+    print('----------- Here -----------------');
+    print('----------- goal?.id:${goal?.id} -----------------');
+    print('----------- title:$title -----------------');
     return TasksCompanion(
+      goalId: Value(goal?.id),
       title: Value(title),
       description: Value(description),
       isCompleted: Value(isCompleted),

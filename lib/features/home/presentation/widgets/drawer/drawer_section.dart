@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
+import 'package:planza/core/data/database/database.dart';
 import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/locale/bloc/locale_bloc.dart';
 import 'package:planza/core/locale/bloc/locale_event.dart';
@@ -8,9 +10,14 @@ import 'package:planza/core/widgets/buttons/profile_button.dart';
 import '../../../../../core/theme/bloc/theme_bloc.dart';
 import 'drawer_list_button.dart';
 
-class DrawerSection extends StatelessWidget {
+class DrawerSection extends StatefulWidget {
   const DrawerSection({super.key});
 
+  @override
+  State<DrawerSection> createState() => _DrawerSectionState();
+}
+
+class _DrawerSectionState extends State<DrawerSection> {
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -81,6 +88,15 @@ class DrawerSection extends StatelessWidget {
             onTap: () {},
             text: AppLocalizations.of(context).translate('about'),
             icon: Icons.info_rounded,
+          ),
+          DrawerListButton(
+            onTap: () {
+              GetIt.instance.get<AppDatabase>().insertDummyData();
+
+              setState(() {});
+            },
+            text: 'Insert Dummy Data (Debug)',
+            icon: Icons.data_array_rounded,
           ),
         ],
       ),

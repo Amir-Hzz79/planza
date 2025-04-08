@@ -6,29 +6,51 @@ import '../models/task_model.dart';
 
 part 'task_dao.g.dart';
 
-@DriftAccessor(tables: [Tasks, GoalTasks])
+@DriftAccessor(tables: [Tasks])
 class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
   TaskDao(super.attachedDatabase);
 
-  Future<List<TaskModel>> getAllTasks() => select(tasks).get().then(
+  Future<List<TaskModel>> getAllTasks() => select(tasks)
+      .join(
+        [
+          leftOuterJoin(goals, tasks.goalId.equalsExp(goals.id)),
+        ],
+      )
+      .get()
+      .then(
         (value) => value
             .map(
-              (e) => TaskModel.fromEntity(e),
+              (row) => TaskModel.fromEntity(
+                row.readTable(tasks),
+                goal: row.readTable(goals),
+              ),
             )
             .toList(),
       );
 
-  Stream<List<TaskModel>> watchAllTasks() => select(tasks).watch().map(
-        (tasksEntity) {
-          final List<TaskModel> tasks = [];
+  Stream<List<TaskModel>> watchAllTasks() {
+    final query = select(tasks).join(
+      [
+        leftOuterJoin(goals, tasks.goalId.equalsExp(goals.id)),
+      ],
+    );
 
-          for (var task in tasksEntity) {
-            tasks.add(TaskModel.fromEntity(task));
-          }
+    return query.watch().map(
+      (rows) {
+        final List<TaskModel> tasksData = [];
 
-          return tasks;
-        },
-      );
+        for (var row in rows) {
+          final Task task = row.readTable(tasks);
+          final Goal goal = row.readTable(goals);
+          final t = TaskModel.fromEntity(task, goal: goal);
+          tasksData.add(t);
+          print('{title:${t.title},goalId:${t.goal?.id}}');
+        }
+
+        return tasksData;
+      },
+    );
+  }
 
   Future<List<Task>> getAllTasksWhere(
           Expression<bool> Function(Tasks task) filter) =>
@@ -37,23 +59,8 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
   Future<Task> getTaskById(int id) =>
       (select(tasks)..where((t) => t.id.equals(id))).getSingle();
 
-  Future<int> insertTask(TaskModel task) {
-    return transaction(
-      () async {
-        int taskId = await into(tasks).insert(task.toInsertCompanion());
-        if (task.goal != null) {
-          await into(goalTasks).insert(
-            GoalTasksCompanion(
-              taskId: Value(taskId),
-              goalId: Value(task.goal!.id),
-            ),
-          );
-        }
-
-        return taskId;
-      },
-    );
-  }
+  Future<int> insertTask(TaskModel task) async =>
+      await into(tasks).insert(task.toInsertCompanion());
 
   Future<bool> updateTask(Task task) => update(tasks).replace(task);
 

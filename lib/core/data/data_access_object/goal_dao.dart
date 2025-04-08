@@ -1,4 +1,3 @@
-
 import 'package:drift/drift.dart';
 import 'package:planza/core/data/database/database.dart';
 import 'package:planza/core/data/models/goal_model.dart';
@@ -7,7 +6,7 @@ import '../database/tables.dart';
 
 part 'goal_dao.g.dart';
 
-@DriftAccessor(tables: [Goals, GoalTasks, Tasks])
+@DriftAccessor(tables: [Goals, Tasks])
 class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
   GoalDao(super.attachedDatabase);
 
@@ -22,8 +21,7 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
   Future<List<GoalModel>> getAllGoalsWithTasks() async {
     final query = select(goals).join(
       [
-        leftOuterJoin(goalTasks, goalTasks.goalId.equalsExp(goals.id)),
-        leftOuterJoin(tasks, tasks.id.equalsExp(goalTasks.taskId)),
+        leftOuterJoin(tasks, tasks.goalId.equalsExp(goals.id)),
       ],
     );
 
@@ -57,8 +55,7 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
 
   Stream<List<GoalModel>> watchAllGoalsWithTasks() {
     final query = select(goals).join([
-      leftOuterJoin(goalTasks, goalTasks.goalId.equalsExp(goals.id)),
-      leftOuterJoin(tasks, tasks.id.equalsExp(goalTasks.taskId)),
+      leftOuterJoin(tasks, tasks.goalId.equalsExp(goals.id)),
     ]);
 
     return query.watch().map(
@@ -74,6 +71,8 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
             goalsMap[goal]!.add(task);
           }
         }
+
+        /* print(goalsMap); */
 
         return goalsMap.entries.map(
           (entry) {
