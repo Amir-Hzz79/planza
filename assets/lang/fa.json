@@ -18,5 +18,8 @@
     "start_date": "از تاریخ",
     "end_date": "تا تاریخ",
     "choose_date": "یک زمانی براش مشخص کن",
-    "description": "توضیحات"
+    "description": "توضیحات",
+    "past": "گذشته",
+    "today": "امروز",
+    "future": "آینده"
 }

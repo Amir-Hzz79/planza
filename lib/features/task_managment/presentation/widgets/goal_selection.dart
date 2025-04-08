@@ -21,7 +21,7 @@ class _GoalSelectionState extends State<GoalSelection> {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GoalBloc, GoalState>(builder: (context, state) {
-      if (state is GoalLoadedState) {
+      if (state is GoalsLoadedState) {
         return SizedBox(
           width: double.infinity,
           child: DropdownButtonFormField<GoalModel>(

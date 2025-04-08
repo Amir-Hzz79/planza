@@ -18,5 +18,8 @@
     "start_date": "Start Time",
     "end_date": "End Time",
     "choose_date": "Choose a time for it",
-    "description": "Description"
+    "description": "Description",
+    "past": "Previous",
+    "today": "Today",
+    "future": "Future"
 }

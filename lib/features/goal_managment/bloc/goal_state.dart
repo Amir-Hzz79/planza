@@ -9,10 +9,10 @@ class GoalInitial extends GoalState {}
 
 class GoalLoadingState extends GoalState {}
 
-class GoalLoadedState extends GoalState {
+class GoalsLoadedState extends GoalState {
   final List<GoalModel> goals;
 
-  GoalLoadedState(this.goals);
+  GoalsLoadedState(this.goals);
 
   @override
   List<Object> get props => [goals];

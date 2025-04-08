@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 import '../../../core/data/data_access_object/task_dao.dart';
 
 part 'task_event.dart';
@@ -18,6 +17,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<StartWatchingTasksEvent>(_onLoadTasks);
     on<TasksUpdatedEvent>(_onTasksUpdated);
     on<TaskAddedEvent>(_onTaskAdded);
+    on<TaskUpdatedEvent>(_onTaskUpdated);
   }
 
   Future<void> _onLoadTasks(
@@ -49,6 +49,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       await _taskDao.insertTask(event.newTask);
     } catch (e) {
       emit(TaskErrorState('Failed to Insert Task'));
+    }
+  }
+
+  Future<void> _onTaskUpdated(
+      TaskUpdatedEvent event, Emitter<TaskState> emit) async {
+    emit(TaskLoadingState());
+    try {
+      await _taskDao.updateTask(event.newTask);
+    } catch (e) {
+      emit(TaskErrorState('Failed to Update Task'));
     }
   }
 

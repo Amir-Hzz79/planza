@@ -11,6 +11,12 @@ class GoalCounterItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final int completeTasksCount = goal.tasks
+        .where(
+          (element) => element.isCompleted,
+        )
+        .length;
+
     return SizedBox(
       height: 60,
       child: InkWell(
@@ -34,13 +40,8 @@ class GoalCounterItem extends StatelessWidget {
             ),
             Container(
               padding: EdgeInsets.all(5),
-              width: (width *
-                      goal.tasks
-                          .where(
-                            (element) => element.isCompleted,
-                          )
-                          .length) /
-                  goal.tasks.length,
+              width: (width * completeTasksCount) /
+                  (goal.tasks.isEmpty ? 1 : goal.tasks.length),
               decoration: BoxDecoration(
                 color: goal.color.withLightness(-0.1),
                 borderRadius: BorderRadius.circular(25),

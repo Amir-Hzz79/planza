@@ -38,7 +38,7 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
   }
 
   void _onGoalsUpdated(GoalsUpdatedEvent event, Emitter<GoalState> emit) {
-    emit(GoalLoadedState(event.goals));
+    emit(GoalsLoadedState(event.goals));
   }
 
   @override

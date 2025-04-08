@@ -22,7 +22,7 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
             .map(
               (row) => TaskModel.fromEntity(
                 row.readTable(tasks),
-                goal: row.readTable(goals),
+                goal: row.readTableOrNull(goals),
               ),
             )
             .toList(),
@@ -41,10 +41,9 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
 
         for (var row in rows) {
           final Task task = row.readTable(tasks);
-          final Goal goal = row.readTable(goals);
-          final t = TaskModel.fromEntity(task, goal: goal);
-          tasksData.add(t);
-          print('{title:${t.title},goalId:${t.goal?.id}}');
+          final Goal? goal = row.readTableOrNull(goals);
+
+          tasksData.add(TaskModel.fromEntity(task, goal: goal));
         }
 
         return tasksData;
@@ -62,7 +61,8 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
   Future<int> insertTask(TaskModel task) async =>
       await into(tasks).insert(task.toInsertCompanion());
 
-  Future<bool> updateTask(Task task) => update(tasks).replace(task);
+  Future<bool> updateTask(TaskModel task) =>
+      update(tasks).replace(task.toEntity());
 
   Future<int> deleteTask(int id) =>
       (delete(tasks)..where((t) => t.id.equals(id))).go();

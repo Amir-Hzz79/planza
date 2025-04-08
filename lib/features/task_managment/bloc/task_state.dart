@@ -12,7 +12,7 @@ class TaskLoadingState extends TaskState {}
 class TasksLoadedState extends TaskState {
   final List<TaskModel> tasks;
 
-  List<TaskModel> filterOnDate(DateTime date) {
+  /*  List<TaskModel> filterOnDate(DateTime date) {
     return tasks
         .where(
           (element) =>
@@ -20,6 +20,24 @@ class TasksLoadedState extends TaskState {
         )
         .toList();
   }
+
+  List<TaskModel> get pastTasks => tasks
+      .where(
+        (task) => task.dueDate?.isBeforeToday() ?? false,
+      )
+      .toList();
+
+  List<TaskModel> get todayTasks => tasks
+      .where(
+        (task) => task.dueDate?.isToday() ?? false,
+      )
+      .toList();
+
+  List<TaskModel> get futureTasks => tasks
+      .where(
+        (task) => task.dueDate?.isAfterToday() ?? false,
+      )
+      .toList(); */
 
   TasksLoadedState(this.tasks);
 

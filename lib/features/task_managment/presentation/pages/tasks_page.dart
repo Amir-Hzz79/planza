@@ -1,9 +1,15 @@
-import 'package:easy_date_timeline/easy_date_timeline.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
+import 'package:planza/core/utils/extention_methods/goal_list_extention.dart';
+import 'package:planza/core/utils/extention_methods/task_list_extention.dart';
+import 'package:planza/core/widgets/scrollables/scrollable_row.dart';
+import 'package:planza/features/goal_managment/bloc/goal_bloc.dart';
 
 import '../../../../core/data/models/task_model.dart';
 import '../../../../core/locale/app_localization.dart';
+import '../../../../core/widgets/scrollables/scrollable_column.dart';
 import '../../bloc/task_bloc.dart';
 import '../widgets/task_tile.dart';
 
@@ -17,55 +23,172 @@ class TasksPage extends StatefulWidget {
 class _TasksPageState extends State<TasksPage> {
   DateTime selectedDate = DateTime.now();
 
+  bool pastExpanded = true;
+  bool todayExpanded = true;
+  bool futureExpanded = true;
+
+  GoalModel? selectedGoal;
+
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TaskBloc, TaskState>(builder: (context, state) {
-      if (state is TasksLoadedState) {
-        final List<TaskModel> selectedDayTasks =
-            state.filterOnDate(selectedDate);
+    final appLocalization = AppLocalizations.of(context);
 
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            EasyDateTimeLinePicker(
-              focusedDate: selectedDate,
-              firstDate: DateTime(DateTime.now().year, 1, 1),
-              lastDate: DateTime(DateTime.now().year, 12, 31),
-              onDateChange: (date) {
-                setState(
-                  () {
-                    selectedDate = date;
-                  },
-                );
-              },
-              selectionMode: SelectionMode.autoCenter(),
-              ignoreUserInteractionOnAnimating: true,
-              locale: AppLocalizations.of(context).locale,
-            ),
-            const SizedBox(
-              height: 20,
-            ),
-            ...List<Widget>.generate(
-              selectedDayTasks.length,
-              (index) => TaskTile(
-                task: selectedDayTasks[index],
-              ),
-            ),
-            const SizedBox(
-              height: 1000,
-            ),
-          ],
+    return BlocBuilder<TaskBloc, TaskState>(
+      builder: (context, taskState) {
+        return BlocBuilder<GoalBloc, GoalState>(
+          builder: (context, goalsState) {
+            if (taskState is TasksLoadedState &&
+                goalsState is GoalsLoadedState) {
+              final List<TaskModel> pastTasks =
+                  taskState.tasks.overdueTasks.filterOnGoal(selectedGoal?.id);
+              final List<TaskModel> todayTasks =
+                  taskState.tasks.tasksDueToday.filterOnGoal(selectedGoal?.id);
+              final List<TaskModel> futureTasks =
+                  taskState.tasks.upcomingTasks.filterOnGoal(selectedGoal?.id);
+
+              final List<GoalModel> hasIncompleteTask =
+                  goalsState.goals.hasIncompleteTask;
+
+              return ScrollableColumn(
+                children: [
+                  Container(
+                    margin: EdgeInsets.symmetric(vertical: 10),
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    child: ScrollableRow(
+                      spacing: 5,
+                      children: List.generate(
+                        hasIncompleteTask.length,
+                        (index) => FilledButton(
+                          onPressed: () {
+                            setState(
+                              () {
+                                if (selectedGoal == hasIncompleteTask[index]) {
+                                  selectedGoal = null;
+                                } else {
+                                  selectedGoal = hasIncompleteTask[index];
+                                }
+                              },
+                            );
+                          },
+                          style: FilledButton.styleFrom(
+                            backgroundColor:
+                                selectedGoal?.id == hasIncompleteTask[index].id
+                                    ? hasIncompleteTask[index].color
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .surfaceContainer,
+                            foregroundColor:
+                                selectedGoal?.id == hasIncompleteTask[index].id
+                                    ? hasIncompleteTask[index]
+                                        .color
+                                        .matchTextColor()
+                                    : Theme.of(context)
+                                        .colorScheme
+                                        .surfaceContainer
+                                        .matchTextColor(),
+                            minimumSize: Size(100, 45),
+                          ),
+                          child: Text(hasIncompleteTask[index].name),
+                        ),
+                      ),
+                    ),
+                  ),
+                  if (pastTasks.isNotEmpty)
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          pastExpanded = !pastExpanded;
+                        });
+                      },
+                      child: ListTile(
+                        title: Text(
+                          appLocalization.translate('past'),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        trailing: Icon(
+                          pastExpanded
+                              ? Icons.arrow_drop_up_rounded
+                              : Icons.arrow_drop_down_rounded,
+                        ),
+                      ),
+                    ),
+                  if (pastTasks.isNotEmpty && pastExpanded)
+                    ...List.generate(
+                      pastTasks.length,
+                      (index) => TaskTile(
+                        task: pastTasks[index],
+                      ),
+                    ),
+                  if (todayTasks.isNotEmpty)
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          todayExpanded = !todayExpanded;
+                        });
+                      },
+                      child: ListTile(
+                        title: Text(
+                          appLocalization.translate('today'),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        trailing: Icon(
+                          todayExpanded
+                              ? Icons.arrow_drop_up_rounded
+                              : Icons.arrow_drop_down_rounded,
+                        ),
+                      ),
+                    ),
+                  if (todayTasks.isNotEmpty && todayExpanded)
+                    ...List.generate(
+                      todayTasks.length,
+                      (index) => TaskTile(
+                        task: todayTasks[index],
+                      ),
+                    ),
+                  if (futureTasks.isNotEmpty)
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          futureExpanded = !futureExpanded;
+                        });
+                      },
+                      child: ListTile(
+                        title: Text(
+                          appLocalization.translate('future'),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        trailing: Icon(
+                          futureExpanded
+                              ? Icons.arrow_drop_up_rounded
+                              : Icons.arrow_drop_down_rounded,
+                        ),
+                      ),
+                    ),
+                  if (futureTasks.isNotEmpty && futureExpanded)
+                    ...List.generate(
+                      futureTasks.length,
+                      (index) => TaskTile(
+                        task: futureTasks[index],
+                      ),
+                    ),
+                  const SizedBox(
+                    height: 500,
+                  ),
+                ],
+              );
+            } else {
+              return Container(
+                width: double.infinity,
+                height: 300,
+                decoration: BoxDecoration(
+                  color: Colors.grey,
+                  borderRadius: BorderRadius.circular(25),
+                ),
+              );
+            }
+          },
         );
-      } else {
-        return Container(
-          width: double.infinity,
-          height: 300,
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(25),
-          ),
-        );
-      }
-    });
+      },
+    );
   }
 }

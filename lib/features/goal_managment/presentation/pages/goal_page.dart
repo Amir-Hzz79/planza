@@ -24,7 +24,7 @@ class _GoalPageState extends State<GoalPage> {
       children: [
         BlocBuilder<GoalBloc, GoalState>(
           builder: (context, state) {
-            if (state is GoalLoadedState) {
+            if (state is GoalsLoadedState) {
               return GoalCounterSection(
                 goals: state.goals,
               );
@@ -48,7 +48,7 @@ class _GoalPageState extends State<GoalPage> {
         ),
         BlocBuilder<GoalBloc, GoalState>(
           builder: (context, state) {
-            if (state is GoalLoadedState) {
+            if (state is GoalsLoadedState) {
               return TaskChart(
                 goals: state.goals,
               );

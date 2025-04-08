@@ -7,7 +7,7 @@ class TaskModel {
   final int? id;
   final String title;
   final String? description;
-  final bool isCompleted;
+  bool isCompleted;
   final DateTime? dueDate;
   final int? priority;
   final int? parentTaskId;
@@ -42,6 +42,7 @@ class TaskModel {
   Task toEntity() {
     return Task(
       id: id ?? -1,
+      goalId: goal?.id,
       title: title,
       description: description,
       isCompleted: isCompleted,
@@ -53,9 +54,6 @@ class TaskModel {
 
   // Convert a TaskModel to a Task entity
   TasksCompanion toInsertCompanion() {
-    print('----------- Here -----------------');
-    print('----------- goal?.id:${goal?.id} -----------------');
-    print('----------- title:$title -----------------');
     return TasksCompanion(
       goalId: Value(goal?.id),
       title: Value(title),

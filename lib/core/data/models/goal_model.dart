@@ -24,6 +24,18 @@ class GoalModel {
 
   // Convert a Goal entity to a GoalModel
   factory GoalModel.fromEntity(Goal goalEntity, {List<Task> tasks = const []}) {
+    List<Task> sortTasks = [...tasks];
+    sortTasks.sort((a, b) {
+      if (a.dueDate == null && b.dueDate == null) {
+        return 0;
+      } else if (a.dueDate == null) {
+        return 1; // Null values go to the end
+      } else if (b.dueDate == null) {
+        return -1; // Null values go to the end
+      }
+      return a.dueDate!.compareTo(b.dueDate!); // Compare non-null dates
+    });
+
     return GoalModel(
       id: goalEntity.id,
       name: goalEntity.name,
@@ -31,7 +43,7 @@ class GoalModel {
       deadline: goalEntity.deadline,
       completed: goalEntity.completed,
       color: Color(goalEntity.color),
-      tasks: tasks.map((task) => TaskModel.fromEntity(task)).toList(),
+      tasks: sortTasks.map((task) => TaskModel.fromEntity(task)).toList(),
     );
   }
 
