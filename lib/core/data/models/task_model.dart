@@ -9,6 +9,7 @@ class TaskModel {
   final String? description;
   bool isCompleted;
   final DateTime? dueDate;
+  DateTime? doneDate;
   final int? priority;
   final int? parentTaskId;
   final GoalModel? goal;
@@ -19,6 +20,7 @@ class TaskModel {
     this.description,
     required this.isCompleted,
     this.dueDate,
+    this.doneDate,
     this.priority,
     this.parentTaskId,
     this.goal,
@@ -33,6 +35,7 @@ class TaskModel {
       description: taskEntity.description,
       isCompleted: taskEntity.isCompleted,
       dueDate: taskEntity.dueDate,
+      doneDate: taskEntity.doneDate,
       priority: taskEntity.priority,
       parentTaskId: taskEntity.parentTaskId,
     );
@@ -47,6 +50,7 @@ class TaskModel {
       description: description,
       isCompleted: isCompleted,
       dueDate: dueDate,
+      doneDate: doneDate,
       priority: priority,
       parentTaskId: parentTaskId,
     );
@@ -60,6 +64,7 @@ class TaskModel {
       description: Value(description),
       isCompleted: Value(isCompleted),
       dueDate: Value(dueDate),
+      doneDate: Value(doneDate),
       priority: Value(priority),
       parentTaskId: Value(parentTaskId),
     );

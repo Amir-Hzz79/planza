@@ -26,8 +26,10 @@ class _TasksPageState extends State<TasksPage> {
   bool pastExpanded = true;
   bool todayExpanded = true;
   bool futureExpanded = true;
+  bool recentCompletedExpand = true;
 
   GoalModel? selectedGoal;
+  final Duration recentDuration = Duration(days: 7);
 
   @override
   Widget build(BuildContext context) {
@@ -39,15 +41,30 @@ class _TasksPageState extends State<TasksPage> {
           builder: (context, goalsState) {
             if (taskState is TasksLoadedState &&
                 goalsState is GoalsLoadedState) {
-              final List<TaskModel> pastTasks =
-                  taskState.tasks.overdueTasks.filterOnGoal(selectedGoal?.id);
-              final List<TaskModel> todayTasks =
-                  taskState.tasks.tasksDueToday.filterOnGoal(selectedGoal?.id);
-              final List<TaskModel> futureTasks =
-                  taskState.tasks.upcomingTasks.filterOnGoal(selectedGoal?.id);
+              final List<TaskModel> pastTasks = taskState.tasks
+                  .filterOnGoal(selectedGoal?.id)
+                  .overdueTasks
+                  .incompleteTasks;
+              final List<TaskModel> todayTasks = taskState.tasks
+                  .filterOnGoal(selectedGoal?.id)
+                  .tasksDueToday
+                  .incompleteTasks;
+              final List<TaskModel> futureTasks = taskState.tasks
+                  .filterOnGoal(selectedGoal?.id)
+                  .upcomingTasks
+                  .incompleteTasks;
+              final List<TaskModel> recentCompletedTasks = selectedGoal == null
+                  ? taskState.tasks.recentTasks(recentDuration).completedTasks
+                  : selectedGoal!.tasks
+                      .recentTasks(recentDuration)
+                      .completedTasks;
 
-              final List<GoalModel> hasIncompleteTask =
-                  goalsState.goals.hasIncompleteTask;
+              final List<GoalModel> incompleteTaskGoals =
+                  goalsState.goals.incompleteTaskGoals;
+              final List<GoalModel> recentCompletedTaskGoals =
+                  goalsState.goals.recentCompletedTaskGoals(recentDuration);
+              final List<GoalModel> showingGoals =
+                  incompleteTaskGoals + recentCompletedTaskGoals;
 
               return ScrollableColumn(
                 children: [
@@ -57,38 +74,36 @@ class _TasksPageState extends State<TasksPage> {
                     child: ScrollableRow(
                       spacing: 5,
                       children: List.generate(
-                        hasIncompleteTask.length,
+                        showingGoals.length,
                         (index) => FilledButton(
                           onPressed: () {
                             setState(
                               () {
-                                if (selectedGoal == hasIncompleteTask[index]) {
+                                if (selectedGoal == showingGoals[index]) {
                                   selectedGoal = null;
                                 } else {
-                                  selectedGoal = hasIncompleteTask[index];
+                                  selectedGoal = showingGoals[index];
                                 }
                               },
                             );
                           },
                           style: FilledButton.styleFrom(
                             backgroundColor:
-                                selectedGoal?.id == hasIncompleteTask[index].id
-                                    ? hasIncompleteTask[index].color
+                                selectedGoal?.id == showingGoals[index].id
+                                    ? showingGoals[index].color
                                     : Theme.of(context)
                                         .colorScheme
                                         .surfaceContainer,
                             foregroundColor:
-                                selectedGoal?.id == hasIncompleteTask[index].id
-                                    ? hasIncompleteTask[index]
-                                        .color
-                                        .matchTextColor()
+                                selectedGoal?.id == showingGoals[index].id
+                                    ? showingGoals[index].color.matchTextColor()
                                     : Theme.of(context)
                                         .colorScheme
                                         .surfaceContainer
                                         .matchTextColor(),
                             minimumSize: Size(100, 45),
                           ),
-                          child: Text(hasIncompleteTask[index].name),
+                          child: Text(showingGoals[index].name),
                         ),
                       ),
                     ),
@@ -169,6 +184,32 @@ class _TasksPageState extends State<TasksPage> {
                       futureTasks.length,
                       (index) => TaskTile(
                         task: futureTasks[index],
+                      ),
+                    ),
+                  if (recentCompletedTasks.isNotEmpty)
+                    InkWell(
+                      onTap: () {
+                        setState(() {
+                          recentCompletedExpand = !recentCompletedExpand;
+                        });
+                      },
+                      child: ListTile(
+                        title: Text(
+                          appLocalization.translate('recent_done_tasks'),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                        trailing: Icon(
+                          recentCompletedExpand
+                              ? Icons.arrow_drop_up_rounded
+                              : Icons.arrow_drop_down_rounded,
+                        ),
+                      ),
+                    ),
+                  if (recentCompletedTasks.isNotEmpty && recentCompletedExpand)
+                    ...List.generate(
+                      recentCompletedTasks.length,
+                      (index) => TaskTile(
+                        task: recentCompletedTasks[index],
                       ),
                     ),
                   const SizedBox(

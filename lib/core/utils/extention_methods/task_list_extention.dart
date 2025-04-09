@@ -38,4 +38,17 @@ extension TaskListExtention on List<TaskModel> {
   List<TaskModel> get incompleteTasks => where(
         (task) => !task.isCompleted,
       ).toList();
+
+  List<TaskModel> recentTasks(Duration duration) => where(
+        (task) {
+          if (task.doneDate == null) {
+            return false;
+          }
+
+          return task.doneDate!.isAfter(
+                DateTime.now().subtract(duration),
+              ) &&
+              task.doneDate!.isBeforeToday();
+        },
+      ).toList();
 }

@@ -14,33 +14,59 @@ class TaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(vertical: 4, horizontal: 10),
-      child: ListTile(
-        tileColor: Theme.of(context).colorScheme.surfaceContainer,
-        shape: ContinuousRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
-        ),
-        leading: Checkbox(
-          value: task.isCompleted,
-          activeColor: task.goal?.color,
-          onChanged: (value) {
-            task.isCompleted = value!;
-            context.read<TaskBloc>().add(TaskUpdatedEvent(newTask: task));
+      child: Stack(
+        children: [
+          if (task.isCompleted)
+            Positioned(
+              top: 0,
+              left: 0,
+              bottom: 0,
+              right: 0,
+              child: Divider(
+                indent: 20,
+                endIndent: 20,
+              ),
+            ),
+          ListTile(
+            tileColor: Theme.of(context).colorScheme.surfaceContainer,
+            shape: ContinuousRectangleBorder(
+              borderRadius: BorderRadius.circular(30),
+            ),
+            leading: Checkbox(
+              value: task.isCompleted,
+              activeColor: task.goal?.color,
+              onChanged: (value) {
+                task.isCompleted = value!;
+                task.doneDate = DateTime.now();
+                context.read<TaskBloc>().add(TaskUpdatedEvent(newTask: task));
 
-            onCompleteStatusChanged?.call(value);
-          },
-        ),
-        title: Text(task.title),
-        subtitle: task.description != null ? Text(task.description!) : null,
-        trailing: task.dueDate != null
-            ? Text(
-                task.dueDate!.formatShortDate(),
-                style: TextStyle(
-                  color: task.dueDate?.isBeforeToday() ?? false
-                      ? Theme.of(context).colorScheme.error
-                      : null,
+                onCompleteStatusChanged?.call(value);
+              },
+            ),
+            title: Row(
+              children: [
+                CircleAvatar(
+                  backgroundColor: task.goal?.color,radius: 5,
                 ),
-              )
-            : null,
+                const SizedBox(
+                  width: 8,
+                ),
+                Text(task.title),
+              ],
+            ),
+            subtitle: task.description != null ? Text(task.description!) : null,
+            trailing: task.dueDate != null
+                ? Text(
+                    task.dueDate!.formatShortDate(),
+                    style: TextStyle(
+                      color: task.dueDate?.isBeforeToday() ?? false
+                          ? Theme.of(context).colorScheme.error
+                          : null,
+                    ),
+                  )
+                : null,
+          ),
+        ],
       ),
     );
   }

@@ -390,6 +390,12 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
   late final GeneratedColumn<DateTime> dueDate = GeneratedColumn<DateTime>(
       'due_date', aliasedName, true,
       type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _doneDateMeta =
+      const VerificationMeta('doneDate');
+  @override
+  late final GeneratedColumn<DateTime> doneDate = GeneratedColumn<DateTime>(
+      'done_date', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
   static const VerificationMeta _priorityMeta =
       const VerificationMeta('priority');
   @override
@@ -418,6 +424,7 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
         description,
         isCompleted,
         dueDate,
+        doneDate,
         priority,
         goalId,
         parentTaskId
@@ -457,6 +464,10 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
       context.handle(_dueDateMeta,
           dueDate.isAcceptableOrUnknown(data['due_date']!, _dueDateMeta));
     }
+    if (data.containsKey('done_date')) {
+      context.handle(_doneDateMeta,
+          doneDate.isAcceptableOrUnknown(data['done_date']!, _doneDateMeta));
+    }
     if (data.containsKey('priority')) {
       context.handle(_priorityMeta,
           priority.isAcceptableOrUnknown(data['priority']!, _priorityMeta));
@@ -490,6 +501,8 @@ class $TasksTable extends Tasks with TableInfo<$TasksTable, Task> {
           .read(DriftSqlType.bool, data['${effectivePrefix}is_completed'])!,
       dueDate: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}due_date']),
+      doneDate: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}done_date']),
       priority: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}priority']),
       goalId: attachedDatabase.typeMapping
@@ -511,6 +524,7 @@ class Task extends DataClass implements Insertable<Task> {
   final String? description;
   final bool isCompleted;
   final DateTime? dueDate;
+  final DateTime? doneDate;
   final int? priority;
   final int? goalId;
   final int? parentTaskId;
@@ -520,6 +534,7 @@ class Task extends DataClass implements Insertable<Task> {
       this.description,
       required this.isCompleted,
       this.dueDate,
+      this.doneDate,
       this.priority,
       this.goalId,
       this.parentTaskId});
@@ -534,6 +549,9 @@ class Task extends DataClass implements Insertable<Task> {
     map['is_completed'] = Variable<bool>(isCompleted);
     if (!nullToAbsent || dueDate != null) {
       map['due_date'] = Variable<DateTime>(dueDate);
+    }
+    if (!nullToAbsent || doneDate != null) {
+      map['done_date'] = Variable<DateTime>(doneDate);
     }
     if (!nullToAbsent || priority != null) {
       map['priority'] = Variable<int>(priority);
@@ -558,6 +576,9 @@ class Task extends DataClass implements Insertable<Task> {
       dueDate: dueDate == null && nullToAbsent
           ? const Value.absent()
           : Value(dueDate),
+      doneDate: doneDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(doneDate),
       priority: priority == null && nullToAbsent
           ? const Value.absent()
           : Value(priority),
@@ -578,6 +599,7 @@ class Task extends DataClass implements Insertable<Task> {
       description: serializer.fromJson<String?>(json['description']),
       isCompleted: serializer.fromJson<bool>(json['isCompleted']),
       dueDate: serializer.fromJson<DateTime?>(json['dueDate']),
+      doneDate: serializer.fromJson<DateTime?>(json['doneDate']),
       priority: serializer.fromJson<int?>(json['priority']),
       goalId: serializer.fromJson<int?>(json['goalId']),
       parentTaskId: serializer.fromJson<int?>(json['parentTaskId']),
@@ -592,6 +614,7 @@ class Task extends DataClass implements Insertable<Task> {
       'description': serializer.toJson<String?>(description),
       'isCompleted': serializer.toJson<bool>(isCompleted),
       'dueDate': serializer.toJson<DateTime?>(dueDate),
+      'doneDate': serializer.toJson<DateTime?>(doneDate),
       'priority': serializer.toJson<int?>(priority),
       'goalId': serializer.toJson<int?>(goalId),
       'parentTaskId': serializer.toJson<int?>(parentTaskId),
@@ -604,6 +627,7 @@ class Task extends DataClass implements Insertable<Task> {
           Value<String?> description = const Value.absent(),
           bool? isCompleted,
           Value<DateTime?> dueDate = const Value.absent(),
+          Value<DateTime?> doneDate = const Value.absent(),
           Value<int?> priority = const Value.absent(),
           Value<int?> goalId = const Value.absent(),
           Value<int?> parentTaskId = const Value.absent()}) =>
@@ -613,6 +637,7 @@ class Task extends DataClass implements Insertable<Task> {
         description: description.present ? description.value : this.description,
         isCompleted: isCompleted ?? this.isCompleted,
         dueDate: dueDate.present ? dueDate.value : this.dueDate,
+        doneDate: doneDate.present ? doneDate.value : this.doneDate,
         priority: priority.present ? priority.value : this.priority,
         goalId: goalId.present ? goalId.value : this.goalId,
         parentTaskId:
@@ -627,6 +652,7 @@ class Task extends DataClass implements Insertable<Task> {
       isCompleted:
           data.isCompleted.present ? data.isCompleted.value : this.isCompleted,
       dueDate: data.dueDate.present ? data.dueDate.value : this.dueDate,
+      doneDate: data.doneDate.present ? data.doneDate.value : this.doneDate,
       priority: data.priority.present ? data.priority.value : this.priority,
       goalId: data.goalId.present ? data.goalId.value : this.goalId,
       parentTaskId: data.parentTaskId.present
@@ -643,6 +669,7 @@ class Task extends DataClass implements Insertable<Task> {
           ..write('description: $description, ')
           ..write('isCompleted: $isCompleted, ')
           ..write('dueDate: $dueDate, ')
+          ..write('doneDate: $doneDate, ')
           ..write('priority: $priority, ')
           ..write('goalId: $goalId, ')
           ..write('parentTaskId: $parentTaskId')
@@ -652,7 +679,7 @@ class Task extends DataClass implements Insertable<Task> {
 
   @override
   int get hashCode => Object.hash(id, title, description, isCompleted, dueDate,
-      priority, goalId, parentTaskId);
+      doneDate, priority, goalId, parentTaskId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -662,6 +689,7 @@ class Task extends DataClass implements Insertable<Task> {
           other.description == this.description &&
           other.isCompleted == this.isCompleted &&
           other.dueDate == this.dueDate &&
+          other.doneDate == this.doneDate &&
           other.priority == this.priority &&
           other.goalId == this.goalId &&
           other.parentTaskId == this.parentTaskId);
@@ -673,6 +701,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
   final Value<String?> description;
   final Value<bool> isCompleted;
   final Value<DateTime?> dueDate;
+  final Value<DateTime?> doneDate;
   final Value<int?> priority;
   final Value<int?> goalId;
   final Value<int?> parentTaskId;
@@ -682,6 +711,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.description = const Value.absent(),
     this.isCompleted = const Value.absent(),
     this.dueDate = const Value.absent(),
+    this.doneDate = const Value.absent(),
     this.priority = const Value.absent(),
     this.goalId = const Value.absent(),
     this.parentTaskId = const Value.absent(),
@@ -692,6 +722,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     this.description = const Value.absent(),
     this.isCompleted = const Value.absent(),
     this.dueDate = const Value.absent(),
+    this.doneDate = const Value.absent(),
     this.priority = const Value.absent(),
     this.goalId = const Value.absent(),
     this.parentTaskId = const Value.absent(),
@@ -702,6 +733,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
     Expression<String>? description,
     Expression<bool>? isCompleted,
     Expression<DateTime>? dueDate,
+    Expression<DateTime>? doneDate,
     Expression<int>? priority,
     Expression<int>? goalId,
     Expression<int>? parentTaskId,
@@ -712,6 +744,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       if (description != null) 'description': description,
       if (isCompleted != null) 'is_completed': isCompleted,
       if (dueDate != null) 'due_date': dueDate,
+      if (doneDate != null) 'done_date': doneDate,
       if (priority != null) 'priority': priority,
       if (goalId != null) 'goal_id': goalId,
       if (parentTaskId != null) 'parent_task_id': parentTaskId,
@@ -724,6 +757,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       Value<String?>? description,
       Value<bool>? isCompleted,
       Value<DateTime?>? dueDate,
+      Value<DateTime?>? doneDate,
       Value<int?>? priority,
       Value<int?>? goalId,
       Value<int?>? parentTaskId}) {
@@ -733,6 +767,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
       description: description ?? this.description,
       isCompleted: isCompleted ?? this.isCompleted,
       dueDate: dueDate ?? this.dueDate,
+      doneDate: doneDate ?? this.doneDate,
       priority: priority ?? this.priority,
       goalId: goalId ?? this.goalId,
       parentTaskId: parentTaskId ?? this.parentTaskId,
@@ -757,6 +792,9 @@ class TasksCompanion extends UpdateCompanion<Task> {
     if (dueDate.present) {
       map['due_date'] = Variable<DateTime>(dueDate.value);
     }
+    if (doneDate.present) {
+      map['done_date'] = Variable<DateTime>(doneDate.value);
+    }
     if (priority.present) {
       map['priority'] = Variable<int>(priority.value);
     }
@@ -777,6 +815,7 @@ class TasksCompanion extends UpdateCompanion<Task> {
           ..write('description: $description, ')
           ..write('isCompleted: $isCompleted, ')
           ..write('dueDate: $dueDate, ')
+          ..write('doneDate: $doneDate, ')
           ..write('priority: $priority, ')
           ..write('goalId: $goalId, ')
           ..write('parentTaskId: $parentTaskId')
@@ -1940,6 +1979,7 @@ typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
   Value<String?> description,
   Value<bool> isCompleted,
   Value<DateTime?> dueDate,
+  Value<DateTime?> doneDate,
   Value<int?> priority,
   Value<int?> goalId,
   Value<int?> parentTaskId,
@@ -1950,6 +1990,7 @@ typedef $$TasksTableUpdateCompanionBuilder = TasksCompanion Function({
   Value<String?> description,
   Value<bool> isCompleted,
   Value<DateTime?> dueDate,
+  Value<DateTime?> doneDate,
   Value<int?> priority,
   Value<int?> goalId,
   Value<int?> parentTaskId,
@@ -2024,6 +2065,9 @@ class $$TasksTableFilterComposer extends Composer<_$AppDatabase, $TasksTable> {
 
   ColumnFilters<DateTime> get dueDate => $composableBuilder(
       column: $table.dueDate, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get doneDate => $composableBuilder(
+      column: $table.doneDate, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<int> get priority => $composableBuilder(
       column: $table.priority, builder: (column) => ColumnFilters(column));
@@ -2118,6 +2162,9 @@ class $$TasksTableOrderingComposer
   ColumnOrderings<DateTime> get dueDate => $composableBuilder(
       column: $table.dueDate, builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<DateTime> get doneDate => $composableBuilder(
+      column: $table.doneDate, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<int> get priority => $composableBuilder(
       column: $table.priority, builder: (column) => ColumnOrderings(column));
 
@@ -2169,6 +2216,9 @@ class $$TasksTableAnnotationComposer
 
   GeneratedColumn<DateTime> get dueDate =>
       $composableBuilder(column: $table.dueDate, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get doneDate =>
+      $composableBuilder(column: $table.doneDate, builder: (column) => column);
 
   GeneratedColumn<int> get priority =>
       $composableBuilder(column: $table.priority, builder: (column) => column);
@@ -2268,6 +2318,7 @@ class $$TasksTableTableManager extends RootTableManager<
             Value<String?> description = const Value.absent(),
             Value<bool> isCompleted = const Value.absent(),
             Value<DateTime?> dueDate = const Value.absent(),
+            Value<DateTime?> doneDate = const Value.absent(),
             Value<int?> priority = const Value.absent(),
             Value<int?> goalId = const Value.absent(),
             Value<int?> parentTaskId = const Value.absent(),
@@ -2278,6 +2329,7 @@ class $$TasksTableTableManager extends RootTableManager<
             description: description,
             isCompleted: isCompleted,
             dueDate: dueDate,
+            doneDate: doneDate,
             priority: priority,
             goalId: goalId,
             parentTaskId: parentTaskId,
@@ -2288,6 +2340,7 @@ class $$TasksTableTableManager extends RootTableManager<
             Value<String?> description = const Value.absent(),
             Value<bool> isCompleted = const Value.absent(),
             Value<DateTime?> dueDate = const Value.absent(),
+            Value<DateTime?> doneDate = const Value.absent(),
             Value<int?> priority = const Value.absent(),
             Value<int?> goalId = const Value.absent(),
             Value<int?> parentTaskId = const Value.absent(),
@@ -2298,6 +2351,7 @@ class $$TasksTableTableManager extends RootTableManager<
             description: description,
             isCompleted: isCompleted,
             dueDate: dueDate,
+            doneDate: doneDate,
             priority: priority,
             goalId: goalId,
             parentTaskId: parentTaskId,

@@ -21,5 +21,6 @@
     "description": "توضیحات",
     "past": "گذشته",
     "today": "امروز",
-    "future": "آینده"
+    "future": "آینده",
+    "recent_done_tasks": "کارهای انجام شده اخیر"
 }

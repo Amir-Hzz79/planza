@@ -50,6 +50,7 @@ class Tasks extends Table {
   TextColumn get description => text().nullable()();
   BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
   DateTimeColumn get dueDate => dateTime().nullable()();
+  DateTimeColumn get doneDate => dateTime().nullable()();
   IntColumn get priority => integer().nullable()();
   IntColumn get goalId =>
       integer().nullable().customConstraint('REFERENCES goals(id)')();

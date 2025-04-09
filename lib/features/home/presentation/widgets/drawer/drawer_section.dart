@@ -46,8 +46,8 @@ class _DrawerSectionState extends State<DrawerSection> {
                             builder: (context, state) {
                               return Icon(
                                 state is DarkModeState
-                                    ? Icons.dark_mode_rounded
-                                    : Icons.light_mode_rounded,
+                                    ? Icons.light_mode_rounded
+                                    : Icons.dark_mode_rounded,
                               );
                             }),
                       ),
