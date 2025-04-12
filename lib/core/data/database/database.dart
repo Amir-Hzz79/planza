@@ -129,6 +129,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Jog every morning"),
       isCompleted: Value(true),
       dueDate: Value(DateTime(2025, 3, 1)),
+      doneDate: Value(DateTime(2025, 3, 4)),
       priority: Value(1),
       parentTaskId: Value(null),
     ));
@@ -140,6 +141,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Strength training"),
       isCompleted: Value(true),
       dueDate: Value(DateTime(2025, 3, 17)),
+      doneDate: Value(DateTime(2025, 3, 20)),
       priority: Value(2),
       parentTaskId: Value(null),
     ));
@@ -151,6 +153,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Read a new fiction book"),
       isCompleted: Value(true),
       dueDate: Value(DateTime(2025, 3, 20)),
+      doneDate: Value(DateTime(2025, 3, 20)),
       priority: Value(2),
       parentTaskId: Value(null),
     ));
@@ -217,6 +220,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Bake a chocolate cake for dessert"),
       isCompleted: Value(true),
       dueDate: Value(DateTime(2025, 4, 5)),
+      doneDate: Value(DateTime(2025, 4, 4)),
       priority: Value(1),
       parentTaskId: Value(6),
     ));

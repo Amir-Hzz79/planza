@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart' show Value;
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 
 import '../database/database.dart' show Goal, Task, TasksCompanion;
 
@@ -12,7 +13,19 @@ class TaskModel {
   DateTime? doneDate;
   final int? priority;
   final int? parentTaskId;
-  final GoalModel? goal;
+  GoalModel? goal;
+
+  bool get isOverdue {
+    if (dueDate == null) {
+      return false;
+    }
+
+    return doneDate != null
+        ? doneDate!.isAfter(dueDate!)
+        : dueDate!.isBeforeToday();
+  }
+
+  int? get daysLeft => dueDate?.difference(DateTime.now()).inDays;
 
   TaskModel({
     this.id,

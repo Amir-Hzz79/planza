@@ -109,6 +109,10 @@ class _TasksPageState extends State<TasksPage> {
                     ),
                   ),
                   if (pastTasks.isNotEmpty)
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  if (pastTasks.isNotEmpty)
                     InkWell(
                       onTap: () {
                         setState(() {
@@ -133,6 +137,10 @@ class _TasksPageState extends State<TasksPage> {
                       (index) => TaskTile(
                         task: pastTasks[index],
                       ),
+                    ),
+                  if (todayTasks.isNotEmpty)
+                    const SizedBox(
+                      height: 10,
                     ),
                   if (todayTasks.isNotEmpty)
                     InkWell(
@@ -161,6 +169,10 @@ class _TasksPageState extends State<TasksPage> {
                       ),
                     ),
                   if (futureTasks.isNotEmpty)
+                    const SizedBox(
+                      height: 10,
+                    ),
+                  if (futureTasks.isNotEmpty)
                     InkWell(
                       onTap: () {
                         setState(() {
@@ -185,6 +197,10 @@ class _TasksPageState extends State<TasksPage> {
                       (index) => TaskTile(
                         task: futureTasks[index],
                       ),
+                    ),
+                  if (recentCompletedTasks.isNotEmpty)
+                    const SizedBox(
+                      height: 10,
                     ),
                   if (recentCompletedTasks.isNotEmpty)
                     InkWell(

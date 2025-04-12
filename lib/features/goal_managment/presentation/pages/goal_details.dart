@@ -103,8 +103,8 @@ class GoalDetails extends StatelessWidget {
                   ),
                   ...goal.tasks.map(
                     (task) => TaskTile(
-                      task: task,
-                    ),
+                        task: task..goal = goal,
+                      ),
                   ),
                 ],
               );
