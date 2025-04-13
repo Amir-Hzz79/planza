@@ -47,8 +47,8 @@ extension TaskListExtention on List<TaskModel> {
 
           return task.doneDate!.isAfter(
                 DateTime.now().subtract(duration),
-              ) &&
-              task.doneDate!.isBeforeToday();
+              ) /* &&
+              task.doneDate!.isBeforeToday() */;
         },
       ).toList();
 }

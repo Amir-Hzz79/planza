@@ -14,6 +14,10 @@
     "add": "Add",
     "tasks": "Tasks",
     "add_task": "Add a new task",
+    "task.title": "Title",
+    "task.dueDate": "DueDate",
+    "task.doneDate": "DoneDate",
+    "status": "Status",
     "deadline": "Deadline",
     "start_date": "Start Time",
     "end_date": "End Time",
@@ -22,5 +26,9 @@
     "past": "Previous",
     "today": "Today",
     "future": "Future",
+    "overdue_done": "OverDue Done",
+    "done": "Done",
+    "days_left": "Days Left",
+    "days_overdue": "Days Overdue",
     "recent_done_tasks": "Recent Done Tasks"
 }

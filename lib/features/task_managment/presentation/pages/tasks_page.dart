@@ -53,11 +53,10 @@ class _TasksPageState extends State<TasksPage> {
                   .filterOnGoal(selectedGoal?.id)
                   .upcomingTasks
                   .incompleteTasks;
-              final List<TaskModel> recentCompletedTasks = selectedGoal == null
-                  ? taskState.tasks.recentTasks(recentDuration).completedTasks
-                  : selectedGoal!.tasks
-                      .recentTasks(recentDuration)
-                      .completedTasks;
+              final List<TaskModel> recentCompletedTasks = taskState.tasks
+                  .filterOnGoal(selectedGoal?.id)
+                  .recentTasks(recentDuration)
+                  .completedTasks;
 
               final List<GoalModel> incompleteTaskGoals =
                   goalsState.goals.incompleteTaskGoals;

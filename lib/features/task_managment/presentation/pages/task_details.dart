@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/task_model.dart';
+import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 
 import '../../../../core/widgets/buttons/circle_back_button.dart';
@@ -14,6 +15,8 @@ class TaskDetails extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context);
+
     return SafeArea(
       child: Scaffold(
         body: BlocBuilder<TaskBloc, TaskState>(
@@ -43,24 +46,24 @@ class TaskDetails extends StatelessWidget {
                   ),
                   ListTile(
                     leading: Icon(Icons.title_rounded),
-                    title: Text('Title'),
+                    title: Text(appLocalization.translate('task.title')),
                     trailing: Text(task.title),
                   ),
                   if (task.dueDate != null)
                     ListTile(
                       leading: Icon(Icons.timelapse_rounded),
-                      title: Text('DueDate'),
+                      title: Text(appLocalization.translate('task.dueDate')),
                       trailing: Text(task.dueDate!.formatShortDate()),
                     ),
-                  ListTile(
-                    leading: Icon(Icons.timelapse_rounded),
-                    title: Text('DoneDate'),
-                    trailing:
-                        Text(task.doneDate?.formatShortDate() ?? 'In progress'),
-                  ),
+                  if (task.doneDate != null)
+                    ListTile(
+                      leading: Icon(Icons.timelapse_rounded),
+                      title: Text(appLocalization.translate('task.doneDate')),
+                      trailing: Text(task.doneDate!.formatShortDate()),
+                    ),
                   ListTile(
                     leading: Icon(Icons.golf_course_rounded),
-                    title: Text('Goal'),
+                    title: Text(appLocalization.translate('goal')),
                     trailing: SizedBox(
                       width: 200,
                       child: Row(
@@ -85,15 +88,15 @@ class TaskDetails extends StatelessWidget {
                                 : Icons.warning_rounded
                             : Icons.commit_rounded,
                       ),
-                      title: Text('Status'),
+                      title: Text(appLocalization.translate('status')),
                       trailing: Text(
                         task.isCompleted
                             ? task.daysLeft!.isNegative
-                                ? 'Overdue Done'
-                                : 'Done'
+                                ? appLocalization.translate('overdue_done')
+                                : appLocalization.translate('done')
                             : task.daysLeft!.isNegative
-                                ? '${task.daysLeft!.abs()} Days Overdue'
-                                : '${task.daysLeft} Days Left',
+                                ? '${task.daysLeft!.abs()} ${appLocalization.translate('days_overdue')}'
+                                : '${task.daysLeft} ${appLocalization.translate('days_left')}',
                       ),
                     ),
                 ],

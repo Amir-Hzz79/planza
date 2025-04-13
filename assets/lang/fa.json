@@ -13,6 +13,10 @@
     "title": "عنوان",
     "add": "اضافش کن",
     "tasks": "کارها",
+    "task.title": "عنوان",
+    "task.dueDate": "موعد",
+    "task.doneDate": "تاریخ انجام",
+    "status": "وضعیت",
     "add_task": "اضافه کردن کار جدید",
     "deadline": "موعد",
     "start_date": "از تاریخ",
@@ -22,5 +26,9 @@
     "past": "گذشته",
     "today": "امروز",
     "future": "آینده",
+    "overdue_done": "انجام شده بعد از موعد",
+    "done": "انجام شده",
+    "days_left": "روز مانده",
+    "days_overdue": "روز گذشته از موعد",
     "recent_done_tasks": "کارهای انجام شده اخیر"
 }
