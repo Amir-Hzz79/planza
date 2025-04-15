@@ -5,6 +5,7 @@ import 'package:planza/core/data/models/task_model.dart';
 
 import '../../../../core/locale/app_localization.dart';
 import '../../../../core/widgets/date_picker/date_picker.dart';
+import '../../../../core/widgets/scrollables/scrollable_row.dart';
 import '../../../../core/widgets/text_fields/removable_text_field.dart';
 import '../../bloc/task_bloc.dart';
 import 'goal_selection.dart';
@@ -29,7 +30,6 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
       dueDate: selectedDateTime,
       description: _descriptionController.text,
       goal: selectedGoal,
-      isCompleted: false,
     );
 
     context.read<TaskBloc>().add(TaskAddedEvent(newTask: task));
@@ -52,7 +52,7 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
     return Form(
       key: _formKey,
       child: Column(
-        spacing: 20,
+        spacing: 15,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
@@ -77,23 +77,27 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
               return null;
             },
           ),
-          Row(
-            spacing: 5,
+          ScrollableRow(
+            spacing: 10,
             children: [
-              DatePicker(
-                title: appLocalizations.translate('deadline'),
-                onChange: (selectedDate) => selectedDateTime = selectedDate,
-              ),
               GoalSelection(
+                iconMode: true,
                 onChanged: (selectedGoal) {
                   this.selectedGoal = selectedGoal;
                 },
+              ),
+              DatePicker(
+                showSelectedDate: false,
+                showIconWhenDateSelected: true,
+                showRemoveIcon: false,
+                onChange: (selectedDate) => selectedDateTime = selectedDate,
               ),
               InkWell(
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
                   setState(() {
-                    showDescription = true;
+                    showDescription = !showDescription;
+                    _descriptionController.text = '';
                   });
                 },
                 child: Container(
@@ -102,7 +106,13 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
                     color: Theme.of(context).colorScheme.surfaceContainer,
                     borderRadius: BorderRadius.circular(20),
                   ),
-                  child: Row(
+                  child: Icon(
+                    Icons.add_rounded,
+                    color: showDescription
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.grey,
+                    /*   size: 15, */
+                  ), /* Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
@@ -115,13 +125,13 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
                         style: Theme.of(context).textTheme.labelSmall,
                       ),
                     ],
-                  ),
+                  ), */
                 ),
               )
             ],
           ),
           AnimatedSwitcher(
-            duration: Duration(milliseconds: 300),
+            duration: Duration(milliseconds: 200),
             transitionBuilder: (widget, animation) =>
                 FadeTransition(opacity: animation, child: widget),
             child: showDescription
@@ -137,16 +147,6 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
                   )
                 : null,
           ),
-          /* if (showDescription)
-            RemovableTextField(
-              controller: _descriptionController,
-              hintText: appLocalizations.translate('description'),
-              onRemove: () {
-                setState(() {
-                  showDescription = false;
-                });
-              },
-            ), */
           SizedBox(
             width: double.infinity,
             child: FilledButton(

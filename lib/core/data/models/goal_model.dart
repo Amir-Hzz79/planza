@@ -22,6 +22,16 @@ class GoalModel {
     this.tasks = const [],
   });
 
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is GoalModel &&
+          runtimeType == other.runtimeType &&
+          id == other.id; // Ensure uniqueness based on ID
+
+  @override
+  int get hashCode => id.hashCode;
+
   // Convert a Goal entity to a GoalModel
   factory GoalModel.fromEntity(Goal goalEntity, {List<Task> tasks = const []}) {
     List<Task> sortTasks = [...tasks];

@@ -57,6 +57,7 @@ class HomePageAppBar extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
               InkWell(
+                borderRadius: BorderRadius.circular(50),
                 onTap: () {
                   Navigator.of(context).push(
                     ModalBottomSheetRoute(

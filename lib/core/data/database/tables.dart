@@ -48,7 +48,6 @@ class Tasks extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get title => text().withLength(min: 1, max: 255)();
   TextColumn get description => text().nullable()();
-  BoolColumn get isCompleted => boolean().withDefault(const Constant(false))();
   DateTimeColumn get dueDate => dateTime().nullable()();
   DateTimeColumn get doneDate => dateTime().nullable()();
   IntColumn get priority => integer().nullable()();

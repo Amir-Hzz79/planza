@@ -17,7 +17,7 @@ final ColorScheme lightColorScheme = ColorScheme(
   surface: Color(0xFFFFFFFF),
   onSurface: Color(0xFF1E293B),
   onSurfaceVariant: Color(0xFF5C6BC0),
-  surfaceContainer: Color(0xFFFCFCFC),
+  surfaceContainer: Color(0xFFF8F8F8),
   outline: Color(0xFF90A4AE),
   error: Color(0xFFB00020),
   onError: Colors.white,

@@ -1,12 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 
-import '../../locale/app_localization.dart';
-
 class DatePicker extends StatefulWidget {
-  const DatePicker({super.key, required this.title, required this.onChange});
+  const DatePicker({
+    super.key,
+    this.initialDate,
+    this.title,
+    required this.onChange,
+    this.showRemoveIcon = true,
+    this.showSelectedDate = true,
+    this.showIconWhenDateSelected = false,
+    this.iconSize,
+  });
 
-  final String title;
+  final DateTime? initialDate;
+  final String? title;
+  final double? iconSize;
+  final bool showIconWhenDateSelected;
+  final bool showRemoveIcon;
+  final bool showSelectedDate;
   final void Function(DateTime? selectedDate) onChange;
 
   @override
@@ -15,6 +27,12 @@ class DatePicker extends StatefulWidget {
 
 class _DatePickerState extends State<DatePicker> {
   DateTime? selectedDate;
+
+  @override
+  void initState() {
+    selectedDate = widget.initialDate;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,20 +61,26 @@ class _DatePickerState extends State<DatePicker> {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              Icons.timelapse_rounded,
-              color: Colors.grey,
-              size: 15,
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            Text(
-              selectedDate?.formatShortDate() ??
-                  AppLocalizations.of(context).translate('task.dueDate'),
-              style: Theme.of(context).textTheme.labelSmall,
-            ),
-            if (selectedDate != null)
+            if (selectedDate == null ? true : widget.showIconWhenDateSelected)
+              Icon(
+                Icons.more_time_rounded,
+                color: selectedDate == null
+                    ? Colors.grey
+                    : Theme.of(context).colorScheme.primary,
+                size: widget.iconSize,
+              ),
+            if ((selectedDate != null || widget.title != null) &&
+                widget.showSelectedDate)
+              const SizedBox(
+                width: 5,
+              ),
+            if ((selectedDate != null || widget.title != null) &&
+                widget.showSelectedDate)
+              Text(
+                selectedDate?.formatShortDate() ?? widget.title ?? '',
+                style: Theme.of(context).textTheme.labelSmall,
+              ),
+            if (selectedDate != null && widget.showRemoveIcon)
               InkWell(
                 borderRadius: BorderRadius.circular(50),
                 onTap: () {

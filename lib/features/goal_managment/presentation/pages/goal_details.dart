@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/locale/app_localization.dart';
-import 'package:planza/core/utils/extention_methods/color_extention.dart';
-import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
+
 import 'package:planza/core/widgets/buttons/circle_back_button.dart';
 import 'package:planza/core/widgets/scrollables/scrollable_column.dart';
 import 'package:planza/features/task_managment/bloc/task_bloc.dart';
@@ -35,60 +34,10 @@ class GoalDetails extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: AppBar(
                       leading: CircleBackButton(),
-                      title: Container(
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                        decoration: BoxDecoration(
-                          color: goal.color,
-                          borderRadius: BorderRadius.circular(50),
-                        ),
-                        child: Text(
-                          goal.name,
-                          style: TextStyle(
-                            color: goal.color.matchTextColor(),
-                          ),
-                        ),
+                      title: Text(
+                        goal.name,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                      actions: [
-                        if (goal.deadline != null)
-                          Container(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 10),
-                            decoration: BoxDecoration(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onInverseSurface,
-                              borderRadius: BorderRadius.circular(50),
-                            ),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Column(
-                                  children: [
-                                    Text(
-                                      goal.deadline!.formatShortDate(),
-                                      style: TextStyle(
-                                        /* color: goal.color.matchTextColor(), */
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                    Text(
-                                      '${goal.deadline!.difference(DateTime.now()).inDays.toString()} Days Left',
-                                      style: TextStyle(
-                                        /* color: goal.color.matchTextColor(), */
-                                        fontSize: 12,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                const SizedBox(
-                                  width: 5,
-                                ),
-                                Icon(Icons.timelapse_rounded),
-                              ],
-                            ),
-                          ),
-                      ],
                     ),
                   ),
                   const SizedBox(
@@ -103,8 +52,8 @@ class GoalDetails extends StatelessWidget {
                   ),
                   ...goal.tasks.map(
                     (task) => TaskTile(
-                        task: task..goal = goal,
-                      ),
+                      task: task..goal = goal,
+                    ),
                   ),
                 ],
               );

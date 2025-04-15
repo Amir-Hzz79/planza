@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/goal_model.dart';
-import 'package:planza/core/locale/app_localization.dart';
 
+import '../../../../core/locale/app_localization.dart';
 import '../../../goal_managment/bloc/goal_bloc.dart';
 
 class GoalSelection extends StatefulWidget {
-  const GoalSelection({super.key, required this.onChanged, this.validator});
+  const GoalSelection({
+    super.key,
+    this.initialGoal,
+    this.iconMode = false,
+    required this.onChanged,
+    this.validator,
+  });
 
+  final GoalModel? initialGoal;
+  final bool iconMode;
   final void Function(GoalModel? selectedGoal) onChanged;
   final String? Function(GoalModel?)? validator;
 
@@ -17,6 +25,12 @@ class GoalSelection extends StatefulWidget {
 
 class _GoalSelectionState extends State<GoalSelection> {
   GoalModel? selectedGoal;
+
+  @override
+  void initState() {
+    selectedGoal = widget.initialGoal;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -93,23 +107,29 @@ class _GoalSelectionState extends State<GoalSelection> {
               color: Theme.of(context).colorScheme.surfaceContainer,
               borderRadius: BorderRadius.circular(20),
             ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              spacing: 5,
-              children: [
-                CircleAvatar(
-                  radius: 5,
-                  backgroundColor:
-                      selectedGoal == null ? Colors.grey : selectedGoal!.color,
-                ),
-                Text(
-                  selectedGoal?.name ??
-                      AppLocalizations.of(context).translate('goal'),
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.labelSmall,
-                ),
-              ],
-            ),
+            child: widget.iconMode
+                ? Icon(
+                    Icons.golf_course_rounded,
+                    color: selectedGoal?.color ?? Colors.grey,
+                  )
+                : Row(
+                    mainAxisSize: MainAxisSize.min,
+                    spacing: 5,
+                    children: [
+                      CircleAvatar(
+                        radius: 5,
+                        backgroundColor: selectedGoal == null
+                            ? Colors.grey
+                            : selectedGoal!.color,
+                      ),
+                      Text(
+                        selectedGoal?.name ??
+                            AppLocalizations.of(context).translate('goal'),
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ],
+                  ),
           ),
         );
       } else if (state is GoalErrorState) {

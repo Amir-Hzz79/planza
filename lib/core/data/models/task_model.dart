@@ -6,10 +6,10 @@ import '../database/database.dart' show Goal, Task, TasksCompanion;
 
 class TaskModel {
   final int? id;
-  final String title;
-  final String? description;
-  bool isCompleted;
-  final DateTime? dueDate;
+  String title;
+  String? description;
+  bool get isCompleted => doneDate != null;
+  DateTime? dueDate;
   DateTime? doneDate;
   final int? priority;
   final int? parentTaskId;
@@ -31,7 +31,6 @@ class TaskModel {
     this.id,
     required this.title,
     this.description,
-    required this.isCompleted,
     this.dueDate,
     this.doneDate,
     this.priority,
@@ -46,7 +45,6 @@ class TaskModel {
       goal: goal == null ? null : GoalModel.fromEntity(goal),
       title: taskEntity.title,
       description: taskEntity.description,
-      isCompleted: taskEntity.isCompleted,
       dueDate: taskEntity.dueDate,
       doneDate: taskEntity.doneDate,
       priority: taskEntity.priority,
@@ -61,7 +59,6 @@ class TaskModel {
       goalId: goal?.id,
       title: title,
       description: description,
-      isCompleted: isCompleted,
       dueDate: dueDate,
       doneDate: doneDate,
       priority: priority,
@@ -75,7 +72,6 @@ class TaskModel {
       goalId: Value(goal?.id),
       title: Value(title),
       description: Value(description),
-      isCompleted: Value(isCompleted),
       dueDate: Value(dueDate),
       doneDate: Value(doneDate),
       priority: Value(priority),

@@ -59,7 +59,9 @@ class _TasksPageState extends State<TasksPage> {
               final List<GoalModel> recentCompletedTaskGoals =
                   goalsState.goals.recentCompletedTaskGoals(recentDuration);
               final List<GoalModel> showingGoals =
-                  incompleteTaskGoals + recentCompletedTaskGoals;
+                  (incompleteTaskGoals + recentCompletedTaskGoals)
+                      .toSet()
+                      .toList();
               showingGoals.sort(
                 (a, b) => a.id.compareTo(b.id),
               );
