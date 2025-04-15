@@ -74,7 +74,7 @@ class TaskDetails extends StatelessWidget {
                             radius: 5,
                             backgroundColor: task.goal?.color,
                           ),
-                          Text(task.goal?.name ?? ''),
+                          Text(task.goal?.name ?? appLocalization.translate('no_goal')),
                         ],
                       ),
                     ),

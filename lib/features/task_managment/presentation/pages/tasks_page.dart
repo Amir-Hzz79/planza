@@ -41,20 +41,16 @@ class _TasksPageState extends State<TasksPage> {
           builder: (context, goalsState) {
             if (taskState is TasksLoadedState &&
                 goalsState is GoalsLoadedState) {
-              final List<TaskModel> pastTasks = taskState.tasks
-                  .filterOnGoal(selectedGoal?.id)
-                  .overdueTasks
-                  .incompleteTasks;
-              final List<TaskModel> todayTasks = taskState.tasks
-                  .filterOnGoal(selectedGoal?.id)
-                  .tasksDueToday
-                  .incompleteTasks;
-              final List<TaskModel> futureTasks = taskState.tasks
-                  .filterOnGoal(selectedGoal?.id)
-                  .upcomingTasks
-                  .incompleteTasks;
-              final List<TaskModel> recentCompletedTasks = taskState.tasks
-                  .filterOnGoal(selectedGoal?.id)
+              final List<TaskModel> filteredTasksOnGoal =
+                  taskState.tasks.filterOnGoal(selectedGoal?.id);
+
+              final List<TaskModel> pastTasks =
+                  filteredTasksOnGoal.overdueTasks.incompleteTasks;
+              final List<TaskModel> todayTasks =
+                  filteredTasksOnGoal.tasksDueToday.incompleteTasks;
+              final List<TaskModel> futureTasks =
+                  filteredTasksOnGoal.upcomingTasks.incompleteTasks;
+              final List<TaskModel> recentCompletedTasks = filteredTasksOnGoal
                   .recentTasks(recentDuration)
                   .completedTasks;
 
@@ -64,6 +60,9 @@ class _TasksPageState extends State<TasksPage> {
                   goalsState.goals.recentCompletedTaskGoals(recentDuration);
               final List<GoalModel> showingGoals =
                   incompleteTaskGoals + recentCompletedTaskGoals;
+              showingGoals.sort(
+                (a, b) => a.id.compareTo(b.id),
+              );
 
               return ScrollableColumn(
                 children: [

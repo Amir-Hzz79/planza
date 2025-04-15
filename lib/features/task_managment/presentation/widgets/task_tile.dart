@@ -40,8 +40,7 @@ class TaskTile extends StatelessWidget {
             child: ListTile(
               tileColor: Theme.of(context).colorScheme.surfaceContainer,
               shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(15),
               ),
               leading: Checkbox(
                 value: task.isCompleted,
@@ -55,15 +54,21 @@ class TaskTile extends StatelessWidget {
                 },
               ),
               title: Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   CircleAvatar(
-                    backgroundColor: task.goal?.color,
+                    backgroundColor: task.goal?.color ?? Colors.grey,
                     radius: 5,
                   ),
                   const SizedBox(
                     width: 8,
                   ),
-                  Text(task.title),
+                  Expanded(
+                    child: Text(
+                      task.title,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
                 ],
               ),
               /* subtitle: task.description != null ? Text(task.description!) : null, */
@@ -74,6 +79,7 @@ class TaskTile extends StatelessWidget {
                         color: task.isOverdue
                             ? Theme.of(context).colorScheme.error
                             : null,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     )
                   : null,

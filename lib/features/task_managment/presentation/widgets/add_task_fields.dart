@@ -5,6 +5,7 @@ import 'package:planza/core/data/models/task_model.dart';
 
 import '../../../../core/locale/app_localization.dart';
 import '../../../../core/widgets/date_picker/date_picker.dart';
+import '../../../../core/widgets/text_fields/removable_text_field.dart';
 import '../../bloc/task_bloc.dart';
 import 'goal_selection.dart';
 
@@ -42,6 +43,7 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
 
   GoalModel? selectedGoal;
   DateTime? selectedDateTime;
+  bool showDescription = false;
 
   @override
   Widget build(BuildContext context) {
@@ -75,23 +77,76 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
               return null;
             },
           ),
-          DatePicker(
-            title: appLocalizations.translate('deadline'),
-            onChange: (selectedDate) => selectedDateTime = selectedDate,
-          ),
-          GoalSelection(
-            onChanged: (selectedGoal) {
-              this.selectedGoal = selectedGoal;
-            },
-          ),
-          TextFormField(
-            controller: _descriptionController,
-            decoration: InputDecoration(
-              label: Text(
-                appLocalizations.translate('description'),
+          Row(
+            spacing: 5,
+            children: [
+              DatePicker(
+                title: appLocalizations.translate('deadline'),
+                onChange: (selectedDate) => selectedDateTime = selectedDate,
               ),
-            ),
+              GoalSelection(
+                onChanged: (selectedGoal) {
+                  this.selectedGoal = selectedGoal;
+                },
+              ),
+              InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () {
+                  setState(() {
+                    showDescription = true;
+                  });
+                },
+                child: Container(
+                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).colorScheme.surfaceContainer,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.add_rounded,
+                        size: 15,
+                      ),
+                      Text(
+                        appLocalizations.translate('description'),
+                        overflow: TextOverflow.ellipsis,
+                        style: Theme.of(context).textTheme.labelSmall,
+                      ),
+                    ],
+                  ),
+                ),
+              )
+            ],
           ),
+          AnimatedSwitcher(
+            duration: Duration(milliseconds: 300),
+            transitionBuilder: (widget, animation) =>
+                FadeTransition(opacity: animation, child: widget),
+            child: showDescription
+                ? RemovableTextField(
+                    key: ValueKey<bool>(showDescription),
+                    controller: _descriptionController,
+                    hintText: appLocalizations.translate('description'),
+                    onRemove: () {
+                      setState(() {
+                        showDescription = false;
+                      });
+                    },
+                  )
+                : null,
+          ),
+          /* if (showDescription)
+            RemovableTextField(
+              controller: _descriptionController,
+              hintText: appLocalizations.translate('description'),
+              onRemove: () {
+                setState(() {
+                  showDescription = false;
+                });
+              },
+            ), */
           SizedBox(
             width: double.infinity,
             child: FilledButton(

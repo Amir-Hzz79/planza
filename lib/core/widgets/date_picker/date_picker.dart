@@ -34,7 +34,49 @@ class _DatePickerState extends State<DatePicker> {
 
         setState(() {});
       },
-      child: ListTile(
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.surfaceContainer,
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.timelapse_rounded,
+              color: Colors.grey,
+              size: 15,
+            ),
+            const SizedBox(
+              width: 5,
+            ),
+            Text(
+              selectedDate?.formatShortDate() ??
+                  AppLocalizations.of(context).translate('task.dueDate'),
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
+            if (selectedDate != null)
+              InkWell(
+                borderRadius: BorderRadius.circular(50),
+                onTap: () {
+                  setState(() {
+                    selectedDate = null;
+                  });
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(3),
+                  child: Icon(
+                    Icons.clear_rounded,
+                    color: Colors.grey,
+                    size: 15,
+                  ),
+                ),
+              )
+          ],
+        ),
+      ),
+      /* ListTile(
         leading: selectedDate != null
             ? InkWell(
                 borderRadius: BorderRadius.circular(50),
@@ -57,7 +99,7 @@ class _DatePickerState extends State<DatePicker> {
           selectedDate?.formatShortDate() ??
               AppLocalizations.of(context).translate('choose_date'),
         ),
-      ),
+      ), */
     );
   }
 }
