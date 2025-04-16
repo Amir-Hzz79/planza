@@ -6,10 +6,10 @@ import 'package:planza/features/task_managment/bloc/task_bloc.dart';
 import 'package:planza/features/task_managment/presentation/pages/task_details.dart';
 
 class TaskTile extends StatelessWidget {
-  const TaskTile({super.key, required this.task, this.onCompleteStatusChanged});
+  const TaskTile({super.key, required this.task, this.onStatusChanged});
 
   final TaskModel task;
-  final void Function(bool?)? onCompleteStatusChanged;
+  final void Function(bool?)? onStatusChanged;
 
   @override
   Widget build(BuildContext context) {
@@ -49,7 +49,7 @@ class TaskTile extends StatelessWidget {
                   task.doneDate = value! ? DateTime.now() : null;
                   context.read<TaskBloc>().add(TaskUpdatedEvent(newTask: task));
 
-                  onCompleteStatusChanged?.call(value);
+                  onStatusChanged?.call(value);
                 },
               ),
               title: Row(

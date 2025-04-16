@@ -5,6 +5,7 @@ import 'package:get_it/get_it.dart';
 import 'package:equatable/equatable.dart';
 
 import '../../../core/data/data_access_object/goal_dao.dart' show GoalDao;
+import '../../../core/data/data_access_object/task_dao.dart';
 import '../../../core/data/models/goal_model.dart';
 
 part 'goal_event.dart';
@@ -12,11 +13,14 @@ part 'goal_state.dart';
 
 class GoalBloc extends Bloc<GoalEvent, GoalState> {
   final GoalDao _goalDao = GetIt.instance.get<GoalDao>();
+  final TaskDao _taskDao = GetIt.instance.get<TaskDao>();
+
   StreamSubscription<List<GoalModel>>? _subscription;
 
   GoalBloc() : super(GoalInitial()) {
     on<StartWatchingGoalsEvent>(_onLoadGoals);
     on<GoalsUpdatedEvent>(_onGoalsUpdated);
+    on<GoalAddedEvent>(_onGoalAdded);
   }
 
   Future<void> _onLoadGoals(
@@ -39,6 +43,22 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
 
   void _onGoalsUpdated(GoalsUpdatedEvent event, Emitter<GoalState> emit) {
     emit(GoalsLoadedState(event.goals));
+  }
+
+  Future<void> _onGoalAdded(
+      GoalAddedEvent event, Emitter<GoalState> emit) async {
+    emit(GoalLoadingState());
+    try {
+      event.newGoal.id = await _goalDao.insertGoal(event.newGoal);
+
+      for (var task in event.newGoal.tasks) {
+        task.goal = event.newGoal;
+      }
+
+      await _taskDao.insertAllTasks(event.newGoal.tasks);
+    } catch (e) {
+      emit(GoalErrorState('Failed to Insert Goa'));
+    }
   }
 
   @override

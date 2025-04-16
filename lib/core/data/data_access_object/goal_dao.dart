@@ -92,7 +92,8 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
       (select(goals)..where(filter)).get();
   Future<Goal> getGoalById(int id) =>
       (select(goals)..where((g) => g.id.equals(id))).getSingle();
-  Future<int> insertGoal(Goal goal) => into(goals).insert(goal);
+  Future<int> insertGoal(GoalModel goal) =>
+      into(goals).insert(goal.toInsertCompanion());
   Future<bool> updateGoal(Goal goal) => update(goals).replace(goal);
   Future<int> deleteGoal(int id) =>
       (delete(goals)..where((g) => g.id.equals(id))).go();

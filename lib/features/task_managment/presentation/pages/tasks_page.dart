@@ -63,7 +63,7 @@ class _TasksPageState extends State<TasksPage> {
                       .toSet()
                       .toList();
               showingGoals.sort(
-                (a, b) => a.id.compareTo(b.id),
+                (a, b) => a.id!.compareTo(b.id!),
               );
 
               return ScrollableColumn(
@@ -113,29 +113,20 @@ class _TasksPageState extends State<TasksPage> {
                       height: 10,
                     ),
                   if (pastTasks.isNotEmpty)
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          pastExpanded = !pastExpanded;
-                        });
-                      },
-                      child: ListTile(
-                        title: Text(
-                          appLocalization.translate('past'),
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        trailing: Icon(
-                          pastExpanded
-                              ? Icons.arrow_drop_up_rounded
-                              : Icons.arrow_drop_down_rounded,
-                        ),
+                    ExpansionTile(
+                      initiallyExpanded: true,
+                      title: Text(
+                        appLocalization.translate('past'),
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                    ),
-                  if (pastTasks.isNotEmpty && pastExpanded)
-                    ...List.generate(
-                      pastTasks.length,
-                      (index) => TaskTile(
-                        task: pastTasks[index],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      children: List.generate(
+                        pastTasks.length,
+                        (index) => TaskTile(
+                          task: pastTasks[index],
+                        ),
                       ),
                     ),
                   if (todayTasks.isNotEmpty)
@@ -143,29 +134,20 @@ class _TasksPageState extends State<TasksPage> {
                       height: 10,
                     ),
                   if (todayTasks.isNotEmpty)
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          todayExpanded = !todayExpanded;
-                        });
-                      },
-                      child: ListTile(
-                        title: Text(
-                          appLocalization.translate('today'),
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        trailing: Icon(
-                          todayExpanded
-                              ? Icons.arrow_drop_up_rounded
-                              : Icons.arrow_drop_down_rounded,
-                        ),
+                    ExpansionTile(
+                      initiallyExpanded: true,
+                      title: Text(
+                        appLocalization.translate('today'),
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                    ),
-                  if (todayTasks.isNotEmpty && todayExpanded)
-                    ...List.generate(
-                      todayTasks.length,
-                      (index) => TaskTile(
-                        task: todayTasks[index],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      children: List.generate(
+                        todayTasks.length,
+                        (index) => TaskTile(
+                          task: todayTasks[index],
+                        ),
                       ),
                     ),
                   if (futureTasks.isNotEmpty)
@@ -173,29 +155,20 @@ class _TasksPageState extends State<TasksPage> {
                       height: 10,
                     ),
                   if (futureTasks.isNotEmpty)
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          futureExpanded = !futureExpanded;
-                        });
-                      },
-                      child: ListTile(
-                        title: Text(
-                          appLocalization.translate('future'),
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        trailing: Icon(
-                          futureExpanded
-                              ? Icons.arrow_drop_up_rounded
-                              : Icons.arrow_drop_down_rounded,
-                        ),
+                    ExpansionTile(
+                      initiallyExpanded: true,
+                      title: Text(
+                        appLocalization.translate('future'),
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                    ),
-                  if (futureTasks.isNotEmpty && futureExpanded)
-                    ...List.generate(
-                      futureTasks.length,
-                      (index) => TaskTile(
-                        task: futureTasks[index],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      children: List.generate(
+                        futureTasks.length,
+                        (index) => TaskTile(
+                          task: futureTasks[index],
+                        ),
                       ),
                     ),
                   if (recentCompletedTasks.isNotEmpty)
@@ -203,29 +176,20 @@ class _TasksPageState extends State<TasksPage> {
                       height: 10,
                     ),
                   if (recentCompletedTasks.isNotEmpty)
-                    InkWell(
-                      onTap: () {
-                        setState(() {
-                          recentCompletedExpand = !recentCompletedExpand;
-                        });
-                      },
-                      child: ListTile(
-                        title: Text(
-                          appLocalization.translate('recent_done_tasks'),
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                        trailing: Icon(
-                          recentCompletedExpand
-                              ? Icons.arrow_drop_up_rounded
-                              : Icons.arrow_drop_down_rounded,
-                        ),
+                    ExpansionTile(
+                      initiallyExpanded: true,
+                      title: Text(
+                        appLocalization.translate('recent_done_tasks'),
+                        style: Theme.of(context).textTheme.titleMedium,
                       ),
-                    ),
-                  if (recentCompletedTasks.isNotEmpty && recentCompletedExpand)
-                    ...List.generate(
-                      recentCompletedTasks.length,
-                      (index) => TaskTile(
-                        task: recentCompletedTasks[index],
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.zero,
+                      ),
+                      children: List.generate(
+                        recentCompletedTasks.length,
+                        (index) => TaskTile(
+                          task: recentCompletedTasks[index],
+                        ),
                       ),
                     ),
                   const SizedBox(

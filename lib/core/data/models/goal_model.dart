@@ -1,10 +1,11 @@
+import 'package:drift/drift.dart';
 import 'package:flutter/material.dart' show Color;
 import 'package:planza/core/data/models/task_model.dart';
 
-import '../database/database.dart' show Goal, Task;
+import '../database/database.dart' show Goal, GoalsCompanion, Task;
 
 class GoalModel {
-  final int id;
+  int? id;
   final String name;
   final String? description;
   final DateTime? deadline;
@@ -13,7 +14,7 @@ class GoalModel {
   final List<TaskModel> tasks;
 
   GoalModel({
-    required this.id,
+    this.id,
     required this.name,
     this.description,
     this.deadline,
@@ -60,12 +61,22 @@ class GoalModel {
   // Convert a GoalModel to a Goal entity
   Goal toEntity() {
     return Goal(
-      id: id,
+      id: id ?? -1,
       name: name,
       description: description,
       deadline: deadline,
       completed: completed,
       color: color.toARGB32(),
+    );
+  }
+
+  GoalsCompanion toInsertCompanion() {
+    return GoalsCompanion(
+      name: Value(name),
+      color: Value(color.toARGB32()),
+      completed: Value(completed),
+      deadline: Value(deadline),
+      description: Value(description),
     );
   }
 }

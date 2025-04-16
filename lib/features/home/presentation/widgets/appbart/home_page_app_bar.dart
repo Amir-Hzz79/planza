@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/widgets/buttons/profile_button.dart';
+import 'package:planza/features/goal_managment/presentation/pages/add_goal_page.dart';
 import 'package:planza/features/task_managment/presentation/widgets/add_task_fields.dart';
+
+import '../../../../task_managment/bloc/task_bloc.dart';
 
 class HomePageAppBar extends StatelessWidget {
   const HomePageAppBar({super.key});
@@ -67,7 +71,11 @@ class HomePageAppBar extends StatelessWidget {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).pop();
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (context) => AddGoalPage(),
+                                  ),
+                                );
                               },
                               child: ListTile(
                                 leading: Icon(Icons.golf_course_rounded),
@@ -85,15 +93,21 @@ class HomePageAppBar extends StatelessWidget {
                             ),
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).pop();
-                                Navigator.of(context).push(
+                                Navigator.of(context).pushReplacement(
                                   ModalBottomSheetRoute(
                                     showDragHandle: true,
                                     builder: (context) => IntrinsicHeight(
                                       child: Padding(
                                         padding: const EdgeInsets.symmetric(
                                             horizontal: 10),
-                                        child: AddTaskFields(),
+                                        child: AddTaskFields(
+                                          onSubmit: (newTask) {
+                                            Navigator.pop(context);
+                                            context.read<TaskBloc>().add(
+                                                TaskAddedEvent(
+                                                    newTask: newTask));
+                                          },
+                                        ),
                                       ),
                                     ),
                                     isScrollControlled: true,

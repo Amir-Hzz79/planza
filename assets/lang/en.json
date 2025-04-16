@@ -7,6 +7,7 @@
     "goal": "Goal",
     "no_goal": "No Goal",
     "goal_title": "Manage Your Goals",
+    "goal.color": "Color",
     "add_modal_goal_title": "Add a new GOAL!",
     "add_modal_goal_subtitle": "Let's go",
     "add_modal_task_title": "Add a new Task",

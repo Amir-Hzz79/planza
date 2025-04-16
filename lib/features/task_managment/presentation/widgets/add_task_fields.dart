@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
 
@@ -7,11 +6,19 @@ import '../../../../core/locale/app_localization.dart';
 import '../../../../core/widgets/date_picker/date_picker.dart';
 import '../../../../core/widgets/scrollables/scrollable_row.dart';
 import '../../../../core/widgets/text_fields/removable_text_field.dart';
-import '../../bloc/task_bloc.dart';
 import 'goal_selection.dart';
 
 class AddTaskFields extends StatefulWidget {
-  const AddTaskFields({super.key});
+  const AddTaskFields({
+    super.key,
+    required this.onSubmit,
+    this.showDatePicker = true,
+    this.showGoalPicker = true,
+  });
+
+  final bool showDatePicker;
+  final bool showGoalPicker;
+  final void Function(TaskModel newTask) onSubmit;
 
   @override
   State<AddTaskFields> createState() => _AddTaskFieldsState();
@@ -23,16 +30,19 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
       return;
     }
 
-    Navigator.pop(context);
+    /* Navigator.pop(context); */
 
     TaskModel task = TaskModel(
       title: _titleController.text,
       dueDate: selectedDateTime,
-      description: _descriptionController.text,
+      description: _descriptionController.text.isEmpty
+          ? null
+          : _descriptionController.text,
       goal: selectedGoal,
     );
 
-    context.read<TaskBloc>().add(TaskAddedEvent(newTask: task));
+    widget.onSubmit.call(task);
+    /* context.read<TaskBloc>().add(TaskAddedEvent(newTask: task)); */
   }
 
   final _formKey = GlobalKey<FormState>();
@@ -80,18 +90,20 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
           ScrollableRow(
             spacing: 10,
             children: [
-              GoalSelection(
-                iconMode: true,
-                onChanged: (selectedGoal) {
-                  this.selectedGoal = selectedGoal;
-                },
-              ),
-              DatePicker(
-                showSelectedDate: false,
-                showIconWhenDateSelected: true,
-                showRemoveIcon: false,
-                onChange: (selectedDate) => selectedDateTime = selectedDate,
-              ),
+              if (widget.showGoalPicker)
+                GoalSelection(
+                  iconMode: true,
+                  onChanged: (selectedGoal) {
+                    this.selectedGoal = selectedGoal;
+                  },
+                ),
+              if (widget.showDatePicker)
+                DatePicker(
+                  showSelectedDate: false,
+                  showIconWhenDateSelected: true,
+                  showRemoveIcon: false,
+                  onChange: (selectedDate) => selectedDateTime = selectedDate,
+                ),
               InkWell(
                 borderRadius: BorderRadius.circular(20),
                 onTap: () {
@@ -111,21 +123,7 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
                     color: showDescription
                         ? Theme.of(context).colorScheme.primary
                         : Colors.grey,
-                    /*   size: 15, */
-                  ), /* Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.add_rounded,
-                        size: 15,
-                      ),
-                      Text(
-                        appLocalizations.translate('description'),
-                        overflow: TextOverflow.ellipsis,
-                        style: Theme.of(context).textTheme.labelSmall,
-                      ),
-                    ],
-                  ), */
+                  ),
                 ),
               )
             ],

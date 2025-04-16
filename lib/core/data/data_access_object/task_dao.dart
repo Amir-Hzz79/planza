@@ -61,6 +61,15 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
   Future<int> insertTask(TaskModel task) async =>
       await into(tasks).insert(task.toInsertCompanion());
 
+  Future<void> insertAllTasks(List<TaskModel> newTasks) async => await batch(
+        (batch) {
+          batch.insertAll(
+            tasks,
+            newTasks.map((task) => task.toInsertCompanion()).toList(),
+          );
+        },
+      );
+
   Future<bool> updateTask(TaskModel task) =>
       update(tasks).replace(task.toEntity());
 
