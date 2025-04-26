@@ -66,6 +66,7 @@ class TaskTile extends StatelessWidget {
                     child: Text(
                       task.title,
                       overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context).textTheme.titleSmall,
                     ),
                   ),
                 ],

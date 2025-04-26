@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 import 'package:planza/core/widgets/date_picker/date_picker.dart';
 import 'package:planza/core/widgets/text_fields/dynamic_size_text_form_field.dart';
 import 'package:planza/features/task_managment/presentation/widgets/goal_selection.dart';
+import 'package:skeletonizer/skeletonizer.dart';
 
 import '../../../../core/widgets/buttons/circle_back_button.dart';
 import '../../../../core/widgets/scrollables/scrollable_column.dart';
@@ -22,10 +24,14 @@ class TaskDetails extends StatefulWidget {
 
 class _TaskDetailsState extends State<TaskDetails> {
   late TextEditingController _titleController;
+  late TextEditingController _descriptionController;
 
   @override
   void initState() {
     _titleController = TextEditingController(text: widget.task.title);
+    _descriptionController =
+        TextEditingController(text: widget.task.description);
+
     super.initState();
   }
 
@@ -43,8 +49,21 @@ class _TaskDetailsState extends State<TaskDetails> {
       child: Scaffold(
         body: BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
-            if (state is TasksLoadedState) {
-              return ScrollableColumn(
+            final TaskModel task = state is TasksLoadedState
+                ? widget.task
+                : TaskModel(
+                    title: 'fake data',
+                    description: 'fake data',
+                    dueDate: DateTime.now(),
+                    goal: GoalModel(
+                      name: 'fake data',
+                      completed: false,
+                      color: Colors.grey,
+                    ),
+                  );
+            return Skeletonizer(
+              enabled: state is! TasksLoadedState,
+              child: ScrollableColumn(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const SizedBox(
@@ -58,7 +77,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                         padding:
                             EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                         child: Text(
-                          widget.task.title,
+                          task.title,
                         ),
                       ),
                     ),
@@ -69,8 +88,8 @@ class _TaskDetailsState extends State<TaskDetails> {
                   ListTile(
                     leading: Icon(Icons.title_rounded),
                     title: Text(appLocalization.translate('task.title')),
-                    trailing: widget.task.isCompleted
-                        ? Text(widget.task.title)
+                    trailing: task.isCompleted
+                        ? Text(task.title)
                         : DynamicSizeTextFormField(
                             titleController: _titleController,
                             validator: (value) {
@@ -82,100 +101,131 @@ class _TaskDetailsState extends State<TaskDetails> {
                               return null;
                             },
                             onLeave: (newValue) {
-                              print('--------------------newValue:$newValue-----------------------');
-                              widget.task.title = newValue!;
+                              task.title = newValue!;
                               context
                                   .read<TaskBloc>()
-                                  .add(TaskUpdatedEvent(newTask: widget.task));
+                                  .add(TaskUpdatedEvent(newTask: task));
                             },
                           ),
                   ),
-                  ListTile(
-                    leading: Icon(Icons.timelapse_rounded),
-                    title: Text(appLocalization.translate('task.dueDate')),
-                    trailing: widget.task.isCompleted
-                        ? Text(widget.task.dueDate?.formatShortDate() ??
-                            appLocalization.translate('no_overdue'))
-                        : DatePicker(
-                            initialDate: widget.task.dueDate,
-                            showRemoveIcon: false,
-                            showIconWhenDateSelected: false,
-                            onChange: (newDate) {
-                              widget.task.dueDate = newDate;
-                              context
-                                  .read<TaskBloc>()
-                                  .add(TaskUpdatedEvent(newTask: widget.task));
-                            },
-                          ),
-                  ),
-                  if (widget.task.doneDate != null)
-                    ListTile(
-                      leading: Icon(Icons.done_all_rounded),
-                      title: Text(appLocalization.translate('task.doneDate')),
-                      trailing: Text(widget.task.doneDate!.formatShortDate()),
+                  if (!(task.isCompleted && task.description == null))
+                    Dismissible(
+                      key: Key(DateTime.now().toString()),
+                      onDismissed: (direction) {
+                        task.description = null;
+                        context
+                            .read<TaskBloc>()
+                            .add(TaskUpdatedEvent(newTask: task));
+                      },
+                      child: ListTile(
+                        leading: Icon(
+                          Icons.description_rounded,
+                        ),
+                        title: Text(appLocalization.translate('description')),
+                        trailing: task.isCompleted
+                            ? Text(task.description ?? '')
+                            : DynamicSizeTextFormField(
+                                titleController: _descriptionController,
+                                onLeave: (newValue) {
+                                  task.description =
+                                      newValue!.isEmpty ? null : newValue;
+                                  context
+                                      .read<TaskBloc>()
+                                      .add(TaskUpdatedEvent(newTask: task));
+                                },
+                              ),
+                      ),
                     ),
                   ListTile(
                     leading: Icon(Icons.golf_course_rounded),
                     title: Text(appLocalization.translate('goal')),
-                    trailing: widget.task.isCompleted
-                        ? widget.task.goal == null
+                    trailing: task.isCompleted
+                        ? task.goal == null
                             ? Text(appLocalization.translate('no_goal'))
                             : Row(
                                 spacing: 5,
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
                                   CircleAvatar(
-                                    backgroundColor: widget.task.goal!.color,
+                                    backgroundColor: task.goal!.color,
                                     radius: 5,
                                   ),
                                   Text(
-                                    widget.task.goal!.name,
+                                    task.goal!.name,
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ],
                               )
                         : GoalSelection(
-                            initialGoal: widget.task.goal,
+                            initialGoal: task.goal,
                             onChanged: (newGoal) {
-                              widget.task.goal = newGoal;
+                              task.goal = newGoal;
                               context
                                   .read<TaskBloc>()
-                                  .add(TaskUpdatedEvent(newTask: widget.task));
+                                  .add(TaskUpdatedEvent(newTask: task));
                             },
                           ),
                   ),
-                  if (widget.task.dueDate != null)
+                  ListTile(
+                    leading: Icon(Icons.timelapse_rounded),
+                    title: Text(appLocalization.translate('task.dueDate')),
+                    trailing: task.isCompleted
+                        ? Text(task.dueDate?.formatShortDate() ??
+                            appLocalization.translate('no_overdue'))
+                        : DatePicker(
+                            initialDate: task.dueDate,
+                            showRemoveIcon: false,
+                            showIconWhenDateSelected: false,
+                            onChange: (newDate) {
+                              task.dueDate = newDate;
+                              context
+                                  .read<TaskBloc>()
+                                  .add(TaskUpdatedEvent(newTask: task));
+                            },
+                          ),
+                  ),
+                  if (task.doneDate != null)
+                    ListTile(
+                      leading: Icon(Icons.done_all_rounded),
+                      title: Text(appLocalization.translate('task.doneDate')),
+                      trailing: Text(task.doneDate!.formatShortDate()),
+                    ),
+                  if (task.dueDate != null)
                     ListTile(
                       leading: Icon(
-                        widget.task.daysLeft!.isNegative
-                            ? widget.task.isCompleted
+                        task.daysLeft!.isNegative
+                            ? task.isCompleted
                                 ? Icons.done_rounded
                                 : Icons.warning_rounded
                             : Icons.commit_rounded,
                       ),
                       title: Text(appLocalization.translate('status')),
-                      trailing: Text(
-                        widget.task.isCompleted
-                            ? widget.task.daysLeft!.isNegative
-                                ? appLocalization.translate('overdue_done')
-                                : appLocalization.translate('done')
-                            : widget.task.daysLeft!.isNegative
-                                ? '${widget.task.daysLeft!.abs()} ${appLocalization.translate('days_overdue')}'
-                                : '${widget.task.daysLeft} ${appLocalization.translate('days_left')}',
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            task.isCompleted
+                                ? task.daysLeft!.isNegative
+                                    ? appLocalization.translate('overdue_done')
+                                    : appLocalization.translate('done')
+                                : task.daysLeft!.isNegative
+                                    ? '${task.daysLeft!.abs()} ${appLocalization.translate('days_overdue')}'
+                                    : '${task.daysLeft} ${appLocalization.translate('days_left')}',
+                          ),
+                          Checkbox(
+                              value: task.isCompleted,
+                              onChanged: (value) {
+                                task.doneDate = value! ? DateTime.now() : null;
+                                context
+                                    .read<TaskBloc>()
+                                    .add(TaskUpdatedEvent(newTask: task));
+                              })
+                        ],
                       ),
                     ),
                 ],
-              );
-            } else {
-              return Container(
-                width: double.infinity,
-                height: 500,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(25),
-                ),
-              );
-            }
+              ),
+            );
           },
         ),
       ),

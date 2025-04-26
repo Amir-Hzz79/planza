@@ -7,7 +7,7 @@ import 'package:planza/features/task_managment/presentation/widgets/add_task_fie
 import 'core/locale/app_localization.dart';
 import 'core/widgets/scrollables/scrollable_column.dart';
 import 'features/goal_managment/presentation/pages/add_goal_page.dart';
-import 'features/goal_managment/presentation/pages/goal_page.dart';
+import 'features/goal_managment/presentation/pages/goals_page.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'core/widgets/appbar/general_app_bar.dart';
 import 'features/home/presentation/widgets/drawer/drawer_section.dart';
@@ -26,7 +26,7 @@ class _RootPageState extends State<RootPage> {
   final List<Widget> pages = [
     /*  HomePage(), */
     TasksPage(),
-    GoalPage(),
+    GoalsPage(),
     HomePage(),
   ];
 

@@ -1,20 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/widgets/buttons/profile_button.dart';
-import 'package:planza/features/goal_managment/presentation/pages/add_goal_page.dart';
-import 'package:planza/features/task_managment/presentation/widgets/add_task_fields.dart';
-
-import '../../../features/task_managment/bloc/task_bloc.dart';
 
 class GeneralAppBar extends StatelessWidget {
   const GeneralAppBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    AppLocalizations appLocalizations = AppLocalizations.of(context);
-
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [

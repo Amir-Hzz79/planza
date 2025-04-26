@@ -19,6 +19,7 @@
     "add_task": "Add a new task",
     "task.title": "Title",
     "task.dueDate": "DueDate",
+    "no_dueDate": "No Due",
     "task.doneDate": "DoneDate",
     "status": "Status",
     "deadline": "Deadline",

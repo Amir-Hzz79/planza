@@ -19,6 +19,10 @@ extension TaskListExtention on List<TaskModel> {
     ).toList();
   }
 
+  List<TaskModel> get noDueDateTasks => where(
+        (task) => task.dueDate == null,
+      ).toList();
+
   List<TaskModel> get overdueTasks => where(
         (task) => task.dueDate?.isBeforeToday() ?? false,
       ).toList();
@@ -46,9 +50,10 @@ extension TaskListExtention on List<TaskModel> {
           }
 
           return task.doneDate!.isAfter(
-                DateTime.now().subtract(duration),
-              ) /* &&
-              task.doneDate!.isBeforeToday() */;
+            DateTime.now().subtract(duration),
+          ) /* &&
+              task.doneDate!.isBeforeToday() */
+              ;
         },
       ).toList();
 }
