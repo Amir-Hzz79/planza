@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:planza/core/widgets/color_picker/color_item.dart';
 import 'package:planza/core/widgets/scrollables/scrollable_row.dart';
 
 class ColorPicker extends StatefulWidget {

@@ -70,42 +70,50 @@ class _TasksPageState extends State<TasksPage> {
                 children: [
                   Container(
                     margin: EdgeInsets.symmetric(vertical: 10),
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    /* padding: const EdgeInsets.symmetric(horizontal: 10), */
                     child: ScrollableRow(
                       spacing: 5,
-                      children: List.generate(
-                        showingGoals.length,
-                        (index) => FilledButton(
-                          onPressed: () {
-                            setState(
-                              () {
-                                if (selectedGoal == showingGoals[index]) {
-                                  selectedGoal = null;
-                                } else {
-                                  selectedGoal = showingGoals[index];
-                                }
-                              },
-                            );
-                          },
-                          style: FilledButton.styleFrom(
-                            backgroundColor:
-                                selectedGoal?.id == showingGoals[index].id
-                                    ? showingGoals[index].color
-                                    : Theme.of(context)
-                                        .colorScheme
-                                        .surfaceContainer,
-                            foregroundColor:
-                                selectedGoal?.id == showingGoals[index].id
-                                    ? showingGoals[index].color.matchTextColor()
-                                    : Theme.of(context)
-                                        .colorScheme
-                                        .surfaceContainer
-                                        .matchTextColor(),
-                            minimumSize: Size(100, 45),
-                          ),
-                          child: Text(showingGoals[index].name),
+                      children: [
+                        const SizedBox(
+                          width: 5,
                         ),
-                      ),
+                        ...List.generate(
+                          showingGoals.length,
+                          (index) => FilledButton(
+                            onPressed: () {
+                              setState(
+                                () {
+                                  if (selectedGoal == showingGoals[index]) {
+                                    selectedGoal = null;
+                                  } else {
+                                    selectedGoal = showingGoals[index];
+                                  }
+                                },
+                              );
+                            },
+                            style: FilledButton.styleFrom(
+                              backgroundColor:
+                                  selectedGoal?.id == showingGoals[index].id
+                                      ? showingGoals[index].color
+                                      : Theme.of(context)
+                                          .colorScheme
+                                          .surfaceContainer,
+                              foregroundColor: selectedGoal?.id ==
+                                      showingGoals[index].id
+                                  ? showingGoals[index].color.matchTextColor()
+                                  : Theme.of(context)
+                                      .colorScheme
+                                      .surfaceContainer
+                                      .matchTextColor(),
+                              minimumSize: Size(100, 45),
+                            ),
+                            child: Text(showingGoals[index].name),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                      ],
                     ),
                   ),
                   if (pastTasks.isNotEmpty)

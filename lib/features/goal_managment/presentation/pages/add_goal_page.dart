@@ -8,9 +8,7 @@ import 'package:planza/core/widgets/color_picker/color_picker.dart';
 import 'package:planza/core/widgets/date_picker/date_picker.dart';
 import 'package:planza/core/widgets/scrollables/scrollable_column.dart';
 import 'package:planza/features/goal_managment/bloc/goal_bloc.dart';
-import 'package:planza/features/task_managment/bloc/task_bloc.dart';
 import 'package:planza/features/task_managment/presentation/widgets/add_task_fields.dart';
-import 'package:planza/features/task_managment/presentation/widgets/task_tile.dart';
 
 import '../../../../core/widgets/buttons/circle_back_button.dart';
 
