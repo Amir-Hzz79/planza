@@ -9,7 +9,7 @@ class ColorPicker extends StatefulWidget {
   });
 
   final Color? initialColor;
-  final void Function(Color newColor) onChange;
+  final void Function(Color? newColor) onChange;
 
   @override
   State<ColorPicker> createState() => _ColorPickerState();
@@ -51,6 +51,8 @@ class _ColorPickerState extends State<ColorPicker> {
           onTap: () {
             setState(() {
               selectedColor = colors[index];
+
+              widget.onChange.call(selectedColor);
             });
           },
           child: Container(

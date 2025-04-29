@@ -52,11 +52,11 @@ class _TaskDetailsState extends State<TaskDetails> {
             final TaskModel task = state is TasksLoadedState
                 ? widget.task
                 : TaskModel(
-                    title: 'fake data',
-                    description: 'fake data',
+                    title: 'place holder',
+                    description:'place holder',
                     dueDate: DateTime.now(),
                     goal: GoalModel(
-                      name: 'fake data',
+                      name: 'place holder',
                       completed: false,
                       color: Colors.grey,
                     ),

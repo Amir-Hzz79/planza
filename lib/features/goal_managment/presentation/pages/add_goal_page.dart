@@ -25,17 +25,31 @@ class _AddGoalPageState extends State<AddGoalPage> {
   Color selectedColor = Colors.grey;
   final List<TaskModel> tasks = [];
 
+  final _formKey = GlobalKey<FormState>();
+
   void _submit() {
+    if (!_formKey.currentState!.validate()) {
+      return;
+    }
+
     final GoalModel goal = GoalModel(
       name: _titleController.text,
       completed: false,
       color: selectedColor,
       deadline: selectedDateTime,
+      tasks: tasks,
     );
 
     context.read<GoalBloc>().add(
           GoalAddedEvent(newGoal: goal),
         );
+
+    Navigator.of(context).pop();
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Goal Added Successfully'),
+      ),
+    );
   }
 
   @override
@@ -43,112 +57,128 @@ class _AddGoalPageState extends State<AddGoalPage> {
     final AppLocalizations appLocalizations = AppLocalizations.of(context);
 
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: ScrollableColumn(
-          spacing: 20,
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              child: AppBar(
-                leading: CircleBackButton(),
-                title: Container(
-                  padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-                  child: Text(
-                    'Add New Goal',
-                  ),
-                ),
-              ),
-            ),
-            TextFormField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                label: Text(appLocalizations.translate('title')),
-              ),
-            ),
-            Align(
-              alignment: Directionality.of(context) == TextDirection.ltr
-                  ? Alignment.centerLeft
-                  : Alignment.centerRight,
-              child: Text(
-                'Color',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            ColorPicker(
-              initialColor: Colors.grey,
-              onChange: (newColor) {
-                selectedColor = newColor;
-              },
-            ),
-            Align(
-              alignment: Directionality.of(context) == TextDirection.ltr
-                  ? Alignment.centerLeft
-                  : Alignment.centerRight,
-              child: Text(
-                appLocalizations.translate('deadline'),
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            DatePicker(
-              onChange: (newDate) {
-                selectedDateTime = newDate;
-              },
-            ),
-            Align(
-              alignment: Directionality.of(context) == TextDirection.ltr
-                  ? Alignment.centerLeft
-                  : Alignment.centerRight,
-              child: Text(
-                appLocalizations.translate('tasks'),
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-            ),
-            if (tasks.isNotEmpty)
-              Column(
-                children: List.generate(
-                  tasks.length,
-                  (index) => ListTile(
-                    title: Text(tasks[index].title),
-                    subtitle: tasks[index].description == null
-                        ? null
-                        : Text(tasks[index].description!),
-                    trailing:
-                        Text(tasks[index].dueDate?.formatShortDate() ?? ''),
-                  ) /* TaskTile(
-                    task: tasks[index],
-                  ) */
-                  ,
-                ),
-              ),
-            TextButton.icon(
-              onPressed: () {
-                Navigator.of(context).push(
-                  ModalBottomSheetRoute(
-                    showDragHandle: true,
-                    builder: (context) => IntrinsicHeight(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: AddTaskFields(
-                          showGoalPicker: false,
-                          onSubmit: (newTask) {
-                            Navigator.pop(context);
-
-                            setState(() {
-                              tasks.add(newTask);
-                            });
-                          },
-                        ),
-                      ),
+      body: Form(
+        key: _formKey,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 10),
+          child: ScrollableColumn(
+            spacing: 20,
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: AppBar(
+                  leading: CircleBackButton(),
+                  title: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+                    child: Text(
+                      'New Goal',
                     ),
-                    isScrollControlled: true,
                   ),
-                );
-              },
-              label: Text('Add Task'),
-              icon: Icon(Icons.add_task_rounded),
-            ),
-          ],
+                ),
+              ),
+              TextFormField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  label: Text(appLocalizations.translate('title')),
+                ),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return appLocalizations.translate('title_validator');
+                  }
+
+                  return null;
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    appLocalizations.translate('deadline'),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  DatePicker(
+                    onChange: (newDate) {
+                      selectedDateTime = newDate;
+                    },
+                  ),
+                ],
+              ),
+              Align(
+                alignment: Directionality.of(context) == TextDirection.ltr
+                    ? Alignment.centerLeft
+                    : Alignment.centerRight,
+                child: Text(
+                  'Color',
+                  style: Theme.of(context).textTheme.titleMedium,
+                ),
+              ),
+              ColorPicker(
+                initialColor: Colors.grey,
+                onChange: (newColor) {
+                  selectedColor = newColor!;
+                },
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    appLocalizations.translate('tasks'),
+                    style: Theme.of(context).textTheme.titleMedium,
+                  ),
+                  TextButton.icon(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        ModalBottomSheetRoute(
+                          showDragHandle: true,
+                          builder: (context) => IntrinsicHeight(
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 10),
+                              child: AddTaskFields(
+                                showGoalPicker: false,
+                                onSubmit: (newTask) {
+                                  Navigator.pop(context);
+
+                                  setState(() {
+                                    tasks.add(newTask);
+                                  });
+                                },
+                              ),
+                            ),
+                          ),
+                          isScrollControlled: true,
+                        ),
+                      );
+                    },
+                    label: Text('Add'),
+                    icon: Icon(Icons.add_rounded),
+                  ),
+                ],
+              ),
+              if (tasks.isNotEmpty)
+                Column(
+                  spacing: 10,
+                  children: List.generate(
+                    tasks.length,
+                    (index) => ListTile(
+                      tileColor: Theme.of(context).colorScheme.surfaceContainer,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      leading: CircleAvatar(radius: 4),
+                      title: Text(tasks[index].title),
+                      subtitle: tasks[index].description == null
+                          ? null
+                          : Text(tasks[index].description!),
+                      trailing:
+                          Text(tasks[index].dueDate?.formatShortDate() ?? ''),
+                    ),
+                  ),
+                )
+              else
+                Text('No Task Added'),
+            ],
+          ),
         ),
       ),
       floatingActionButton: SizedBox(
@@ -156,7 +186,7 @@ class _AddGoalPageState extends State<AddGoalPage> {
         height: 50,
         child: FilledButton(
           onPressed: _submit,
-          child: Text('Add') /* Icon(Icons.add_task_rounded) */,
+          child: Text('Add'),
         ),
       ),
     );

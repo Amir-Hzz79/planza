@@ -53,11 +53,12 @@ class _RootPageState extends State<RootPage> {
       ),
       extendBody: true,
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
+        backgroundColor: Colors.transparent,
         color: Theme.of(context).brightness == Brightness.dark
             ? Colors.black
             : Colors.grey[100]!,
         animationDuration: Duration(milliseconds: 300),
+        height: 50,
         items: <Widget>[
           /* Icon(Icons.home_rounded, size: 30), */
           Icon(Icons.task_alt_rounded, size: 30),

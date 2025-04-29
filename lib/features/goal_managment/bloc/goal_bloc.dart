@@ -48,16 +48,21 @@ class GoalBloc extends Bloc<GoalEvent, GoalState> {
   Future<void> _onGoalAdded(
       GoalAddedEvent event, Emitter<GoalState> emit) async {
     emit(GoalLoadingState());
+    print('1');
     try {
+      print('2');
       event.newGoal.id = await _goalDao.insertGoal(event.newGoal);
-
+      print('3 - ${event.newGoal.id}');
       for (var task in event.newGoal.tasks) {
         task.goal = event.newGoal;
       }
+      print('4 - ${event.newGoal.tasks.length}');
 
       await _taskDao.insertAllTasks(event.newGoal.tasks);
+      print('5');
     } catch (e) {
-      emit(GoalErrorState('Failed to Insert Goa'));
+      print(e);
+      emit(GoalErrorState('Failed to Insert Goal'));
     }
   }
 

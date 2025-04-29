@@ -46,7 +46,7 @@ class _TasksPageState extends State<TasksPage> {
                     8,
                     (index) => TaskModel(
                       id: index,
-                      title: 'fake data',
+                      title: 'place holder',
                       dueDate: DateTime.now()
                           .subtract(Duration(days: 5))
                           .add(Duration(days: index)),
@@ -58,7 +58,7 @@ class _TasksPageState extends State<TasksPage> {
                     5,
                     (index) => GoalModel(
                       id: index,
-                      name: 'fake data',
+                      name: 'place holder',
                       completed: false,
                       color: Colors.grey,
                       deadline: DateTime.now()
