@@ -127,7 +127,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(1),
       title: Value("Morning Jogging"),
       description: Value("Jog every morning"),
-      dueDate: Value(DateTime(2025, 3, 1)),
+      dueDate: Value(DateTime(2025, 5, 1)),
       doneDate: Value(DateTime(2025, 4, 12)),
       priority: Value(1),
       parentTaskId: Value(null),
@@ -138,18 +138,18 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(1),
       title: Value("Gym Session"),
       description: Value("Strength training"),
-      dueDate: Value(DateTime(2025, 3, 17)),
+      dueDate: Value(DateTime(2025, 5, 17)),
       doneDate: Value(DateTime(2025, 4, 1)),
       priority: Value(2),
       parentTaskId: Value(null),
     ));
 
     await into(tasks).insert(TasksCompanion(
-      id: Value(3),
+      id: Value(5),
       goalId: Value(2),
       title: Value("Start Reading Novel"),
       description: Value("Read a new fiction book"),
-      dueDate: Value(DateTime(2025, 3, 20)),
+      dueDate: Value(DateTime(2025, 5, 20)),
       doneDate: Value(DateTime(2025, 4, 14)),
       priority: Value(2),
       parentTaskId: Value(null),
@@ -166,11 +166,11 @@ class AppDatabase extends _$AppDatabase {
     ));
 
     await into(tasks).insert(TasksCompanion(
-      id: Value(5),
+      id: Value(3),
       goalId: Value(3),
       title: Value("Finalize Flight Tickets"),
       description: Value("Book flights for the trip"),
-      dueDate: Value(DateTime(2025, 3, 5)),
+      dueDate: Value(DateTime(2025, 5, 5)),
       priority: Value(3),
       parentTaskId: Value(null),
     ));
@@ -200,7 +200,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(6),
       title: Value("Practice Spanish Verbs"),
       description: Value("Master the 20 most common verbs"),
-      dueDate: Value(DateTime(2025, 3, 20)),
+      dueDate: Value(DateTime(2025, 5, 20)),
       priority: Value(1),
       parentTaskId: Value(null),
     ));
@@ -262,7 +262,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(7),
       title: Value("Plant Vegetables"),
       description: Value("Plant tomatoes, carrots, and peppers"),
-      dueDate: Value(DateTime(2025, 4, 20)),
+      dueDate: Value(DateTime(2025, 6, 20)),
       priority: Value(3),
       parentTaskId: Value(11),
     ));
@@ -272,7 +272,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(9),
       title: Value("Practice Running"),
       description: Value("Follow a training schedule for the half marathon"),
-      dueDate: Value(DateTime(2025, 4, 25)),
+      dueDate: Value(DateTime(2025, 6, 25)),
       priority: Value(3),
       parentTaskId: Value(13),
     ));
@@ -281,7 +281,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(1),
       title: Value("Practice Running"),
       description: Value("Follow a training schedule for the half marathon"),
-      dueDate: Value(DateTime(2025, 4, 25)),
+      dueDate: Value(DateTime(2025, 5, 25)),
       priority: Value(3),
       parentTaskId: Value(13),
     ));

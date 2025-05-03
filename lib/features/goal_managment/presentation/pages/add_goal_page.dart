@@ -20,7 +20,7 @@ class AddGoalPage extends StatefulWidget {
 }
 
 class _AddGoalPageState extends State<AddGoalPage> {
-  final TextEditingController _titleController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController(text: 'New Goal');
   DateTime? selectedDateTime;
   Color selectedColor = Colors.grey;
   final List<TaskModel> tasks = [];
@@ -71,7 +71,7 @@ class _AddGoalPageState extends State<AddGoalPage> {
                   title: Container(
                     padding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
                     child: Text(
-                      'New Goal',
+                      _titleController.text,
                     ),
                   ),
                 ),
@@ -81,6 +81,7 @@ class _AddGoalPageState extends State<AddGoalPage> {
                 decoration: InputDecoration(
                   label: Text(appLocalizations.translate('title')),
                 ),
+                onChanged: (value) => setState(() {}),
                 validator: (value) {
                   if (value == null || value.isEmpty) {
                     return appLocalizations.translate('title_validator');
@@ -165,7 +166,14 @@ class _AddGoalPageState extends State<AddGoalPage> {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      leading: CircleAvatar(radius: 4),
+                      leading: IconButton(
+                        onPressed: () {
+                          setState(() {
+                            tasks.remove(tasks[index]);
+                          });
+                        },
+                        icon: Icon(Icons.close_rounded),
+                      ) /* CircleAvatar(radius: 4) */,
                       title: Text(tasks[index].title),
                       subtitle: tasks[index].description == null
                           ? null
