@@ -9,9 +9,9 @@ import 'package:planza/core/widgets/text_fields/dynamic_size_text_form_field.dar
 import 'package:planza/features/task_managment/presentation/widgets/goal_selection.dart';
 import 'package:skeletonizer/skeletonizer.dart';
 
+import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 import '../../../../core/widgets/buttons/circle_back_button.dart';
 import '../../../../core/widgets/scrollables/scrollable_column.dart';
-import '../../bloc/task_bloc.dart';
 
 class TaskDetails extends StatefulWidget {
   const TaskDetails({super.key, required this.task});

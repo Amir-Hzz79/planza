@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:equatable/equatable.dart';
-import '../../../core/data/data_access_object/task_dao.dart';
+import '../../data_access_object/task_dao.dart';
 
 part 'task_event.dart';
 part 'task_state.dart';

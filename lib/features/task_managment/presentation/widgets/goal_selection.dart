@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 
 import '../../../../core/locale/app_localization.dart';
-import '../../../goal_managment/bloc/goal_bloc.dart';
+import '../../../../core/data/bloc/goal_bloc/goal_bloc.dart';
 
 class GoalSelection extends StatefulWidget {
   const GoalSelection({

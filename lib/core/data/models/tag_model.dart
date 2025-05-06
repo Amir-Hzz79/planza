@@ -2,14 +2,14 @@ import '../database/database.dart' show Tag;
 import 'task_model.dart';
 
 class TagModel {
-  final int id;
+  int id;
   final String name;
-  final List<TaskModel> tasks;
+  List<TaskModel> tasks;
 
-  TagModel(
-    this.tasks, {
+  TagModel({
     required this.id,
     required this.name,
+    required this.tasks,
   });
 
   // Convert a Tag entity to a TagModel
@@ -17,7 +17,7 @@ class TagModel {
     return TagModel(
       id: tagEntity.id,
       name: tagEntity.name,
-      tasks = tasks,
+      tasks : tasks,
     );
   }
 

@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:equatable/equatable.dart';
 
-import '../../../core/data/data_access_object/goal_dao.dart' show GoalDao;
-import '../../../core/data/data_access_object/task_dao.dart';
-import '../../../core/data/models/goal_model.dart';
+import '../../data_access_object/goal_dao.dart';
+import '../../data_access_object/task_dao.dart';
+import '../../models/goal_model.dart';
 
 part 'goal_event.dart';
 part 'goal_state.dart';

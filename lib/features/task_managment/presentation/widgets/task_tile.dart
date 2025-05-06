@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
-import 'package:planza/features/task_managment/bloc/task_bloc.dart';
 import 'package:planza/features/task_managment/presentation/pages/task_details.dart';
+
+import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 
 class TaskTile extends StatelessWidget {
   const TaskTile({super.key, required this.task, this.onStatusChanged});

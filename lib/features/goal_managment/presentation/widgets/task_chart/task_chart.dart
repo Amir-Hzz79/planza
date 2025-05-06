@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/constants/month_names.dart';
 import 'package:planza/core/constants/week_days.dart';
-import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 
 import 'chart_column.dart';
@@ -13,9 +13,9 @@ enum ChartTimeZone {
 }
 
 class TaskChart extends StatefulWidget {
-  const TaskChart({super.key, required this.goals});
-
-  final List<GoalModel> goals;
+  const TaskChart({
+    super.key,
+  });
 
   @override
   State<TaskChart> createState() => _TaskChartState();
@@ -37,191 +37,121 @@ class _TaskChartState extends State<TaskChart> {
         ? 250
         : 115;
 
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            const SizedBox(
-              width: 10,
-            ),
-            InkWell(
-              onTap: () {
-                //Open Calendar maybe
-              },
-              borderRadius: BorderRadius.circular(50),
-              child: Container(
-                padding: EdgeInsets.all(10),
-                decoration: BoxDecoration(
-                  color: theme.colorScheme.onInverseSurface,
-                  shape: BoxShape.circle,
-                ),
-                child: Icon(Icons.calendar_month_outlined),
+    return GoalBlocBuilder(
+      onDataLoaded: (goals) => Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              const SizedBox(
+                width: 10,
               ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            FilledButton.tonal(
-              onPressed: () {
-                setState(
-                  () {
-                    selectedTimeZone = ChartTimeZone.week;
-                  },
-                );
-              },
-              style: selectedTimeZone == ChartTimeZone.week
-                  ? FilledButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.inversePrimary,
-                      //foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    )
-                  : FilledButton.styleFrom(
-                      backgroundColor: theme.colorScheme.onInverseSurface,
-                    ),
-              child: Text(
-                'Week',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            FilledButton.tonal(
-              onPressed: () {
-                setState(
-                  () {
-                    selectedTimeZone = ChartTimeZone.month;
-                  },
-                );
-              },
-              style: selectedTimeZone == ChartTimeZone.month
-                  ? FilledButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.inversePrimary,
-                      //foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    )
-                  : FilledButton.styleFrom(
-                      backgroundColor: theme.colorScheme.onInverseSurface,
-                    ),
-              child: Text(
-                'Month',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-            FilledButton.tonal(
-              onPressed: () {
-                setState(
-                  () {
-                    selectedTimeZone = ChartTimeZone.year;
-                  },
-                );
-              },
-              style: selectedTimeZone == ChartTimeZone.year
-                  ? FilledButton.styleFrom(
-                      backgroundColor:
-                          Theme.of(context).colorScheme.inversePrimary,
-                      //foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                    )
-                  : FilledButton.styleFrom(
-                      backgroundColor: theme.colorScheme.onInverseSurface,
-                    ),
-              child: Text(
-                'Year',
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-            const SizedBox(
-              width: 10,
-            ),
-          ],
-        ),
-        const SizedBox(
-          height: 20,
-        ),
-        Row(
-          children: [
-            const SizedBox(
-              width: 5,
-            ),
-            ...List.generate(
-              columnCount,
-              (index) {
-                String columnText = selectedTimeZone == ChartTimeZone.week
-                    ? WeekDays.values[index].name.characters.first
-                    : selectedTimeZone == ChartTimeZone.month
-                        ? '${index + 1}'
-                        : Months.values[index].name.characters.first;
-                double spacing = selectedTimeZone == ChartTimeZone.week
-                    ? 7
-                    : selectedTimeZone == ChartTimeZone.month
-                        ? 2
-                        : 5;
-
-                DateTime dateTime = selectedTimeZone == ChartTimeZone.week
-                    ? DateTime.now().add(Duration(days: index))
-                    : selectedTimeZone == ChartTimeZone.month
-                        ? DateTime.now().copyWith(day: index)
-                        : DateTime(DateTime.now().year, index);
-
-                /* print('index: $index');
-                print('columnText: $columnText');
-                print('spacing: $spacing');
-                print('dateTime: $dateTime');
-                print('dateTime: $dateTime');
-                print(
-                    'element.dueDate?.formatShortDate(): ${dateTime.formatShortDate()}'); */
-
-                return Expanded(
-                  child: ChartColumn(
-                    spacing: spacing,
-                    height: columnHeight,
-                    text: columnText.toUpperCase(),
-                    goals: widget.goals
-                        .where(
-                          (element) => element.tasks.any(
-                            (element) {
-                              /* print(
-                                  'element.dueDate?.formatShortDate(): ${element.dueDate?.formatShortDate()}');
-                              print(element.dueDate?.formatShortDate() ==
-                                  dateTime.formatShortDate());
-                              print(
-                                  '--------------------------------------------------\n'); */
-                              return selectedTimeZone == ChartTimeZone.week ||
-                                      selectedTimeZone == ChartTimeZone.month
-                                  ? element.dueDate?.formatShortDate() ==
-                                      dateTime.formatShortDate()
-                                  : element.dueDate?.month == dateTime.month;
-                            },
-                          ),
-                        )
-                        .toList(),
+              InkWell(
+                onTap: () {
+                  //Open Calendar maybe
+                },
+                borderRadius: BorderRadius.circular(50),
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.onInverseSurface,
+                    shape: BoxShape.circle,
                   ),
-                );
-              },
-            ),
-            const SizedBox(
-              width: 5,
-            ),
-          ],
-        ),
-        if (selectedTimeZone == ChartTimeZone.month)
+                  child: Icon(Icons.calendar_month_outlined),
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              FilledButton.tonal(
+                onPressed: () {
+                  setState(
+                    () {
+                      selectedTimeZone = ChartTimeZone.week;
+                    },
+                  );
+                },
+                style: selectedTimeZone == ChartTimeZone.week
+                    ? FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.inversePrimary,
+                        //foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      )
+                    : FilledButton.styleFrom(
+                        backgroundColor: theme.colorScheme.onInverseSurface,
+                      ),
+                child: Text(
+                  'Week',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              FilledButton.tonal(
+                onPressed: () {
+                  setState(
+                    () {
+                      selectedTimeZone = ChartTimeZone.month;
+                    },
+                  );
+                },
+                style: selectedTimeZone == ChartTimeZone.month
+                    ? FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.inversePrimary,
+                        //foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      )
+                    : FilledButton.styleFrom(
+                        backgroundColor: theme.colorScheme.onInverseSurface,
+                      ),
+                child: Text(
+                  'Month',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              FilledButton.tonal(
+                onPressed: () {
+                  setState(
+                    () {
+                      selectedTimeZone = ChartTimeZone.year;
+                    },
+                  );
+                },
+                style: selectedTimeZone == ChartTimeZone.year
+                    ? FilledButton.styleFrom(
+                        backgroundColor:
+                            Theme.of(context).colorScheme.inversePrimary,
+                        //foregroundColor: Theme.of(context).colorScheme.onPrimary,
+                      )
+                    : FilledButton.styleFrom(
+                        backgroundColor: theme.colorScheme.onInverseSurface,
+                      ),
+                child: Text(
+                  'Year',
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 10,
+              ),
+            ],
+          ),
           const SizedBox(
             height: 20,
           ),
-        if (selectedTimeZone == ChartTimeZone.month)
           Row(
             children: [
               const SizedBox(
@@ -229,9 +159,7 @@ class _TaskChartState extends State<TaskChart> {
               ),
               ...List.generate(
                 columnCount,
-                (i) {
-                  int index = i + 15;
-
+                (index) {
                   String columnText = selectedTimeZone == ChartTimeZone.week
                       ? WeekDays.values[index].name.characters.first
                       : selectedTimeZone == ChartTimeZone.month
@@ -246,23 +174,38 @@ class _TaskChartState extends State<TaskChart> {
                   DateTime dateTime = selectedTimeZone == ChartTimeZone.week
                       ? DateTime.now().add(Duration(days: index))
                       : selectedTimeZone == ChartTimeZone.month
-                          ? DateTime(
-                              DateTime.now().year, DateTime.now().month, index)
+                          ? DateTime.now().copyWith(day: index)
                           : DateTime(DateTime.now().year, index);
+
+                  /* print('index: $index');
+                print('columnText: $columnText');
+                print('spacing: $spacing');
+                print('dateTime: $dateTime');
+                print('dateTime: $dateTime');
+                print(
+                    'element.dueDate?.formatShortDate(): ${dateTime.formatShortDate()}'); */
 
                   return Expanded(
                     child: ChartColumn(
                       spacing: spacing,
                       height: columnHeight,
-                      text: columnText,
-                      goals: widget.goals
+                      text: columnText.toUpperCase(),
+                      goals: goals
                           .where(
                             (element) => element.tasks.any(
-                              (element) => selectedTimeZone ==
-                                          ChartTimeZone.week ||
-                                      selectedTimeZone == ChartTimeZone.month
-                                  ? element.dueDate == dateTime
-                                  : element.dueDate?.month == dateTime.month,
+                              (element) {
+                                /* print(
+                                  'element.dueDate?.formatShortDate(): ${element.dueDate?.formatShortDate()}');
+                              print(element.dueDate?.formatShortDate() ==
+                                  dateTime.formatShortDate());
+                              print(
+                                  '--------------------------------------------------\n'); */
+                                return selectedTimeZone == ChartTimeZone.week ||
+                                        selectedTimeZone == ChartTimeZone.month
+                                    ? element.dueDate?.formatShortDate() ==
+                                        dateTime.formatShortDate()
+                                    : element.dueDate?.month == dateTime.month;
+                              },
                             ),
                           )
                           .toList(),
@@ -275,7 +218,66 @@ class _TaskChartState extends State<TaskChart> {
               ),
             ],
           ),
-      ],
+          if (selectedTimeZone == ChartTimeZone.month)
+            const SizedBox(
+              height: 20,
+            ),
+          if (selectedTimeZone == ChartTimeZone.month)
+            Row(
+              children: [
+                const SizedBox(
+                  width: 5,
+                ),
+                ...List.generate(
+                  columnCount,
+                  (i) {
+                    int index = i + 15;
+
+                    String columnText = selectedTimeZone == ChartTimeZone.week
+                        ? WeekDays.values[index].name.characters.first
+                        : selectedTimeZone == ChartTimeZone.month
+                            ? '${index + 1}'
+                            : Months.values[index].name.characters.first;
+                    double spacing = selectedTimeZone == ChartTimeZone.week
+                        ? 7
+                        : selectedTimeZone == ChartTimeZone.month
+                            ? 2
+                            : 5;
+
+                    DateTime dateTime = selectedTimeZone == ChartTimeZone.week
+                        ? DateTime.now().add(Duration(days: index))
+                        : selectedTimeZone == ChartTimeZone.month
+                            ? DateTime(DateTime.now().year,
+                                DateTime.now().month, index)
+                            : DateTime(DateTime.now().year, index);
+
+                    return Expanded(
+                      child: ChartColumn(
+                        spacing: spacing,
+                        height: columnHeight,
+                        text: columnText,
+                        goals: goals
+                            .where(
+                              (element) => element.tasks.any(
+                                (element) => selectedTimeZone ==
+                                            ChartTimeZone.week ||
+                                        selectedTimeZone == ChartTimeZone.month
+                                    ? element.dueDate == dateTime
+                                    : element.dueDate?.month == dateTime.month,
+                              ),
+                            )
+                            .toList(),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+              ],
+            ),
+        ],
+      ),
     );
   }
 }

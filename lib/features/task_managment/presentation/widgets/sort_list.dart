@@ -9,17 +9,17 @@ enum SortTypes {
   priority,
 }
 
-class SortList extends StatefulWidget {
-  const SortList({super.key, required this.onChange});
+class SortOptions extends StatefulWidget {
+  const SortOptions({super.key, required this.onChange});
 
   final void Function(SortTypes newSortType, SortOrdering newSortOrder)
       onChange;
 
   @override
-  State<SortList> createState() => _SortListState();
+  State<SortOptions> createState() => _SortOptionsState();
 }
 
-class _SortListState extends State<SortList> {
+class _SortOptionsState extends State<SortOptions> {
   SortTypes selectedSortType = SortTypes.date;
   SortOrdering selectedSortOrder = SortOrdering.ascending;
 

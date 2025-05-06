@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planza/features/task_managment/bloc/task_bloc.dart';
 import 'package:planza/features/task_managment/presentation/widgets/add_task_fields.dart';
 
+import 'core/data/bloc/task_bloc/task_bloc.dart';
 import 'core/locale/app_localization.dart';
 import 'core/widgets/scrollables/scrollable_column.dart';
 import 'features/goal_managment/presentation/pages/add_goal_page.dart';

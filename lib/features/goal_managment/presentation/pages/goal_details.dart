@@ -5,8 +5,8 @@ import 'package:planza/core/locale/app_localization.dart';
 
 import 'package:planza/core/widgets/buttons/circle_back_button.dart';
 import 'package:planza/core/widgets/scrollables/scrollable_column.dart';
-import 'package:planza/features/task_managment/bloc/task_bloc.dart';
 
+import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 import '../../../task_managment/presentation/widgets/task_tile.dart';
 
 class GoalDetails extends StatelessWidget {

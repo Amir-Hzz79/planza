@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'core/data/bloc/goal_bloc/goal_bloc.dart';
+import 'core/data/bloc/task_bloc/task_bloc.dart';
 import 'core/locale/app_localization.dart';
 import 'core/locale/bloc/locale_bloc.dart';
 import 'core/locale/bloc/locale_event.dart';
 import 'core/locale/bloc/locale_state.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/bloc/theme_bloc.dart';
-import 'features/goal_managment/bloc/goal_bloc.dart';
-import 'features/task_managment/bloc/task_bloc.dart';
 import 'root_page.dart';
 
 class MyApp extends StatelessWidget {
