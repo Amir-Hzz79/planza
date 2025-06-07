@@ -53,7 +53,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                 ? widget.task
                 : TaskModel(
                     title: 'place holder',
-                    description:'place holder',
+                    description: 'place holder',
                     dueDate: DateTime.now(),
                     goal: GoalModel(
                       name: 'place holder',
@@ -61,6 +61,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                       color: Colors.grey,
                     ),
                   );
+
             return Skeletonizer(
               enabled: state is! TasksLoadedState,
               child: ScrollableColumn(
@@ -223,6 +224,38 @@ class _TaskDetailsState extends State<TaskDetails> {
                         ],
                       ),
                     ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    margin: EdgeInsets.symmetric(vertical: 24),
+                    child: Wrap(
+                      spacing: 8,
+                      runSpacing: 8,
+                      children: task.tags
+                          .map(
+                            (tag) => Container(
+                              padding: EdgeInsets.all(8),
+                              decoration: BoxDecoration(
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .surfaceContainer,
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(
+                                    Icons.tag_rounded,
+                                    size: 16,
+                                    color: Colors.grey,
+                                  ),
+                                  Text(tag.name),
+                                ],
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
                 ],
               ),
             );

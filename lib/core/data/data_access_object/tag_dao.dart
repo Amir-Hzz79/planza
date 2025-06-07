@@ -14,7 +14,7 @@ class TagDao extends DatabaseAccessor<AppDatabase> with _$TagDaoMixin {
   Future<List<TagModel>> getAllTags() => select(tags).get().then(
         (tags) => tags
             .map(
-              (tag) => TagModel.fromEntity(tag, []),
+              (tag) => TagModel.fromEntity(tag),
             )
             .toList(),
       );
@@ -43,14 +43,14 @@ class TagDao extends DatabaseAccessor<AppDatabase> with _$TagDaoMixin {
         final List<Task> taskList = entry.value;
 
         return TagModel.fromEntity(tagEntity,
-            taskList.map((task) => TaskModel.fromEntity(task)).toList());
+            tasks: taskList.map((task) => TaskModel.fromEntity(task)).toList());
       }).toList();
     });
   }
 
   Future<TagModel> getTagById(int id) =>
       (select(tags)..where((t) => t.id.equals(id))).getSingle().then(
-            (value) => TagModel.fromEntity(value, []),
+            (value) => TagModel.fromEntity(value),
           );
   Future<int> insertTag(TagModel tag) => into(tags).insert(tag.toEntity());
   Future<bool> updateTag(TagModel tag) => update(tags).replace(tag.toEntity());

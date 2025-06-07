@@ -41,6 +41,7 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
           ? null
           : _descriptionController.text,
       goal: selectedGoal,
+      tags: selectedTags,
     );
 
     widget.onSubmit.call(task);

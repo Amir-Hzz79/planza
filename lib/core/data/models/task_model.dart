@@ -3,6 +3,7 @@ import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 
 import '../database/database.dart' show Goal, Task, TasksCompanion;
+import 'tag_model.dart';
 
 class TaskModel {
   final int? id;
@@ -14,12 +15,12 @@ class TaskModel {
   final int? priority;
   final int? parentTaskId;
   GoalModel? goal;
+  List<TagModel> tags;
 
   bool get isOverdue {
     if (dueDate == null) {
       return false;
     }
-
     return doneDate != null
         ? doneDate!.isAfter(dueDate!)
         : dueDate!.isBeforeToday();
@@ -27,6 +28,7 @@ class TaskModel {
 
   int? get daysLeft => dueDate?.difference(DateTime.now()).inDays;
 
+  // This constructor is correct.
   TaskModel({
     this.id,
     required this.title,
@@ -36,10 +38,19 @@ class TaskModel {
     this.priority,
     this.parentTaskId,
     this.goal,
-  });
+    List<TagModel>? tags,
+  }) : tags = tags ?? [];
 
-  // Convert a Task entity to a TaskModel
-  factory TaskModel.fromEntity(Task taskEntity, {Goal? goal}) {
+  // --- THE FIX IS APPLIED HERE ---
+  factory TaskModel.fromEntity(
+    Task taskEntity, {
+    Goal? goal,
+    // The parameter is now nullable, removing the `const []` default.
+    List<TagModel>? tags,
+  }) {
+    // Now, when the 'tags' parameter is omitted, it will be null.
+    // This null value gets passed to the main constructor, which then correctly
+    // initializes `this.tags` with a new, modifiable empty list `[]`.
     return TaskModel(
       id: taskEntity.id,
       goal: goal == null ? null : GoalModel.fromEntity(goal),
@@ -49,10 +60,11 @@ class TaskModel {
       doneDate: taskEntity.doneDate,
       priority: taskEntity.priority,
       parentTaskId: taskEntity.parentTaskId,
+      tags: tags,
     );
   }
 
-  // Convert a TaskModel to a Task entity
+  // No other changes are needed below this line.
   Task toEntity() {
     return Task(
       id: id ?? -1,
@@ -66,7 +78,6 @@ class TaskModel {
     );
   }
 
-  // Convert a TaskModel to a Task entity
   TasksCompanion toInsertCompanion() {
     return TasksCompanion(
       goalId: Value(goal?.id),

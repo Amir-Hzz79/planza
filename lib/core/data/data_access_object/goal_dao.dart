@@ -3,10 +3,12 @@ import 'package:planza/core/data/database/database.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 
 import '../database/tables.dart';
+import '../models/tag_model.dart';
+import '../models/task_model.dart';
 
 part 'goal_dao.g.dart';
 
-@DriftAccessor(tables: [Goals, Tasks])
+@DriftAccessor(tables: [Goals, Tasks, Tags, TaskTags])
 class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
   GoalDao(super.attachedDatabase);
 
@@ -54,36 +56,50 @@ class GoalDao extends DatabaseAccessor<AppDatabase> with _$GoalDaoMixin {
   }
 
   Stream<List<GoalModel>> watchAllGoalsWithTasks() {
+    // Renamed for clarity
     final query = select(goals).join([
       leftOuterJoin(tasks, tasks.goalId.equalsExp(goals.id)),
+      leftOuterJoin(taskTags, taskTags.taskId.equalsExp(tasks.id)),
+      leftOuterJoin(tags, tags.id.equalsExp(taskTags.tagId)),
     ]);
 
-    return query.watch().map(
-      (rows) {
-        final goalsMap = <Goal, List<Task>>{};
+    return query.watch().map((rows) {
+      final Map<int, GoalModel> goalMap = {};
+      final Map<int, TaskModel> taskMap = {};
 
-        for (final row in rows) {
-          final Goal goal = row.readTable(goals);
-          final Task? task = row.readTableOrNull(tasks);
+      for (final row in rows) {
+        final goalEntity = row.readTable(goals);
+        final taskEntity = row.readTableOrNull(tasks);
+        final tagEntity = row.readTableOrNull(tags);
 
-          goalsMap.putIfAbsent(goal, () => []);
-          if (task != null) {
-            goalsMap[goal]!.add(task);
+        // Get or create the GoalModel. This part is correct.
+        final goalModel = goalMap.putIfAbsent(
+          goalEntity.id,
+          () => GoalModel.fromEntity(goalEntity, tasks: []),
+        );
+
+        if (taskEntity != null) {
+          // Get or create the TaskModel
+          final taskModel = taskMap.putIfAbsent(taskEntity.id, () {
+            // When a task is first seen, create its model
+            final newTask = TaskModel.fromEntity(taskEntity, tags: []);
+            // and add it to its parent goal's list.
+            goalModel.tasks.add(newTask);
+            return newTask;
+          });
+
+          // --- FIX IS HERE ---
+          // Check if a tag exists in this row AND that we haven't already added this tag to this task.
+          if (tagEntity != null &&
+              !taskModel.tags.any((t) => t.id == tagEntity.id)) {
+            // Assuming you have a `fromSimpleEntity` factory on TagModel
+            // or that fromEntity can be called with just one argument.
+            taskModel.tags.add(TagModel.fromEntity(tagEntity));
           }
         }
-
-        /* print(goalsMap); */
-
-        return goalsMap.entries.map(
-          (entry) {
-            final Goal goalEntity = entry.key;
-            final List<Task> taskList = entry.value;
-
-            return GoalModel.fromEntity(goalEntity, tasks: taskList);
-          },
-        ).toList();
-      },
-    );
+      }
+      return goalMap.values.toList();
+    });
   }
 
   Stream<List<Goal>> watchAllGoals() => select(goals).watch();

@@ -38,6 +38,8 @@ class AppDatabase extends _$AppDatabase {
   Future<void> insertDummyData() async {
     await goals.deleteAll();
     await tasks.deleteAll();
+    await tags.deleteAll();
+    await taskTags.deleteAll();
 
     // Insert Goals
     await into(goals).insert(GoalsCompanion(
@@ -145,13 +147,12 @@ class AppDatabase extends _$AppDatabase {
     ));
 
     await into(tasks).insert(TasksCompanion(
-      id: Value(5),
-      goalId: Value(2),
-      title: Value("Start Reading Novel"),
-      description: Value("Read a new fiction book"),
-      dueDate: Value(DateTime(2025, 5, 20)),
-      doneDate: Value(DateTime(2025, 4, 14)),
-      priority: Value(2),
+      id: Value(3),
+      goalId: Value(3),
+      title: Value("Finalize Flight Tickets"),
+      description: Value("Book flights for the trip"),
+      dueDate: Value(DateTime(2025, 5, 5)),
+      priority: Value(3),
       parentTaskId: Value(null),
     ));
 
@@ -164,14 +165,15 @@ class AppDatabase extends _$AppDatabase {
       priority: Value(1),
       parentTaskId: Value(null),
     ));
-
+    
     await into(tasks).insert(TasksCompanion(
-      id: Value(3),
-      goalId: Value(3),
-      title: Value("Finalize Flight Tickets"),
-      description: Value("Book flights for the trip"),
-      dueDate: Value(DateTime(2025, 5, 5)),
-      priority: Value(3),
+      id: Value(5),
+      goalId: Value(2),
+      title: Value("Start Reading Novel"),
+      description: Value("Read a new fiction book"),
+      dueDate: Value(DateTime(2025, 5, 20)),
+      doneDate: Value(DateTime(2025, 4, 14)),
+      priority: Value(2),
       parentTaskId: Value(null),
     ));
 
@@ -284,6 +286,50 @@ class AppDatabase extends _$AppDatabase {
       dueDate: Value(DateTime(2025, 5, 25)),
       priority: Value(3),
       parentTaskId: Value(13),
+    ));
+
+    //Insert Tags
+    await into(tags).insert(TagsCompanion(
+      id: Value(1),
+      name: Value('Urgent'),
+    ));
+    await into(tags).insert(TagsCompanion(
+      id: Value(2),
+      name: Value('other'),
+    ));
+    await into(tags).insert(TagsCompanion(
+      id: Value(3),
+      name: Value('today'),
+    ));
+    await into(tags).insert(TagsCompanion(
+      id: Value(4),
+      name: Value('call'),
+    ));
+    await into(tags).insert(TagsCompanion(
+      id: Value(5),
+      name: Value('message'),
+    ));
+
+    await into(taskTags).insert(TaskTagsCompanion.insert(
+      tagId: Value(1),
+      taskId: Value(4),
+    ));
+    await into(taskTags).insert(TaskTagsCompanion.insert(
+      tagId: Value(2),
+      taskId: Value(4),
+    ));
+    await into(taskTags).insert(TaskTagsCompanion.insert(
+      tagId: Value(3),
+      taskId: Value(4),
+    ));
+
+    await into(taskTags).insert(TaskTagsCompanion.insert(
+      tagId: Value(4),
+      taskId: Value(4),
+    ));
+    await into(taskTags).insert(TaskTagsCompanion.insert(
+      tagId: Value(5),
+      taskId: Value(4),
     ));
   }
 

@@ -29,8 +29,7 @@ class TaskBlocBuilder extends StatelessWidget {
                       .add(Duration(days: index)),
                 ),
               );
-        print(tasks.length);
-        print(state.runtimeType);
+
         return Skeletonizer(
           enabled: state is! TasksLoadedState /* true */,
           child: onDataLoaded.call(tasks),
