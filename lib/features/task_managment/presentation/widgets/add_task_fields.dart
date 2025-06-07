@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/data/models/tag_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
+import 'package:planza/core/widgets/buttons/custom_icon_button.dart';
 
 import '../../../../core/locale/app_localization.dart';
 import '../../../../core/widgets/date_picker/date_picker.dart';
-import '../../../../core/widgets/scrollables/scrollable_row.dart';
 import '../../../../core/widgets/text_fields/removable_text_field.dart';
 import 'goal_selection.dart';
+import 'tag_selection.dart';
 
 class AddTaskFields extends StatefulWidget {
   const AddTaskFields({
@@ -54,6 +56,7 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
   GoalModel? selectedGoal;
   DateTime? selectedDateTime;
   bool showDescription = false;
+  final List<TagModel> selectedTags = [];
 
   @override
   Widget build(BuildContext context) {
@@ -87,45 +90,53 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
               return null;
             },
           ),
-          ScrollableRow(
+          Wrap(
             spacing: 10,
             children: [
               if (widget.showGoalPicker)
                 GoalSelection(
-                  iconMode: true,
                   onChanged: (selectedGoal) {
                     this.selectedGoal = selectedGoal;
                   },
                 ),
               if (widget.showDatePicker)
                 DatePicker(
-                  showSelectedDate: false,
+                  showSelectedDate: true,
                   showIconWhenDateSelected: true,
                   showRemoveIcon: false,
                   onChange: (selectedDate) => selectedDateTime = selectedDate,
                 ),
-              InkWell(
-                borderRadius: BorderRadius.circular(20),
+              CustomIconButton(
                 onTap: () {
                   setState(() {
                     showDescription = !showDescription;
                     _descriptionController.text = '';
                   });
                 },
-                child: Container(
-                  padding: EdgeInsets.symmetric(vertical: 6, horizontal: 10),
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.surfaceContainer,
-                    borderRadius: BorderRadius.circular(20),
-                  ),
-                  child: Icon(
-                    Icons.add_rounded,
-                    color: showDescription
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.grey,
-                  ),
+                icon: Icon(
+                  Icons.add_rounded,
+                  color: showDescription
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.grey,
                 ),
-              )
+              ),
+              TagSelection(
+                selected: (tag) => selectedTags.contains(tag),
+                onTagAdded: (selectedTag) {
+                  setState(() {
+                    selectedTags.add(selectedTag);
+                  });
+                },
+                onTagRemoved: (selectedTag) {
+                  setState(() {
+                    selectedTags.remove(selectedTag);
+                  });
+                },
+              ),
+              IconButton.filled(
+                onPressed: () {},
+                icon: Icon(Icons.add_rounded),
+              ),
             ],
           ),
           AnimatedSwitcher(
@@ -144,6 +155,32 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
                     },
                   )
                 : null,
+          ),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: selectedTags
+                .map(
+                  (tag) => Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(context).colorScheme.surfaceContainer,
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.tag_rounded,
+                          size: 16,
+                          color: Colors.grey,
+                        ),
+                        Text(tag.name),
+                      ],
+                    ),
+                  ),
+                )
+                .toList(),
           ),
           SizedBox(
             width: double.infinity,

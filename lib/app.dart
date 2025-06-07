@@ -3,6 +3,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'core/data/bloc/goal_bloc/goal_bloc.dart';
+import 'core/data/bloc/tag_bloc/tag_bloc.dart';
 import 'core/data/bloc/task_bloc/task_bloc.dart';
 import 'core/locale/app_localization.dart';
 import 'core/locale/bloc/locale_bloc.dart';
@@ -31,6 +32,9 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TaskBloc()..add(StartWatchingTasksEvent()),
+        ),
+        BlocProvider(
+          create: (context) => TagBloc()..add(StartWatchingTagsEvent()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(

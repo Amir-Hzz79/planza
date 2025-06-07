@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 
 import '../../../../core/locale/app_localization.dart';
-import '../../../../core/data/bloc/goal_bloc/goal_bloc.dart';
+import '../../../../core/widgets/buttons/custom_icon_button.dart';
 
 class GoalSelection extends StatefulWidget {
   const GoalSelection({
@@ -34,10 +34,9 @@ class _GoalSelectionState extends State<GoalSelection> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GoalBloc, GoalState>(builder: (context, state) {
-      if (state is GoalsLoadedState) {
-        return InkWell(
-          borderRadius: BorderRadius.circular(20),
+    return GoalBlocBuilder(
+      onDataLoaded: (goals) {
+        return CustomIconButton(
           onTap: () {
             Navigator.push(
               context,
@@ -71,23 +70,23 @@ class _GoalSelectionState extends State<GoalSelection> {
                         ),
                       ),
                       ...List.generate(
-                        state.goals.length,
+                        goals.length,
                         (index) => InkWell(
                           onTap: () {
                             setState(() {
-                              selectedGoal = state.goals[index];
-                              widget.onChanged.call(state.goals[index]);
+                              selectedGoal = goals[index];
+                              widget.onChanged.call(goals[index]);
                             });
 
                             Navigator.pop(context);
                           },
                           child: ListTile(
-                            selected: selectedGoal == state.goals[index],
+                            selected: selectedGoal == goals[index],
                             leading: CircleAvatar(
                               radius: 10,
-                              backgroundColor: state.goals[index].color,
+                              backgroundColor: goals[index].color,
                             ),
-                            title: Text(state.goals[index].name),
+                            title: Text(goals[index].name),
                           ),
                         ),
                       ),
@@ -101,18 +100,14 @@ class _GoalSelectionState extends State<GoalSelection> {
               ),
             );
           },
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainer,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: widget.iconMode
-                ? Icon(
-                    Icons.golf_course_rounded,
-                    color: selectedGoal?.color ?? Colors.grey,
-                  )
-                : Row(
+          icon: widget.iconMode
+              ? Icon(
+                  Icons.golf_course_rounded,
+                  color: selectedGoal?.color ?? Colors.grey,
+                )
+              : Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 5),
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
                     spacing: 5,
                     children: [
@@ -130,21 +125,9 @@ class _GoalSelectionState extends State<GoalSelection> {
                       ),
                     ],
                   ),
-          ),
+                ),
         );
-      } else if (state is GoalErrorState) {
-        return Text('Error: ${state.message}');
-      } else {
-        return Container(
-          width: 60,
-          margin: EdgeInsets.symmetric(horizontal: 10),
-          height: 100,
-          decoration: BoxDecoration(
-            color: Colors.grey,
-            borderRadius: BorderRadius.circular(20),
-          ),
-        );
-      }
-    });
+      },
+    );
   }
 }

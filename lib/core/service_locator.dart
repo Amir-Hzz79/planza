@@ -3,6 +3,7 @@ import 'package:planza/core/data/data_access_object/goal_dao.dart';
 import 'package:planza/core/data/data_access_object/task_dao.dart';
 import 'package:planza/core/data/database/database.dart';
 
+import 'data/data_access_object/tag_dao.dart';
 import 'data/services/locale_prefrence_service.dart';
 import 'data/services/theme_prefrence_servie.dart';
 
@@ -21,6 +22,10 @@ Future<void> initServices() async {
 
   GetIt.instance.registerLazySingleton(
     () => TaskDao(database),
+  );
+
+  GetIt.instance.registerLazySingleton(
+    () => TagDao(database),
   );
 
   GetIt.instance.registerLazySingleton(

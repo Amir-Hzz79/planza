@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 
+import '../buttons/custom_icon_button.dart';
+
 class DatePicker extends StatefulWidget {
   const DatePicker({
     super.key,
@@ -36,8 +38,7 @@ class _DatePickerState extends State<DatePicker> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      borderRadius: BorderRadius.circular(20),
+    return CustomIconButton(
       onTap: () async {
         //TODO: Find a suitable date picker
         selectedDate = await showDatePicker(
@@ -52,78 +53,47 @@ class _DatePickerState extends State<DatePicker> {
 
         setState(() {});
       },
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surfaceContainer,
-          borderRadius: BorderRadius.circular(20),
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (selectedDate == null ? true : widget.showIconWhenDateSelected)
-              Icon(
-                Icons.more_time_rounded,
-                color: selectedDate == null
-                    ? Colors.grey
-                    : Theme.of(context).colorScheme.primary,
-                size: widget.iconSize,
-              ),
-            if ((selectedDate != null || widget.title != null) &&
-                widget.showSelectedDate)
-              const SizedBox(
-                width: 5,
-              ),
-            if ((selectedDate != null || widget.title != null) &&
-                widget.showSelectedDate)
-              Text(
-                selectedDate?.formatShortDate() ?? widget.title ?? '',
-                style: Theme.of(context).textTheme.labelSmall,
-              ),
-            if (selectedDate != null && widget.showRemoveIcon)
-              InkWell(
-                borderRadius: BorderRadius.circular(50),
-                onTap: () {
-                  setState(() {
-                    selectedDate = null;
-                  });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(3),
-                  child: Icon(
-                    Icons.clear_rounded,
-                    color: Colors.grey,
-                    size: 15,
-                  ),
+      icon: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (selectedDate == null ? true : widget.showIconWhenDateSelected)
+            Icon(
+              Icons.more_time_rounded,
+              color: selectedDate == null
+                  ? Colors.grey
+                  : Theme.of(context).colorScheme.primary,
+              size: widget.iconSize,
+            ),
+          if ((selectedDate != null || widget.title != null) &&
+              widget.showSelectedDate)
+            const SizedBox(
+              width: 5,
+            ),
+          if ((selectedDate != null || widget.title != null) &&
+              widget.showSelectedDate)
+            Text(
+              selectedDate?.formatShortDate() ?? widget.title ?? '',
+              style: Theme.of(context).textTheme.labelSmall,
+            ),
+          if (selectedDate != null && widget.showRemoveIcon)
+            InkWell(
+              borderRadius: BorderRadius.circular(50),
+              onTap: () {
+                setState(() {
+                  selectedDate = null;
+                });
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(3),
+                child: Icon(
+                  Icons.clear_rounded,
+                  color: Colors.grey,
+                  size: 15,
                 ),
-              )
-          ],
-        ),
+              ),
+            )
+        ],
       ),
-      /* ListTile(
-        leading: selectedDate != null
-            ? InkWell(
-                borderRadius: BorderRadius.circular(50),
-                onTap: () {
-                  setState(() {
-                    selectedDate = null;
-                  });
-                },
-                child: Padding(
-                  padding: const EdgeInsets.all(3),
-                  child: Icon(
-                    Icons.clear_rounded,
-                    color: Colors.grey,
-                  ),
-                ),
-              )
-            : null,
-        title: Text(widget.title),
-        trailing: Text(
-          selectedDate?.formatShortDate() ??
-              AppLocalizations.of(context).translate('choose_date'),
-        ),
-      ), */
     );
   }
 }
