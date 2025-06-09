@@ -18,6 +18,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TasksUpdatedEvent>(_onTasksUpdated);
     on<TaskAddedEvent>(_onTaskAdded);
     on<TaskUpdatedEvent>(_onTaskUpdated);
+    on<TaskDeletedEvent>(_onTaskDeleted);
   }
 
   Future<void> _onLoadTasks(
@@ -57,6 +58,16 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     emit(TaskLoadingState());
     try {
       await _taskDao.updateTask(event.newTask);
+    } catch (e) {
+      emit(TaskErrorState('Failed to Update Task'));
+    }
+  }
+
+  Future<void> _onTaskDeleted(
+      TaskDeletedEvent event, Emitter<TaskState> emit) async {
+    emit(TaskLoadingState());
+    try {
+      await _taskDao.deleteTask(event.task.id!);
     } catch (e) {
       emit(TaskErrorState('Failed to Update Task'));
     }

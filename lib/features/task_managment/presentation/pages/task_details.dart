@@ -126,6 +126,8 @@ class _TaskDetailsState extends State<TaskDetails> {
                         trailing: task.isCompleted
                             ? Text(task.description ?? '')
                             : DynamicSizeTextFormField(
+                                minWidth: 100,
+                                hint: appLocalization.translate('description'),
                                 titleController: _descriptionController,
                                 onLeave: (newValue) {
                                   task.description =

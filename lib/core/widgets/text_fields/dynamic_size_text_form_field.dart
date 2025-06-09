@@ -5,13 +5,19 @@ class DynamicSizeTextFormField extends StatefulWidget {
   const DynamicSizeTextFormField({
     super.key,
     this.onLeave,
+    this.hint,
     required this.titleController,
     this.validator,
+    this.minWidth = 50,
+    this.maxWidth = 150,
   });
 
+  final String? hint;
   final TextEditingController titleController;
   final void Function(String? newValue)? onLeave;
   final String? Function(String? value)? validator;
+  final double minWidth;
+  final double maxWidth;
 
   @override
   State<DynamicSizeTextFormField> createState() =>
@@ -20,8 +26,6 @@ class DynamicSizeTextFormField extends StatefulWidget {
 
 class _DynamicSizeTextFormFieldState extends State<DynamicSizeTextFormField> {
   double textWidth = 100;
-  final double maxWidth = 150;
-  final double minWidth = 50;
 
   final FocusNode _focusNode = FocusNode();
 
@@ -61,7 +65,7 @@ class _DynamicSizeTextFormFieldState extends State<DynamicSizeTextFormField> {
     return LayoutBuilder(
       builder: (context, constraints) {
         return SizedBox(
-          width: max(minWidth, min(textWidth, maxWidth)),
+          width: max(widget.minWidth, min(textWidth, widget.maxWidth)),
           child: TextFormField(
             controller: widget.titleController,
             focusNode: _focusNode,
@@ -69,6 +73,9 @@ class _DynamicSizeTextFormFieldState extends State<DynamicSizeTextFormField> {
             style: Theme.of(context).textTheme.labelSmall,
             decoration: InputDecoration(
               filled: true,
+              /* label: widget.label, */
+              hintText: widget.hint,
+              hintStyle: Theme.of(context).textTheme.labelSmall,
               fillColor: Theme.of(context).colorScheme.surfaceContainer,
               border: OutlineInputBorder(
                 borderSide: BorderSide.none,

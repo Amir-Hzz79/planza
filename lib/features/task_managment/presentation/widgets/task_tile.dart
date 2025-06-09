@@ -37,6 +37,34 @@ class TaskTile extends StatelessWidget {
                 ),
               );
             },
+            onLongPress: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: Text('Delete Task'),
+                    content: Text('Are you sure you want to delete this task?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Cancel'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          context
+                              .read<TaskBloc>()
+                              .add(TaskDeletedEvent(task: task));
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Delete'),
+                      ),
+                    ],
+                  );
+                },
+              );
+            },
             borderRadius: BorderRadius.circular(15),
             child: ListTile(
               tileColor: Theme.of(context).colorScheme.surfaceContainer,

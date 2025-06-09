@@ -24,3 +24,9 @@ class TaskUpdatedEvent extends TaskEvent {
 
   TaskUpdatedEvent({required this.newTask});
 }
+
+class TaskDeletedEvent extends TaskEvent {
+  final TaskModel task;
+
+  TaskDeletedEvent({required this.task});
+}
