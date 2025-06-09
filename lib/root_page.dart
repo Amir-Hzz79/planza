@@ -84,7 +84,7 @@ class _RootPageState extends State<RootPage> {
                           children: [
                             InkWell(
                               onTap: () {
-                                Navigator.of(context).pushReplacement(
+                                Navigator.of(context).push(
                                   ModalBottomSheetRoute(
                                     showDragHandle: true,
                                     builder: (context) => IntrinsicHeight(

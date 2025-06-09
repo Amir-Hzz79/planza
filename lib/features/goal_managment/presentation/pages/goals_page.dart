@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:planza/features/goal_managment/presentation/widgets/goal_card.dart';
 
-import '../widgets/goal_counter/goal_counter_section.dart';
-import '../widgets/task_chart/task_chart.dart';
+import '../../../../core/data/bloc/goal_bloc/goal_bloc_builder.dart';
+import '../widgets/thematic_goal_card.dart';
 
 class GoalsPage extends StatefulWidget {
   const GoalsPage({super.key});
@@ -13,12 +14,27 @@ class GoalsPage extends StatefulWidget {
 class _GoalsPageState extends State<GoalsPage> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 20,
-      children: [
-        GoalCounterSection(),
-        TaskChart(),
-      ],
-    );
+    return GoalBlocBuilder(onDataLoaded: (goals) {
+      for (var goal in goals) {
+        print(goal.tasks.length);
+        print('----');
+      }
+      return Column(
+        /* spacing: 20, */
+        children: [
+          ...goals.map(
+            (goal) => ThematicGoalCard(
+              goal: goal,
+            ),
+          ),
+          const SizedBox(
+            height: 70,
+          )
+        ], /* [
+            GoalCounterSection(),
+            TaskChart(),
+          ], */
+      );
+    });
   }
 }

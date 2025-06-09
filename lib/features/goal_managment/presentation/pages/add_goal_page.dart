@@ -20,7 +20,8 @@ class AddGoalPage extends StatefulWidget {
 }
 
 class _AddGoalPageState extends State<AddGoalPage> {
-  final TextEditingController _titleController = TextEditingController(text: 'New Goal');
+  final TextEditingController _titleController =
+      TextEditingController(text: 'New Goal');
   DateTime? selectedDateTime;
   Color selectedColor = Colors.grey;
   final List<TaskModel> tasks = [];
@@ -34,7 +35,6 @@ class _AddGoalPageState extends State<AddGoalPage> {
 
     final GoalModel goal = GoalModel(
       name: _titleController.text,
-      completed: false,
       color: selectedColor,
       deadline: selectedDateTime,
       tasks: tasks,

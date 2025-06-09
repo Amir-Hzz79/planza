@@ -14,10 +14,12 @@ class AddTaskFields extends StatefulWidget {
   const AddTaskFields({
     super.key,
     required this.onSubmit,
+    this.fixedGoal,
     this.showDatePicker = true,
     this.showGoalPicker = true,
   });
 
+  final GoalModel? fixedGoal;
   final bool showDatePicker;
   final bool showGoalPicker;
   final void Function(TaskModel newTask) onSubmit;
@@ -60,6 +62,12 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
   final List<TagModel> selectedTags = [];
 
   @override
+  void initState() {
+    selectedGoal = widget.fixedGoal;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context);
 
@@ -94,7 +102,7 @@ class _AddTaskFieldsState extends State<AddTaskFields> {
           Wrap(
             spacing: 10,
             children: [
-              if (widget.showGoalPicker)
+              if (widget.showGoalPicker && widget.fixedGoal == null)
                 GoalSelection(
                   onChanged: (selectedGoal) {
                     this.selectedGoal = selectedGoal;

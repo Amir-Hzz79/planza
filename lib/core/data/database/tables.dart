@@ -18,7 +18,6 @@ class Goals extends Table {
   TextColumn get name => text().withLength(min: 1, max: 255)();
   TextColumn get description => text().nullable()();
   DateTimeColumn get deadline => dateTime().nullable()();
-  BoolColumn get completed => boolean().withDefault(const Constant(false))();
   IntColumn get color => integer()();
 }
 

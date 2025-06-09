@@ -9,16 +9,17 @@ class GoalModel {
   final String name;
   final String? description;
   final DateTime? deadline;
-  final bool completed;
   final Color color;
   final List<TaskModel> tasks;
+  bool get isCompleted => !tasks.any(
+        (task) => !task.isCompleted,
+      );
 
   GoalModel({
     this.id,
     required this.name,
     this.description,
     this.deadline,
-    required this.completed,
     required this.color,
     this.tasks = const [],
   });
@@ -52,7 +53,6 @@ class GoalModel {
       name: goalEntity.name,
       description: goalEntity.description,
       deadline: goalEntity.deadline,
-      completed: goalEntity.completed,
       color: Color(goalEntity.color),
       tasks: sortTasks.map((task) => TaskModel.fromEntity(task)).toList(),
     );
@@ -65,7 +65,6 @@ class GoalModel {
       name: name,
       description: description,
       deadline: deadline,
-      completed: completed,
       color: color.toARGB32(),
     );
   }
@@ -74,7 +73,6 @@ class GoalModel {
     return GoalsCompanion(
       name: Value(name),
       color: Value(color.toARGB32()),
-      completed: Value(completed),
       deadline: Value(deadline),
       description: Value(description),
     );

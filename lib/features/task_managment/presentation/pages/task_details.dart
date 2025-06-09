@@ -57,7 +57,6 @@ class _TaskDetailsState extends State<TaskDetails> {
                     dueDate: DateTime.now(),
                     goal: GoalModel(
                       name: 'place holder',
-                      completed: false,
                       color: Colors.grey,
                     ),
                   );

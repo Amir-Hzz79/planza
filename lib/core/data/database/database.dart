@@ -47,7 +47,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Fitness Challenge"),
       description: Value("Get fit in 3 months"),
       deadline: Value(DateTime(2025, 6, 1)),
-      completed: Value(false),
       color: Value(0xFFffc8dd),
     ));
 
@@ -56,7 +55,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Read More Books"),
       description: Value("Read 12 books this year"),
       deadline: Value(DateTime(2025, 12, 31)),
-      completed: Value(false),
       color: Value(0xFFbde0fe),
     ));
 
@@ -65,7 +63,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Vacation Planning"),
       description: Value("Plan summer vacation"),
       deadline: Value(DateTime(2025, 4, 15)),
-      completed: Value(true),
       color: Value(0xFFa2d2ff),
     ));
 
@@ -74,7 +71,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Cooking Challenge"),
       description: Value("Learn to cook 10 new recipes"),
       deadline: Value(DateTime(2025, 5, 30)),
-      completed: Value(false),
       color: Value(0xFFffafcc),
     ));
 
@@ -83,7 +79,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Home Renovation"),
       description: Value("Redesign the living room and kitchen"),
       deadline: Value(DateTime(2025, 7, 15)),
-      completed: Value(false),
       color: Value(0xFFcdb4db),
     ));
 
@@ -92,7 +87,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Language Learning"),
       description: Value("Learn conversational Spanish"),
       deadline: Value(DateTime(2025, 10, 1)),
-      completed: Value(false),
       color: Value(0xFFb9fbc0),
     ));
 
@@ -101,7 +95,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Gardening Project"),
       description: Value("Grow vegetables and flowers in the backyard"),
       deadline: Value(DateTime(2025, 8, 15)),
-      completed: Value(false),
       color: Value(0xFFffd6a5),
     ));
 
@@ -110,7 +103,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Tech Skills Improvement"),
       description: Value("Complete an advanced programming course"),
       deadline: Value(DateTime(2025, 9, 30)),
-      completed: Value(false),
       color: Value(0xFFf4a261),
     ));
 
@@ -119,7 +111,6 @@ class AppDatabase extends _$AppDatabase {
       name: Value("Fitness Milestone"),
       description: Value("Run a half marathon"),
       deadline: Value(DateTime(2025, 10, 20)),
-      completed: Value(false),
       color: Value(0xFFe9c46a),
     ));
 
@@ -129,8 +120,8 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(1),
       title: Value("Morning Jogging"),
       description: Value("Jog every morning"),
-      dueDate: Value(DateTime(2025, 5, 1)),
-      doneDate: Value(DateTime(2025, 4, 12)),
+      dueDate: Value(DateTime.now().subtract(Duration(days: 5))),
+      doneDate: Value(DateTime.now().subtract(Duration(days: 6))),
       priority: Value(1),
       parentTaskId: Value(null),
     ));
@@ -140,8 +131,8 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(1),
       title: Value("Gym Session"),
       description: Value("Strength training"),
-      dueDate: Value(DateTime(2025, 5, 17)),
-      doneDate: Value(DateTime(2025, 4, 1)),
+      dueDate: Value(DateTime.now().subtract(Duration(days: 4))),
+      doneDate: Value(DateTime.now().subtract(Duration(days: 3))),
       priority: Value(2),
       parentTaskId: Value(null),
     ));
@@ -151,7 +142,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(3),
       title: Value("Finalize Flight Tickets"),
       description: Value("Book flights for the trip"),
-      dueDate: Value(DateTime(2025, 5, 5)),
+      dueDate: Value(DateTime.now().subtract(Duration(days: 1))),
       priority: Value(3),
       parentTaskId: Value(null),
     ));
@@ -161,17 +152,17 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(3),
       title: Value("Create Vacation Budget"),
       description: Value("Budget your expenses"),
-      dueDate: Value(DateTime(2025, 3, 22)),
+      dueDate: Value(DateTime.now()),
       priority: Value(1),
       parentTaskId: Value(null),
     ));
-    
+
     await into(tasks).insert(TasksCompanion(
       id: Value(5),
       goalId: Value(2),
       title: Value("Start Reading Novel"),
       description: Value("Read a new fiction book"),
-      dueDate: Value(DateTime(2025, 5, 20)),
+      dueDate: Value(DateTime.now()),
       doneDate: Value(DateTime(2025, 4, 14)),
       priority: Value(2),
       parentTaskId: Value(null),
@@ -182,7 +173,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(4),
       title: Value("Try Italian Recipe"),
       description: Value("Cook pasta from scratch"),
-      dueDate: Value(DateTime(2025, 4, 10)),
+      dueDate: Value(DateTime.now()),
       priority: Value(2),
       parentTaskId: Value(null),
     ));
@@ -192,7 +183,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(5),
       title: Value("Buy Paint for Walls"),
       description: Value("Choose a color palette and purchase paint"),
-      dueDate: Value(DateTime(2025, 5, 1)),
+      dueDate: Value(DateTime.now().add(Duration(days: 1))),
       priority: Value(3),
       parentTaskId: Value(null),
     ));
@@ -202,7 +193,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(6),
       title: Value("Practice Spanish Verbs"),
       description: Value("Master the 20 most common verbs"),
-      dueDate: Value(DateTime(2025, 5, 20)),
+      dueDate: Value(DateTime.now().add(Duration(days: 2))),
       priority: Value(1),
       parentTaskId: Value(null),
     ));
@@ -212,8 +203,8 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(4),
       title: Value("Bake a Cake"),
       description: Value("Bake a chocolate cake for dessert"),
-      dueDate: Value(DateTime(2025, 4, 5)),
-      doneDate: Value(DateTime(2025, 4, 9)),
+      dueDate: Value(DateTime.now().add(Duration(days: 5))),
+      doneDate: Value(DateTime.now().add(Duration(days: 1))),
       priority: Value(1),
       parentTaskId: Value(6),
     ));
@@ -223,8 +214,8 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(5),
       title: Value("Sand and Prep Walls"),
       description: Value("Prepare the walls for painting"),
-      dueDate: Value(DateTime(2025, 5, 5)),
-      doneDate: Value(DateTime(2025, 4, 8)),
+      dueDate: Value(DateTime.now().add(Duration(days: 15))),
+      doneDate: Value(DateTime.now().add(Duration(days: 4))),
       priority: Value(3),
       parentTaskId: Value(7),
     ));
@@ -234,7 +225,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(7),
       title: Value("Prepare Soil for Planting"),
       description: Value("Clear weeds and add compost"),
-      dueDate: Value(DateTime(2025, 4, 1)),
+      dueDate: Value(DateTime.now().add(Duration(days: 2))),
       priority: Value(2),
       parentTaskId: Value(null),
     ));
@@ -244,7 +235,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(8),
       title: Value("Enroll in Online Course"),
       description: Value("Sign up for an advanced programming course"),
-      dueDate: Value(DateTime(2025, 4, 10)),
+      dueDate: Value(DateTime.now().add(Duration(days: 3))),
       priority: Value(1),
       parentTaskId: Value(null),
     ));
@@ -254,7 +245,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(9),
       title: Value("Research Running Gear"),
       description: Value("Find the best running shoes and clothes"),
-      dueDate: Value(DateTime(2025, 4, 15)),
+      dueDate: Value(DateTime.now()),
       priority: Value(2),
       parentTaskId: Value(null),
     ));
@@ -264,7 +255,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(7),
       title: Value("Plant Vegetables"),
       description: Value("Plant tomatoes, carrots, and peppers"),
-      dueDate: Value(DateTime(2025, 6, 20)),
+      dueDate: Value(DateTime.now().add(Duration(days: 30))),
       priority: Value(3),
       parentTaskId: Value(11),
     ));
@@ -274,7 +265,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(9),
       title: Value("Practice Running"),
       description: Value("Follow a training schedule for the half marathon"),
-      dueDate: Value(DateTime(2025, 6, 25)),
+      dueDate: Value(DateTime.now().add(Duration(days: 12))),
       priority: Value(3),
       parentTaskId: Value(13),
     ));
@@ -283,7 +274,7 @@ class AppDatabase extends _$AppDatabase {
       goalId: Value(1),
       title: Value("Practice Running"),
       description: Value("Follow a training schedule for the half marathon"),
-      dueDate: Value(DateTime(2025, 5, 25)),
+      dueDate: Value(DateTime.now().add(Duration(days: 7))),
       priority: Value(3),
       parentTaskId: Value(13),
     ));

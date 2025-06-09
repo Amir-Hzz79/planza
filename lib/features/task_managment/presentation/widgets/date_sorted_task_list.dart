@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:planza/core/constants/sort_ordering.dart';
 import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
 import 'package:planza/core/utils/extention_methods/task_list_extention.dart';
+import 'package:planza/features/task_managment/presentation/widgets/glassy_task_tile.dart';
 
 import '../../../../core/data/models/task_model.dart';
 import '../../../../core/locale/app_localization.dart';
@@ -96,7 +97,7 @@ class _DateSortedTaskListState extends State<DateSortedTaskList> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                 children: List.generate(
                   pastTasks.length,
-                  (index) => TaskTile(task: pastTasks[index]),
+                  (index) => GlassyTaskCard(task: pastTasks[index]),
                 ),
               ),
             ),
@@ -117,7 +118,7 @@ class _DateSortedTaskListState extends State<DateSortedTaskList> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                 children: List.generate(
                   todayTasks.length,
-                  (index) => TaskTile(task: todayTasks[index]),
+                  (index) => GlassyTaskCard(task: todayTasks[index]),
                 ),
               ),
             ),
@@ -138,7 +139,7 @@ class _DateSortedTaskListState extends State<DateSortedTaskList> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                 children: List.generate(
                   futureTasks.length,
-                  (index) => TaskTile(task: futureTasks[index]),
+                  (index) => GlassyTaskCard(task: futureTasks[index]),
                 ),
               ),
             ),
@@ -159,7 +160,7 @@ class _DateSortedTaskListState extends State<DateSortedTaskList> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                 children: List.generate(
                   recentCompletedTasks.length,
-                  (index) => TaskTile(task: recentCompletedTasks[index]),
+                  (index) => GlassyTaskCard(task: recentCompletedTasks[index]),
                 ),
               ),
             ),
