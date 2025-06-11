@@ -9,60 +9,36 @@ class GeneralAppBar extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
-        Expanded(
-          flex: 2,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              const SizedBox(
-                width: 5,
-              ),
-              Builder(
-                builder: (context) {
-                  return ProfileButton(
-                    onTap: () => Scaffold.of(context).openDrawer(),
-                  );
-                },
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'AmirHosein Zamani',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    'Good morning',
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                ],
-              ),
-            ],
-          ),
+        const SizedBox(
+          width: 8,
         ),
-        Expanded(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              CircleAvatar(
-                child: Icon(
-                  Icons.notifications_outlined,
-                  /* color: Colors.black, */
-                ),
-              ),
-              const SizedBox(
-                width: 10,
-              ),
-            ],
-          ),
+        Builder(
+          builder: (context) {
+            return ProfileButton(
+              onTap: () => Scaffold.of(context).openDrawer(),
+            );
+          },
         ),
+        /* const SizedBox(
+          width: 5,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'AmirHosein Zamani',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 16,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+            Text(
+              'Good morning',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ), */
       ],
     );
   }

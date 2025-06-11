@@ -7,8 +7,16 @@ import '../database/database.dart' show Goal, GoalsCompanion;
 
 class GoalModel extends Equatable {
   @override
-  List<Object?> get props =>
-      [id, name, description, deadline, color, tasks, lastUpdated];
+  List<Object?> get props => [id, name, description, deadline, color, tasks];
+
+  const GoalModel({
+    this.id,
+    required this.name,
+    this.description,
+    this.deadline,
+    required this.color,
+    this.tasks = const [],
+  });
 
   final int? id;
   final String name;
@@ -22,17 +30,49 @@ class GoalModel extends Equatable {
         (task) => !task.isCompleted,
       );
 
-  final DateTime? lastUpdated;
+  double get progress {
+    if (tasks.isEmpty) return 0.0;
+    return tasks.where((t) => t.isCompleted).length / tasks.length;
+  }
 
-  const GoalModel({
-    this.id,
-    required this.name,
-    this.description,
-    this.deadline,
-    required this.color,
-    this.tasks = const [],
-    this.lastUpdated,
-  });
+  // A getter to find the completion date (the date of the last completed task)
+  DateTime? get completedDate {
+    if (!isCompleted || tasks.isEmpty) return null;
+    DateTime? lastDate;
+    for (final task in tasks) {
+      if (task.doneDate != null) {
+        if (lastDate == null || task.doneDate!.isAfter(lastDate)) {
+          lastDate = task.doneDate;
+        }
+      }
+    }
+    return lastDate;
+  }
+
+  int get durationInDays {
+    if (tasks.isEmpty) return 0;
+
+    /* DateTime? earliestStart;
+    DateTime? latestEnd;
+
+    for (final task in tasks) {
+      if (task.createdAt != null) {
+        if (earliestStart == null || task.createdAt!.isBefore(earliestStart)) {
+          earliestStart = task.createdAt;
+        }
+      }
+      if (task.doneDate != null) {
+        if (latestEnd == null || task.doneDate!.isAfter(latestEnd)) {
+          latestEnd = task.doneDate;
+        }
+      }
+    }
+
+    if (earliestStart != null && latestEnd != null) {
+      return latestEnd.difference(earliestStart).inDays;
+    } */
+    return 2;
+  }
 
   @override
   bool operator ==(Object other) =>
@@ -66,7 +106,6 @@ class GoalModel extends Equatable {
       deadline: goalEntity.deadline,
       color: Color(goalEntity.color),
       tasks: sortTasks,
-      lastUpdated: DateTime.now(),
     );
   }
 

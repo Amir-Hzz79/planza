@@ -98,7 +98,10 @@ class GlassyTaskCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [goalColor.withOpacityDouble(0.8), goalColor.withOpacityDouble(0.7)],
+          colors: [
+            goalColor.withOpacityDouble(0.25),
+            goalColor.withOpacityDouble(0.15),
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -148,7 +151,10 @@ class GlassyTaskCard extends StatelessWidget {
                 ? Colors.black87
                 : Colors.white,
             side: BorderSide(
-                color: Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.6),
+                color: Theme.of(context)
+                    .colorScheme
+                    .onSurface
+                    .withOpacityDouble(0.6),
                 width: 2),
           ),
           const SizedBox(width: 8),

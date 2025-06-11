@@ -71,14 +71,25 @@ final InputDecorationTheme inputTheme = InputDecorationTheme(
   ),
 );
 
+SnackBarThemeData glassySnackBarTheme = SnackBarThemeData(
+  backgroundColor: Colors.grey.shade800.withAlpha(235),
+  contentTextStyle: const TextStyle(fontSize: 14, color: Colors.white),
+  actionTextColor: Colors.amber.shade300,
+  behavior: SnackBarBehavior.floating,
+  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14.0)),
+  elevation: 4,
+);
+
 final ThemeData lightTheme = ThemeData(
   colorScheme: lightColorScheme,
   useMaterial3: true,
   inputDecorationTheme: inputTheme,
+  snackBarTheme: glassySnackBarTheme,
 );
 
 final ThemeData darkTheme = ThemeData(
   colorScheme: darkColorScheme,
   useMaterial3: true,
   inputDecorationTheme: inputTheme,
+  snackBarTheme: glassySnackBarTheme,
 );
