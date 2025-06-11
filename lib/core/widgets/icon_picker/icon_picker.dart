@@ -1,17 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
-class ColorPicker extends StatelessWidget {
+class IconPicker extends StatelessWidget {
   // ... (properties remain the same)
-  final List<Color> colors;
+  final List<IconData> icons;
+  final IconData selectedIcon;
+  final ValueChanged<IconData> onIconSelected;
   final Color selectedColor;
-  final ValueChanged<Color> onColorSelected;
 
-  const ColorPicker({
+  const IconPicker({
     super.key,
-    required this.colors,
+    required this.icons,
+    required this.selectedIcon,
+    required this.onIconSelected,
     required this.selectedColor,
-    required this.onColorSelected,
   });
 
   @override
@@ -21,31 +23,30 @@ class ColorPicker extends StatelessWidget {
       height: 40,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        itemCount: colors.length,
+        itemCount: icons.length,
         separatorBuilder: (context, index) => const SizedBox(width: 8),
         itemBuilder: (context, index) {
-          final color = colors[index];
-          final bool isSelected = color == selectedColor;
+          final icon = icons[index];
+          final bool isSelected = icon == selectedIcon;
           return GestureDetector(
-            onTap: () => onColorSelected(color),
+            onTap: () => onIconSelected(icon),
             child: AnimatedContainer(
               duration: const Duration(milliseconds: 200),
               // --- CHANGE: Reduced width and height ---
               width: 40,
               height: 40,
               decoration: BoxDecoration(
-                color: color,
-                shape: BoxShape.circle,
-                border: isSelected
-                    ? Border.all(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        width: 3,
-                      )
-                    : null,
+                color: isSelected
+                    ? selectedColor
+                    : Theme.of(context).colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(10),
               ),
-              child: isSelected
-                  ? Icon(Icons.check, color: color.matchTextColor(), size: 20)
-                  : null,
+              child: Icon(
+                icon,
+                color: isSelected
+                    ? selectedColor.matchTextColor()
+                    : Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           );
         },

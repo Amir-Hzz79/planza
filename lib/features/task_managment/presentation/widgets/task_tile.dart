@@ -75,8 +75,13 @@ class TaskTile extends StatelessWidget {
                 value: task.isCompleted,
                 activeColor: task.goal?.color,
                 onChanged: (value) {
-                  task.doneDate = value! ? DateTime.now() : null;
-                  context.read<TaskBloc>().add(TaskUpdatedEvent(newTask: task));
+                  context.read<TaskBloc>().add(
+                        TaskUpdatedEvent(
+                          newTask: task.copyWith(
+                            doneDate: value! ? DateTime.now() : null,
+                          ),
+                        ),
+                      );
 
                   onStatusChanged?.call(value);
                 },

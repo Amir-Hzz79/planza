@@ -17,3 +17,15 @@ class TagAddedEvent extends TagEvent {
 
   TagAddedEvent({required this.newTag});
 }
+
+class TagUpdatedEvent extends TagEvent {
+  final TagModel updatedTag;
+
+  TagUpdatedEvent({required this.updatedTag});
+}
+
+class TagDeletedEvent extends TagEvent {
+  final TagModel tag;
+
+  TagDeletedEvent({required this.tag});
+}

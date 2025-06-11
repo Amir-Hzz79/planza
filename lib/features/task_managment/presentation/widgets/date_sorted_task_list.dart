@@ -7,7 +7,6 @@ import 'package:planza/features/task_managment/presentation/widgets/glassy_task_
 import '../../../../core/data/models/task_model.dart';
 import '../../../../core/locale/app_localization.dart';
 import '../../../../core/widgets/scrollables/scrollable_column.dart';
-import 'task_tile.dart';
 
 class DateSortedTaskList extends StatefulWidget {
   const DateSortedTaskList({
@@ -77,7 +76,7 @@ class _DateSortedTaskListState extends State<DateSortedTaskList> {
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.zero),
                 children: List.generate(
                   noDueDateTasks.length,
-                  (index) => TaskTile(task: noDueDateTasks[index]),
+                  (index) => GlassyTaskCard(task: noDueDateTasks[index]),
                 ),
               ),
             ),

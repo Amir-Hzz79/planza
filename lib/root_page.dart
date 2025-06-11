@@ -6,7 +6,7 @@ import 'package:planza/features/task_managment/presentation/widgets/add_task_fie
 import 'core/data/bloc/task_bloc/task_bloc.dart';
 import 'core/locale/app_localization.dart';
 import 'core/widgets/scrollables/scrollable_column.dart';
-import 'features/goal_managment/presentation/pages/add_goal_page.dart';
+import 'features/goal_managment/presentation/pages/goal_entry_page.dart';
 import 'features/goal_managment/presentation/pages/goals_page.dart';
 import 'features/home/presentation/pages/home_page.dart';
 import 'core/widgets/appbar/general_app_bar.dart';
@@ -34,127 +34,129 @@ class _RootPageState extends State<RootPage> {
   Widget build(BuildContext context) {
     AppLocalizations appLocalizations = AppLocalizations.of(context);
 
-    return Scaffold(
-      drawer: DrawerSection(),
-      body: ScrollableColumn(
-        children: [
-          const SizedBox(
-            height: 10,
-          ),
-          GeneralAppBar(),
-          const SizedBox(
-            height: 20,
-          ),
-          IndexedStack(
-            index: bottomNavigationBarIndex,
-            children: pages,
-          ),
-        ],
-      ),
-      extendBody: true,
-      bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.transparent,
-        color: Theme.of(context).brightness == Brightness.dark
-            ? Colors.black
-            : Colors.grey[100]!,
-        animationDuration: Duration(milliseconds: 300),
-        height: 50,
-        items: <Widget>[
-          /* Icon(Icons.home_rounded, size: 30), */
-          Icon(Icons.task_alt_rounded, size: 30),
-          Icon(Icons.golf_course_rounded, size: 30),
-          Icon(Icons.ssid_chart_rounded, size: 30),
-        ],
-        onTap: (index) {
-          setState(() {
-            bottomNavigationBarIndex = index;
-          });
-        },
-      ),
-      floatingActionButton: bottomNavigationBarIndex == 0
-          ? FloatingActionButton(
-              isExtended: true,
-              onPressed: () {
-                Navigator.of(context).push(
-                  ModalBottomSheetRoute(
-                    showDragHandle: true,
-                    builder: (context) => IntrinsicHeight(
-                      child: SafeArea(
-                        child: Column(
-                          children: [
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).push(
-                                  ModalBottomSheetRoute(
-                                    showDragHandle: true,
-                                    builder: (context) => IntrinsicHeight(
-                                      child: Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: AddTaskFields(
-                                          onSubmit: (newTask) {
-                                            Navigator.pop(context);
-                                            context.read<TaskBloc>().add(
-                                                TaskAddedEvent(
-                                                    newTask: newTask));
-                                          },
+    return SafeArea(
+      child: Scaffold(
+        drawer: DrawerSection(),
+        body: ScrollableColumn(
+          children: [
+            const SizedBox(
+              height: 10,
+            ),
+            GeneralAppBar(),
+            const SizedBox(
+              height: 20,
+            ),
+            IndexedStack(
+              index: bottomNavigationBarIndex,
+              children: pages,
+            ),
+          ],
+        ),
+        extendBody: true,
+        bottomNavigationBar: CurvedNavigationBar(
+          backgroundColor: Colors.transparent,
+          color: Theme.of(context).brightness == Brightness.dark
+              ? Colors.black
+              : Colors.grey[100]!,
+          animationDuration: Duration(milliseconds: 300),
+          height: 50,
+          items: <Widget>[
+            /* Icon(Icons.home_rounded, size: 30), */
+            Icon(Icons.task_alt_rounded, size: 30),
+            Icon(Icons.golf_course_rounded, size: 30),
+            Icon(Icons.ssid_chart_rounded, size: 30),
+          ],
+          onTap: (index) {
+            setState(() {
+              bottomNavigationBarIndex = index;
+            });
+          },
+        ),
+        floatingActionButton: bottomNavigationBarIndex == 0
+            ? FloatingActionButton(
+                isExtended: true,
+                onPressed: () {
+                  Navigator.of(context).push(
+                    ModalBottomSheetRoute(
+                      showDragHandle: true,
+                      builder: (context) => IntrinsicHeight(
+                        child: SafeArea(
+                          child: Column(
+                            children: [
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushReplacement(
+                                    ModalBottomSheetRoute(
+                                      showDragHandle: true,
+                                      builder: (context) => IntrinsicHeight(
+                                        child: Padding(
+                                          padding: const EdgeInsets.symmetric(
+                                              horizontal: 10),
+                                          child: AddTaskFields(
+                                            onSubmit: (newTask) {
+                                              Navigator.pop(context);
+                                              context.read<TaskBloc>().add(
+                                                  TaskAddedEvent(
+                                                      newTask: newTask));
+                                            },
+                                          ),
                                         ),
                                       ),
+                                      isScrollControlled: true,
                                     ),
-                                    isScrollControlled: true,
+                                  );
+                                },
+                                child: ListTile(
+                                  leading: Icon(Icons.task_alt_rounded),
+                                  title: Text(
+                                    appLocalizations
+                                        .translate('add_modal_task_title'),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                );
-                              },
-                              child: ListTile(
-                                leading: Icon(Icons.task_alt_rounded),
-                                title: Text(
-                                  appLocalizations
-                                      .translate('add_modal_task_title'),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                trailing: Text(
-                                  appLocalizations
-                                      .translate('add_modal_task_subtitle'),
-                                  overflow: TextOverflow.ellipsis,
+                                  trailing: Text(
+                                    appLocalizations
+                                        .translate('add_modal_task_subtitle'),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
-                            ),
-                            InkWell(
-                              onTap: () {
-                                Navigator.of(context).pushReplacement(
-                                  MaterialPageRoute(
-                                    builder: (context) => AddGoalPage(),
+                              InkWell(
+                                onTap: () {
+                                  Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                      builder: (context) => GoalEntryPage(),
+                                    ),
+                                  );
+                                },
+                                child: ListTile(
+                                  leading: Icon(Icons.golf_course_rounded),
+                                  title: Text(
+                                    appLocalizations
+                                        .translate('add_modal_goal_title'),
+                                    overflow: TextOverflow.ellipsis,
                                   ),
-                                );
-                              },
-                              child: ListTile(
-                                leading: Icon(Icons.golf_course_rounded),
-                                title: Text(
-                                  appLocalizations
-                                      .translate('add_modal_goal_title'),
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                trailing: Text(
-                                  appLocalizations
-                                      .translate('add_modal_goal_subtitle'),
-                                  overflow: TextOverflow.ellipsis,
+                                  trailing: Text(
+                                    appLocalizations
+                                        .translate('add_modal_goal_subtitle'),
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
                                 ),
                               ),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                          ],
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
+                      isScrollControlled: true,
                     ),
-                    isScrollControlled: true,
-                  ),
-                );
-              },
-              child: Icon(Icons.add),
-            )
-          : null,
+                  );
+                },
+                child: Icon(Icons.add),
+              )
+            : null,
+      ),
     );
   }
 }

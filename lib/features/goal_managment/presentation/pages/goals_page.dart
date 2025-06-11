@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planza/features/goal_managment/presentation/widgets/goal_card.dart';
+import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
 
 import '../../../../core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import '../widgets/thematic_goal_card.dart';
@@ -15,25 +15,16 @@ class _GoalsPageState extends State<GoalsPage> {
   @override
   Widget build(BuildContext context) {
     return GoalBlocBuilder(onDataLoaded: (goals) {
-      for (var goal in goals) {
-        print(goal.tasks.length);
-        print('----');
-      }
-      return Column(
-        /* spacing: 20, */
-        children: [
-          ...goals.map(
-            (goal) => ThematicGoalCard(
-              goal: goal,
+      return TaskBlocBuilder(
+        onDataLoaded: (tasks) => Column(
+          children: [
+            ...goals.map(
+              (goal) => ThematicGoalCard(
+                goal: goal,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 70,
-          )
-        ], /* [
-            GoalCounterSection(),
-            TaskChart(),
-          ], */
+          ],
+        ),
       );
     });
   }

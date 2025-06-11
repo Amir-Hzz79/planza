@@ -2,15 +2,18 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
-import '../pages/goal_details2.dart';
+import '../pages/goal_details.dart';
 
 class ThematicGoalCard extends StatelessWidget {
   final GoalModel goal;
+  final bool previewMode;
 
   const ThematicGoalCard({
     super.key,
     required this.goal,
+    this.previewMode = false,
   });
 
   @override
@@ -24,7 +27,7 @@ class ThematicGoalCard extends StatelessWidget {
 
     return Card(
       elevation: 6.0,
-      shadowColor: goal.color.withOpacity(0.3),
+      shadowColor: goal.color.withOpacityDouble(0.3),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 10.0),
       // ClipRRect ensures the gradient and icons are contained within the card's rounded corners.
@@ -32,13 +35,15 @@ class ThematicGoalCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20.0),
         child: InkWell(
           borderRadius: BorderRadius.circular(20.0),
-          onTap: () {
-            Navigator.of(context).push(
-              MaterialPageRoute(
-                builder: (context) => GoalDetailsPage(goal: goal),
-              ),
-            );
-          },
+          onTap: previewMode
+              ? null
+              : () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => GoalDetailsPage(goalId: goal.id!),
+                    ),
+                  );
+                },
           child: Stack(
             children: [
               // Layer 1: The Gradient Background
@@ -48,7 +53,8 @@ class ThematicGoalCard extends StatelessWidget {
               // Layer 3: The main information overlay
               _buildInfoOverlay(context, completedTasks, totalTasks, progress),
               // Layer 4: A "Completed" overlay that shows when the goal is done
-              if (isCompleted) _buildCompletedOverlay(),
+              if (isCompleted && !previewMode && goal.tasks.isNotEmpty)
+                _buildCompletedOverlay(),
             ],
           ),
         ),
@@ -63,7 +69,7 @@ class ThematicGoalCard extends StatelessWidget {
       height: 150.0,
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [goal.color.withOpacity(0.8), goal.color],
+          colors: [goal.color.withOpacityDouble(0.8), goal.color],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
@@ -78,7 +84,7 @@ class ThematicGoalCard extends StatelessWidget {
       child: Icon(
         Icons.fitness_center_rounded,
         size: 140.0,
-        color: Colors.white.withOpacity(0.15),
+        color: Colors.white.withOpacityDouble(0.15),
       ),
     );
   }
@@ -111,7 +117,7 @@ class ThematicGoalCard extends StatelessWidget {
                     ? "$completed of $total tasks complete"
                     : "Let's get started!",
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withOpacityDouble(0.9),
                     ),
               ),
               const SizedBox(height: 8.0),
@@ -129,7 +135,7 @@ class ThematicGoalCard extends StatelessWidget {
       child: LinearProgressIndicator(
         value: progress,
         minHeight: 6.0,
-        backgroundColor: Colors.white.withOpacity(0.2),
+        backgroundColor: Colors.white.withOpacityDouble(0.2),
         valueColor: const AlwaysStoppedAnimation<Color>(Colors.white),
       ),
     );
@@ -142,7 +148,7 @@ class ThematicGoalCard extends StatelessWidget {
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: 1.0, sigmaY: 1.0),
         child: Container(
-          color: Colors.black.withOpacity(0.4),
+          color: Colors.black.withOpacityDouble(0.4),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,

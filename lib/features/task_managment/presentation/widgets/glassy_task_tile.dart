@@ -4,9 +4,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
 // Make sure your model imports are correct
-import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
-import 'package:planza/core/data/models/tag_model.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 import '../pages/task_details.dart';
@@ -99,19 +98,16 @@ class GlassyTaskCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         gradient: LinearGradient(
-          colors: [
-            goalColor.withOpacity(0.5),
-            goalColor.withOpacity(0.2),
-          ],
-          begin: AlignmentDirectional.topStart,
-          end: AlignmentDirectional.bottomEnd,
+          colors: [goalColor.withOpacityDouble(0.8), goalColor.withOpacityDouble(0.7)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
         ),
         borderRadius: BorderRadius.circular(20.0),
       ),
     );
   }
 
-  Widget _buildBackgroundIcon(BuildContext context) {
+  /* Widget _buildBackgroundIcon(BuildContext context) {
     final isRtl = Directionality.of(context) == TextDirection.RTL;
     return Positioned(
       left: isRtl ? -20 : null,
@@ -120,16 +116,16 @@ class GlassyTaskCard extends StatelessWidget {
       child: Icon(
         Icons.fitness_center_rounded /* task.goal!.icon */,
         size: 110.0,
-        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.05),
+        color: Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.05),
       ),
     );
-  }
+  } */
 
   Widget _buildContent(BuildContext context, bool isCompleted) {
     final Color accentColor = task.goal?.color ?? Colors.blue;
     final Color textColor = Theme.of(context).brightness == Brightness.dark
-        ? Colors.white.withOpacity(0.9)
-        : Colors.black.withOpacity(0.9);
+        ? Colors.white.withOpacityDouble(0.9)
+        : Colors.black.withOpacityDouble(0.9);
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 12.0),
@@ -139,17 +135,20 @@ class GlassyTaskCard extends StatelessWidget {
           Checkbox(
             value: isCompleted,
             onChanged: (value) {
-              task.doneDate = value! ? DateTime.now() : null;
-              context.read<TaskBloc>().add(TaskUpdatedEvent(newTask: task));
-
-              /* onStatusChanged.call(value); */
+              context.read<TaskBloc>().add(
+                    TaskUpdatedEvent(
+                      newTask: task.copyWith(
+                        doneDate: value! ? DateTime.now() : null,
+                      ),
+                    ),
+                  );
             },
             activeColor: accentColor,
             checkColor: Theme.of(context).brightness == Brightness.dark
                 ? Colors.black87
                 : Colors.white,
             side: BorderSide(
-                color: Theme.of(context).colorScheme.onSurface.withOpacity(0.6),
+                color: Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.6),
                 width: 2),
           ),
           const SizedBox(width: 8),
@@ -165,7 +164,7 @@ class GlassyTaskCard extends StatelessWidget {
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                     decoration: isCompleted ? TextDecoration.lineThrough : null,
-                    decorationColor: textColor.withOpacity(0.8),
+                    decorationColor: textColor.withOpacityDouble(0.8),
                     decorationThickness: 2,
                   ),
                 ),
@@ -183,7 +182,7 @@ class GlassyTaskCard extends StatelessWidget {
   Widget _buildInfoPills(BuildContext context, Color textColor) {
     final deadlineInfo = _getDeadlineInfo(context, task.dueDate);
     final neutralPillColor =
-        Theme.of(context).colorScheme.onSurface.withOpacity(0.1);
+        Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.1);
 
     return Wrap(
       spacing: 6.0,
@@ -215,9 +214,9 @@ class GlassyTaskCard extends StatelessWidget {
 
     final Color overdueColor = Theme.of(context).colorScheme.error;
     final Color dueSoonColor = Colors.orange.shade700;
-    final Color completedColor = Colors.green.withOpacity(0.8);
+    final Color completedColor = Colors.green.withOpacityDouble(0.8);
     final Color neutralColor =
-        Theme.of(context).colorScheme.onSurface.withOpacity(0.1);
+        Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.1);
 
     if (task.isCompleted) {
       return (
@@ -254,7 +253,7 @@ class GlassyTaskCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       decoration: BoxDecoration(
-        color: Theme.of(context).colorScheme.error.withOpacity(0.5),
+        color: Theme.of(context).colorScheme.error.withOpacityDouble(0.5),
         borderRadius: BorderRadius.circular(20.0),
       ),
       child: const Row(

@@ -17,3 +17,24 @@ class GoalAddedEvent extends GoalEvent {
 
   GoalAddedEvent({required this.newGoal});
 }
+
+class GoalUpdatedEvent extends GoalEvent {
+  final GoalModel updatedGoal;
+
+  GoalUpdatedEvent({required this.updatedGoal});
+}
+
+class GoalDeletedEvent extends GoalEvent {
+  final GoalModel goal;
+
+  GoalDeletedEvent({required this.goal});
+}
+
+class GoalAndItsTasksDeletedEvent extends GoalEvent {
+  final GoalModel goal;
+
+  GoalAndItsTasksDeletedEvent({required this.goal});
+
+  @override
+  List<Object> get props => [goal];
+}

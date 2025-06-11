@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 class MetricCard extends StatelessWidget {
   final Widget child;
@@ -21,7 +22,7 @@ class MetricCard extends StatelessWidget {
           child: Container(
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surface.withOpacity(0.2),
+              color: Theme.of(context).colorScheme.surface.withOpacityDouble(0.2),
               borderRadius: BorderRadius.circular(20.0),
             ),
             child: Column(
@@ -37,7 +38,7 @@ class MetricCard extends StatelessWidget {
                     color: Theme.of(context)
                         .colorScheme
                         .onSurface
-                        .withOpacity(0.8),
+                        .withOpacityDouble(0.8),
                   ),
                 ),
               ],

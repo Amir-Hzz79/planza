@@ -1,12 +1,17 @@
+import 'package:equatable/equatable.dart';
+
 import '../database/database.dart' show Tag;
 import 'task_model.dart';
 
-class TagModel {
-  int id;
-  final String name;
-  List<TaskModel>? tasks;
+class TagModel extends Equatable {
+  @override
+  List<Object?> get props => [id, name, tasks];
 
-  TagModel({
+  final int id;
+  final String name;
+  final List<TaskModel>? tasks;
+
+  const TagModel({
     required this.id,
     required this.name,
     this.tasks,

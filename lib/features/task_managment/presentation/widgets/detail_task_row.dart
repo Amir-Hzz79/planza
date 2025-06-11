@@ -4,18 +4,14 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
 
-// Import your models
 import 'package:planza/core/data/models/task_model.dart';
-import 'package:planza/core/data/models/tag_model.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import 'package:planza/features/task_managment/presentation/pages/task_details.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 
-class DetailedTaskRow extends StatelessWidget {
+class DetailedTaskRow extends StatefulWidget {
   final TaskModel task;
-
-  // Note: We don't need an onDelete callback here because the parent page
-  // can wrap this widget in a Dismissible if needed.
 
   const DetailedTaskRow({
     super.key,
@@ -23,11 +19,16 @@ class DetailedTaskRow extends StatelessWidget {
   });
 
   @override
+  State<DetailedTaskRow> createState() => _DetailedTaskRowState();
+}
+
+class _DetailedTaskRowState extends State<DetailedTaskRow> {
+  @override
   Widget build(BuildContext context) {
-    final bool isCompleted = task.isCompleted;
+    final bool isCompleted = widget.task.isCompleted;
     final Color textColor = Theme.of(context).brightness == Brightness.dark
-        ? Colors.white.withOpacity(0.9)
-        : Colors.black.withOpacity(0.9);
+        ? Colors.white.withOpacityDouble(0.9)
+        : Colors.black.withOpacityDouble(0.9);
 
     return TaskBlocBuilder(onDataLoaded: (tasks) {
       return AnimatedOpacity(
@@ -43,7 +44,7 @@ class DetailedTaskRow extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => TaskDetails(task: task),
+                      builder: (context) => TaskDetails(task: widget.task),
                     ),
                   );
                 },
@@ -53,7 +54,7 @@ class DetailedTaskRow extends StatelessWidget {
                       horizontal: 4.0, vertical: 12.0),
                   decoration: BoxDecoration(
                     color:
-                        Theme.of(context).colorScheme.surface.withOpacity(0.15),
+                        Theme.of(context).colorScheme.surface.withOpacityDouble(0.15),
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   child: Row(
@@ -62,18 +63,16 @@ class DetailedTaskRow extends StatelessWidget {
                       // --- Checkbox ---
                       Checkbox(
                         value: isCompleted,
-                        onChanged: (value) {
-                          task.doneDate = value! ? DateTime.now() : null;
-                          context
-                              .read<TaskBloc>()
-                              .add(TaskUpdatedEvent(newTask: task));
-
-                          /* onStatusChanged.call(value); */
-                        },
-                        activeColor: task.goal?.color ??
+                        onChanged: (value) => context.read<TaskBloc>().add(
+                              TaskUpdatedEvent(
+                                newTask: widget.task.copyWith(
+                                    doneDate: value! ? DateTime.now() : null),
+                              ),
+                            ),
+                        activeColor: widget.task.goal?.color ??
                             Theme.of(context).colorScheme.primary,
                         side: BorderSide(
-                            color: textColor.withOpacity(0.7), width: 2),
+                            color: textColor.withOpacityDouble(0.7), width: 2),
                       ),
                       const SizedBox(width: 8),
                       // --- Main Info Column ---
@@ -82,7 +81,7 @@ class DetailedTaskRow extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              task.title,
+                              widget.task.title,
                               style: TextStyle(
                                 color: textColor,
                                 fontSize: 16,
@@ -92,20 +91,20 @@ class DetailedTaskRow extends StatelessWidget {
                                     : null,
                               ),
                             ),
-                            if (task.description?.isNotEmpty ?? false)
+                            if (widget.task.description?.isNotEmpty ?? false)
                               Padding(
                                 padding: const EdgeInsets.only(top: 4.0),
                                 child: Text(
-                                  task.description!,
+                                  widget.task.description!,
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    color: textColor.withOpacity(0.7),
+                                    color: textColor.withOpacityDouble(0.7),
                                     fontSize: 13,
                                   ),
                                 ),
                               ),
-                            if (task.tags.isNotEmpty)
+                            if (widget.task.tags.isNotEmpty)
                               Padding(
                                 padding: const EdgeInsets.only(top: 8.0),
                                 child: _buildTagsRow(textColor),
@@ -131,11 +130,11 @@ class DetailedTaskRow extends StatelessWidget {
     return Wrap(
       spacing: 6.0,
       runSpacing: 6.0,
-      children: task.tags
+      children: widget.task.tags
           .map((tag) => Text(
                 '#${tag.name}',
                 style: TextStyle(
-                  color: textColor.withOpacity(0.7),
+                  color: textColor.withOpacityDouble(0.7),
                   fontSize: 12,
                   fontWeight: FontWeight.w500,
                 ),
@@ -145,7 +144,7 @@ class DetailedTaskRow extends StatelessWidget {
   }
 
   Widget _buildStatusColumn(BuildContext context, Color textColor) {
-    final deadlineInfo = _getDeadlineInfo(context, task.dueDate);
+    final deadlineInfo = _getDeadlineInfo(context, widget.task.dueDate);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -164,41 +163,39 @@ class DetailedTaskRow extends StatelessWidget {
             ),
           ],
         ),
-        if (task.priority != null) const SizedBox(height: 8),
-        if (task.priority != null) _buildPriorityIndicator(textColor),
+        if (widget.task.priority != null) const SizedBox(height: 8),
+        if (widget.task.priority != null) _buildPriorityIndicator(textColor),
       ],
     );
   }
 
   Widget _buildPriorityIndicator(Color textColor) {
-    // Example: Render priority as a number of flame icons
     return Row(
       children: List.generate(
-        task.priority ?? 0,
+        widget.task.priority ?? 0,
         (index) => Icon(Icons.local_fire_department,
-            size: 14, color: textColor.withOpacity(0.7)),
+            size: 14, color: textColor.withOpacityDouble(0.7)),
       ),
     );
   }
 
   ({String text, Color color, IconData icon}) _getDeadlineInfo(
       BuildContext context, DateTime? deadline) {
-    // This helper function remains the same as before.
     if (deadline == null) {
       return (
         text: 'No date',
-        color: Theme.of(context).colorScheme.onSurface.withOpacity(0.5),
+        color: Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.5),
         icon: Icons.calendar_today_outlined
       );
     }
-    if (task.isCompleted) {
+    if (widget.task.isCompleted) {
       return (
         text: "Completed",
         color: Colors.green,
         icon: Icons.check_circle_outline
       );
     }
-    // ... same logic as before for overdue, today, etc. ...
+
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
     final deadlineDate = DateTime(deadline.year, deadline.month, deadline.day);
@@ -220,7 +217,7 @@ class DetailedTaskRow extends StatelessWidget {
     }
     return (
       text: DateFormat.MMMd().format(deadline),
-      color: Theme.of(context).colorScheme.onSurface.withOpacity(0.7),
+      color: Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.7),
       icon: Icons.calendar_today_outlined
     );
   }

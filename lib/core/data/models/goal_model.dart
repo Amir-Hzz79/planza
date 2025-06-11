@@ -1,27 +1,37 @@
 import 'package:drift/drift.dart';
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show Color;
 import 'package:planza/core/data/models/task_model.dart';
 
-import '../database/database.dart' show Goal, GoalsCompanion, Task;
+import '../database/database.dart' show Goal, GoalsCompanion;
 
-class GoalModel {
-  int? id;
+class GoalModel extends Equatable {
+  @override
+  List<Object?> get props =>
+      [id, name, description, deadline, color, tasks, lastUpdated];
+
+  final int? id;
   final String name;
   final String? description;
   final DateTime? deadline;
   final Color color;
   final List<TaskModel> tasks;
-  bool get isCompleted => !tasks.any(
+  bool get isCompleted =>
+      tasks.isNotEmpty &&
+      !tasks.any(
         (task) => !task.isCompleted,
       );
 
-  GoalModel({
+  final DateTime? lastUpdated;
+
+  const GoalModel({
     this.id,
     required this.name,
     this.description,
     this.deadline,
     required this.color,
     this.tasks = const [],
+    this.lastUpdated,
   });
 
   @override
@@ -35,8 +45,9 @@ class GoalModel {
   int get hashCode => id.hashCode;
 
   // Convert a Goal entity to a GoalModel
-  factory GoalModel.fromEntity(Goal goalEntity, {List<Task> tasks = const []}) {
-    List<Task> sortTasks = [...tasks];
+  factory GoalModel.fromEntity(Goal goalEntity,
+      {List<TaskModel> tasks = const []}) {
+    List<TaskModel> sortTasks = [...tasks];
     sortTasks.sort((a, b) {
       if (a.dueDate == null && b.dueDate == null) {
         return 0;
@@ -54,7 +65,8 @@ class GoalModel {
       description: goalEntity.description,
       deadline: goalEntity.deadline,
       color: Color(goalEntity.color),
-      tasks: sortTasks.map((task) => TaskModel.fromEntity(task)).toList(),
+      tasks: sortTasks,
+      lastUpdated: DateTime.now(),
     );
   }
 

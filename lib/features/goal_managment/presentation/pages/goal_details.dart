@@ -1,75 +1,233 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:planza/core/data/models/goal_model.dart';
-import 'package:planza/core/locale/app_localization.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
+import 'package:planza/features/goal_managment/presentation/pages/goal_entry_page.dart';
 
-import 'package:planza/core/widgets/buttons/circle_back_button.dart';
-import 'package:planza/core/widgets/scrollables/scrollable_column.dart';
-
+import '../../../../core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
-import '../../../task_managment/presentation/widgets/task_tile.dart';
+import '../../../task_managment/presentation/widgets/add_task_fields.dart';
+import '../../../task_managment/presentation/widgets/detail_task_row.dart';
+import '../widgets/delete_goal_sheet.dart';
+import '../widgets/status_overview_dashboard.dart';
 
-class GoalDetails extends StatelessWidget {
-  const GoalDetails({
-    super.key,
-    required this.goal,
-  });
+class GoalDetailsPage extends StatelessWidget {
+  final int goalId;
 
-  final GoalModel goal;
+  const GoalDetailsPage({super.key, required this.goalId});
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        body: BlocBuilder<TaskBloc, TaskState>(
-          builder: (context, state) {
-            if (state is TasksLoadedState) {
-              return ScrollableColumn(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: AppBar(
-                      leading: CircleBackButton(),
-                      title: Text(
-                        goal.name,
-                        overflow: TextOverflow.ellipsis,
+    return GoalBlocBuilder(
+      onDataLoaded: (goals) {
+        final GoalModel? goal = goals
+            .where(
+              (g) => g.id == goalId,
+            )
+            .firstOrNull;
+
+        if (goal == null) {
+          return const Scaffold(
+            body: Center(
+              child: Text("This goal no longer exists."),
+            ),
+          );
+        }
+
+        return Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              Navigator.of(context).push(
+                ModalBottomSheetRoute(
+                  showDragHandle: true,
+                  builder: (context) => IntrinsicHeight(
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: AddTaskFields(
+                        fixedGoal: goal,
+                        onSubmit: (newTask) {
+                          Navigator.pop(context);
+                          context
+                              .read<TaskBloc>()
+                              .add(TaskAddedEvent(newTask: newTask));
+                        },
                       ),
                     ),
                   ),
-                  const SizedBox(
-                    height: 20,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 10),
-                    child: Text(
-                      AppLocalizations.of(context).translate('tasks'),
-                      style: Theme.of(context).textTheme.titleLarge,
-                    ),
-                  ),
-                  ...goal.tasks.map(
-                    (task) => TaskTile(
-                      task: task..goal = goal,
-                    ),
-                  ),
-                ],
+                  isScrollControlled: true,
+                ),
               );
-            } else {
-              return Container(
-                width: double.infinity,
-                height: 500,
-                decoration: BoxDecoration(
-                  color: Colors.grey,
-                  borderRadius: BorderRadius.circular(25),
+            },
+            backgroundColor: goal.color,
+            child: Icon(Icons.add, color: goal.color.matchTextColor()),
+          ),
+          body: CustomScrollView(
+            slivers: [
+              _buildSliverAppBar(context, goal),
+              SliverToBoxAdapter(
+                child: StatusOverviewDashboard(goal: goal),
+              ),
+              if (goal.description?.isNotEmpty ?? false)
+                _buildDescription(context, goal),
+              _buildTaskListHeader(context, goal),
+              _buildTaskList(goal),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSliverAppBar(BuildContext context, GoalModel goal) {
+    return SliverAppBar(
+      expandedHeight: 250.0,
+      pinned: true,
+      stretch: true,
+      backgroundColor: goal.color.withOpacityDouble(0.8),
+      leading: IconButton(
+        onPressed: () {
+          Navigator.of(context).pop();
+        },
+        icon: Icon(
+          Icons.arrow_back_rounded,
+          color: goal.color.matchTextColor(),
+        ),
+      ),
+      actions: [
+        PopupMenuButton<String>(
+          icon: Icon(
+            Icons.more_vert_rounded,
+            color: goal.color.matchTextColor(),
+          ),
+          onSelected: (value) {
+            if (value == 'delete') {
+              _showDeleteBottomSheet(context, goal);
+            } else if (value == 'edit') {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => GoalEntryPage(
+                    initialGoal: goal,
+                  ),
                 ),
               );
             }
           },
+          itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+            const PopupMenuItem<String>(
+              value: 'edit',
+              child: ListTile(
+                leading: Icon(Icons.edit_outlined),
+                title: Text('Edit Goal'),
+              ),
+            ),
+            const PopupMenuItem<String>(
+              value: 'delete',
+              child: ListTile(
+                leading: Icon(Icons.delete_outline),
+                title: Text('Delete Goal'),
+              ),
+            ),
+          ],
+        ),
+      ],
+      flexibleSpace: FlexibleSpaceBar(
+        title: Text(
+          goal.name,
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: goal.color.matchTextColor().withOpacityDouble(0.7),
+          ),
+        ),
+        background: Stack(
+          fit: StackFit.expand,
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [goal.color.withOpacityDouble(0.6), goal.color],
+                  begin: AlignmentDirectional.topStart,
+                  end: AlignmentDirectional.bottomEnd,
+                ),
+              ),
+            ),
+            Positioned(
+              left:
+                  Directionality.of(context) == TextDirection.rtl ? -20 : null,
+              right:
+                  Directionality.of(context) == TextDirection.rtl ? null : -20,
+              bottom: -20,
+              child: Icon(
+                Icons.fitness_center_rounded,
+                size: 200,
+                color: Colors.white.withOpacityDouble(0.15),
+              ),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget _buildDescription(BuildContext context, GoalModel goal) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("About",
+                style: Theme.of(context)
+                    .textTheme
+                    .titleMedium
+                    ?.copyWith(fontWeight: FontWeight.bold)),
+            const SizedBox(height: 8),
+            Text(goal.description!,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    color: Theme.of(context).textTheme.bodySmall?.color)),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTaskListHeader(BuildContext context, GoalModel goal) {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 8.0),
+        child: Text(
+          "Tasks (${goal.tasks.length})",
+          style: Theme.of(context)
+              .textTheme
+              .titleMedium
+              ?.copyWith(fontWeight: FontWeight.bold),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTaskList(GoalModel goal) {
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (context, index) {
+          final task = goal.tasks[index];
+          var a = task.copyWith(goal: goal);
+          return DetailedTaskRow(
+            task: a,
+          );
+        },
+        childCount: goal.tasks.length,
+      ),
+    );
+  }
+
+  void _showDeleteBottomSheet(BuildContext context, GoalModel goal) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return DeleteGoalSheet(goal: goal, parentContext: context);
+      },
     );
   }
 }

@@ -65,8 +65,12 @@ class _GoalSortedTaskListState extends State<GoalSortedTaskList> {
                             borderRadius: BorderRadius.zero),
                         children: List.generate(
                           tasks.length,
-                          (taskIndex) =>
-                              TaskTile(task: tasks[taskIndex]..goal = goal),
+                          (taskIndex) {
+                            tasks[taskIndex] =
+                                tasks[taskIndex].copyWith(goal: goal);
+
+                            return TaskTile(task: tasks[taskIndex]);
+                          },
                         ),
                       ),
               );

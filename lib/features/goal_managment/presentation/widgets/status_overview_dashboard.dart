@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 // Import your models and the MetricCard
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import 'metric_card.dart';
 
 class StatusOverviewDashboard extends StatelessWidget {
@@ -71,7 +72,7 @@ class StatusOverviewDashboard extends StatelessWidget {
           child: CircularProgressIndicator(
             value: 1.0, // The background track
             strokeWidth: 8,
-            color: Theme.of(context).colorScheme.surface.withOpacity(0.5),
+            color: Theme.of(context).colorScheme.surface.withOpacityDouble(0.5),
           ),
         ),
         SizedBox(

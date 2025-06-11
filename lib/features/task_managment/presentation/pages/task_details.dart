@@ -49,7 +49,7 @@ class _TaskDetailsState extends State<TaskDetails> {
       child: Scaffold(
         body: BlocBuilder<TaskBloc, TaskState>(
           builder: (context, state) {
-            final TaskModel task = state is TasksLoadedState
+            TaskModel task = state is TasksLoadedState
                 ? widget.task
                 : TaskModel(
                     title: 'place holder',
@@ -101,7 +101,8 @@ class _TaskDetailsState extends State<TaskDetails> {
                               return null;
                             },
                             onLeave: (newValue) {
-                              task.title = newValue!;
+                              task = task.copyWith(title: newValue);
+
                               context
                                   .read<TaskBloc>()
                                   .add(TaskUpdatedEvent(newTask: task));
@@ -112,7 +113,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                     Dismissible(
                       key: Key(DateTime.now().toString()),
                       onDismissed: (direction) {
-                        task.description = null;
+                        task = task.copyWith(description: null);
                         context
                             .read<TaskBloc>()
                             .add(TaskUpdatedEvent(newTask: task));
@@ -129,8 +130,10 @@ class _TaskDetailsState extends State<TaskDetails> {
                                 hint: appLocalization.translate('description'),
                                 titleController: _descriptionController,
                                 onLeave: (newValue) {
-                                  task.description =
-                                      newValue!.isEmpty ? null : newValue;
+                                  task = task.copyWith(
+                                      description:
+                                          newValue!.isEmpty ? null : newValue);
+
                                   context
                                       .read<TaskBloc>()
                                       .add(TaskUpdatedEvent(newTask: task));
@@ -161,7 +164,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                         : GoalSelection(
                             initialGoal: task.goal,
                             onChanged: (newGoal) {
-                              task.goal = newGoal;
+                              task = task.copyWith(goal: newGoal);
                               context
                                   .read<TaskBloc>()
                                   .add(TaskUpdatedEvent(newTask: task));
@@ -179,7 +182,7 @@ class _TaskDetailsState extends State<TaskDetails> {
                             showRemoveIcon: false,
                             showIconWhenDateSelected: false,
                             onChange: (newDate) {
-                              task.dueDate = newDate;
+                              task = task.copyWith(dueDate: newDate);
                               context
                                   .read<TaskBloc>()
                                   .add(TaskUpdatedEvent(newTask: task));
@@ -217,7 +220,8 @@ class _TaskDetailsState extends State<TaskDetails> {
                           Checkbox(
                               value: task.isCompleted,
                               onChanged: (value) {
-                                task.doneDate = value! ? DateTime.now() : null;
+                                task = task.copyWith(
+                                    doneDate: value! ? DateTime.now() : null);
                                 context
                                     .read<TaskBloc>()
                                     .add(TaskUpdatedEvent(newTask: task));
