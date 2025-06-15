@@ -14,11 +14,13 @@ import '../../../../core/data/bloc/tag_bloc/tag_bloc.dart';
 class AddTaskSheet extends StatefulWidget {
   final Function(TaskModel task) onSubmit;
   final GoalModel? initialGoal;
+  final DateTime? initialDate;
 
   const AddTaskSheet({
     super.key,
     required this.onSubmit,
     this.initialGoal,
+    this.initialDate,
   });
 
   @override
@@ -40,6 +42,8 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   void initState() {
     super.initState();
     _selectedGoal = widget.initialGoal;
+    _selectedDate = widget.initialDate;
+    
     _titleController.addListener(() {
       if (mounted) {
         setState(() {

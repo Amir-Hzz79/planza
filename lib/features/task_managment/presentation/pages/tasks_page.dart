@@ -8,7 +8,6 @@ import '../../../../core/constants/sort_ordering.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 import '../../../../core/widgets/scrollables/scrollable_column.dart';
-import '../widgets/add_task_fields.dart';
 import '../widgets/add_task_sheet.dart';
 import '../widgets/priority_sorted_task_list.dart';
 

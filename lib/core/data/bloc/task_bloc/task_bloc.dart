@@ -19,6 +19,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
     on<TaskAddedEvent>(_onTaskAdded);
     on<TaskUpdatedEvent>(_onTaskUpdated);
     on<TaskDeletedEvent>(_onTaskDeleted);
+    on<SearchTasksRequested>(_onSearchTasksRequested);
+    on<ClearSearch>(_onClearSearch);
   }
 
   Future<void> _onLoadTasks(
@@ -95,6 +97,42 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         emit(TasksLoadedState(currentState.tasks));
         emit(TaskErrorState('Failed to delete task. Please try again.'));
       }
+    }
+  }
+
+  void _onSearchTasksRequested(
+      SearchTasksRequested event, Emitter<TaskState> emit) {
+    final currentState = state;
+    if (currentState is TasksLoadedState) {
+      // If the search query is empty, clear the search results.
+      if (event.query.isEmpty) {
+        emit(currentState.copyWith(searchResults: null));
+        return;
+      }
+
+      // Filter the main list of tasks based on the query.
+      final allTasks = currentState.tasks;
+      final results = allTasks.where((task) {
+        final query = event.query.toLowerCase();
+        final titleMatch = task.title.toLowerCase().contains(query);
+        final descriptionMatch =
+            task.description?.toLowerCase().contains(query) ?? false;
+        final goalMatch =
+            task.goal?.name.toLowerCase().contains(query) ?? false;
+        final tagMatch =
+            task.tags.any((tag) => tag.name.toLowerCase().contains(query));
+
+        return titleMatch || descriptionMatch || goalMatch || tagMatch;
+      }).toList();
+
+      emit(currentState.copyWith(searchResults: results));
+    }
+  }
+
+  void _onClearSearch(ClearSearch event, Emitter<TaskState> emit) {
+    final currentState = state;
+    if (currentState is TasksLoadedState) {
+      emit(currentState.copyWith(searchResults: null));
     }
   }
 

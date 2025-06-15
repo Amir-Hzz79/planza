@@ -22,7 +22,7 @@ class TaskLoadingState extends TaskState {
 class TasksLoadedState extends TaskState {
   final String _stateId = const Uuid().v4();
   final List<TaskModel> tasks;
-
+  final List<TaskModel>? searchResults;
   /*  List<TaskModel> filterOnDate(DateTime date) {
     return tasks
         .where(
@@ -50,10 +50,24 @@ class TasksLoadedState extends TaskState {
       )
       .toList(); */
 
-  TasksLoadedState(this.tasks);
+  TasksLoadedState(
+    this.tasks, {
+    this.searchResults,
+  });
 
   @override
-  List<Object> get props => [_stateId, tasks];
+  List<Object> get props =>
+      [_stateId, tasks, searchResults ?? <List<TaskModel>>[]];
+
+  TasksLoadedState copyWith({
+    List<TaskModel>? tasks,
+    List<TaskModel>? searchResults,
+  }) {
+    return TasksLoadedState(
+      tasks ?? this.tasks,
+      searchResults: searchResults ?? this.searchResults,
+    );
+  }
 }
 
 class TaskErrorState extends TaskState {

@@ -30,3 +30,13 @@ class TaskDeletedEvent extends TaskEvent {
 
   TaskDeletedEvent({required this.task});
 }
+
+class SearchTasksRequested extends TaskEvent {
+  final String query;
+  SearchTasksRequested(this.query);
+
+  @override
+  List<Object> get props => [query];
+}
+
+class ClearSearch extends TaskEvent {}
