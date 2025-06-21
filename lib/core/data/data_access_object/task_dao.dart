@@ -74,8 +74,26 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
         },
       );
 
-  Future<bool> updateTask(TaskModel task) =>
-      update(tasks).replace(task.toEntity());
+  Future<void> updateTaskAndSyncTags(TaskModel task) async {
+    return await db.transaction(() async {
+      // 1. Update the main task row itself with all its new data
+      await db.update(db.tasks).replace(task.toCompanion());
+
+      // 2. Sync the tags using the "delete all, then insert all" pattern.
+      await (db.delete(db.taskTags)..where((t) => t.taskId.equals(task.id!)))
+          .go();
+
+      if (task.tags.isNotEmpty) {
+        final newTagLinks = task.tags.map(
+          (tag) => TaskTagsCompanion.insert(
+            taskId: Value(task.id!),
+            tagId: Value(tag.id),
+          ),
+        );
+        await db.batch((b) => b.insertAll(db.taskTags, newTagLinks));
+      }
+    });
+  }
 
   Future<int> deleteTask(int id) =>
       (delete(tasks)..where((t) => t.id.equals(id))).go();

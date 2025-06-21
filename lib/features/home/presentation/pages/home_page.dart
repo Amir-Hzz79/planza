@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
+import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
 
 import 'package:planza/features/home/presentation/widgets/section_header.dart';
 import 'package:planza/features/home/presentation/widgets/metric_item.dart';
 import 'package:planza/features/home/presentation/widgets/empty_section.dart';
 
 import 'package:planza/features/home/presentation/widgets/speed_dial_fab.dart';
-import 'package:planza/core/data/bloc/goal_bloc/goal_bloc.dart';
-import 'package:planza/core/data/bloc/task_bloc/task_bloc.dart';
 import 'package:planza/core/data/models/task_model.dart';
 
 import '../../../../core/widgets/appbar/general_app_bar.dart';
@@ -23,24 +22,13 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // We nest BlocBuilders to get data from both streams.
-    return BlocBuilder<GoalBloc, GoalState>(
-      builder: (context, goalState) {
-        return BlocBuilder<TaskBloc, TaskState>(
-          builder: (context, taskState) {
-            // Handle loading and error states first.
-            if (goalState is! GoalsLoadedState ||
-                taskState is! TasksLoadedState) {
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            }
+    return GoalBlocBuilder(
+      onDataLoaded: (goals) {
+        return TaskBlocBuilder(
+          onDataLoaded: (tasks) {
+            final allGoals = goals;
+            final allTasks = tasks;
 
-            // Once both are loaded, we have all the data we need.
-            final allGoals = goalState.goals;
-            final allTasks = taskState.tasks;
-
-            // Process the data for our dashboard sections.
             final activeGoals = allGoals.where((g) => !g.isCompleted).toList();
             final tasksDueToday = allTasks.where((t) {
               if (t.isCompleted || t.dueDate == null) return false;
@@ -50,6 +38,15 @@ class HomePage extends StatelessWidget {
 
             final weeklyTaskData = _getWeeklyCompletionData(allTasks);
             final tagData = _getTagCompletionData(allTasks);
+            tagData.addAll({
+              'vacation': 5,
+              'work': 10,
+              'health': 3,
+              'work2': 10,
+              'health2': 3,
+              'work3': 10,
+              'health3': 3
+            });
             final weeklyTaskCount =
                 weeklyTaskData.values.fold(0, (a, b) => a + b);
 
@@ -68,15 +65,7 @@ class HomePage extends StatelessWidget {
                   const SectionHeader(title: "Your Consistency"),
                   WeeklyChart(weeklyTasks: weeklyTaskData),
                   const SectionHeader(title: "Where Your Energy Goes"),
-                  TagAnalysisChart(tagData: {
-                    'vacation': 5,
-                    'work': 10,
-                    'health': 3,
-                    'work2': 10,
-                    'health2': 3,
-                    'work3': 10,
-                    'health3': 3
-                  }),
+                  TagAnalysisChart(tagData: tagData),
                   const SliverToBoxAdapter(child: SizedBox(height: 100)),
                 ],
               ),

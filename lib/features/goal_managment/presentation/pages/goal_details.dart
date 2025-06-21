@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import 'package:planza/features/goal_managment/presentation/pages/goal_entry_page.dart';
+import 'package:planza/features/task_managment/presentation/widgets/task_entry_sheet.dart';
 
 import '../../../../core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
-import '../../../task_managment/presentation/widgets/add_task_fields.dart';
+
 import '../../../task_managment/presentation/widgets/detail_task_row.dart';
 import '../widgets/delete_goal_sheet.dart';
 import '../widgets/status_overview_dashboard.dart';
@@ -44,10 +46,9 @@ class GoalDetailsPage extends StatelessWidget {
                   builder: (context) => IntrinsicHeight(
                     child: Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: AddTaskFields(
-                        fixedGoal: goal,
+                      child: TaskEntrySheet(
+                        initialTask: TaskModel(title: '', goal: goal),
                         onSubmit: (newTask) {
-                          Navigator.pop(context);
                           context
                               .read<TaskBloc>()
                               .add(TaskAddedEvent(newTask: newTask));

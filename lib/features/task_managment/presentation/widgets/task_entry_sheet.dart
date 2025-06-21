@@ -1,56 +1,68 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-// Import your models and any necessary BLoCs/widgets
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/data/models/tag_model.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/data/bloc/goal_bloc/goal_bloc.dart';
 import '../../../../core/data/bloc/tag_bloc/tag_bloc.dart';
 
-class AddTaskSheet extends StatefulWidget {
-  final Function(TaskModel task) onSubmit;
-  final GoalModel? initialGoal;
-  final DateTime? initialDate;
+import 'goal_selection_sheet.dart';
+import 'priority_selection_sheet.dart';
+import 'tag_selection_sheet.dart';
 
-  const AddTaskSheet({
+class TaskEntrySheet extends StatefulWidget {
+  final Function(TaskModel task) onSubmit;
+  final TaskModel? initialTask;
+
+  const TaskEntrySheet({
     super.key,
     required this.onSubmit,
-    this.initialGoal,
-    this.initialDate,
+    this.initialTask,
   });
 
   @override
-  State<AddTaskSheet> createState() => _AddTaskSheetState();
+  State<TaskEntrySheet> createState() => _TaskEntrySheetState();
 }
 
-class _AddTaskSheetState extends State<AddTaskSheet> {
+class _TaskEntrySheetState extends State<TaskEntrySheet> {
   final _titleController = TextEditingController();
+  final _descriptionController = TextEditingController();
+
+  late bool _isEditing;
   bool _isFormValid = false;
+  bool _showDescriptionField = false;
 
   GoalModel? _selectedGoal;
   DateTime? _selectedDate;
   List<TagModel> _selectedTags = [];
   int? _selectedPriority;
-  final _descriptionController = TextEditingController();
-  bool _showDescriptionField = false;
 
   @override
   void initState() {
     super.initState();
-    _selectedGoal = widget.initialGoal;
-    _selectedDate = widget.initialDate;
-    
-    _titleController.addListener(() {
-      if (mounted) {
-        setState(() {
-          _isFormValid = _titleController.text.isNotEmpty;
-        });
+
+    _isEditing = widget.initialTask?.id != null;
+
+    if (widget.initialTask != null) {
+      final task = widget.initialTask!;
+      _titleController.text = task.title;
+      _descriptionController.text = task.description ?? '';
+      _selectedGoal = task.goal;
+      _selectedDate = task.dueDate;
+      _selectedTags = List.from(task.tags);
+      _selectedPriority = task.priority;
+
+      if (task.description?.isNotEmpty ?? false) {
+        _showDescriptionField = true;
       }
-    });
+    }
+
+    _updateFormValidity();
+    _titleController.addListener(_updateFormValidity);
   }
 
   @override
@@ -60,35 +72,43 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
     super.dispose();
   }
 
-  // --- Picker Methods ---
+  void _updateFormValidity() {
+    if (mounted) {
+      setState(() {
+        _isFormValid = _titleController.text.isNotEmpty;
+      });
+    }
+  }
 
   void _pickGoal() async {
+    final goalsState = context.read<GoalBloc>().state;
+    final allGoals =
+        goalsState is GoalsLoadedState ? goalsState.goals : <GoalModel>[];
+
     final selected = await showModalBottomSheet<GoalModel>(
       context: context,
-      builder: (ctx) => _GoalSelectionSheet(
-        allGoals: context.read<GoalBloc>().state is GoalsLoadedState
-            ? (context.read<GoalBloc>().state as GoalsLoadedState).goals
-            : [],
-        initialGoal: _selectedGoal,
-      ),
+      builder: (ctx) =>
+          GoalSelectionSheet(allGoals: allGoals, initialGoal: _selectedGoal),
     );
-    if (selected != null) {
+
+    if (selected is GoalModel) {
       setState(() => _selectedGoal = selected);
+    } else if (selected == null) {
+      setState(() => _selectedGoal = null);
     }
   }
 
   void _pickTags() async {
+    final tagsState = context.read<TagBloc>().state;
+    final allTags =
+        tagsState is TagsLoadedState ? tagsState.tags : <TagModel>[];
+
     final selected = await showModalBottomSheet<List<TagModel>>(
       context: context,
       isScrollControlled: true,
       showDragHandle: true,
-      enableDrag: true,
-      builder: (ctx) => _TagSelectionSheet(
-        allTags: context.read<TagBloc>().state is TagsLoadedState
-            ? (context.read<TagBloc>().state as TagsLoadedState).tags
-            : [],
-        initialTags: _selectedTags,
-      ),
+      builder: (ctx) =>
+          TagSelectionSheet(allTags: allTags, initialTags: _selectedTags),
     );
     if (selected != null) {
       setState(() => _selectedTags = selected);
@@ -99,11 +119,9 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
     final selected = await showModalBottomSheet<int?>(
       context: context,
       builder: (ctx) =>
-          _PrioritySelectionSheet(initialPriority: _selectedPriority),
+          PrioritySelectionSheet(initialPriority: _selectedPriority),
     );
-    // showModalBottomSheet can return null if dismissed, so we check.
     if (selected != null) {
-      // If the user selects "No Priority", the value will be -1
       setState(() => _selectedPriority = selected == -1 ? null : selected);
     }
   }
@@ -122,7 +140,9 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
 
   void _saveTask() {
     if (!_isFormValid) return;
-    final newTask = TaskModel(
+
+    final finalTask = TaskModel(
+      id: widget.initialTask?.id,
       title: _titleController.text.trim(),
       description: _descriptionController.text.isNotEmpty
           ? _descriptionController.text.trim()
@@ -131,13 +151,15 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
       dueDate: _selectedDate,
       tags: _selectedTags,
       priority: _selectedPriority,
+      doneDate: widget.initialTask?.doneDate,
     );
-    widget.onSubmit(newTask);
 
+    widget.onSubmit(finalTask);
     Navigator.of(context).pop();
-
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text("Task '${newTask.title}' added!")),
+      SnackBar(
+        content: Text('Task ${_isEditing ? 'updated' : 'added'}!'),
+      ),
     );
   }
 
@@ -145,24 +167,25 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     String priorityText = "Priority";
-    if (_selectedPriority != null) {
-      priorityText = "Priority $_selectedPriority";
-    }
+    if (_selectedPriority != null) priorityText = "Priority $_selectedPriority";
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
           16, 16, 16, MediaQuery.of(context).viewInsets.bottom + 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Text(_isEditing ? "Edit Task" : "New Task",
+              style: theme.textTheme.titleLarge),
+          const SizedBox(height: 8),
           TextField(
             controller: _titleController,
             autofocus: true,
             style: theme.textTheme.titleLarge,
             decoration: const InputDecoration(
-              hintText: "e.g., Finish presentation by 5 PM",
-              border: InputBorder.none,
-            ),
+                hintText: "e.g., Finish presentation by 5 PM",
+                border: InputBorder.none),
             onSubmitted: (_) => _saveTask(),
           ),
           AnimatedSize(
@@ -174,13 +197,12 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                     child: TextField(
                       controller: _descriptionController,
                       maxLines: 3,
-                      style: theme.textTheme.bodyMedium,
                       decoration: InputDecoration(
                         hintText: "Add more details...",
                         border: InputBorder.none,
                         filled: true,
                         fillColor:
-                            theme.colorScheme.onSurface.withOpacity(0.05),
+                            theme.colorScheme.onSurface.withOpacityDouble(0.05),
                       ),
                     ),
                   )
@@ -192,7 +214,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
             child: Row(
               children: [
                 _ActionChip(
-                  label: _selectedGoal?.name ?? "Add Goal",
+                  label: _selectedGoal?.name ?? "No Goal",
                   icon: Icons.flag_outlined,
                   isSelected: _selectedGoal != null,
                   onTap: _pickGoal,
@@ -211,21 +233,17 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
                   label: "Description",
                   icon: Icons.notes_outlined,
                   isSelected: _showDescriptionField,
-                  onTap: () {
-                    setState(() {
-                      _showDescriptionField = !_showDescriptionField;
-                    });
-                  },
+                  onTap: () => setState(
+                      () => _showDescriptionField = !_showDescriptionField),
                 ),
                 const SizedBox(width: 8),
                 _ActionChip(
-                  label: _selectedTags.isEmpty
-                      ? "Tags"
-                      : "${_selectedTags.length} Tags",
-                  icon: Icons.tag,
-                  isSelected: _selectedTags.isNotEmpty,
-                  onTap: _pickTags,
-                ),
+                    label: _selectedTags.isEmpty
+                        ? "Tags"
+                        : "${_selectedTags.length} Tags",
+                    icon: Icons.tag,
+                    isSelected: _selectedTags.isNotEmpty,
+                    onTap: _pickTags),
                 const SizedBox(width: 8),
                 _ActionChip(
                   label: priorityText,
@@ -243,7 +261,7 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
               onPressed: _isFormValid ? _saveTask : null,
               style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16)),
-              child: const Text("Add Task"),
+              child: Text(_isEditing ? "Save Changes" : "Add Task"),
             ),
           ),
         ],
@@ -252,7 +270,6 @@ class _AddTaskSheetState extends State<AddTaskSheet> {
   }
 }
 
-// A private helper widget for the chips in the Smart Bar
 class _ActionChip extends StatelessWidget {
   final String label;
   final IconData icon;
@@ -270,7 +287,7 @@ class _ActionChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final selectedColor = theme.colorScheme.primary;
-    final defaultColor = theme.colorScheme.onSurface.withOpacity(0.7);
+    final defaultColor = theme.colorScheme.onSurface.withOpacityDouble(0.7);
 
     return InkWell(
       onTap: onTap,
@@ -282,7 +299,7 @@ class _ActionChip extends StatelessWidget {
           border: Border.all(
             color: isSelected
                 ? selectedColor
-                : theme.colorScheme.outline.withOpacity(0.5),
+                : theme.colorScheme.outline.withOpacityDouble(0.5),
           ),
         ),
         child: Row(
@@ -300,117 +317,6 @@ class _ActionChip extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _GoalSelectionSheet extends StatelessWidget {
-  final List<GoalModel> allGoals;
-  final GoalModel? initialGoal;
-  const _GoalSelectionSheet({required this.allGoals, this.initialGoal});
-
-  @override
-  Widget build(BuildContext context) {
-    return DraggableScrollableSheet(
-      expand: false,
-      builder: (context, scrollController) => ListView.builder(
-        controller: scrollController,
-        itemCount: allGoals.length,
-        itemBuilder: (context, index) {
-          final goal = allGoals[index];
-          return ListTile(
-            title: Text(goal.name),
-            leading: Icon(Icons.fitness_center_rounded, color: goal.color),
-            onTap: () => Navigator.of(context).pop(goal),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _TagSelectionSheet extends StatefulWidget {
-  final List<TagModel> allTags;
-  final List<TagModel> initialTags;
-  const _TagSelectionSheet({required this.allTags, required this.initialTags});
-
-  @override
-  State<_TagSelectionSheet> createState() => _TagSelectionSheetState();
-}
-
-class _TagSelectionSheetState extends State<_TagSelectionSheet> {
-  late Set<TagModel> _selectedTags;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedTags = Set.from(widget.initialTags);
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Column(
-        children: [
-          ...List.generate(
-            widget.allTags.length,
-            (index) {
-              final tag = widget.allTags[index];
-              final isSelected = _selectedTags.contains(tag);
-              return CheckboxListTile(
-                title: Text(tag.name),
-                value: isSelected,
-                onChanged: (bool? value) {
-                  setState(
-                    () {
-                      if (value == true) {
-                        _selectedTags.add(tag);
-                      } else {
-                        _selectedTags.remove(tag);
-                      }
-                    },
-                  );
-                },
-              );
-            },
-          ),
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: FilledButton(
-              style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(50)),
-              child: const Text("Done"),
-              onPressed: () =>
-                  Navigator.of(context).pop(_selectedTags.toList()),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-}
-
-class _PrioritySelectionSheet extends StatelessWidget {
-  final int? initialPriority;
-  const _PrioritySelectionSheet({this.initialPriority});
-
-  @override
-  Widget build(BuildContext context) {
-    // A map of priority levels to display
-    final priorities = {
-      1: "High",
-      2: "Medium",
-      3: "Low",
-      -1: "No Priority", // Use -1 to represent null
-    };
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: priorities.entries.map((entry) {
-        return ListTile(
-          title: Text(entry.value),
-          onTap: () => Navigator.of(context).pop(entry.key),
-        );
-      }).toList(),
     );
   }
 }

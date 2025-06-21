@@ -5,7 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:planza/features/goal_managment/presentation/pages/goals_page.dart';
 import 'package:planza/features/home/presentation/pages/home_page.dart';
 
-import 'features/task_managment/presentation/pages/task_page2.dart';
+import 'features/task_managment/presentation/pages/tasks_page.dart';
 
 class RootPage extends StatefulWidget {
   const RootPage({super.key});
@@ -19,7 +19,7 @@ class _RootPageState extends State<RootPage> {
 
   final List<Widget> _pages = [
     const HomePage(),
-    const TasksPage2(),
+    const TasksPage(),
     const GoalsPage(),
   ];
 

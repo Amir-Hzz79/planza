@@ -5,7 +5,7 @@ import 'task_model.dart';
 
 class TagModel extends Equatable {
   @override
-  List<Object?> get props => [id, name, tasks];
+  List<Object?> get props => [id, name];
 
   final int id;
   final String name;
@@ -17,7 +17,6 @@ class TagModel extends Equatable {
     this.tasks,
   });
 
-  // Convert a Tag entity to a TagModel
   factory TagModel.fromEntity(Tag tagEntity, {List<TaskModel>? tasks}) {
     return TagModel(
       id: tagEntity.id,
@@ -26,7 +25,6 @@ class TagModel extends Equatable {
     );
   }
 
-  // Convert a TagModel to a Tag entity
   Tag toEntity() {
     return Tag(
       id: id,

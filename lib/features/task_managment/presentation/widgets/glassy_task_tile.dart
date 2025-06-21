@@ -3,12 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-// Make sure your model imports are correct
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
-import '../pages/task_details.dart';
+import '../pages/task_details_page.dart';
 
 class GlassyTaskCard extends StatelessWidget {
   final TaskModel task;
@@ -72,7 +71,7 @@ class GlassyTaskCard extends StatelessWidget {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => TaskDetails(task: task),
+                      builder: (context) => TaskDetailsPage(taskId: task.id!),
                     ),
                   );
                 },

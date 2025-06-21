@@ -4,7 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 import '../../../goal_managment/presentation/pages/goal_entry_page.dart';
 
-import '../../../task_managment/presentation/widgets/add_task_sheet.dart';
+import '../../../task_managment/presentation/widgets/task_entry_sheet.dart';
 
 class SpeedDialFab extends StatefulWidget {
   const SpeedDialFab({super.key});
@@ -81,8 +81,7 @@ class _SpeedDialFabState extends State<SpeedDialFab>
                           borderRadius:
                               BorderRadius.vertical(top: Radius.circular(24)),
                         ),
-                        builder: (ctx) => AddTaskSheet(
-                          initialGoal: null,
+                        builder: (ctx) => TaskEntrySheet(
                           onSubmit: (newTask) {
                             context
                                 .read<TaskBloc>()

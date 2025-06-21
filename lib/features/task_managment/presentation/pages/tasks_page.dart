@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:planza/features/task_managment/presentation/widgets/date_sorted_task_list.dart';
-import 'package:planza/features/task_managment/presentation/widgets/goal_sorted_task_list.dart';
-import 'package:planza/features/task_managment/presentation/widgets/sort_list.dart';
+import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
+import 'package:planza/core/data/bloc/tag_bloc/tag_bloc_builder.dart';
 
-import '../../../../core/constants/sort_ordering.dart';
+import 'package:planza/core/data/bloc/task_bloc/task_bloc.dart';
+import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
+import 'package:planza/core/data/models/task_model.dart';
+import 'package:planza/features/task_managment/presentation/widgets/grouped_task_list_view.dart';
+import 'package:planza/features/task_managment/presentation/widgets/calendar_task_view.dart';
+import 'package:planza/features/task_managment/presentation/widgets/filter_sheet.dart';
 
-import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
-import '../../../../core/widgets/scrollables/scrollable_column.dart';
-import '../widgets/add_task_sheet.dart';
-import '../widgets/priority_sorted_task_list.dart';
+import '../../../../core/data/models/goal_model.dart';
+import '../../../../core/data/models/tag_model.dart';
+import '../widgets/filter_pill.dart';
 
 class TasksPage extends StatefulWidget {
   const TasksPage({super.key});
@@ -19,84 +22,208 @@ class TasksPage extends StatefulWidget {
 }
 
 class _TasksPageState extends State<TasksPage> {
-  SortTypes selectedSortType = SortTypes.date;
-  SortOrdering selectedSortOrder = SortOrdering.ascending;
-  bool includeDoneTasks = true;
+  // State for UI views
+  bool _isCalendarView = false;
+  bool _isSearching = false;
+  final _searchController = TextEditingController();
+
+  // State for active filters
+  bool _showCompleted = false;
+  Set<int> _goalIds = {};
+  Set<int> _tagIds = {};
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  void _showFilterPanel() async {
+    final result = await showModalBottomSheet<Map<String, dynamic>>(
+      context: context,
+      isScrollControlled: true,
+      builder: (_) => FilterSheet(
+        initialShowCompleted: _showCompleted,
+        initialGoalIds: _goalIds,
+        initialTagIds: _tagIds,
+      ),
+    );
+
+    if (result != null) {
+      setState(() {
+        _showCompleted = result['showCompleted'];
+        _goalIds = result['goalIds'];
+        _tagIds = result['tagIds'];
+      });
+    }
+  }
+
+  Widget _buildActiveFiltersBar(
+      List<GoalModel> allGoals, List<TagModel> allTags) {
+    bool hasFilters =
+        _showCompleted || _goalIds.isNotEmpty || _tagIds.isNotEmpty;
+    if (!hasFilters) return const SizedBox.shrink();
+
+    final List<Widget> filterPills = [];
+    if (_showCompleted) {
+      filterPills.add(FilterPill(
+          label: "Showing Completed",
+          onDeleted: () => setState(() => _showCompleted = false)));
+    }
+    for (int goalId in _goalIds) {
+      final goal = allGoals.firstWhere(
+        (g) => g.id == goalId,
+      );
+      if (goal != null) {
+        filterPills.add(
+          FilterPill(
+            label: goal.name,
+            icon: Icons.fitness_center_rounded,
+            color: goal.color,
+            onDeleted: () => setState(
+              () => _goalIds.remove(goalId),
+            ),
+          ),
+        );
+      }
+    }
+    for (int tagId in _tagIds) {
+      final tag = allTags.firstWhere(
+        (t) => t.id == tagId,
+      );
+      if (tag != null) {
+        filterPills.add(FilterPill(
+            label: "#${tag.name}",
+            onDeleted: () => setState(() => _tagIds.remove(tagId))));
+      }
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 8),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        child: Row(children: filterPills),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: ScrollableColumn(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CheckboxMenuButton(
-                  value: includeDoneTasks,
-                  onChanged: (value) {
-                    setState(() {
-                      includeDoneTasks = value!;
-                    });
-                  },
-                  child: Text('Done tasks'),
-                ),
-                SortOptions(
-                  onChange: (newSortType, newSortOrder) {
-                    setState(() {
-                      selectedSortType = newSortType;
-                      selectedSortOrder = newSortOrder;
-                    });
-                  },
-                ),
-              ],
-            ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          AnimatedSwitcher(
-            duration: Duration(milliseconds: 500),
-            transitionBuilder: (Widget child, Animation<double> animation) {
-              return FadeTransition(opacity: animation, child: child);
+    return PopScope(
+      canPop: !_isSearching,
+      onPopInvoked: (didPop) {
+        if (didPop) return;
+        if (_isSearching) setState(() => _isSearching = false);
+      },
+      child: GoalBlocBuilder(
+        onDataLoaded: (allGoals) {
+          return TagBlocBuilder(
+            onDataLoaded: (allTags) {
+              return TaskBlocBuilder(
+                onDataLoaded: (allTasks) {
+                  return Scaffold(
+                    appBar: AppBar(
+                      title: _isSearching
+                          ? TextField(
+                              controller: _searchController,
+                              autofocus: true,
+                              decoration: const InputDecoration(
+                                  hintText: 'Search tasks...',
+                                  border: InputBorder.none),
+                              onChanged: (query) => setState(() {}),
+                            )
+                          : const Text('My Tasks',
+                              style: TextStyle(fontWeight: FontWeight.bold)),
+                      actions: _isSearching
+                          ? [
+                              IconButton(
+                                  icon: const Icon(Icons.close),
+                                  onPressed: () =>
+                                      setState(() => _isSearching = false))
+                            ]
+                          : [
+                              IconButton(
+                                  icon: Icon(_isCalendarView
+                                      ? Icons.view_list_outlined
+                                      : Icons.calendar_month_outlined),
+                                  onPressed: () => setState(() =>
+                                      _isCalendarView = !_isCalendarView)),
+                              IconButton(
+                                  icon: const Icon(Icons.filter_list),
+                                  onPressed: _showFilterPanel),
+                              IconButton(
+                                  icon: const Icon(Icons.search),
+                                  onPressed: () =>
+                                      setState(() => _isSearching = true)),
+                            ],
+                    ),
+                    body: Column(
+                      children: [
+                        _buildActiveFiltersBar(allGoals, allTags),
+                        Expanded(
+                          child: BlocBuilder<TaskBloc, TaskState>(
+                            builder: (context, state) {
+                              if (state is! TasksLoadedState) {
+                                return const Center(
+                                    child: CircularProgressIndicator());
+                              }
+
+                              // --- Filtering and Searching Logic ---
+                              List<TaskModel> tasksToShow =
+                                  state.tasks.where((task) {
+                                final isCompletedMatch =
+                                    _showCompleted || !task.isCompleted;
+                                final goalMatch = _goalIds.isEmpty ||
+                                    (_goalIds.contains(task.goal?.id));
+                                final tagMatch = _tagIds.isEmpty ||
+                                    task.tags
+                                        .any((tag) => _tagIds.contains(tag.id));
+                                return isCompletedMatch &&
+                                    goalMatch &&
+                                    tagMatch;
+                              }).toList();
+
+                              if (_isSearching &&
+                                  _searchController.text.isNotEmpty) {
+                                final query =
+                                    _searchController.text.toLowerCase();
+                                tasksToShow = tasksToShow.where((task) {
+                                  return task.title
+                                          .toLowerCase()
+                                          .contains(query) ||
+                                      (task.description
+                                              ?.toLowerCase()
+                                              .contains(query) ??
+                                          false) ||
+                                      (task.goal?.name
+                                              .toLowerCase()
+                                              .contains(query) ??
+                                          false);
+                                }).toList();
+                              }
+
+                              return AnimatedSwitcher(
+                                duration: const Duration(milliseconds: 300),
+                                child: _isCalendarView
+                                    ? CalendarTaskView(
+                                        key: const ValueKey('calendar'),
+                                        tasks: tasksToShow)
+                                    : GroupedTaskListView(
+                                        key: const ValueKey('list'),
+                                        tasks: tasksToShow),
+                              );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
+              );
             },
-            child: selectedSortType == SortTypes.date
-                ? DateSortedTaskList(
-                    key: ValueKey<SortTypes>(SortTypes.date),
-                    sortingOrder: selectedSortOrder,
-                    includeDoneTasks: includeDoneTasks,
-                  )
-                : selectedSortType == SortTypes.goal
-                    ? GoalSortedTaskList(
-                        sortOrdering: selectedSortOrder,
-                        includeDoneTasks: includeDoneTasks,
-                      )
-                    : PrioritySortedTaskList(),
-          ),
-          const SizedBox(
-            height: 200,
-          ),
-        ],
-      ),
-      floatingActionButton: FloatingActionButton(
-        isExtended: true,
-        onPressed: () {
-          showModalBottomSheet(
-            context: context,
-            isScrollControlled: true,
-            shape: const RoundedRectangleBorder(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-            ),
-            builder: (ctx) => AddTaskSheet(
-              initialGoal: null,
-              onSubmit: (newTask) {
-                context.read<TaskBloc>().add(TaskAddedEvent(newTask: newTask));
-              },
-            ),
           );
         },
-        child: Icon(Icons.add),
       ),
     );
   }

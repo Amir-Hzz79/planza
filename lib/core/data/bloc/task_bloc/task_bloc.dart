@@ -72,7 +72,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       emit(TasksLoadedState(optimisticTasks));
 
       try {
-        await _taskDao.updateTask(event.newTask);
+        await _taskDao.updateTaskAndSyncTags(event.newTask);
       } catch (e) {
         emit(TasksLoadedState(currentState.tasks));
         emit(TaskErrorState('Failed to update task. Please try again.'));

@@ -1,14 +1,14 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'package:intl/intl.dart';
 
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/data/bloc/task_bloc/task_bloc.dart';
 
-
-import 'add_task_sheet.dart';
+import 'task_entry_sheet.dart';
 import 'glassy_task_tile.dart';
 
 class CalendarTaskView extends StatefulWidget {
@@ -22,7 +22,7 @@ class CalendarTaskView extends StatefulWidget {
 class _CalendarTaskViewState extends State<CalendarTaskView> {
   final DraggableScrollableController _sheetController =
       DraggableScrollableController();
-  final double _snapInitial = 0.15;
+  final double _snapInitial = 0.25;
   final double _snapMiddle = 0.5;
   final double _snapFull = 0.85;
 
@@ -56,8 +56,8 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
     _tasksByDay = {};
     for (final task in widget.tasks) {
       if (task.dueDate != null) {
-        final day =
-            DateTime.utc(task.dueDate!.year, task.dueDate!.month, task.dueDate!.day);
+        final day = DateTime.utc(
+            task.dueDate!.year, task.dueDate!.month, task.dueDate!.day);
         _tasksByDay.putIfAbsent(day, () => []).add(task);
       }
     }
@@ -145,10 +145,10 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
             Icon(Icons.chevron_right, color: theme.colorScheme.primary),
       ),
       daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle:
-            TextStyle(color: theme.colorScheme.onSurface.withOpacity(0.6)),
+        weekdayStyle: TextStyle(
+            color: theme.colorScheme.onSurface.withOpacityDouble(0.6)),
         weekendStyle:
-            TextStyle(color: theme.colorScheme.primary.withOpacity(0.8)),
+            TextStyle(color: theme.colorScheme.primary.withOpacityDouble(0.8)),
       ),
       calendarStyle: const CalendarStyle(
         outsideDaysVisible: false,
@@ -156,17 +156,20 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
       calendarBuilders: CalendarBuilders(
         selectedBuilder: (context, day, focusedDay) {
           final tasks = _getTasksForDay(day);
-          final colors =
-              tasks.map((t) => t.goal?.color).whereType<Color>().toSet().toList();
+          final colors = tasks
+              .map((t) => t.goal?.color)
+              .whereType<Color>()
+              .toSet()
+              .toList();
 
           final List<Color> gradientColors;
           if (colors.isEmpty) {
             gradientColors = [
               theme.colorScheme.primary,
-              theme.colorScheme.primary.withOpacity(0.6)
+              theme.colorScheme.primary.withOpacityDouble(0.6)
             ];
           } else if (colors.length == 1) {
-            gradientColors = [colors[0], colors[0].withOpacity(0.6)];
+            gradientColors = [colors[0], colors[0].withOpacityDouble(0.6)];
           } else {
             gradientColors = colors;
           }
@@ -196,7 +199,8 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
             child: Text(
               '${day.day}',
               style: TextStyle(
-                  color: theme.colorScheme.primary, fontWeight: FontWeight.bold),
+                  color: theme.colorScheme.primary,
+                  fontWeight: FontWeight.bold),
             ),
           );
         },
@@ -213,13 +217,13 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
               final List<Color> gradientColors;
               if (colors.length > 1) {
                 gradientColors = [
-                  colors[0].withOpacity(0.3),
-                  colors[1].withOpacity(0.3)
+                  colors[0].withOpacityDouble(0.3),
+                  colors[1].withOpacityDouble(0.3)
                 ];
               } else {
                 gradientColors = [
-                  colors[0].withOpacity(0.3),
-                  colors[0].withOpacity(0.15)
+                  colors[0].withOpacityDouble(0.3),
+                  colors[0].withOpacityDouble(0.15)
                 ];
               }
               return AnimatedContainer(
@@ -257,11 +261,13 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
             filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
             child: Container(
               decoration: BoxDecoration(
-                color: theme.colorScheme.surface.withOpacity(0.2),
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+                color: theme.colorScheme.surface.withOpacityDouble(0.2),
+                borderRadius:
+                    const BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border(
                     top: BorderSide(
-                        color: theme.colorScheme.onSurface.withOpacity(0.2))),
+                        color: theme.colorScheme.onSurface
+                            .withOpacityDouble(0.2))),
               ),
               child: Column(
                 children: [
@@ -270,7 +276,7 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                     height: 5,
                     margin: const EdgeInsets.symmetric(vertical: 8.0),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.onSurface.withOpacity(0.4),
+                      color: theme.colorScheme.onSurface.withOpacityDouble(0.4),
                       borderRadius: BorderRadius.circular(2.5),
                     ),
                   ),
@@ -294,15 +300,13 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                               context: context,
                               isScrollControlled: true,
                               /* backgroundColor: Colors.transparent, */
-                              builder: (ctx) => AddTaskSheet(
-                                initialDate: _selectedDay,
+                              builder: (ctx) => TaskEntrySheet(
+                                initialTask:
+                                    TaskModel(title: '', dueDate: _selectedDay),
                                 onSubmit: (newTask) {
                                   context
                                       .read<TaskBloc>()
                                       .add(TaskAddedEvent(newTask: newTask));
-                                  /* showAppSnackBar(context,
-                                      message:
-                                          "Task '${newTask.title}' added!"); */
                                 },
                               ),
                             );
@@ -311,7 +315,6 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                       ],
                     ),
                   ),
-                  /* const Divider(height: 1), */
                   Expanded(
                     child: _selectedDayTasks.isEmpty
                         ? const Center(child: Text("No tasks scheduled."))

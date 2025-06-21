@@ -6,9 +6,9 @@ import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
 
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
-import 'package:planza/features/task_managment/presentation/pages/task_details.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
+import '../pages/task_details_page.dart';
 
 class DetailedTaskRow extends StatefulWidget {
   final TaskModel task;
@@ -44,7 +44,8 @@ class _DetailedTaskRowState extends State<DetailedTaskRow> {
                 onTap: () {
                   Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => TaskDetails(task: widget.task),
+                      builder: (context) =>
+                          TaskDetailsPage(taskId: widget.task.id!),
                     ),
                   );
                 },
@@ -53,8 +54,10 @@ class _DetailedTaskRowState extends State<DetailedTaskRow> {
                   padding: const EdgeInsets.symmetric(
                       horizontal: 4.0, vertical: 12.0),
                   decoration: BoxDecoration(
-                    color:
-                        Theme.of(context).colorScheme.surface.withOpacityDouble(0.15),
+                    color: Theme.of(context)
+                        .colorScheme
+                        .surface
+                        .withOpacityDouble(0.15),
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   child: Row(
