@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 
 import 'package:planza/core/data/models/task_model.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import 'glassy_task_tile.dart';
 
 class GroupedTaskListView extends StatelessWidget {
@@ -11,9 +12,11 @@ class GroupedTaskListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     final groupedTasks = _groupTasksByDate(tasks);
     if (groupedTasks.isEmpty) {
-      return const Center(child: Text("No tasks found."));
+      return Center(child: Text(lang.tasksPage_grouped_empty));
     }
 
     final groupKeys = groupedTasks.keys.toList();

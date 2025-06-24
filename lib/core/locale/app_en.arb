@@ -5,6 +5,8 @@
     "general_save": "Save Changes",
     "general_create": "Create",
     "general_delete": "Delete",
+    "general_deleteConfirm": "Confirm Delete",
+    "general_edit": "Edit",
     "general_cancel": "Cancel",
     "general_done": "Done",
     "general_tasks": "Tasks",
@@ -26,6 +28,17 @@
     "general_settings": "Settings",
     "general_support": "Support",
     "general_about": "About",
+    "general_exitConfirm": "Press back again to exit",
+    "general_share": "Share",
+    "general_achievement": "ACHIEVEMENT",
+    "general_duration_day": "{dayCount} Days",
+    "@general_duration_day": {
+        "placeholders": {
+            "dayCount": {
+                "type": "int"
+            }
+        }
+    },
     "homePage_title": "Your Dashboard",
     "homePage_greeting_morning": "Good Morning!",
     "homePage_greeting_afternoon": "Good Afternoon!",
@@ -42,21 +55,87 @@
     "goalsPage_completed_tab": "Completed",
     "goalsPage_active_empty": "Every great journey starts with a single goal.\nAdd your first one!",
     "goalsPage_completed_empty": "You haven't completed any goals yet.\nKeep going!",
+    "goalsPage_goals_empty": "Your ambitions will appear here.\nLet's create your first goal!",
     "goalsPage_addGoal_button": "Create a Goal",
+    "goalsPage_featuredGoals_title": "Up Next...",
+    "goalsPage_activeGoals_title": "Keep Going!",
+    "goalsPage_completedGoals_title": "Hall of Fame 🏆",
+    "goalDetailsPage_notExist": "This goal no longer exists.",
+    "goalDetailsPage_editGoal": "Edit Goal",
+    "goalDetailsPage_deleteGoal": "Delete Goal",
+    "goalCard_taskCount": "{taskCount} Tasks",
+    "@goalCard_taskCount": {
+        "placeholders": {
+            "taskCount": {
+                "type": "int"
+            }
+        }
+    },
     "tasksPage_title": "My Tasks",
     "tasksPage_search_hint": "Search tasks, goals, tags...",
     "tasksPage_filter_title": "Sort & Filter",
     "tasksPage_filter_reset": "Reset",
     "tasksPage_filter_apply": "Apply Filters",
     "tasksPage_filter_showCompleted": "Show Completed Tasks",
+    "tasksPage_filter_goal_title": "Filter by Goal",
+    "tasksPage_filter_goal_selected": "{goalCount} selected",
+    "@tasksPage_filter_goal_selected": {
+        "placeholders": {
+            "goalCount": {
+                "type": "int"
+            }
+        }
+    },
+    "tasksPage_filter_goalSelection_title": "Select Goals",
+    "tasksPage_filter_tag_title": "Filter by Tags",
+    "tasksPage_filter_tag_selected": "{tagCount} selected",
+    "@tasksPage_filter_tag_selected": {
+        "placeholders": {
+            "tagCount": {
+                "type": "int"
+            }
+        }
+    },
+    "tasksPage_filter_tagSelection_title": "Select Tags",
     "tasksPage_calendar_noTasks": "No tasks for this day.",
+    "tasksPage_calendar_addTask_toolTip": "Add Task for this day",
+    "tasksPage_calendar_sheet_title": "Tasks for {date}",
+    "@tasksPage_calendar_sheet_title": {
+        "placeholders": {
+            "date": {
+                "type": "String"
+            }
+        }
+    },
     "tasksPage_grouped_overdue": "Overdue",
     "tasksPage_grouped_today": "Today",
     "tasksPage_grouped_tomorrow": "Tomorrow",
     "tasksPage_grouped_noDate": "No Date",
+    "tasksPage_grouped_empty": "No tasks found.",
+    "taskDetailsPage_goal_label": "Goal",
+    "taskDetailsPage_date_label": "Due Date",
+    "taskDetailsPage_priority_label": "Priority",
+    "taskDetailsPage_tags_label": "Tags",
+    "taskDetailsPage_checklist_title": "Checklist ({subtaskCount})",
+    "@taskDetailsPage_checklist_title": {
+        "placeholders": {
+            "subtaskCount": {
+                "type": "int"
+            }
+        }
+    },
+    "taskDetailsPage_priorityLevel": "Level {level}",
+    "@taskDetailsPage_priorityLevel": {
+        "placeholders": {
+            "level": {
+                "type": "int"
+            }
+        }
+    },
     "addGoalPage_title_add": "Create a Goal",
     "addGoalPage_title_edit": "Edit Goal",
     "addGoalPage_name_label": "Goal Name",
+    "addGoalPage_name_validator": "Please enter a name",
     "addGoalPage_name_required": "Every goal needs a name!",
     "addGoalPage_description_label": "Description (Optional)",
     "addGoalPage_description_hint": "Add more details about your goal...",
@@ -68,6 +147,15 @@
     "addGoalPage_tasks_hint": "Add a new step...",
     "addGoalPage_button_add": "Create Goal",
     "addGoalPage_button_edit": "Save Changes",
+    "addGoalPage_noDate": "Not set",
+    "addGoalPage_tasks_index": "Task #{index}",
+    "@addGoalPage_tasks_index": {
+        "placeholders": {
+            "index": {
+                "type": "int"
+            }
+        }
+    },
     "addTaskSheet_title_add": "New Task",
     "addTaskSheet_title_edit": "Edit Task",
     "addTaskSheet_hint": "e.g., Finish presentation by 5 PM",
@@ -75,6 +163,8 @@
     "addTaskSheet_button_edit": "Save Changes",
     "addTaskSheet_chip_noGoal": "No Goal",
     "addTaskSheet_chip_dueDate": "Due Date",
+    "addTaskSheet_edit_successMessage": "Task Updated!",
+    "addTaskSheet_add_successMessage": "Task Added!",
     "deleteDialog_goal_title": "Delete '{goalName}'?",
     "@deleteDialog_goal_title": {
         "placeholders": {
@@ -91,10 +181,20 @@
             }
         }
     },
-    "deleteDialog_goal_option_unassign": "Unassign tasks & delete goal",
-    "deleteDialog_goal_option_deleteAll": "Delete goal AND all tasks",
+    "deleteDialog_goal_options_title": "Please choose how to handle these tasks:",
+    "deleteDialog_goal_option_unassign_title": "Unassign tasks & delete goal",
+    "deleteDialog_goal_option_unassign_subtitle": "The tasks will be kept without a goal.",
+    "deleteDialog_goal_option_deleteAll_title": "Delete goal AND all tasks",
+    "deleteDialog_goal_option_deleteAll_subtitle": "All ${taskCount} tasks will be permanently deleted.",
+    "@deleteDialog_goal_option_deleteAll_subtitle": {
+        "placeholders": {
+            "taskCount": {
+                "type": "int"
+            }
+        }
+    },
     "deleteDialog_task_title": "Delete Task?",
-    "deleteDialog_task_content": "Are you sure you want to permanently delete this task?",
+    "deleteDialog_task_content": "Are you sure you want to permanently delete this task? This action cannot be undone.",
     "daysLeft": "{count, plural, =0{Due today} =1{1 day left} other{{count} days left}}",
     "@daysLeft": {
         "description": "A string indicating the number of days left until a deadline.",
@@ -103,5 +203,6 @@
                 "type": "int"
             }
         }
-    }
+    },
+    "goalSelection_noGoal": "No Goal"
 }

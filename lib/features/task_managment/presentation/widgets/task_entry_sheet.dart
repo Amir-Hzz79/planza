@@ -10,6 +10,7 @@ import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import '../../../../core/data/bloc/goal_bloc/goal_bloc.dart';
 import '../../../../core/data/bloc/tag_bloc/tag_bloc.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import 'goal_selection_sheet.dart';
 import 'priority_selection_sheet.dart';
 import 'tag_selection_sheet.dart';
@@ -138,7 +139,9 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
     }
   }
 
-  void _saveTask() {
+  void _saveTask(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     if (!_isFormValid) return;
 
     final finalTask = TaskModel(
@@ -158,7 +161,9 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
     Navigator.of(context).pop();
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('Task ${_isEditing ? 'updated' : 'added'}!'),
+        content: Text(_isEditing
+            ? lang.addTaskSheet_edit_successMessage
+            : lang.addTaskSheet_add_successMessage),
       ),
     );
   }
@@ -186,7 +191,7 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
             decoration: const InputDecoration(
                 hintText: "e.g., Finish presentation by 5 PM",
                 border: InputBorder.none),
-            onSubmitted: (_) => _saveTask(),
+            onSubmitted: (_) => _saveTask(context),
           ),
           AnimatedSize(
             duration: const Duration(milliseconds: 300),
@@ -258,7 +263,7 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
           SizedBox(
             width: double.infinity,
             child: FilledButton(
-              onPressed: _isFormValid ? _saveTask : null,
+              onPressed: _isFormValid ? () => _saveTask(context) : null,
               style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16)),
               child: Text(_isEditing ? "Save Changes" : "Add Task"),

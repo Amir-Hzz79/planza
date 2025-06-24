@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:planza/core/data/models/goal_model.dart';
-// Potentially import a share package like `share_plus` in the future
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
+
+import '../../../../core/locale/app_localizations.dart';
 
 class AchievementDetailsPage extends StatelessWidget {
   final GoalModel goal;
@@ -9,8 +11,11 @@ class AchievementDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Scaffold(
-      backgroundColor: Colors.black, // A dark background makes the achievement pop
+      backgroundColor:
+          Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -22,8 +27,8 @@ class AchievementDetailsPage extends StatelessWidget {
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                goal.color.withOpacity(0.2),
-                Colors.grey.shade900.withOpacity(0.2)
+                goal.color.withOpacityDouble(0.2),
+                Colors.grey.shade900.withOpacityDouble(0.2)
               ],
               begin: Alignment.topCenter,
               end: Alignment.bottomCenter,
@@ -50,9 +55,9 @@ class AchievementDetailsPage extends StatelessWidget {
                 goal.name,
                 textAlign: TextAlign.center,
                 style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                ),
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
               ),
               const SizedBox(height: 24),
               _buildStatRow("Tasks Completed", "${goal.tasks.length}"),
@@ -60,7 +65,8 @@ class AchievementDetailsPage extends StatelessWidget {
               _buildStatRow("Duration", "${goal.durationInDays} Days"),
               const Divider(color: Colors.white24),
               if (goal.completedDate != null)
-                _buildStatRow("Completed On", DateFormat.yMMMMd().format(goal.completedDate!)),
+                _buildStatRow("Completed On",
+                    DateFormat.yMMMMd().format(goal.completedDate!)),
             ],
           ),
         ),
@@ -70,7 +76,7 @@ class AchievementDetailsPage extends StatelessWidget {
           // TODO: Implement sharing logic using a package like share_plus
           // Share.share('I just completed my goal: "${goal.name}" on Planza!');
         },
-        label: const Text("Share"),
+        label:  Text(lang.general_share),
         icon: const Icon(Icons.share),
         backgroundColor: Colors.amber.shade400,
         foregroundColor: Colors.black,
@@ -84,8 +90,13 @@ class AchievementDetailsPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label, style: const TextStyle(color: Colors.white70, fontSize: 16)),
-          Text(value, style: const TextStyle(color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold)),
+          Text(label,
+              style: const TextStyle(color: Colors.white70, fontSize: 16)),
+          Text(value,
+              style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 16,
+                  fontWeight: FontWeight.bold)),
         ],
       ),
     );

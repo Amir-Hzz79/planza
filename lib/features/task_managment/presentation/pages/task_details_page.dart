@@ -7,6 +7,7 @@ import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import '../../../goal_managment/presentation/pages/goal_details.dart';
 import '../widgets/task_entry_sheet.dart';
 
@@ -64,23 +65,24 @@ class _TaskDetailsAppBar extends StatelessWidget {
   const _TaskDetailsAppBar({required this.task});
 
   Future<bool?> _showDeleteConfirmationDialog(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Delete Task?'),
-        content: const Text(
-            'Are you sure you want to permanently delete this task? This action cannot be undone.'),
+        title: Text(lang.deleteDialog_task_title),
+        content: Text(lang.deleteDialog_task_content),
         actions: <Widget>[
           TextButton(
             onPressed: () => Navigator.of(context).pop(false),
-            child: const Text('Cancel'),
+            child: Text(lang.general_cancel),
           ),
           FilledButton(
             style: FilledButton.styleFrom(
               backgroundColor: Theme.of(context).colorScheme.error,
             ),
             onPressed: () => Navigator.of(context).pop(true),
-            child: const Text('Delete'),
+            child: Text(lang.general_delete),
           ),
         ],
       ),
@@ -89,6 +91,7 @@ class _TaskDetailsAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
     final goal = task.goal;
     final headerColor = goal?.color ?? Theme.of(context).colorScheme.primary;
 
@@ -124,16 +127,20 @@ class _TaskDetailsAppBar extends StatelessWidget {
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
-                value: 'edit',
-                child: ListTile(
-                    leading: Icon(Icons.edit_outlined),
-                    title: Text('Edit Task'))),
-            const PopupMenuItem<String>(
-                value: 'delete',
-                child: ListTile(
-                    leading: Icon(Icons.delete_outline),
-                    title: Text('Delete Task'))),
+            PopupMenuItem<String>(
+              value: 'edit',
+              child: ListTile(
+                leading: Icon(Icons.edit_outlined),
+                title: Text(lang.general_edit),
+              ),
+            ),
+            PopupMenuItem<String>(
+              value: 'delete',
+              child: ListTile(
+                leading: Icon(Icons.delete_outline),
+                title: Text(lang.general_delete),
+              ),
+            ),
           ],
         )
       ],
@@ -181,11 +188,15 @@ class _DetailsPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Container(
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
-        color:
-            Theme.of(context).colorScheme.surfaceContainerHighest.withOpacityDouble(0.3),
+        color: Theme.of(context)
+            .colorScheme
+            .surfaceContainerHighest
+            .withOpacityDouble(0.3),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -193,7 +204,7 @@ class _DetailsPanel extends StatelessWidget {
           if (task.goal != null)
             _DetailRow(
               icon: Icons.flag_outlined,
-              title: "Goal",
+              title: lang.taskDetailsPage_goal_label,
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: ActionChip(
@@ -213,17 +224,18 @@ class _DetailsPanel extends StatelessWidget {
           if (task.dueDate != null)
             _DetailRow(
                 icon: Icons.calendar_today_outlined,
-                title: "Due Date",
+                title: lang.taskDetailsPage_date_label,
                 child: Text(DateFormat.yMMMMd().format(task.dueDate!))),
           if (task.priority != null)
             _DetailRow(
                 icon: Icons.priority_high_rounded,
-                title: "Priority",
-                child: Text("Level ${task.priority}")),
+                title: lang.taskDetailsPage_priority_label,
+                child:
+                    Text(lang.taskDetailsPage_priorityLevel(task.priority!))),
           if (task.tags.isNotEmpty)
             _DetailRow(
                 icon: Icons.tag,
-                title: "Tags",
+                title: lang.taskDetailsPage_tags_label,
                 child: Wrap(
                   spacing: 6.0,
                   runSpacing: 6.0,
@@ -234,7 +246,7 @@ class _DetailsPanel extends StatelessWidget {
           if (task.description?.isNotEmpty ?? false)
             _DetailRow(
                 icon: Icons.notes_outlined,
-                title: "Description",
+                title: lang.general_description,
                 child: Text(task.description!, softWrap: true)),
         ]
             .map((e) =>
@@ -322,6 +334,8 @@ class _SubtaskListSliver extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     if (subtasks.isEmpty) {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
@@ -330,7 +344,7 @@ class _SubtaskListSliver extends StatelessWidget {
       SliverToBoxAdapter(
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 8.0),
-          child: Text("Checklist (${subtasks.length})",
+          child: Text(lang.taskDetailsPage_checklist_title(subtasks.length),
               style: Theme.of(context)
                   .textTheme
                   .titleMedium

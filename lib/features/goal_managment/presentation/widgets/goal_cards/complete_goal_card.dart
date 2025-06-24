@@ -3,6 +3,7 @@ import 'package:intl/intl.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../../core/data/models/goal_model.dart';
+import '../../../../../core/locale/app_localizations.dart';
 import '../../pages/achievement_details_page.dart';
 
 class CompletedGoalCard extends StatelessWidget {
@@ -11,6 +12,7 @@ class CompletedGoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
     final theme = Theme.of(context);
     final int taskCount = goal.tasks.length;
     final int duration = goal.durationInDays;
@@ -48,7 +50,7 @@ class CompletedGoalCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "ACHIEVEMENT",
+                  lang.general_achievement,
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     color: Colors.amber.shade600,
@@ -70,12 +72,18 @@ class CompletedGoalCard extends StatelessWidget {
                     const Icon(Icons.check_circle,
                         color: Colors.green, size: 16),
                     const SizedBox(width: 4),
-                    Text("$taskCount Tasks", style: theme.textTheme.bodySmall),
+                    Text(
+                      lang.goalCard_taskCount(taskCount),
+                      style: theme.textTheme.bodySmall,
+                    ),
                     const SizedBox(width: 12),
                     const Icon(Icons.timer_outlined,
                         color: Colors.grey, size: 16),
                     const SizedBox(width: 4),
-                    Text("$duration Days", style: theme.textTheme.bodySmall),
+                    Text(
+                      lang.general_duration_day(duration),
+                      style: theme.textTheme.bodySmall,
+                    ),
                   ],
                 ),
                 const SizedBox(height: 4),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/data/models/goal_model.dart';
+import '../../../../core/locale/app_localizations.dart';
 
 class GoalSelectionSheet extends StatelessWidget {
   final List<GoalModel> allGoals;
@@ -10,15 +11,18 @@ class GoalSelectionSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return DraggableScrollableSheet(
       expand: false,
       builder: (context, scrollController) => Column(
         children: [
           ListTile(
-            title: const Text("No Goal",
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            onTap: () => Navigator.of(context)
-                .pop(null), 
+            title: Text(
+              lang.goalSelection_noGoal,
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+            onTap: () => Navigator.of(context).pop(null),
           ),
           const Divider(height: 1),
           Expanded(

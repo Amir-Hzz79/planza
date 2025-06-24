@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:planza/core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import '../../../../core/widgets/color_picker/color_picker.dart';
 import '../../../../core/widgets/icon_picker/icon_picker.dart';
 import '../widgets/thematic_goal_card.dart';
@@ -200,9 +201,13 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     final previewGoal = GoalModel(
       name: _nameController.text.isEmpty
-          ? (_isEditing ? "Edit Goal" : "New Goal")
+          ? (_isEditing
+              ? lang.addGoalPage_title_edit
+              : lang.addGoalPage_title_add)
           : _nameController.text,
       color: _selectedColor,
       /* icon: _selectedIcon, */
@@ -215,7 +220,9 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
           SliverAppBar(
             expandedHeight: 207,
             pinned: true,
-            title: Text(_isEditing ? "Edit Goal" : "Create New Goal"),
+            title: Text(_isEditing
+                ? lang.addGoalPage_title_edit
+                : lang.addGoalPage_title_add),
             flexibleSpace: FlexibleSpaceBar(
               background: Padding(
                 padding: const EdgeInsets.only(top: 60.0),
@@ -238,13 +245,13 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                       controller: _nameController,
                       textInputAction: TextInputAction.next,
                       validator: (value) => (value?.isEmpty ?? true)
-                          ? 'Please enter a name'
+                          ? lang.addGoalPage_name_validator
                           : null,
                       decoration: InputDecoration(
                         label: Text.rich(
                           TextSpan(
                             children: [
-                              const TextSpan(text: 'Goal Name'),
+                              TextSpan(text: lang.addGoalPage_name_label),
                               TextSpan(
                                 text: ' *',
                                 style: TextStyle(
@@ -260,13 +267,14 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                       controller: _descriptionController,
                       maxLines: 2,
                       textInputAction: TextInputAction.done,
-                      decoration: const InputDecoration(
-                        label: Text('Description (Optional)'),
-                        hintText: "Add more details about your goal...",
+                      decoration: InputDecoration(
+                        label: Text(
+                            '${lang.general_description} (${lang.general_optional})'),
+                        hintText: lang.addGoalPage_description_hint,
                       ),
                     ),
                     const SizedBox(height: 24),
-                    Text("Choose a Color",
+                    Text(lang.addGoalPage_color_label,
                         style: Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 8),
                     ColorPicker(
@@ -276,7 +284,7 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                           setState(() => _selectedColor = color),
                     ),
                     const SizedBox(height: 24),
-                    Text("Choose an Icon",
+                    Text(lang.addGoalPage_icon_label,
                         style: Theme.of(context).textTheme.titleMedium),
                     const SizedBox(height: 8),
                     IconPicker(
@@ -290,9 +298,10 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                     ListTile(
                       onTap: _pickDate,
                       leading: const Icon(Icons.calendar_today_outlined),
-                      title: const Text("Deadline (Optional)"),
+                      title: Text(
+                          "${lang.general_deadline} (${lang.general_optional})"),
                       subtitle: Text(_selectedDate == null
-                          ? "Not set"
+                          ? lang.addGoalPage_noDate
                           : DateFormat.yMMMd().format(_selectedDate!)),
                       trailing:
                           const Icon(Icons.arrow_forward_ios_rounded, size: 16),
@@ -300,7 +309,7 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                     ),
                     const SizedBox(height: 24),
                     ExpansionTile(
-                      title: const Text("Tasks"),
+                      title: Text(lang.general_tasks),
                       initiallyExpanded: true,
                       tilePadding: EdgeInsets.zero,
                       shape: RoundedRectangleBorder(
@@ -341,8 +350,9 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                                       },
                                       decoration: InputDecoration(
                                         hintText: isLast
-                                            ? "Add a new step..."
-                                            : "Task #${index + 1}",
+                                            ? lang.addGoalPage_tasks_hint
+                                            : lang.addGoalPage_tasks_index(
+                                                index + 1),
                                         border: InputBorder.none,
                                       ),
                                     ),
@@ -376,7 +386,9 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                             backgroundColor: _selectedColor,
                             padding: const EdgeInsets.symmetric(vertical: 16)),
                         child: Text(
-                          _isEditing ? "Save Changes" : "Create Goal",
+                          _isEditing
+                              ? lang.addGoalPage_button_add
+                              : lang.addGoalPage_button_edit,
                           style: TextStyle(
                             color: _selectedColor.matchTextColor(),
                           ),

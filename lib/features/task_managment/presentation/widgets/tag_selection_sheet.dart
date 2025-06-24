@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import '../../../../core/data/models/tag_model.dart';
+import '../../../../core/locale/app_localizations.dart';
 
 class TagSelectionSheet extends StatefulWidget {
   final List<TagModel> allTags;
@@ -23,6 +24,8 @@ class TagSelectionSheetState extends State<TagSelectionSheet> {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return IntrinsicHeight(
       child: Column(
         children: [
@@ -54,7 +57,7 @@ class TagSelectionSheetState extends State<TagSelectionSheet> {
             child: FilledButton(
               style: FilledButton.styleFrom(
                   minimumSize: const Size.fromHeight(50)),
-              child: const Text("Done"),
+              child: Text(lang.general_done),
               onPressed: () =>
                   Navigator.of(context).pop(_selectedTags.toList()),
             ),

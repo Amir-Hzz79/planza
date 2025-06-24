@@ -12,6 +12,7 @@ import 'package:planza/features/task_managment/presentation/widgets/filter_sheet
 
 import '../../../../core/data/models/goal_model.dart';
 import '../../../../core/data/models/tag_model.dart';
+import '../../../../core/locale/app_localizations.dart';
 import '../widgets/filter_pill.dart';
 
 class TasksPage extends StatefulWidget {
@@ -84,7 +85,7 @@ class _TasksPageState extends State<TasksPage> {
           ),
         ),
       );
-        }
+    }
     for (int tagId in _tagIds) {
       final tag = allTags.firstWhere(
         (t) => t.id == tagId,
@@ -92,7 +93,7 @@ class _TasksPageState extends State<TasksPage> {
       filterPills.add(FilterPill(
           label: "#${tag.name}",
           onDeleted: () => setState(() => _tagIds.remove(tagId))));
-        }
+    }
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
@@ -106,6 +107,8 @@ class _TasksPageState extends State<TasksPage> {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return PopScope(
       canPop: !_isSearching,
       onPopInvoked: (didPop) {
@@ -124,12 +127,12 @@ class _TasksPageState extends State<TasksPage> {
                           ? TextField(
                               controller: _searchController,
                               autofocus: true,
-                              decoration: const InputDecoration(
-                                  hintText: 'Search tasks...',
+                              decoration: InputDecoration(
+                                  hintText: lang.tasksPage_search_hint,
                                   border: InputBorder.none),
                               onChanged: (query) => setState(() {}),
                             )
-                          : const Text('My Tasks',
+                          : Text(lang.tasksPage_title,
                               style: TextStyle(fontWeight: FontWeight.bold)),
                       actions: _isSearching
                           ? [

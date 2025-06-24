@@ -4,6 +4,7 @@ import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/data/bloc/goal_bloc/goal_bloc.dart';
 import '../../../../core/data/models/goal_model.dart';
+import '../../../../core/locale/app_localizations.dart';
 
 enum _DeleteChoice { unassign, deleteAll }
 
@@ -22,24 +23,22 @@ class DeleteGoalSheet extends StatefulWidget {
 }
 
 class _DeleteGoalSheetState extends State<DeleteGoalSheet> {
-  // Default to the safer choice
   _DeleteChoice? _choice;
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
     final theme = Theme.of(context);
-    final completedTasks = widget.goal.tasks.where((t) => t.isCompleted).length;
-    final incompleteTasks = widget.goal.tasks.length - completedTasks;
+    /* final completedTasks = widget.goal.tasks.where((t) => t.isCompleted).length; */
+    /* final incompleteTasks = widget.goal.tasks.length - completedTasks; */
 
     return Padding(
-      // Padding handles the notch and keyboard overlap
       padding: EdgeInsets.fromLTRB(
           16, 16, 16, MediaQuery.of(context).viewInsets.bottom + 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Drag handle for the sheet
           Center(
             child: Container(
               width: 40,
@@ -51,25 +50,22 @@ class _DeleteGoalSheetState extends State<DeleteGoalSheet> {
             ),
           ),
           const SizedBox(height: 24),
-
-          // Title and informational text
-          Text("Delete '${widget.goal.name}'?",
+          Text(lang.deleteDialog_goal_title(widget.goal.name),
               style: theme.textTheme.headlineSmall),
           const SizedBox(height: 8),
           Text(
-            "This goal contains ${widget.goal.tasks.length} tasks ($completedTasks completed, $incompleteTasks incomplete). This action cannot be undone.",
+            lang.deleteDialog_goal_content(widget.goal.tasks.length),
             style: theme.textTheme.bodyMedium,
           ),
           const SizedBox(height: 24),
-
-          Text("Please choose how to handle these tasks:",
-              style: theme.textTheme.titleMedium),
+          Text(
+            lang.deleteDialog_goal_options_title,
+            style: theme.textTheme.titleMedium,
+          ),
           const SizedBox(height: 16),
-
-          // --- The new List-based choices ---
           ListTile(
-            title: const Text("Unassign tasks and delete goal"),
-            subtitle: const Text("The tasks will be kept without a goal."),
+            title: Text(lang.deleteDialog_goal_option_unassign_title),
+            subtitle: Text(lang.deleteDialog_goal_option_unassign_subtitle),
             leading: const Icon(Icons.inbox_outlined),
             selected: _choice == _DeleteChoice.unassign,
             selectedTileColor:
@@ -80,9 +76,11 @@ class _DeleteGoalSheetState extends State<DeleteGoalSheet> {
           ),
           const SizedBox(height: 8),
           ListTile(
-            title: const Text("Delete goal AND all of its tasks"),
+            title: Text(lang.deleteDialog_goal_option_deleteAll_title),
             subtitle: Text(
-                "All ${widget.goal.tasks.length} tasks will be permanently deleted."),
+              lang.deleteDialog_goal_option_deleteAll_subtitle(
+                  widget.goal.tasks.length),
+            ),
             leading: Icon(Icons.delete_forever_outlined,
                 color: theme.colorScheme.error),
             selected: _choice == _DeleteChoice.deleteAll,
@@ -93,13 +91,11 @@ class _DeleteGoalSheetState extends State<DeleteGoalSheet> {
             onTap: () => setState(() => _choice = _DeleteChoice.deleteAll),
           ),
           const SizedBox(height: 24),
-
-          // --- Action Buttons ---
           Row(
             children: [
               Expanded(
                 child: TextButton(
-                  child: const Text("Cancel"),
+                  child: Text(lang.general_cancel),
                   onPressed: () => Navigator.of(context).pop(),
                 ),
               ),
@@ -121,11 +117,10 @@ class _DeleteGoalSheetState extends State<DeleteGoalSheet> {
                                 .read<GoalBloc>()
                                 .add(GoalDeletedEvent(goal: widget.goal));
                           }
-                          Navigator.of(context).pop(); // Close bottom sheet
-                          Navigator.of(context)
-                              .pop(); // Go back from details page
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
                         },
-                  child: const Text("Confirm Delete"),
+                  child: Text(lang.general_deleteConfirm),
                 ),
               ),
             ],

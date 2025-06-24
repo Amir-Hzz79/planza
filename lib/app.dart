@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'core/data/bloc/tag_bloc/tag_bloc.dart';
 import 'core/data/bloc/task_bloc/task_bloc.dart';
-import 'core/locale/app_localization.dart';
 import 'core/locale/app_localizations.dart';
 import 'core/locale/bloc/locale_bloc.dart';
 import 'core/locale/bloc/locale_event.dart';

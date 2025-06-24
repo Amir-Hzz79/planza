@@ -4,6 +4,7 @@ import 'package:get_it/get_it.dart';
 import 'package:planza/core/data/database/database.dart';
 import 'package:planza/core/locale/bloc/locale_bloc.dart';
 import 'package:planza/core/locale/bloc/locale_event.dart';
+import 'package:planza/core/locale/bloc/locale_state.dart';
 import 'package:planza/core/widgets/buttons/profile_button.dart';
 
 import '../../../../../core/locale/app_localizations.dart';
@@ -93,7 +94,16 @@ class _DrawerSectionState extends State<DrawerSection> {
           ),
           DrawerListButton(
             onTap: () {
-              GetIt.instance.get<AppDatabase>().insertDummyData();
+              String localeCode =
+                  (context.read<LocaleBloc>().state as LocaleLoadedState)
+                      .locale
+                      .languageCode;
+
+              if (localeCode == 'en') {
+                GetIt.instance.get<AppDatabase>().insertEnDummyData();
+              } else if (localeCode == 'fa') {
+                GetIt.instance.get<AppDatabase>().insertFaDummyData();
+              }
 
               setState(() {});
             },

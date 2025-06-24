@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:planza/features/goal_managment/presentation/pages/goals_page.dart';
 import 'package:planza/features/home/presentation/pages/home_page.dart';
 
+import 'core/locale/app_localizations.dart';
 import 'features/task_managment/presentation/pages/tasks_page.dart';
 
 class RootPage extends StatefulWidget {
@@ -27,6 +28,8 @@ class _RootPageState extends State<RootPage> {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return PopScope(
       canPop: false,
       onPopInvoked: (bool didPop) {
@@ -41,8 +44,8 @@ class _RootPageState extends State<RootPage> {
 
           // Show a temporary message to the user.
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Press back again to exit'),
+            SnackBar(
+              content: Text(lang.general_exitConfirm),
               duration: Duration(seconds: 2),
             ),
           );

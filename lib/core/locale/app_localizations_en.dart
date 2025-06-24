@@ -24,6 +24,12 @@ class LangEn extends Lang {
   String get general_delete => 'Delete';
 
   @override
+  String get general_deleteConfirm => 'Confirm Delete';
+
+  @override
+  String get general_edit => 'Edit';
+
+  @override
   String get general_cancel => 'Cancel';
 
   @override
@@ -87,6 +93,20 @@ class LangEn extends Lang {
   String get general_about => 'About';
 
   @override
+  String get general_exitConfirm => 'Press back again to exit';
+
+  @override
+  String get general_share => 'Share';
+
+  @override
+  String get general_achievement => 'ACHIEVEMENT';
+
+  @override
+  String general_duration_day(int dayCount) {
+    return '$dayCount Days';
+  }
+
+  @override
   String get homePage_title => 'Your Dashboard';
 
   @override
@@ -135,7 +155,33 @@ class LangEn extends Lang {
   String get goalsPage_completed_empty => 'You haven\'t completed any goals yet.\nKeep going!';
 
   @override
+  String get goalsPage_goals_empty => 'Your ambitions will appear here.\nLet\'s create your first goal!';
+
+  @override
   String get goalsPage_addGoal_button => 'Create a Goal';
+
+  @override
+  String get goalsPage_featuredGoals_title => 'Up Next...';
+
+  @override
+  String get goalsPage_activeGoals_title => 'Keep Going!';
+
+  @override
+  String get goalsPage_completedGoals_title => 'Hall of Fame 🏆';
+
+  @override
+  String get goalDetailsPage_notExist => 'This goal no longer exists.';
+
+  @override
+  String get goalDetailsPage_editGoal => 'Edit Goal';
+
+  @override
+  String get goalDetailsPage_deleteGoal => 'Delete Goal';
+
+  @override
+  String goalCard_taskCount(int taskCount) {
+    return '$taskCount Tasks';
+  }
 
   @override
   String get tasksPage_title => 'My Tasks';
@@ -156,7 +202,37 @@ class LangEn extends Lang {
   String get tasksPage_filter_showCompleted => 'Show Completed Tasks';
 
   @override
+  String get tasksPage_filter_goal_title => 'Filter by Goal';
+
+  @override
+  String tasksPage_filter_goal_selected(int goalCount) {
+    return '$goalCount selected';
+  }
+
+  @override
+  String get tasksPage_filter_goalSelection_title => 'Select Goals';
+
+  @override
+  String get tasksPage_filter_tag_title => 'Filter by Tags';
+
+  @override
+  String tasksPage_filter_tag_selected(int tagCount) {
+    return '$tagCount selected';
+  }
+
+  @override
+  String get tasksPage_filter_tagSelection_title => 'Select Tags';
+
+  @override
   String get tasksPage_calendar_noTasks => 'No tasks for this day.';
+
+  @override
+  String get tasksPage_calendar_addTask_toolTip => 'Add Task for this day';
+
+  @override
+  String tasksPage_calendar_sheet_title(String date) {
+    return 'Tasks for $date';
+  }
 
   @override
   String get tasksPage_grouped_overdue => 'Overdue';
@@ -171,6 +247,31 @@ class LangEn extends Lang {
   String get tasksPage_grouped_noDate => 'No Date';
 
   @override
+  String get tasksPage_grouped_empty => 'No tasks found.';
+
+  @override
+  String get taskDetailsPage_goal_label => 'Goal';
+
+  @override
+  String get taskDetailsPage_date_label => 'Due Date';
+
+  @override
+  String get taskDetailsPage_priority_label => 'Priority';
+
+  @override
+  String get taskDetailsPage_tags_label => 'Tags';
+
+  @override
+  String taskDetailsPage_checklist_title(int subtaskCount) {
+    return 'Checklist ($subtaskCount)';
+  }
+
+  @override
+  String taskDetailsPage_priorityLevel(int level) {
+    return 'Level $level';
+  }
+
+  @override
   String get addGoalPage_title_add => 'Create a Goal';
 
   @override
@@ -178,6 +279,9 @@ class LangEn extends Lang {
 
   @override
   String get addGoalPage_name_label => 'Goal Name';
+
+  @override
+  String get addGoalPage_name_validator => 'Please enter a name';
 
   @override
   String get addGoalPage_name_required => 'Every goal needs a name!';
@@ -213,6 +317,14 @@ class LangEn extends Lang {
   String get addGoalPage_button_edit => 'Save Changes';
 
   @override
+  String get addGoalPage_noDate => 'Not set';
+
+  @override
+  String addGoalPage_tasks_index(int index) {
+    return 'Task #$index';
+  }
+
+  @override
   String get addTaskSheet_title_add => 'New Task';
 
   @override
@@ -234,6 +346,12 @@ class LangEn extends Lang {
   String get addTaskSheet_chip_dueDate => 'Due Date';
 
   @override
+  String get addTaskSheet_edit_successMessage => 'Task Updated!';
+
+  @override
+  String get addTaskSheet_add_successMessage => 'Task Added!';
+
+  @override
   String deleteDialog_goal_title(String goalName) {
     return 'Delete \'$goalName\'?';
   }
@@ -244,16 +362,27 @@ class LangEn extends Lang {
   }
 
   @override
-  String get deleteDialog_goal_option_unassign => 'Unassign tasks & delete goal';
+  String get deleteDialog_goal_options_title => 'Please choose how to handle these tasks:';
 
   @override
-  String get deleteDialog_goal_option_deleteAll => 'Delete goal AND all tasks';
+  String get deleteDialog_goal_option_unassign_title => 'Unassign tasks & delete goal';
+
+  @override
+  String get deleteDialog_goal_option_unassign_subtitle => 'The tasks will be kept without a goal.';
+
+  @override
+  String get deleteDialog_goal_option_deleteAll_title => 'Delete goal AND all tasks';
+
+  @override
+  String deleteDialog_goal_option_deleteAll_subtitle(int taskCount) {
+    return 'All \$$taskCount tasks will be permanently deleted.';
+  }
 
   @override
   String get deleteDialog_task_title => 'Delete Task?';
 
   @override
-  String get deleteDialog_task_content => 'Are you sure you want to permanently delete this task?';
+  String get deleteDialog_task_content => 'Are you sure you want to permanently delete this task? This action cannot be undone.';
 
   @override
   String daysLeft(int count) {
@@ -266,4 +395,7 @@ class LangEn extends Lang {
     );
     return '$_temp0';
   }
+
+  @override
+  String get goalSelection_noGoal => 'No Goal';
 }

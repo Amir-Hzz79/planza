@@ -8,6 +8,7 @@ import 'package:intl/intl.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/data/bloc/task_bloc/task_bloc.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import 'task_entry_sheet.dart';
 import 'glassy_task_tile.dart';
 
@@ -100,7 +101,7 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
             }
             return false;
           },
-          child: _buildDraggableTaskSheet(),
+          child: _buildDraggableTaskSheet(context),
         ),
       ],
     );
@@ -237,7 +238,7 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                   ),
                   shape: BoxShape.circle,
                 ),
-                child: Center(child: Text('${day.day}')),
+                child: Center(child: Text(day.day.toString())),
               );
             }
           }
@@ -247,7 +248,9 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
     );
   }
 
-  Widget _buildDraggableTaskSheet() {
+  Widget _buildDraggableTaskSheet(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return DraggableScrollableSheet(
       controller: _sheetController,
       initialChildSize: _snapInitial,
@@ -287,14 +290,15 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                       children: [
                         if (_selectedDay != null)
                           Text(
-                            "Tasks for ${DateFormat.MMMMd().format(_selectedDay!)}",
+                            lang.tasksPage_calendar_sheet_title(
+                                DateFormat.MMMMd().format(_selectedDay!)),
                             style: theme.textTheme.titleMedium
                                 ?.copyWith(fontWeight: FontWeight.bold),
                           ),
                         IconButton(
                           icon: const Icon(Icons.add_circle),
                           color: theme.colorScheme.primary,
-                          tooltip: "Add Task for this day",
+                          tooltip: lang.tasksPage_calendar_addTask_toolTip,
                           onPressed: () {
                             showModalBottomSheet(
                               context: context,
@@ -317,7 +321,7 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                   ),
                   Expanded(
                     child: _selectedDayTasks.isEmpty
-                        ? const Center(child: Text("No tasks scheduled."))
+                        ? Center(child: Text(lang.tasksPage_calendar_noTasks))
                         : ListView.builder(
                             controller: scrollController,
                             padding: const EdgeInsets.only(top: 8, bottom: 80),

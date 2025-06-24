@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
+import '../../../../core/locale/app_localizations.dart';
 import '../../../goal_managment/presentation/pages/goal_entry_page.dart';
 
 import '../../../task_managment/presentation/widgets/task_entry_sheet.dart';
@@ -46,6 +47,8 @@ class _SpeedDialFabState extends State<SpeedDialFab>
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.end,
@@ -60,7 +63,7 @@ class _SpeedDialFabState extends State<SpeedDialFab>
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
                   _buildMiniFab(
-                    label: "New Goal",
+                    label: lang.homePage_fab_addGoal,
                     icon: Icons.flag_outlined,
                     onPressed: () {
                       _toggle();
@@ -70,7 +73,7 @@ class _SpeedDialFabState extends State<SpeedDialFab>
                   ),
                   const SizedBox(height: 8),
                   _buildMiniFab(
-                    label: "New Task",
+                    label: lang.homePage_fab_addTask,
                     icon: Icons.task_alt_outlined,
                     onPressed: () {
                       _toggle();
@@ -86,12 +89,6 @@ class _SpeedDialFabState extends State<SpeedDialFab>
                             context
                                 .read<TaskBloc>()
                                 .add(TaskAddedEvent(newTask: newTask));
-
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                  content:
-                                      Text("Task '${newTask.title}' added!")),
-                            );
                           },
                         ),
                       );

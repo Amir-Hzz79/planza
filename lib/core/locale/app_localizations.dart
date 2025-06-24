@@ -6,6 +6,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_en.dart';
+import 'app_localizations_fa.dart';
 
 // ignore_for_file: type=lint
 
@@ -90,7 +91,8 @@ abstract class Lang {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('en')
+    Locale('en'),
+    Locale('fa')
   ];
 
   /// No description provided for @appName.
@@ -122,6 +124,18 @@ abstract class Lang {
   /// In en, this message translates to:
   /// **'Delete'**
   String get general_delete;
+
+  /// No description provided for @general_deleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm Delete'**
+  String get general_deleteConfirm;
+
+  /// No description provided for @general_edit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get general_edit;
 
   /// No description provided for @general_cancel.
   ///
@@ -249,6 +263,30 @@ abstract class Lang {
   /// **'About'**
   String get general_about;
 
+  /// No description provided for @general_exitConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Press back again to exit'**
+  String get general_exitConfirm;
+
+  /// No description provided for @general_share.
+  ///
+  /// In en, this message translates to:
+  /// **'Share'**
+  String get general_share;
+
+  /// No description provided for @general_achievement.
+  ///
+  /// In en, this message translates to:
+  /// **'ACHIEVEMENT'**
+  String get general_achievement;
+
+  /// No description provided for @general_duration_day.
+  ///
+  /// In en, this message translates to:
+  /// **'{dayCount} Days'**
+  String general_duration_day(int dayCount);
+
   /// No description provided for @homePage_title.
   ///
   /// In en, this message translates to:
@@ -345,11 +383,59 @@ abstract class Lang {
   /// **'You haven\'t completed any goals yet.\nKeep going!'**
   String get goalsPage_completed_empty;
 
+  /// No description provided for @goalsPage_goals_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'Your ambitions will appear here.\nLet\'s create your first goal!'**
+  String get goalsPage_goals_empty;
+
   /// No description provided for @goalsPage_addGoal_button.
   ///
   /// In en, this message translates to:
   /// **'Create a Goal'**
   String get goalsPage_addGoal_button;
+
+  /// No description provided for @goalsPage_featuredGoals_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Up Next...'**
+  String get goalsPage_featuredGoals_title;
+
+  /// No description provided for @goalsPage_activeGoals_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Going!'**
+  String get goalsPage_activeGoals_title;
+
+  /// No description provided for @goalsPage_completedGoals_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Hall of Fame 🏆'**
+  String get goalsPage_completedGoals_title;
+
+  /// No description provided for @goalDetailsPage_notExist.
+  ///
+  /// In en, this message translates to:
+  /// **'This goal no longer exists.'**
+  String get goalDetailsPage_notExist;
+
+  /// No description provided for @goalDetailsPage_editGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit Goal'**
+  String get goalDetailsPage_editGoal;
+
+  /// No description provided for @goalDetailsPage_deleteGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete Goal'**
+  String get goalDetailsPage_deleteGoal;
+
+  /// No description provided for @goalCard_taskCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{taskCount} Tasks'**
+  String goalCard_taskCount(int taskCount);
 
   /// No description provided for @tasksPage_title.
   ///
@@ -387,11 +473,59 @@ abstract class Lang {
   /// **'Show Completed Tasks'**
   String get tasksPage_filter_showCompleted;
 
+  /// No description provided for @tasksPage_filter_goal_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by Goal'**
+  String get tasksPage_filter_goal_title;
+
+  /// No description provided for @tasksPage_filter_goal_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{goalCount} selected'**
+  String tasksPage_filter_goal_selected(int goalCount);
+
+  /// No description provided for @tasksPage_filter_goalSelection_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Goals'**
+  String get tasksPage_filter_goalSelection_title;
+
+  /// No description provided for @tasksPage_filter_tag_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Filter by Tags'**
+  String get tasksPage_filter_tag_title;
+
+  /// No description provided for @tasksPage_filter_tag_selected.
+  ///
+  /// In en, this message translates to:
+  /// **'{tagCount} selected'**
+  String tasksPage_filter_tag_selected(int tagCount);
+
+  /// No description provided for @tasksPage_filter_tagSelection_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Select Tags'**
+  String get tasksPage_filter_tagSelection_title;
+
   /// No description provided for @tasksPage_calendar_noTasks.
   ///
   /// In en, this message translates to:
   /// **'No tasks for this day.'**
   String get tasksPage_calendar_noTasks;
+
+  /// No description provided for @tasksPage_calendar_addTask_toolTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Add Task for this day'**
+  String get tasksPage_calendar_addTask_toolTip;
+
+  /// No description provided for @tasksPage_calendar_sheet_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks for {date}'**
+  String tasksPage_calendar_sheet_title(String date);
 
   /// No description provided for @tasksPage_grouped_overdue.
   ///
@@ -417,6 +551,48 @@ abstract class Lang {
   /// **'No Date'**
   String get tasksPage_grouped_noDate;
 
+  /// No description provided for @tasksPage_grouped_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'No tasks found.'**
+  String get tasksPage_grouped_empty;
+
+  /// No description provided for @taskDetailsPage_goal_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Goal'**
+  String get taskDetailsPage_goal_label;
+
+  /// No description provided for @taskDetailsPage_date_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Date'**
+  String get taskDetailsPage_date_label;
+
+  /// No description provided for @taskDetailsPage_priority_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Priority'**
+  String get taskDetailsPage_priority_label;
+
+  /// No description provided for @taskDetailsPage_tags_label.
+  ///
+  /// In en, this message translates to:
+  /// **'Tags'**
+  String get taskDetailsPage_tags_label;
+
+  /// No description provided for @taskDetailsPage_checklist_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Checklist ({subtaskCount})'**
+  String taskDetailsPage_checklist_title(int subtaskCount);
+
+  /// No description provided for @taskDetailsPage_priorityLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'Level {level}'**
+  String taskDetailsPage_priorityLevel(int level);
+
   /// No description provided for @addGoalPage_title_add.
   ///
   /// In en, this message translates to:
@@ -434,6 +610,12 @@ abstract class Lang {
   /// In en, this message translates to:
   /// **'Goal Name'**
   String get addGoalPage_name_label;
+
+  /// No description provided for @addGoalPage_name_validator.
+  ///
+  /// In en, this message translates to:
+  /// **'Please enter a name'**
+  String get addGoalPage_name_validator;
 
   /// No description provided for @addGoalPage_name_required.
   ///
@@ -501,6 +683,18 @@ abstract class Lang {
   /// **'Save Changes'**
   String get addGoalPage_button_edit;
 
+  /// No description provided for @addGoalPage_noDate.
+  ///
+  /// In en, this message translates to:
+  /// **'Not set'**
+  String get addGoalPage_noDate;
+
+  /// No description provided for @addGoalPage_tasks_index.
+  ///
+  /// In en, this message translates to:
+  /// **'Task #{index}'**
+  String addGoalPage_tasks_index(int index);
+
   /// No description provided for @addTaskSheet_title_add.
   ///
   /// In en, this message translates to:
@@ -543,6 +737,18 @@ abstract class Lang {
   /// **'Due Date'**
   String get addTaskSheet_chip_dueDate;
 
+  /// No description provided for @addTaskSheet_edit_successMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Updated!'**
+  String get addTaskSheet_edit_successMessage;
+
+  /// No description provided for @addTaskSheet_add_successMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Task Added!'**
+  String get addTaskSheet_add_successMessage;
+
   /// No description provided for @deleteDialog_goal_title.
   ///
   /// In en, this message translates to:
@@ -555,17 +761,35 @@ abstract class Lang {
   /// **'This goal contains {taskCount} tasks. This action cannot be undone.'**
   String deleteDialog_goal_content(int taskCount);
 
-  /// No description provided for @deleteDialog_goal_option_unassign.
+  /// No description provided for @deleteDialog_goal_options_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Please choose how to handle these tasks:'**
+  String get deleteDialog_goal_options_title;
+
+  /// No description provided for @deleteDialog_goal_option_unassign_title.
   ///
   /// In en, this message translates to:
   /// **'Unassign tasks & delete goal'**
-  String get deleteDialog_goal_option_unassign;
+  String get deleteDialog_goal_option_unassign_title;
 
-  /// No description provided for @deleteDialog_goal_option_deleteAll.
+  /// No description provided for @deleteDialog_goal_option_unassign_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The tasks will be kept without a goal.'**
+  String get deleteDialog_goal_option_unassign_subtitle;
+
+  /// No description provided for @deleteDialog_goal_option_deleteAll_title.
   ///
   /// In en, this message translates to:
   /// **'Delete goal AND all tasks'**
-  String get deleteDialog_goal_option_deleteAll;
+  String get deleteDialog_goal_option_deleteAll_title;
+
+  /// No description provided for @deleteDialog_goal_option_deleteAll_subtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'All \${taskCount} tasks will be permanently deleted.'**
+  String deleteDialog_goal_option_deleteAll_subtitle(int taskCount);
 
   /// No description provided for @deleteDialog_task_title.
   ///
@@ -576,7 +800,7 @@ abstract class Lang {
   /// No description provided for @deleteDialog_task_content.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to permanently delete this task?'**
+  /// **'Are you sure you want to permanently delete this task? This action cannot be undone.'**
   String get deleteDialog_task_content;
 
   /// A string indicating the number of days left until a deadline.
@@ -584,6 +808,12 @@ abstract class Lang {
   /// In en, this message translates to:
   /// **'{count, plural, =0{Due today} =1{1 day left} other{{count} days left}}'**
   String daysLeft(int count);
+
+  /// No description provided for @goalSelection_noGoal.
+  ///
+  /// In en, this message translates to:
+  /// **'No Goal'**
+  String get goalSelection_noGoal;
 }
 
 class _LangDelegate extends LocalizationsDelegate<Lang> {
@@ -595,7 +825,7 @@ class _LangDelegate extends LocalizationsDelegate<Lang> {
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['en'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'fa'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_LangDelegate old) => false;
@@ -607,6 +837,7 @@ Lang lookupLang(Locale locale) {
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
     case 'en': return LangEn();
+    case 'fa': return LangFa();
   }
 
   throw FlutterError(

@@ -7,6 +7,7 @@ import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
+import '../../../../core/locale/app_localizations.dart';
 import '../pages/task_details_page.dart';
 
 class GlassyTaskCard extends StatelessWidget {
@@ -25,6 +26,8 @@ class GlassyTaskCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     final bool isCompleted = task.isCompleted;
 
     return Dismissible(
@@ -34,20 +37,20 @@ class GlassyTaskCard extends StatelessWidget {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text('Delete Task'),
-              content: Text('Are you sure you want to delete this task?'),
+              title: Text(lang.deleteDialog_task_title),
+              content: Text(lang.deleteDialog_task_content),
               actions: [
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(false);
                   },
-                  child: Text('Cancel'),
+                  child: Text(lang.general_cancel),
                 ),
                 TextButton(
                   onPressed: () {
                     Navigator.of(context).pop(true);
                   },
-                  child: Text('Delete'),
+                  child: Text(lang.general_delete),
                 ),
               ],
             );
@@ -254,6 +257,8 @@ class GlassyTaskCard extends StatelessWidget {
   }
 
   Widget _buildDismissibleBackground(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
@@ -261,12 +266,12 @@ class GlassyTaskCard extends StatelessWidget {
         color: Theme.of(context).colorScheme.error.withOpacityDouble(0.5),
         borderRadius: BorderRadius.circular(20.0),
       ),
-      child: const Row(
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           Icon(Icons.delete_outline, color: Colors.white),
           SizedBox(width: 8),
-          Text("Delete",
+          Text(lang.general_delete,
               style:
                   TextStyle(color: Colors.white, fontWeight: FontWeight.bold)),
         ],

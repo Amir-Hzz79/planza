@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../../../../core/locale/app_localizations.dart';
+
 class MultiSelectItem<T> {
   final T value;
   final String label;
@@ -45,13 +47,15 @@ class _MultiSelectPageState<T> extends State<MultiSelectPage<T>> {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(context).pop(_selectedValues),
-            child: const Text("Done"),
+            child: Text(lang.general_done),
           )
         ],
       ),

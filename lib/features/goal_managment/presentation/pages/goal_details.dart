@@ -10,6 +10,7 @@ import 'package:planza/features/task_managment/presentation/widgets/task_entry_s
 import '../../../../core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import '../../../task_managment/presentation/widgets/detail_task_row.dart';
 import '../widgets/delete_goal_sheet.dart';
 import '../widgets/status_overview_dashboard.dart';
@@ -21,6 +22,8 @@ class GoalDetailsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return GoalBlocBuilder(
       onDataLoaded: (goals) {
         final GoalModel? goal = goals
@@ -30,9 +33,9 @@ class GoalDetailsPage extends StatelessWidget {
             .firstOrNull;
 
         if (goal == null) {
-          return const Scaffold(
+          return Scaffold(
             body: Center(
-              child: Text("This goal no longer exists."),
+              child: Text(lang.goalDetailsPage_notExist),
             ),
           );
         }
@@ -81,6 +84,8 @@ class GoalDetailsPage extends StatelessWidget {
   }
 
   Widget _buildSliverAppBar(BuildContext context, GoalModel goal) {
+    Lang lang = Lang.of(context)!;
+
     return SliverAppBar(
       expandedHeight: 250.0,
       pinned: true,
@@ -115,18 +120,18 @@ class GoalDetailsPage extends StatelessWidget {
             }
           },
           itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
-            const PopupMenuItem<String>(
+            PopupMenuItem<String>(
               value: 'edit',
               child: ListTile(
                 leading: Icon(Icons.edit_outlined),
-                title: Text('Edit Goal'),
+                title: Text(lang.goalDetailsPage_editGoal),
               ),
             ),
-            const PopupMenuItem<String>(
+            PopupMenuItem<String>(
               value: 'delete',
               child: ListTile(
                 leading: Icon(Icons.delete_outline),
-                title: Text('Delete Goal'),
+                title: Text(lang.goalDetailsPage_deleteGoal),
               ),
             ),
           ],
@@ -171,13 +176,15 @@ class GoalDetailsPage extends StatelessWidget {
   }
 
   Widget _buildDescription(BuildContext context, GoalModel goal) {
+    Lang lang = Lang.of(context)!;
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("About",
+            Text(lang.general_about,
                 style: Theme.of(context)
                     .textTheme
                     .titleMedium

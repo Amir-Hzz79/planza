@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:planza/core/data/bloc/goal_bloc/goal_bloc.dart';
+import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import '../../../../core/widgets/appbar/general_app_bar.dart';
 import '../../../home/presentation/widgets/drawer/drawer_section.dart';
 import '../widgets/goal_cards/active_goal_card.dart';
@@ -16,16 +16,20 @@ class GoalsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Scaffold(
       drawer: DrawerSection(),
       appBar: AppBar(
         leading: GeneralAppBar(),
-        title: const Text('My Ambitions',
-            style: TextStyle(fontWeight: FontWeight.bold)),
+        title: Text(
+          lang.goalsPage_title,
+          style: TextStyle(fontWeight: FontWeight.bold),
+        ),
         actions: [
           IconButton(
             icon: const Icon(Icons.add_circle_outline),
-            tooltip: 'Add Goal',
+            tooltip: lang.goalsPage_addGoal_button,
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const GoalEntryPage(),
@@ -34,52 +38,48 @@ class GoalsPage extends StatelessWidget {
           ),
         ],
       ),
-      body: BlocBuilder<GoalBloc, GoalState>(
-        builder: (context, state) {
-          if (state is GoalLoadingState || state is GoalInitial) {
-            return const Center(child: CircularProgressIndicator());
+      body: GoalBlocBuilder(
+        onDataLoaded: (goals) {
+          final activeGoals = goals.where((g) => !g.isCompleted).toList();
+          final completedGoals = goals.where((g) => g.isCompleted).toList();
+
+          final featuredGoals = activeGoals.take(2).toList();
+          final otherActiveGoals = activeGoals.skip(2).toList();
+
+          if (activeGoals.isEmpty && completedGoals.isEmpty) {
+            return _buildEmptyState(context);
           }
-          if (state is GoalErrorState) {
-            return Center(child: Text('Error: ${state.message}'));
-          }
-          if (state is GoalsLoadedState) {
-            final activeGoals =
-                state.goals.where((g) => !g.isCompleted).toList();
-            final completedGoals =
-                state.goals.where((g) => g.isCompleted).toList();
 
-            // Logic to determine featured goals (e.g., the first 2 active goals)
-            final featuredGoals = activeGoals.take(2).toList();
-            final otherActiveGoals = activeGoals.skip(2).toList();
+          return ListView(
+            padding: const EdgeInsets.only(bottom: 80.0),
+            children: [
+              // Featured Goals Carousel
+              if (featuredGoals.isNotEmpty)
+                _buildSectionHeader(
+                  context,
+                  lang.goalsPage_featuredGoals_title,
+                ),
+              if (featuredGoals.isNotEmpty)
+                _FeaturedGoalsCarousel(goals: featuredGoals),
 
-            if (activeGoals.isEmpty && completedGoals.isEmpty) {
-              return _buildEmptyState(context);
-            }
+              // Other Active Goals
+              if (otherActiveGoals.isNotEmpty)
+                _buildSectionHeader(
+                  context,
+                  lang.goalsPage_activeGoals_title,
+                ),
+              ...otherActiveGoals.map((goal) => ActiveGoalCard(goal: goal)),
 
-            // The main scrolling body of the page
-            return ListView(
-              padding: const EdgeInsets.only(bottom: 80.0),
-              children: [
-                // Section 1: Featured Goals Carousel
-                if (featuredGoals.isNotEmpty)
-                  _buildSectionHeader(context, "Up Next..."),
-                if (featuredGoals.isNotEmpty)
-                  _FeaturedGoalsCarousel(goals: featuredGoals),
-
-                // Section 2: Other Active Goals
-                if (otherActiveGoals.isNotEmpty)
-                  _buildSectionHeader(context, "Keep Going!"),
-                ...otherActiveGoals.map((goal) => ActiveGoalCard(goal: goal)),
-
-                // Section 3: Hall of Fame for Completed Goals
-                if (completedGoals.isNotEmpty)
-                  _buildSectionHeader(context, "Hall of Fame 🏆"),
-                if (completedGoals.isNotEmpty)
-                  _CompletedGoalsCarousel(goals: completedGoals),
-              ],
-            );
-          }
-          return const Center(child: Text('Something went wrong.'));
+              // Hall of Fame for Completed Goals
+              if (completedGoals.isNotEmpty)
+                _buildSectionHeader(
+                  context,
+                  lang.goalsPage_completedGoals_title,
+                ),
+              if (completedGoals.isNotEmpty)
+                _CompletedGoalsCarousel(goals: completedGoals),
+            ],
+          );
         },
       ),
     );
@@ -99,6 +99,8 @@ class GoalsPage extends StatelessWidget {
   }
 
   Widget _buildEmptyState(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -107,7 +109,7 @@ class GoalsPage extends StatelessWidget {
               size: 80, color: Colors.grey),
           const SizedBox(height: 16),
           Text(
-            "Your ambitions will appear here.\nLet's create your first goal!",
+            lang.goalsPage_goals_empty,
             textAlign: TextAlign.center,
             style: Theme.of(context)
                 .textTheme
@@ -117,7 +119,7 @@ class GoalsPage extends StatelessWidget {
           const SizedBox(height: 24),
           FilledButton.icon(
             icon: const Icon(Icons.add),
-            label: const Text("Create a Goal"),
+            label: Text(lang.goalsPage_addGoal_button),
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => const GoalEntryPage(),

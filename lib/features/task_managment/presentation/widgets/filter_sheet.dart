@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:planza/core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'package:planza/core/data/bloc/tag_bloc/tag_bloc.dart';
+import '../../../../core/locale/app_localizations.dart';
 import '../pages/multi_select_page.dart';
 
 class FilterSheet extends StatefulWidget {
@@ -44,6 +45,8 @@ class _FilterSheetState extends State<FilterSheet> {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Padding(
       padding: const EdgeInsets.all(16.0),
       child: Column(
@@ -53,36 +56,40 @@ class _FilterSheetState extends State<FilterSheet> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("Sort & Filter",
-                  style: Theme.of(context).textTheme.titleLarge),
+              Text(
+                lang.tasksPage_filter_title,
+                style: Theme.of(context).textTheme.titleLarge,
+              ),
               TextButton(
                   onPressed: () => setState(() {
                         _showCompleted = false;
                         _selectedGoalIds.clear();
                         _selectedTagIds.clear();
                       }),
-                  child: const Text("Reset")),
+                  child: Text(lang.tasksPage_filter_reset)),
             ],
           ),
           const Divider(),
 
           // Main filter options
           SwitchListTile(
-            title: const Text("Show Completed Tasks"),
+            title: Text(lang.tasksPage_filter_showCompleted),
             value: _showCompleted,
             onChanged: (value) => setState(() => _showCompleted = value),
           ),
           ListTile(
             leading: const Icon(Icons.flag_outlined),
-            title: const Text("Filter by Goal"),
-            trailing: Text("${_selectedGoalIds.length} selected"),
+            title: Text(lang.tasksPage_filter_goal_title),
+            trailing: Text(
+              lang.tasksPage_filter_goal_selected(_selectedGoalIds.length),
+            ),
             onTap: () async {
               final allGoals =
                   (context.read<GoalBloc>().state as GoalsLoadedState).goals;
               final selected =
                   await Navigator.of(context).push<Set<int>>(MaterialPageRoute(
                       builder: (_) => MultiSelectPage<int>(
-                            title: "Select Goals",
+                            title: lang.tasksPage_filter_goalSelection_title,
                             initialSelectedValues: _selectedGoalIds,
                             items: allGoals
                                 .map((g) => MultiSelectItem(
@@ -96,15 +103,16 @@ class _FilterSheetState extends State<FilterSheet> {
           ),
           ListTile(
             leading: const Icon(Icons.tag),
-            title: const Text("Filter by Tags"),
-            trailing: Text("${_selectedTagIds.length} selected"),
+            title: Text(lang.tasksPage_filter_tag_title),
+            trailing: Text(
+                lang.tasksPage_filter_tag_selected(_selectedTagIds.length)),
             onTap: () async {
               final allTags =
                   (context.read<TagBloc>().state as TagsLoadedState).tags;
               final selected =
                   await Navigator.of(context).push<Set<int>>(MaterialPageRoute(
                       builder: (_) => MultiSelectPage<int>(
-                            title: "Select Tags",
+                            title: lang.tasksPage_filter_tagSelection_title,
                             initialSelectedValues: _selectedTagIds,
                             items: allTags
                                 .map((t) =>
@@ -116,9 +124,12 @@ class _FilterSheetState extends State<FilterSheet> {
           ),
           const SizedBox(height: 24),
           SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                  onPressed: _onApply, child: const Text("Apply Filters"))),
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: _onApply,
+              child: Text(lang.tasksPage_filter_apply),
+            ),
+          ),
         ],
       ),
     );
