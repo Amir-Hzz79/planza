@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:planza/core/data/database/database.dart';
-import 'package:planza/core/locale/app_localization.dart';
 import 'package:planza/core/locale/bloc/locale_bloc.dart';
 import 'package:planza/core/locale/bloc/locale_event.dart';
 import 'package:planza/core/widgets/buttons/profile_button.dart';
 
+import '../../../../../core/locale/app_localizations.dart';
 import '../../../../../core/theme/bloc/theme_bloc.dart';
 import 'drawer_list_button.dart';
 
@@ -20,6 +20,8 @@ class DrawerSection extends StatefulWidget {
 class _DrawerSectionState extends State<DrawerSection> {
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     return Drawer(
       child: ListView(
         children: [
@@ -64,29 +66,29 @@ class _DrawerSectionState extends State<DrawerSection> {
           ),
           DrawerListButton(
             onTap: () {},
-            text: AppLocalizations.of(context).translate('profile'),
+            text: lang.general_profile,
             icon: Icons.account_circle_rounded,
           ),
           DrawerListButton(
             onTap: () {
               context.read<LocaleBloc>().add(LocaleChangeEvent());
             },
-            text: AppLocalizations.of(context).translate('language'),
+            text: lang.general_language,
             icon: Icons.language_rounded,
           ),
           DrawerListButton(
             onTap: () {},
-            text: AppLocalizations.of(context).translate('settings'),
+            text: lang.general_settings,
             icon: Icons.settings_rounded,
           ),
           DrawerListButton(
             onTap: () {},
-            text: AppLocalizations.of(context).translate('support'),
+            text: lang.general_support,
             icon: Icons.message_rounded,
           ),
           DrawerListButton(
             onTap: () {},
-            text: AppLocalizations.of(context).translate('about'),
+            text: lang.general_about,
             icon: Icons.info_rounded,
           ),
           DrawerListButton(

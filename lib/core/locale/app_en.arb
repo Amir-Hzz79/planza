@@ -1,0 +1,107 @@
+{
+    "@@locale": "en",
+    "appName": "Planza",
+    "general_add": "Add",
+    "general_save": "Save Changes",
+    "general_create": "Create",
+    "general_delete": "Delete",
+    "general_cancel": "Cancel",
+    "general_done": "Done",
+    "general_tasks": "Tasks",
+    "general_goals": "Goals",
+    "general_description": "Description",
+    "general_title": "Title",
+    "general_status": "Status",
+    "general_priority": "Priority",
+    "general_tags": "Tags",
+    "general_deadline": "Deadline",
+    "general_color": "Color",
+    "general_icon": "Icon",
+    "general_optional": "Optional",
+    "general_today": "Today",
+    "general_overdue": "Overdue",
+    "general_completed": "Completed",
+    "general_profile": "Profile",
+    "general_language": "Language",
+    "general_settings": "Settings",
+    "general_support": "Support",
+    "general_about": "About",
+    "homePage_title": "Your Dashboard",
+    "homePage_greeting_morning": "Good Morning!",
+    "homePage_greeting_afternoon": "Good Afternoon!",
+    "homePage_greeting_evening": "Good Evening!",
+    "homePage_todaysFocus_title": "Today's Focus 🔥",
+    "homePage_todaysFocus_empty": "You're all clear for today!\nReady to plan your next move?",
+    "homePage_activeGoals_title": "Driving These Goals",
+    "homePage_momentum_title": "Your Weekly Momentum",
+    "homePage_energy_title": "Where Your Energy Goes",
+    "homePage_fab_addTask": "New Task",
+    "homePage_fab_addGoal": "New Goal",
+    "goalsPage_title": "My Ambitions",
+    "goalsPage_active_tab": "Active",
+    "goalsPage_completed_tab": "Completed",
+    "goalsPage_active_empty": "Every great journey starts with a single goal.\nAdd your first one!",
+    "goalsPage_completed_empty": "You haven't completed any goals yet.\nKeep going!",
+    "goalsPage_addGoal_button": "Create a Goal",
+    "tasksPage_title": "My Tasks",
+    "tasksPage_search_hint": "Search tasks, goals, tags...",
+    "tasksPage_filter_title": "Sort & Filter",
+    "tasksPage_filter_reset": "Reset",
+    "tasksPage_filter_apply": "Apply Filters",
+    "tasksPage_filter_showCompleted": "Show Completed Tasks",
+    "tasksPage_calendar_noTasks": "No tasks for this day.",
+    "tasksPage_grouped_overdue": "Overdue",
+    "tasksPage_grouped_today": "Today",
+    "tasksPage_grouped_tomorrow": "Tomorrow",
+    "tasksPage_grouped_noDate": "No Date",
+    "addGoalPage_title_add": "Create a Goal",
+    "addGoalPage_title_edit": "Edit Goal",
+    "addGoalPage_name_label": "Goal Name",
+    "addGoalPage_name_required": "Every goal needs a name!",
+    "addGoalPage_description_label": "Description (Optional)",
+    "addGoalPage_description_hint": "Add more details about your goal...",
+    "addGoalPage_color_label": "Choose a Color",
+    "addGoalPage_icon_label": "Choose an Icon",
+    "addGoalPage_deadline_label": "Deadline (Optional)",
+    "addGoalPage_deadline_notSet": "Not set",
+    "addGoalPage_tasks_label": "Add first steps (Optional)",
+    "addGoalPage_tasks_hint": "Add a new step...",
+    "addGoalPage_button_add": "Create Goal",
+    "addGoalPage_button_edit": "Save Changes",
+    "addTaskSheet_title_add": "New Task",
+    "addTaskSheet_title_edit": "Edit Task",
+    "addTaskSheet_hint": "e.g., Finish presentation by 5 PM",
+    "addTaskSheet_button_add": "Add Task",
+    "addTaskSheet_button_edit": "Save Changes",
+    "addTaskSheet_chip_noGoal": "No Goal",
+    "addTaskSheet_chip_dueDate": "Due Date",
+    "deleteDialog_goal_title": "Delete '{goalName}'?",
+    "@deleteDialog_goal_title": {
+        "placeholders": {
+            "goalName": {
+                "type": "String"
+            }
+        }
+    },
+    "deleteDialog_goal_content": "This goal contains {taskCount} tasks. This action cannot be undone.",
+    "@deleteDialog_goal_content": {
+        "placeholders": {
+            "taskCount": {
+                "type": "int"
+            }
+        }
+    },
+    "deleteDialog_goal_option_unassign": "Unassign tasks & delete goal",
+    "deleteDialog_goal_option_deleteAll": "Delete goal AND all tasks",
+    "deleteDialog_task_title": "Delete Task?",
+    "deleteDialog_task_content": "Are you sure you want to permanently delete this task?",
+    "daysLeft": "{count, plural, =0{Due today} =1{1 day left} other{{count} days left}}",
+    "@daysLeft": {
+        "description": "A string indicating the number of days left until a deadline.",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    }
+}

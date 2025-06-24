@@ -6,6 +6,7 @@ import 'core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'core/data/bloc/tag_bloc/tag_bloc.dart';
 import 'core/data/bloc/task_bloc/task_bloc.dart';
 import 'core/locale/app_localization.dart';
+import 'core/locale/app_localizations.dart';
 import 'core/locale/bloc/locale_bloc.dart';
 import 'core/locale/bloc/locale_event.dart';
 import 'core/locale/bloc/locale_state.dart';
@@ -50,12 +51,9 @@ class MyApp extends StatelessWidget {
                           themeState is DarkModeState ? darkTheme : lightTheme,
                       debugShowCheckedModeBanner: false,
                       locale: (localeState as LocaleLoadedState).locale,
-                      supportedLocales: [
-                        Locale('en'), // English
-                        Locale('fa'), // Farsi
-                      ],
+                      supportedLocales: Lang.supportedLocales,
                       localizationsDelegates: [
-                        AppLocalizations.delegate,
+                        Lang.delegate,
                         GlobalMaterialLocalizations.delegate,
                         GlobalWidgetsLocalizations.delegate,
                         GlobalCupertinoLocalizations.delegate,

@@ -185,7 +185,7 @@ class _DetailsPanel extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       decoration: BoxDecoration(
         color:
-            Theme.of(context).colorScheme.surfaceVariant.withOpacityDouble(0.3),
+            Theme.of(context).colorScheme.surfaceContainerHighest.withOpacityDouble(0.3),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(

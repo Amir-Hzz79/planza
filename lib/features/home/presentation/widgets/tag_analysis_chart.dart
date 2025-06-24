@@ -88,7 +88,7 @@ class _TagProgressRow extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Theme.of(context)
                             .colorScheme
-                            .surfaceVariant
+                            .surfaceContainerHighest
                             .withOpacityDouble(0.5),
                       ),
                     ),

@@ -4,7 +4,8 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show BuildContext, Locale;
 import 'package:get_it/get_it.dart';
 import 'package:planza/core/data/services/locale_prefrence_service.dart';
-import 'package:planza/core/locale/app_localization.dart';
+
+import '../app_localizations.dart';
 
 abstract class LocaleEvent extends Equatable {
   final LocalePreferenceService _preferenceService =
@@ -33,13 +34,13 @@ class LoadLocaleEvent extends LocaleEvent {
     if (prefrenceLocale == null) {
       final systemLocale = PlatformDispatcher.instance.locale;
 
-      if (AppLocalizations.delegate.isSupported(systemLocale)) {
+      if (Lang.delegate.isSupported(systemLocale)) {
         await _preferenceService
             .saveLocale(systemLocale); //Use device locale if app support
 
         return systemLocale;
       } else {
-        return AppLocalizations.defaultLocale;
+        return Lang.supportedLocales.first;
       }
     }
 

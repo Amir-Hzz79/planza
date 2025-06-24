@@ -74,29 +74,25 @@ class _TasksPageState extends State<TasksPage> {
       final goal = allGoals.firstWhere(
         (g) => g.id == goalId,
       );
-      if (goal != null) {
-        filterPills.add(
-          FilterPill(
-            label: goal.name,
-            icon: Icons.fitness_center_rounded,
-            color: goal.color,
-            onDeleted: () => setState(
-              () => _goalIds.remove(goalId),
-            ),
+      filterPills.add(
+        FilterPill(
+          label: goal.name,
+          icon: Icons.fitness_center_rounded,
+          color: goal.color,
+          onDeleted: () => setState(
+            () => _goalIds.remove(goalId),
           ),
-        );
-      }
-    }
+        ),
+      );
+        }
     for (int tagId in _tagIds) {
       final tag = allTags.firstWhere(
         (t) => t.id == tagId,
       );
-      if (tag != null) {
-        filterPills.add(FilterPill(
-            label: "#${tag.name}",
-            onDeleted: () => setState(() => _tagIds.remove(tagId))));
-      }
-    }
+      filterPills.add(FilterPill(
+          label: "#${tag.name}",
+          onDeleted: () => setState(() => _tagIds.remove(tagId))));
+        }
 
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 8),
