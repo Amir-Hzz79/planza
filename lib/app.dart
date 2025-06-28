@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import 'core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'core/data/bloc/tag_bloc/tag_bloc.dart';
@@ -50,8 +51,13 @@ class MyApp extends StatelessWidget {
                           themeState is DarkModeState ? darkTheme : lightTheme,
                       debugShowCheckedModeBanner: false,
                       locale: (localeState as LocaleLoadedState).locale,
-                      supportedLocales: Lang.supportedLocales,
+                      supportedLocales: const [
+                        Locale('en', 'US'),
+                        Locale('fa', 'IR'),
+                      ],
                       localizationsDelegates: [
+                        PersianMaterialLocalizations.delegate,
+                        PersianCupertinoLocalizations.delegate,
                         Lang.delegate,
                         GlobalMaterialLocalizations.delegate,
                         GlobalWidgetsLocalizations.delegate,

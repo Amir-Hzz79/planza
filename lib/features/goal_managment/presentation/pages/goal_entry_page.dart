@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:planza/core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/utils/adaptive_date_picker.dart';
+import '../../../../core/utils/app_date_formatter.dart';
 import '../../../../core/widgets/color_picker/color_picker.dart';
 import '../../../../core/widgets/icon_picker/icon_picker.dart';
 import '../widgets/thematic_goal_card.dart';
@@ -157,11 +158,10 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
   }
 
   Future<void> _pickDate() async {
-    final pickedDate = await showDatePicker(
-        context: context,
-        initialDate: _selectedDate ?? DateTime.now(),
-        firstDate: DateTime.now().subtract(const Duration(days: 365)),
-        lastDate: DateTime(2100));
+    final pickedDate = await showAdaptiveDatePicker(
+      context: context,
+      initialDate: _selectedDate ?? DateTime.now(),
+    );
     if (pickedDate != null) {
       setState(() => _selectedDate = pickedDate);
     }
@@ -300,9 +300,12 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                       leading: const Icon(Icons.calendar_today_outlined),
                       title: Text(
                           "${lang.general_deadline} (${lang.general_optional})"),
-                      subtitle: Text(_selectedDate == null
-                          ? lang.addGoalPage_noDate
-                          : DateFormat.yMMMd().format(_selectedDate!)),
+                      subtitle: Text(
+                        _selectedDate == null
+                            ? lang.addGoalPage_noDate
+                            : AppDateFormatter.of(context)
+                                .formatFullDate(_selectedDate!),
+                      ),
                       trailing:
                           const Icon(Icons.arrow_forward_ios_rounded, size: 16),
                       contentPadding: EdgeInsets.zero,

@@ -5,8 +5,6 @@ import 'package:flutter/material.dart' show BuildContext, Locale;
 import 'package:get_it/get_it.dart';
 import 'package:planza/core/data/services/locale_prefrence_service.dart';
 
-import '../app_localizations.dart';
-
 abstract class LocaleEvent extends Equatable {
   final LocalePreferenceService _preferenceService =
       GetIt.instance.get<LocalePreferenceService>();
@@ -29,21 +27,22 @@ class LoadLocaleEvent extends LocaleEvent {
 
   Future<Locale> getPrefrence() async {
     final prefrenceLocale = await _preferenceService.getLocale();
-
-    //Create locale prefrence if it doesnt exist
-    if (prefrenceLocale == null) {
-      final systemLocale = PlatformDispatcher.instance.locale;
-
-      if (Lang.delegate.isSupported(systemLocale)) {
-        await _preferenceService
-            .saveLocale(systemLocale); //Use device locale if app support
-
-        return systemLocale;
-      } else {
-        return Lang.supportedLocales.first;
-      }
+    if (prefrenceLocale != null) {
+      return prefrenceLocale;
     }
 
-    return prefrenceLocale;
+    final systemLocale = PlatformDispatcher.instance.locale;
+
+    // 1. Check if the user's device language is Farsi.
+    if (systemLocale.languageCode == 'fa') {
+      const farsiLocale = Locale('fa', 'IR');
+      await _preferenceService.saveLocale(farsiLocale);
+      return farsiLocale;
+    } else {
+      // 2. For EVERYONE else, ALWAYS default to the full Locale('en', 'US').
+      const englishLocale = Locale('en', 'US');
+      await _preferenceService.saveLocale(englishLocale);
+      return englishLocale;
+    }
   }
 }

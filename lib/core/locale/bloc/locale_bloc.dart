@@ -14,8 +14,8 @@ class LocaleBloc extends Bloc<LocaleEvent, LocaleState> {
     on<LocaleChangeEvent>((event, emit) {
       Locale newLocale =
           (state as LocaleLoadedState).locale.languageCode == 'fa'
-              ? Locale('en')
-              : Locale('fa');
+              ? Locale('en', 'US')
+              : Locale('fa', 'IR');
 
       event.savePrefrence(newLocale);
 

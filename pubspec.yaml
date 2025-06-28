@@ -39,6 +39,7 @@ dependencies:
   table_calendar: ^3.1.3
   shamsi_date: ^1.1.0
   flutter_persian_calendar: ^0.0.3
+  persian_datetime_picker: ^3.1.0
   
 dev_dependencies:
   flutter_test:

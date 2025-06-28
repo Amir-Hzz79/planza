@@ -11,6 +11,8 @@ import '../../../../core/data/bloc/goal_bloc/goal_bloc.dart';
 import '../../../../core/data/bloc/tag_bloc/tag_bloc.dart';
 
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/utils/adaptive_date_picker.dart';
+import '../../../../core/utils/app_date_formatter.dart';
 import 'goal_selection_sheet.dart';
 import 'priority_selection_sheet.dart';
 import 'tag_selection_sheet.dart';
@@ -128,11 +130,9 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
   }
 
   void _pickDate() async {
-    final pickedDate = await showDatePicker(
+    final pickedDate = await showAdaptiveDatePicker(
       context: context,
       initialDate: _selectedDate ?? DateTime.now(),
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
-      lastDate: DateTime(2100),
     );
     if (pickedDate != null) {
       setState(() => _selectedDate = pickedDate);
@@ -232,7 +232,8 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
                 const SizedBox(width: 8),
                 _ActionChip(
                   label: _selectedDate != null
-                      ? DateFormat.MMMd().format(_selectedDate!)
+                      ? AppDateFormatter.of(context)
+                          .formatShortDate(_selectedDate!)
                       : lang.addTaskSheet_chip_dueDate,
                   icon: Icons.calendar_today_outlined,
                   isSelected: _selectedDate != null,
