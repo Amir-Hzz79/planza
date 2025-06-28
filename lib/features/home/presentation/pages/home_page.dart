@@ -10,6 +10,7 @@ import 'package:planza/features/home/presentation/widgets/empty_section.dart';
 import 'package:planza/features/home/presentation/widgets/speed_dial_fab.dart';
 import 'package:planza/core/data/models/task_model.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import '../../../../core/widgets/appbar/general_app_bar.dart';
 import '../../../task_managment/presentation/widgets/glassy_task_tile.dart';
 import '../widgets/drawer/drawer_section.dart';
@@ -22,6 +23,8 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Lang lang = Lang.of(context)!;
+
     return GoalBlocBuilder(
       onDataLoaded: (goals) {
         return TaskBlocBuilder(
@@ -38,15 +41,7 @@ class HomePage extends StatelessWidget {
 
             final weeklyTaskData = _getWeeklyCompletionData(allTasks);
             final tagData = _getTagCompletionData(allTasks);
-            tagData.addAll({
-              'vacation': 5,
-              'work': 10,
-              'health': 3,
-              'work2': 10,
-              'health2': 3,
-              'work3': 10,
-              'health3': 3
-            });
+            tagData.addAll({...tagData});
             final weeklyTaskCount =
                 weeklyTaskData.values.fold(0, (a, b) => a + b);
 
@@ -56,15 +51,17 @@ class HomePage extends StatelessWidget {
               body: CustomScrollView(
                 slivers: [
                   _buildSliverAppBar(context),
-                  const SectionHeader(title: "Your Vital Signs"),
+                  SectionHeader(title: lang.homePage_statsBar_title),
                   _buildStatsBar(context, activeGoals.length, weeklyTaskCount),
-                  const SectionHeader(title: "Today's Action Plan ⚡"),
-                  _buildTasksDueToday(tasksDueToday),
-                  const SectionHeader(title: "Driving These Goals"),
+                  SectionHeader(title: lang.homePage_todaysFocus_title),
+                  _buildTasksDueToday(context, tasksDueToday),
+                  SectionHeader(
+                    title: lang.homePage_activeGoalCarousel_title,
+                  ),
                   GoalsCarousel(goals: activeGoals),
-                  const SectionHeader(title: "Your Consistency"),
+                  SectionHeader(title: lang.homePage_weeklyChart_title),
                   WeeklyChart(weeklyTasks: weeklyTaskData),
-                  const SectionHeader(title: "Where Your Energy Goes"),
+                  SectionHeader(title: lang.homePage_tagAnalysisChart_title),
                   TagAnalysisChart(tagData: tagData),
                   const SliverToBoxAdapter(child: SizedBox(height: 100)),
                 ],
@@ -111,7 +108,7 @@ class HomePage extends StatelessWidget {
   }
 
   Widget _buildSliverAppBar(BuildContext context) {
-    final String greeting = _getGreeting();
+    final String greeting = _getGreeting(context);
     final String today = DateFormat.yMMMMd().format(DateTime.now());
 
     return SliverAppBar(
@@ -132,18 +129,22 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  String _getGreeting() {
+  String _getGreeting(BuildContext context) {
+    final Lang lang = Lang.of(context)!;
+
     final hour = DateTime.now().hour;
-    if (hour < 12) return 'Good Morning!';
-    if (hour < 17) return 'Good Afternoon!';
-    return 'Good Evening!';
+    if (hour < 12) return lang.homePage_greeting_morning;
+    if (hour < 17) return lang.homePage_greeting_afternoon;
+    return lang.homePage_greeting_evening;
   }
 
-  Widget _buildTasksDueToday(List<TaskModel> tasks) {
+  Widget _buildTasksDueToday(BuildContext context, List<TaskModel> tasks) {
+    final Lang lang = Lang.of(context)!;
+
     if (tasks.isEmpty) {
-      return const EmptySection(
+      return EmptySection(
         icon: Icons.check_circle_outline,
-        message: "You're all clear for today!\nReady to plan your next move?",
+        message: lang.homePage_todaysFocus_empty,
       );
     }
     return SliverList(
@@ -158,6 +159,8 @@ class HomePage extends StatelessWidget {
 
   Widget _buildStatsBar(
       BuildContext context, int activeGoalCount, int weeklyTaskCount) {
+    final Lang lang = Lang.of(context)!;
+
     return SliverToBoxAdapter(
       child: SizedBox(
         height: 100,
@@ -166,17 +169,17 @@ class HomePage extends StatelessWidget {
           children: [
             MetricItem(
                 value: "12",
-                label: "Day Streak",
+                label: lang.homePage_statsBar_streak_title,
                 icon: Icons.local_fire_department_outlined,
                 color: Colors.orange),
             MetricItem(
                 value: activeGoalCount.toString(),
-                label: "Active Goals",
+                label: lang.homePage_statsBar_activeGoals_title,
                 icon: Icons.flag_outlined,
                 color: Colors.blue),
             MetricItem(
                 value: weeklyTaskCount.toString(),
-                label: "Tasks this Week",
+                label: lang.homePage_statsBar_weekTasks_title,
                 icon: Icons.check_circle_outline,
                 color: Colors.green),
           ],

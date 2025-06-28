@@ -170,9 +170,11 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
 
   @override
   Widget build(BuildContext context) {
+    Lang lang = Lang.of(context)!;
+
     final theme = Theme.of(context);
-    String priorityText = "Priority";
-    if (_selectedPriority != null) priorityText = "Priority $_selectedPriority";
+    String priorityText = lang.general_priority;
+    if (_selectedPriority != null) priorityText = _selectedPriority.toString();
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
@@ -181,16 +183,19 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(_isEditing ? "Edit Task" : "New Task",
-              style: theme.textTheme.titleLarge),
+          Text(
+            _isEditing
+                ? lang.addTaskSheet_title_edit
+                : lang.addTaskSheet_title_add,
+            style: theme.textTheme.titleLarge,
+          ),
           const SizedBox(height: 8),
           TextField(
             controller: _titleController,
             autofocus: true,
             style: theme.textTheme.titleLarge,
-            decoration: const InputDecoration(
-                hintText: "e.g., Finish presentation by 5 PM",
-                border: InputBorder.none),
+            decoration: InputDecoration(
+                hintText: lang.addTaskSheet_hint, border: InputBorder.none),
             onSubmitted: (_) => _saveTask(context),
           ),
           AnimatedSize(
@@ -203,7 +208,7 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
                       controller: _descriptionController,
                       maxLines: 3,
                       decoration: InputDecoration(
-                        hintText: "Add more details...",
+                        hintText: lang.addTaskSheet_description_hint,
                         border: InputBorder.none,
                         filled: true,
                         fillColor:
@@ -219,7 +224,7 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
             child: Row(
               children: [
                 _ActionChip(
-                  label: _selectedGoal?.name ?? "No Goal",
+                  label: _selectedGoal?.name ?? lang.addTaskSheet_chip_noGoal,
                   icon: Icons.flag_outlined,
                   isSelected: _selectedGoal != null,
                   onTap: _pickGoal,
@@ -228,14 +233,14 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
                 _ActionChip(
                   label: _selectedDate != null
                       ? DateFormat.MMMd().format(_selectedDate!)
-                      : "Due Date",
+                      : lang.addTaskSheet_chip_dueDate,
                   icon: Icons.calendar_today_outlined,
                   isSelected: _selectedDate != null,
                   onTap: _pickDate,
                 ),
                 const SizedBox(width: 8),
                 _ActionChip(
-                  label: "Description",
+                  label: lang.general_description,
                   icon: Icons.notes_outlined,
                   isSelected: _showDescriptionField,
                   onTap: () => setState(
@@ -244,8 +249,8 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
                 const SizedBox(width: 8),
                 _ActionChip(
                     label: _selectedTags.isEmpty
-                        ? "Tags"
-                        : "${_selectedTags.length} Tags",
+                        ? lang.general_tags
+                        : lang.addTaskSheet_chip_tagCount(_selectedTags.length),
                     icon: Icons.tag,
                     isSelected: _selectedTags.isNotEmpty,
                     onTap: _pickTags),
@@ -266,7 +271,11 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
               onPressed: _isFormValid ? () => _saveTask(context) : null,
               style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 16)),
-              child: Text(_isEditing ? "Save Changes" : "Add Task"),
+              child: Text(
+                _isEditing
+                    ? lang.addTaskSheet_button_edit
+                    : lang.addTaskSheet_button_add,
+              ),
             ),
           ),
         ],

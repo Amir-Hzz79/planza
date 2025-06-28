@@ -21,7 +21,10 @@
     "general_icon": "Icon",
     "general_optional": "Optional",
     "general_today": "Today",
+    "general_tomarrow": "Tomorrow",
     "general_overdue": "Overdue",
+    "general_dueToday": "Due Today",
+    "general_noDate": "No Date",
     "general_completed": "Completed",
     "general_profile": "Profile",
     "general_language": "Language",
@@ -31,6 +34,15 @@
     "general_exitConfirm": "Press back again to exit",
     "general_share": "Share",
     "general_achievement": "ACHIEVEMENT",
+    "general_duration": "Duration",
+    "general_tasksCount": "Tasks ({tasksCount})",
+    "@general_tasksCount": {
+        "placeholders": {
+            "tasksCount": {
+                "type": "int"
+            }
+        }
+    },
     "general_duration_day": "{dayCount} Days",
     "@general_duration_day": {
         "placeholders": {
@@ -47,9 +59,21 @@
     "homePage_todaysFocus_empty": "You're all clear for today!\nReady to plan your next move?",
     "homePage_activeGoals_title": "Driving These Goals",
     "homePage_momentum_title": "Your Weekly Momentum",
+    "homePage_statsBar_title": "Your Vital Signs",
+    "homePage_activeGoalCarousel_title": "Driving These Goals",
+    "homePage_weeklyChart_title": "Your Consistency",
+    "homePage_tagAnalysisChart_title": "Where Your Energy Goes",
+    "homePage_statsBar_streak_title": "Day Streak",
+    "homePage_statsBar_activeGoals_title": "Active Goals",
+    "homePage_statsBar_weekTasks_title": "Tasks this Week",
     "homePage_energy_title": "Where Your Energy Goes",
     "homePage_fab_addTask": "New Task",
     "homePage_fab_addGoal": "New Goal",
+    "homePage_dashboardOverview_progress": "Progress",
+    "homePage_dashboardOverview_tasksLeft": "Tasks Left",
+    "homePage_dashboardOverview_deadline_noDeadLine": "No Deadline",
+    "homePage_dashboardOverview_deadline_overDue": "Days Overdue",
+    "homePage_dashboardOverview_deadline_daysLeft": "Days Left",
     "goalsPage_title": "My Ambitions",
     "goalsPage_active_tab": "Active",
     "goalsPage_completed_tab": "Completed",
@@ -110,13 +134,21 @@
     "tasksPage_grouped_overdue": "Overdue",
     "tasksPage_grouped_today": "Today",
     "tasksPage_grouped_tomorrow": "Tomorrow",
-    "tasksPage_grouped_noDate": "No Date",
     "tasksPage_grouped_empty": "No tasks found.",
+    "tasksPage_pills_completed": "Showing Completed",
     "taskDetailsPage_goal_label": "Goal",
     "taskDetailsPage_date_label": "Due Date",
     "taskDetailsPage_priority_label": "Priority",
-    "taskDetailsPage_tags_label": "Tags",
     "taskDetailsPage_checklist_title": "Checklist ({subtaskCount})",
+    "taskDetailsPage_button_unCompleted": "Mark as Complete",
+    "taskDetailsPage_button_completed": "Completed on {doneDate}",
+    "@taskDetailsPage_button_completed": {
+        "placeholders": {
+            "doneDate": {
+                "type": "String"
+            }
+        }
+    },
     "@taskDetailsPage_checklist_title": {
         "placeholders": {
             "subtaskCount": {
@@ -161,8 +193,17 @@
     "addTaskSheet_hint": "e.g., Finish presentation by 5 PM",
     "addTaskSheet_button_add": "Add Task",
     "addTaskSheet_button_edit": "Save Changes",
+    "addTaskSheet_description_hint":  "Add more details...",
     "addTaskSheet_chip_noGoal": "No Goal",
     "addTaskSheet_chip_dueDate": "Due Date",
+    "addTaskSheet_chip_tagCount": "{tagCount} Tags",
+    "@addTaskSheet_chip_tagCount": {
+        "placeholders": {
+            "tagCount": {
+                "type": "int"
+            }
+        }
+    },
     "addTaskSheet_edit_successMessage": "Task Updated!",
     "addTaskSheet_add_successMessage": "Task Added!",
     "deleteDialog_goal_title": "Delete '{goalName}'?",
@@ -204,5 +245,21 @@
             }
         }
     },
-    "goalSelection_noGoal": "No Goal"
+    "goalSelection_noGoal": "No Goal",
+    "goalAchievement_title": "GOAL ACHIEVED!",
+    "goalAchievement_tasksCompleted_title": "Tasks Completed",
+    "goalAchievement_completed_title": "Completed On",
+    "goalCard_completed_title": "GOAL ACHIEVED!",
+    "goalCard_noTasks": "Let's get started!",
+    "goalCard_tasksProgress": "{completedCount} of {totalCount} tasks complete",
+    "@goalCard_tasksProgress": {
+        "placeholders": {
+            "completedCount": {
+                "type": "int"
+            },
+            "totalCount": {
+                "type": "int"
+            }
+        }
+    }
 }

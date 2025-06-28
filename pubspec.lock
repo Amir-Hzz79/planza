@@ -339,6 +339,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_persian_calendar:
+    dependency: "direct main"
+    description:
+      name: flutter_persian_calendar
+      sha256: "4587c6909e8574d43e2f8e22da57a54f4c62bb58286d6f005e3144a494307031"
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -645,6 +653,14 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "2.6.1"
+  shamsi_date:
+    dependency: "direct main"
+    description:
+      name: shamsi_date
+      sha256: b6c79ff34ddfb1e9e4761347f18e30afdd7d16cc3db77defd5a40e2d93894c51
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "1.1.0"
   shared_preferences:
     dependency: "direct main"
     description:

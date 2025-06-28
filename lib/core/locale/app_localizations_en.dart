@@ -72,7 +72,16 @@ class LangEn extends Lang {
   String get general_today => 'Today';
 
   @override
+  String get general_tomarrow => 'Tomorrow';
+
+  @override
   String get general_overdue => 'Overdue';
+
+  @override
+  String get general_dueToday => 'Due Today';
+
+  @override
+  String get general_noDate => 'No Date';
 
   @override
   String get general_completed => 'Completed';
@@ -100,6 +109,14 @@ class LangEn extends Lang {
 
   @override
   String get general_achievement => 'ACHIEVEMENT';
+
+  @override
+  String get general_duration => 'Duration';
+
+  @override
+  String general_tasksCount(int tasksCount) {
+    return 'Tasks ($tasksCount)';
+  }
 
   @override
   String general_duration_day(int dayCount) {
@@ -131,6 +148,27 @@ class LangEn extends Lang {
   String get homePage_momentum_title => 'Your Weekly Momentum';
 
   @override
+  String get homePage_statsBar_title => 'Your Vital Signs';
+
+  @override
+  String get homePage_activeGoalCarousel_title => 'Driving These Goals';
+
+  @override
+  String get homePage_weeklyChart_title => 'Your Consistency';
+
+  @override
+  String get homePage_tagAnalysisChart_title => 'Where Your Energy Goes';
+
+  @override
+  String get homePage_statsBar_streak_title => 'Day Streak';
+
+  @override
+  String get homePage_statsBar_activeGoals_title => 'Active Goals';
+
+  @override
+  String get homePage_statsBar_weekTasks_title => 'Tasks this Week';
+
+  @override
   String get homePage_energy_title => 'Where Your Energy Goes';
 
   @override
@@ -138,6 +176,21 @@ class LangEn extends Lang {
 
   @override
   String get homePage_fab_addGoal => 'New Goal';
+
+  @override
+  String get homePage_dashboardOverview_progress => 'Progress';
+
+  @override
+  String get homePage_dashboardOverview_tasksLeft => 'Tasks Left';
+
+  @override
+  String get homePage_dashboardOverview_deadline_noDeadLine => 'No Deadline';
+
+  @override
+  String get homePage_dashboardOverview_deadline_overDue => 'Days Overdue';
+
+  @override
+  String get homePage_dashboardOverview_deadline_daysLeft => 'Days Left';
 
   @override
   String get goalsPage_title => 'My Ambitions';
@@ -244,10 +297,10 @@ class LangEn extends Lang {
   String get tasksPage_grouped_tomorrow => 'Tomorrow';
 
   @override
-  String get tasksPage_grouped_noDate => 'No Date';
+  String get tasksPage_grouped_empty => 'No tasks found.';
 
   @override
-  String get tasksPage_grouped_empty => 'No tasks found.';
+  String get tasksPage_pills_completed => 'Showing Completed';
 
   @override
   String get taskDetailsPage_goal_label => 'Goal';
@@ -259,11 +312,16 @@ class LangEn extends Lang {
   String get taskDetailsPage_priority_label => 'Priority';
 
   @override
-  String get taskDetailsPage_tags_label => 'Tags';
-
-  @override
   String taskDetailsPage_checklist_title(int subtaskCount) {
     return 'Checklist ($subtaskCount)';
+  }
+
+  @override
+  String get taskDetailsPage_button_unCompleted => 'Mark as Complete';
+
+  @override
+  String taskDetailsPage_button_completed(String doneDate) {
+    return 'Completed on $doneDate';
   }
 
   @override
@@ -340,10 +398,18 @@ class LangEn extends Lang {
   String get addTaskSheet_button_edit => 'Save Changes';
 
   @override
+  String get addTaskSheet_description_hint => 'Add more details...';
+
+  @override
   String get addTaskSheet_chip_noGoal => 'No Goal';
 
   @override
   String get addTaskSheet_chip_dueDate => 'Due Date';
+
+  @override
+  String addTaskSheet_chip_tagCount(int tagCount) {
+    return '$tagCount Tags';
+  }
 
   @override
   String get addTaskSheet_edit_successMessage => 'Task Updated!';
@@ -398,4 +464,24 @@ class LangEn extends Lang {
 
   @override
   String get goalSelection_noGoal => 'No Goal';
+
+  @override
+  String get goalAchievement_title => 'GOAL ACHIEVED!';
+
+  @override
+  String get goalAchievement_tasksCompleted_title => 'Tasks Completed';
+
+  @override
+  String get goalAchievement_completed_title => 'Completed On';
+
+  @override
+  String get goalCard_completed_title => 'GOAL ACHIEVED!';
+
+  @override
+  String get goalCard_noTasks => 'Let\'s get started!';
+
+  @override
+  String goalCard_tasksProgress(int completedCount, int totalCount) {
+    return '$completedCount of $totalCount tasks complete';
+  }
 }

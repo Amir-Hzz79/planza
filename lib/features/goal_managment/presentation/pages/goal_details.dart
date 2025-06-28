@@ -200,11 +200,13 @@ class GoalDetailsPage extends StatelessWidget {
   }
 
   Widget _buildTaskListHeader(BuildContext context, GoalModel goal) {
+    Lang lang = Lang.of(context)!;
+
     return SliverToBoxAdapter(
       child: Padding(
         padding: const EdgeInsets.fromLTRB(20.0, 24.0, 20.0, 8.0),
         child: Text(
-          "Tasks (${goal.tasks.length})",
+          lang.general_tasksCount(goal.tasks.length),
           style: Theme.of(context)
               .textTheme
               .titleMedium

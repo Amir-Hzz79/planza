@@ -72,7 +72,16 @@ class LangFa extends Lang {
   String get general_today => 'امروز';
 
   @override
+  String get general_tomarrow => 'فردا';
+
+  @override
   String get general_overdue => 'موعد گذشته';
+
+  @override
+  String get general_dueToday => 'موعد امروز';
+
+  @override
+  String get general_noDate => 'بدون تاریخ';
 
   @override
   String get general_completed => 'تکمیل شده';
@@ -102,6 +111,14 @@ class LangFa extends Lang {
   String get general_achievement => 'دستاورد';
 
   @override
+  String get general_duration => 'مدت زمان';
+
+  @override
+  String general_tasksCount(int tasksCount) {
+    return '($tasksCount) کار';
+  }
+
+  @override
   String general_duration_day(int dayCount) {
     return '$dayCount روز';
   }
@@ -122,13 +139,34 @@ class LangFa extends Lang {
   String get homePage_todaysFocus_title => 'تمرکز امروز 🔥';
 
   @override
-  String get homePage_todaysFocus_empty => 'برای امروز همه چیز تمیزه!\nبرای حرکت بعدی آماده‌ای؟';
+  String get homePage_todaysFocus_empty => 'برای امروز همه چیز تمیزه!\nآماده‌ای برای حرکت بعدی؟';
 
   @override
   String get homePage_activeGoals_title => 'در مسیر این اهداف';
 
   @override
   String get homePage_momentum_title => 'مومنتوم هفتگی شما';
+
+  @override
+  String get homePage_statsBar_title => 'علائم حیاتی شما';
+
+  @override
+  String get homePage_activeGoalCarousel_title => 'در مسیر این اهداف';
+
+  @override
+  String get homePage_weeklyChart_title => 'پایداری شما';
+
+  @override
+  String get homePage_tagAnalysisChart_title => 'انرژی شما کجا صرف می‌شود';
+
+  @override
+  String get homePage_statsBar_streak_title => 'روز متوالی';
+
+  @override
+  String get homePage_statsBar_activeGoals_title => 'اهداف فعال';
+
+  @override
+  String get homePage_statsBar_weekTasks_title => 'کارهای این هفته';
 
   @override
   String get homePage_energy_title => 'انرژی شما کجا صرف می‌شود';
@@ -138,6 +176,21 @@ class LangFa extends Lang {
 
   @override
   String get homePage_fab_addGoal => 'هدف جدید';
+
+  @override
+  String get homePage_dashboardOverview_progress => 'پیشرفت';
+
+  @override
+  String get homePage_dashboardOverview_tasksLeft => 'کارهای مانده';
+
+  @override
+  String get homePage_dashboardOverview_deadline_noDeadLine => 'بدون موعد';
+
+  @override
+  String get homePage_dashboardOverview_deadline_overDue => 'روز گذشته';
+
+  @override
+  String get homePage_dashboardOverview_deadline_daysLeft => 'روز مانده';
 
   @override
   String get goalsPage_title => 'جاه‌طلبی‌های من';
@@ -244,26 +297,31 @@ class LangFa extends Lang {
   String get tasksPage_grouped_tomorrow => 'فردا';
 
   @override
-  String get tasksPage_grouped_noDate => 'بدون تاریخ';
+  String get tasksPage_grouped_empty => 'کاری یافت نشد.';
 
   @override
-  String get tasksPage_grouped_empty => 'کاری یافت نشد.';
+  String get tasksPage_pills_completed => 'نمایش تکمیل‌شده‌ها';
 
   @override
   String get taskDetailsPage_goal_label => 'هدف';
 
   @override
-  String get taskDetailsPage_date_label => 'موعد';
+  String get taskDetailsPage_date_label => 'تاریخ موعد';
 
   @override
   String get taskDetailsPage_priority_label => 'اولویت';
 
   @override
-  String get taskDetailsPage_tags_label => 'برچسب‌ها';
-
-  @override
   String taskDetailsPage_checklist_title(int subtaskCount) {
     return 'چک‌لیست ($subtaskCount)';
+  }
+
+  @override
+  String get taskDetailsPage_button_unCompleted => 'علامت‌گذاری به عنوان انجام‌شده';
+
+  @override
+  String taskDetailsPage_button_completed(String doneDate) {
+    return 'تکمیل در $doneDate';
   }
 
   @override
@@ -340,10 +398,18 @@ class LangFa extends Lang {
   String get addTaskSheet_button_edit => 'ذخیره تغییرات';
 
   @override
+  String get addTaskSheet_description_hint => 'جزئیات بیشتر...';
+
+  @override
   String get addTaskSheet_chip_noGoal => 'بدون هدف';
 
   @override
   String get addTaskSheet_chip_dueDate => 'تاریخ موعد';
+
+  @override
+  String addTaskSheet_chip_tagCount(int tagCount) {
+    return '$tagCount برچسب';
+  }
 
   @override
   String get addTaskSheet_edit_successMessage => 'کار ویرایش شد!';
@@ -375,7 +441,7 @@ class LangFa extends Lang {
 
   @override
   String deleteDialog_goal_option_deleteAll_subtitle(int taskCount) {
-    return 'تمام \$$taskCount کار برای همیشه حذف خواهند شد.';
+    return 'تمام $taskCount کار برای همیشه حذف خواهند شد.';
   }
 
   @override
@@ -398,4 +464,24 @@ class LangFa extends Lang {
 
   @override
   String get goalSelection_noGoal => 'بدون هدف';
+
+  @override
+  String get goalAchievement_title => 'هدف محقق شد!';
+
+  @override
+  String get goalAchievement_tasksCompleted_title => 'کارهای تکمیل شده';
+
+  @override
+  String get goalAchievement_completed_title => 'تاریخ تکمیل';
+
+  @override
+  String get goalCard_completed_title => 'هدف محقق شد!';
+
+  @override
+  String get goalCard_noTasks => 'بیا شروع کنیم!';
+
+  @override
+  String goalCard_tasksProgress(int completedCount, int totalCount) {
+    return '$completedCount از $totalCount کار تکمیل شده';
+  }
 }

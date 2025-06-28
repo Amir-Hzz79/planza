@@ -221,11 +221,29 @@ abstract class Lang {
   /// **'Today'**
   String get general_today;
 
+  /// No description provided for @general_tomarrow.
+  ///
+  /// In en, this message translates to:
+  /// **'Tomorrow'**
+  String get general_tomarrow;
+
   /// No description provided for @general_overdue.
   ///
   /// In en, this message translates to:
   /// **'Overdue'**
   String get general_overdue;
+
+  /// No description provided for @general_dueToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Due Today'**
+  String get general_dueToday;
+
+  /// No description provided for @general_noDate.
+  ///
+  /// In en, this message translates to:
+  /// **'No Date'**
+  String get general_noDate;
 
   /// No description provided for @general_completed.
   ///
@@ -281,6 +299,18 @@ abstract class Lang {
   /// **'ACHIEVEMENT'**
   String get general_achievement;
 
+  /// No description provided for @general_duration.
+  ///
+  /// In en, this message translates to:
+  /// **'Duration'**
+  String get general_duration;
+
+  /// No description provided for @general_tasksCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks ({tasksCount})'**
+  String general_tasksCount(int tasksCount);
+
   /// No description provided for @general_duration_day.
   ///
   /// In en, this message translates to:
@@ -335,6 +365,48 @@ abstract class Lang {
   /// **'Your Weekly Momentum'**
   String get homePage_momentum_title;
 
+  /// No description provided for @homePage_statsBar_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Vital Signs'**
+  String get homePage_statsBar_title;
+
+  /// No description provided for @homePage_activeGoalCarousel_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Driving These Goals'**
+  String get homePage_activeGoalCarousel_title;
+
+  /// No description provided for @homePage_weeklyChart_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Your Consistency'**
+  String get homePage_weeklyChart_title;
+
+  /// No description provided for @homePage_tagAnalysisChart_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Where Your Energy Goes'**
+  String get homePage_tagAnalysisChart_title;
+
+  /// No description provided for @homePage_statsBar_streak_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Day Streak'**
+  String get homePage_statsBar_streak_title;
+
+  /// No description provided for @homePage_statsBar_activeGoals_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Active Goals'**
+  String get homePage_statsBar_activeGoals_title;
+
+  /// No description provided for @homePage_statsBar_weekTasks_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks this Week'**
+  String get homePage_statsBar_weekTasks_title;
+
   /// No description provided for @homePage_energy_title.
   ///
   /// In en, this message translates to:
@@ -352,6 +424,36 @@ abstract class Lang {
   /// In en, this message translates to:
   /// **'New Goal'**
   String get homePage_fab_addGoal;
+
+  /// No description provided for @homePage_dashboardOverview_progress.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress'**
+  String get homePage_dashboardOverview_progress;
+
+  /// No description provided for @homePage_dashboardOverview_tasksLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks Left'**
+  String get homePage_dashboardOverview_tasksLeft;
+
+  /// No description provided for @homePage_dashboardOverview_deadline_noDeadLine.
+  ///
+  /// In en, this message translates to:
+  /// **'No Deadline'**
+  String get homePage_dashboardOverview_deadline_noDeadLine;
+
+  /// No description provided for @homePage_dashboardOverview_deadline_overDue.
+  ///
+  /// In en, this message translates to:
+  /// **'Days Overdue'**
+  String get homePage_dashboardOverview_deadline_overDue;
+
+  /// No description provided for @homePage_dashboardOverview_deadline_daysLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'Days Left'**
+  String get homePage_dashboardOverview_deadline_daysLeft;
 
   /// No description provided for @goalsPage_title.
   ///
@@ -545,17 +647,17 @@ abstract class Lang {
   /// **'Tomorrow'**
   String get tasksPage_grouped_tomorrow;
 
-  /// No description provided for @tasksPage_grouped_noDate.
-  ///
-  /// In en, this message translates to:
-  /// **'No Date'**
-  String get tasksPage_grouped_noDate;
-
   /// No description provided for @tasksPage_grouped_empty.
   ///
   /// In en, this message translates to:
   /// **'No tasks found.'**
   String get tasksPage_grouped_empty;
+
+  /// No description provided for @tasksPage_pills_completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Showing Completed'**
+  String get tasksPage_pills_completed;
 
   /// No description provided for @taskDetailsPage_goal_label.
   ///
@@ -575,17 +677,23 @@ abstract class Lang {
   /// **'Priority'**
   String get taskDetailsPage_priority_label;
 
-  /// No description provided for @taskDetailsPage_tags_label.
-  ///
-  /// In en, this message translates to:
-  /// **'Tags'**
-  String get taskDetailsPage_tags_label;
-
   /// No description provided for @taskDetailsPage_checklist_title.
   ///
   /// In en, this message translates to:
   /// **'Checklist ({subtaskCount})'**
   String taskDetailsPage_checklist_title(int subtaskCount);
+
+  /// No description provided for @taskDetailsPage_button_unCompleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Mark as Complete'**
+  String get taskDetailsPage_button_unCompleted;
+
+  /// No description provided for @taskDetailsPage_button_completed.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed on {doneDate}'**
+  String taskDetailsPage_button_completed(String doneDate);
 
   /// No description provided for @taskDetailsPage_priorityLevel.
   ///
@@ -725,6 +833,12 @@ abstract class Lang {
   /// **'Save Changes'**
   String get addTaskSheet_button_edit;
 
+  /// No description provided for @addTaskSheet_description_hint.
+  ///
+  /// In en, this message translates to:
+  /// **'Add more details...'**
+  String get addTaskSheet_description_hint;
+
   /// No description provided for @addTaskSheet_chip_noGoal.
   ///
   /// In en, this message translates to:
@@ -736,6 +850,12 @@ abstract class Lang {
   /// In en, this message translates to:
   /// **'Due Date'**
   String get addTaskSheet_chip_dueDate;
+
+  /// No description provided for @addTaskSheet_chip_tagCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{tagCount} Tags'**
+  String addTaskSheet_chip_tagCount(int tagCount);
 
   /// No description provided for @addTaskSheet_edit_successMessage.
   ///
@@ -814,6 +934,42 @@ abstract class Lang {
   /// In en, this message translates to:
   /// **'No Goal'**
   String get goalSelection_noGoal;
+
+  /// No description provided for @goalAchievement_title.
+  ///
+  /// In en, this message translates to:
+  /// **'GOAL ACHIEVED!'**
+  String get goalAchievement_title;
+
+  /// No description provided for @goalAchievement_tasksCompleted_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Tasks Completed'**
+  String get goalAchievement_tasksCompleted_title;
+
+  /// No description provided for @goalAchievement_completed_title.
+  ///
+  /// In en, this message translates to:
+  /// **'Completed On'**
+  String get goalAchievement_completed_title;
+
+  /// No description provided for @goalCard_completed_title.
+  ///
+  /// In en, this message translates to:
+  /// **'GOAL ACHIEVED!'**
+  String get goalCard_completed_title;
+
+  /// No description provided for @goalCard_noTasks.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s get started!'**
+  String get goalCard_noTasks;
+
+  /// No description provided for @goalCard_tasksProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{completedCount} of {totalCount} tasks complete'**
+  String goalCard_tasksProgress(int completedCount, int totalCount);
 }
 
 class _LangDelegate extends LocalizationsDelegate<Lang> {

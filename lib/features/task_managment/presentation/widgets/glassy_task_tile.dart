@@ -216,6 +216,8 @@ class GlassyTaskCard extends StatelessWidget {
 
   ({String text, Color color, IconData icon}) _getDeadlineInfo(
       BuildContext context, DateTime? deadline) {
+    final Lang lang = Lang.of(context)!;
+
     if (deadline == null) {
       return (text: '', color: Colors.transparent, icon: Icons.error);
     }
@@ -228,7 +230,7 @@ class GlassyTaskCard extends StatelessWidget {
 
     if (task.isCompleted) {
       return (
-        text: "Completed",
+        text: lang.general_completed,
         color: completedColor,
         icon: Icons.check_circle_outline
       );
@@ -240,11 +242,15 @@ class GlassyTaskCard extends StatelessWidget {
     final difference = deadlineDate.difference(today).inDays;
 
     if (difference < 0) {
-      return (text: "Overdue", color: overdueColor, icon: Icons.error_outline);
+      return (
+        text: lang.general_overdue,
+        color: overdueColor,
+        icon: Icons.error_outline
+      );
     }
     if (difference == 0) {
       return (
-        text: "Due today",
+        text: lang.general_dueToday,
         color: dueSoonColor,
         icon: Icons.warning_amber_rounded
       );

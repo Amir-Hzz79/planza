@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-// Import your models and page routes
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../goal_managment/presentation/pages/goal_details.dart';
 
@@ -32,13 +32,12 @@ class _FeaturedGoalCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // This is a larger, more impactful version of your thematic card
     return GestureDetector(
       onTap: () => Navigator.of(context).push(
           MaterialPageRoute(builder: (_) => GoalDetailsPage(goalId: goal.id!))),
       child: Card(
         elevation: 6.0,
-        shadowColor: goal.color.withOpacity(0.3),
+        shadowColor: goal.color.withOpacityDouble(0.3),
         shape:
             RoundedRectangleBorder(borderRadius: BorderRadius.circular(24.0)),
         margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 12.0),
@@ -50,7 +49,7 @@ class _FeaturedGoalCard extends StatelessWidget {
               Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [goal.color.withOpacity(0.8), goal.color],
+                    colors: [goal.color.withOpacityDouble(0.8), goal.color],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
@@ -60,7 +59,7 @@ class _FeaturedGoalCard extends StatelessWidget {
                 right: -25,
                 bottom: -25,
                 child: Icon(Icons.fitness_center_rounded,
-                    size: 140.0, color: Colors.white.withOpacity(0.15)),
+                    size: 140.0, color: Colors.white.withOpacityDouble(0.15)),
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),
@@ -83,7 +82,7 @@ class _FeaturedGoalCard extends StatelessWidget {
                         child: LinearProgressIndicator(
                           value: goal.progress,
                           minHeight: 8.0,
-                          backgroundColor: Colors.white.withOpacity(0.2),
+                          backgroundColor: Colors.white.withOpacityDouble(0.2),
                           valueColor:
                               const AlwaysStoppedAnimation<Color>(Colors.white),
                         ),

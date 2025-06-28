@@ -21,7 +21,10 @@
     "general_icon": "آیکون",
     "general_optional": "(اختیاری)",
     "general_today": "امروز",
+    "general_tomarrow": "فردا",
     "general_overdue": "موعد گذشته",
+    "general_dueToday": "موعد امروز",
+    "general_noDate": "بدون تاریخ",
     "general_completed": "تکمیل شده",
     "general_profile": "پروفایل",
     "general_language": "زبان",
@@ -31,6 +34,15 @@
     "general_exitConfirm": "برای خروج دوباره بازگشت را بزنید",
     "general_share": "اشتراک‌گذاری",
     "general_achievement": "دستاورد",
+    "general_duration": "مدت زمان",
+    "general_tasksCount": "({tasksCount}) کار",
+    "@general_tasksCount": {
+        "placeholders": {
+            "tasksCount": {
+                "type": "int"
+            }
+        }
+    },
     "general_duration_day": "{dayCount} روز",
     "@general_duration_day": {
         "placeholders": {
@@ -44,12 +56,24 @@
     "homePage_greeting_afternoon": "عصر بخیر!",
     "homePage_greeting_evening": "شب بخیر!",
     "homePage_todaysFocus_title": "تمرکز امروز 🔥",
-    "homePage_todaysFocus_empty": "برای امروز همه چیز تمیزه!\nبرای حرکت بعدی آماده‌ای؟",
+    "homePage_todaysFocus_empty": "برای امروز همه چیز تمیزه!\nآماده‌ای برای حرکت بعدی؟",
     "homePage_activeGoals_title": "در مسیر این اهداف",
     "homePage_momentum_title": "مومنتوم هفتگی شما",
+    "homePage_statsBar_title": "علائم حیاتی شما",
+    "homePage_activeGoalCarousel_title": "در مسیر این اهداف",
+    "homePage_weeklyChart_title": "پایداری شما",
+    "homePage_tagAnalysisChart_title": "انرژی شما کجا صرف می‌شود",
+    "homePage_statsBar_streak_title": "روز متوالی",
+    "homePage_statsBar_activeGoals_title": "اهداف فعال",
+    "homePage_statsBar_weekTasks_title": "کارهای این هفته",
     "homePage_energy_title": "انرژی شما کجا صرف می‌شود",
     "homePage_fab_addTask": "کار جدید",
     "homePage_fab_addGoal": "هدف جدید",
+    "homePage_dashboardOverview_progress": "پیشرفت",
+    "homePage_dashboardOverview_tasksLeft": "کارهای مانده",
+    "homePage_dashboardOverview_deadline_noDeadLine": "بدون موعد",
+    "homePage_dashboardOverview_deadline_overDue": "روز گذشته",
+    "homePage_dashboardOverview_deadline_daysLeft": "روز مانده",
     "goalsPage_title": "جاه‌طلبی‌های من",
     "goalsPage_active_tab": "فعال",
     "goalsPage_completed_tab": "تکمیل شده",
@@ -110,17 +134,25 @@
     "tasksPage_grouped_overdue": "موعد گذشته",
     "tasksPage_grouped_today": "امروز",
     "tasksPage_grouped_tomorrow": "فردا",
-    "tasksPage_grouped_noDate": "بدون تاریخ",
     "tasksPage_grouped_empty": "کاری یافت نشد.",
+    "tasksPage_pills_completed": "نمایش تکمیل‌شده‌ها",
     "taskDetailsPage_goal_label": "هدف",
-    "taskDetailsPage_date_label": "موعد",
+    "taskDetailsPage_date_label": "تاریخ موعد",
     "taskDetailsPage_priority_label": "اولویت",
-    "taskDetailsPage_tags_label": "برچسب‌ها",
     "taskDetailsPage_checklist_title": "چک‌لیست ({subtaskCount})",
     "@taskDetailsPage_checklist_title": {
         "placeholders": {
             "subtaskCount": {
                 "type": "int"
+            }
+        }
+    },
+    "taskDetailsPage_button_unCompleted": "علامت‌گذاری به عنوان انجام‌شده",
+    "taskDetailsPage_button_completed": "تکمیل در {doneDate}",
+    "@taskDetailsPage_button_completed": {
+        "placeholders": {
+            "doneDate": {
+                "type": "String"
             }
         }
     },
@@ -161,8 +193,17 @@
     "addTaskSheet_hint": "مثلا: تمام کردن گزارش تا ساعت ۵ عصر",
     "addTaskSheet_button_add": "افزودن کار",
     "addTaskSheet_button_edit": "ذخیره تغییرات",
+    "addTaskSheet_description_hint": "جزئیات بیشتر...",
     "addTaskSheet_chip_noGoal": "بدون هدف",
     "addTaskSheet_chip_dueDate": "تاریخ موعد",
+    "addTaskSheet_chip_tagCount": "{tagCount} برچسب",
+    "@addTaskSheet_chip_tagCount": {
+        "placeholders": {
+            "tagCount": {
+                "type": "int"
+            }
+        }
+    },
     "addTaskSheet_edit_successMessage": "کار ویرایش شد!",
     "addTaskSheet_add_successMessage": "کار اضافه شد!",
     "deleteDialog_goal_title": "حذف هدف '{goalName}'؟",
@@ -185,7 +226,7 @@
     "deleteDialog_goal_option_unassign_title": "حذف هدف و بی‌هدف کردن کارها",
     "deleteDialog_goal_option_unassign_subtitle": "کارها باقی می‌مانند اما دیگر هدفی ندارند.",
     "deleteDialog_goal_option_deleteAll_title": "حذف هدف و تمام کارهای آن",
-    "deleteDialog_goal_option_deleteAll_subtitle": "تمام ${taskCount} کار برای همیشه حذف خواهند شد.",
+    "deleteDialog_goal_option_deleteAll_subtitle": "تمام {taskCount} کار برای همیشه حذف خواهند شد.",
     "@deleteDialog_goal_option_deleteAll_subtitle": {
         "placeholders": {
             "taskCount": {
@@ -204,5 +245,21 @@
             }
         }
     },
-    "goalSelection_noGoal": "بدون هدف"
+    "goalSelection_noGoal": "بدون هدف",
+    "goalAchievement_title": "هدف محقق شد!",
+    "goalAchievement_tasksCompleted_title": "کارهای تکمیل شده",
+    "goalAchievement_completed_title": "تاریخ تکمیل",
+    "goalCard_completed_title": "هدف محقق شد!",
+    "goalCard_noTasks": "بیا شروع کنیم!",
+    "goalCard_tasksProgress": "{completedCount} از {totalCount} کار تکمیل شده",
+    "@goalCard_tasksProgress": {
+        "placeholders": {
+            "completedCount": {
+                "type": "int"
+            },
+            "totalCount": {
+                "type": "int"
+            }
+        }
+    }
 }

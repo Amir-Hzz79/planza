@@ -172,8 +172,11 @@ class _TaskDetailsAppBar extends StatelessWidget {
               left:
                   Directionality.of(context) == TextDirection.RTL ? -30 : null,
               bottom: -30,
-              child: Icon(/* goal!.icon */ Icons.fitness_center_rounded,
-                  size: 180, color: Colors.white.withOpacityDouble(0.15)),
+              child: Icon(
+                /* goal!.icon */ Icons.fitness_center_rounded,
+                size: 180,
+                color: Colors.white.withOpacityDouble(0.15),
+              ),
             ),
           ],
         ),
@@ -235,7 +238,7 @@ class _DetailsPanel extends StatelessWidget {
           if (task.tags.isNotEmpty)
             _DetailRow(
                 icon: Icons.tag,
-                title: lang.taskDetailsPage_tags_label,
+                title: lang.general_tags,
                 child: Wrap(
                   spacing: 6.0,
                   runSpacing: 6.0,
@@ -296,6 +299,7 @@ class _MarkAsCompleteButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Lang lang = Lang.of(context)!;
     bool isCompleted = task.isCompleted;
 
     return SizedBox(
@@ -304,8 +308,10 @@ class _MarkAsCompleteButton extends StatelessWidget {
         icon:
             Icon(isCompleted ? Icons.check_circle : Icons.check_circle_outline),
         label: Text(isCompleted
-            ? "Completed on ${DateFormat.yMd().format(task.doneDate!)}"
-            : "Mark as Complete"),
+            ? lang.taskDetailsPage_button_completed(
+                DateFormat.yMd().format(task.doneDate!),
+              )
+            : lang.taskDetailsPage_button_unCompleted),
         style: FilledButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 16),
           backgroundColor: isCompleted
@@ -316,7 +322,7 @@ class _MarkAsCompleteButton extends StatelessWidget {
               : Theme.of(context).colorScheme.onPrimary,
         ),
         onPressed: isCompleted
-            ? null // Disable button if already complete
+            ? null
             : () {
                 final updatedTask = task.copyWith(doneDate: DateTime.now());
                 context

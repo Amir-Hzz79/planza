@@ -8,6 +8,7 @@ import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
+import '../../../../core/locale/app_localizations.dart';
 import '../pages/task_details_page.dart';
 
 class DetailedTaskRow extends StatefulWidget {
@@ -184,16 +185,18 @@ class _DetailedTaskRowState extends State<DetailedTaskRow> {
 
   ({String text, Color color, IconData icon}) _getDeadlineInfo(
       BuildContext context, DateTime? deadline) {
+    final Lang lang = Lang.of(context)!;
+
     if (deadline == null) {
       return (
-        text: 'No date',
+        text: lang.general_noDate,
         color: Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.5),
         icon: Icons.calendar_today_outlined
       );
     }
     if (widget.task.isCompleted) {
       return (
-        text: "Completed",
+        text: lang.general_completed,
         color: Colors.green,
         icon: Icons.check_circle_outline
       );
@@ -206,14 +209,14 @@ class _DetailedTaskRowState extends State<DetailedTaskRow> {
 
     if (difference < 0) {
       return (
-        text: "Overdue",
+        text: lang.general_overdue,
         color: Theme.of(context).colorScheme.error,
         icon: Icons.error_outline
       );
     }
     if (difference == 0) {
       return (
-        text: "Due today",
+        text: lang.general_dueToday,
         color: Colors.orange.shade700,
         icon: Icons.warning_amber_rounded
       );

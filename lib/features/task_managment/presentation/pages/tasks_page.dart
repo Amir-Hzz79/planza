@@ -61,6 +61,8 @@ class _TasksPageState extends State<TasksPage> {
 
   Widget _buildActiveFiltersBar(
       List<GoalModel> allGoals, List<TagModel> allTags) {
+    final Lang lang = Lang.of(context)!;
+
     bool hasFilters =
         _showCompleted || _goalIds.isNotEmpty || _tagIds.isNotEmpty;
     if (!hasFilters) return const SizedBox.shrink();
@@ -68,7 +70,7 @@ class _TasksPageState extends State<TasksPage> {
     final List<Widget> filterPills = [];
     if (_showCompleted) {
       filterPills.add(FilterPill(
-          label: "Showing Completed",
+          label: lang.tasksPage_pills_completed,
           onDeleted: () => setState(() => _showCompleted = false)));
     }
     for (int goalId in _goalIds) {
@@ -207,10 +209,12 @@ class _TasksPageState extends State<TasksPage> {
                                 child: _isCalendarView
                                     ? CalendarTaskView(
                                         key: const ValueKey('calendar'),
-                                        tasks: tasksToShow)
+                                        tasks: tasksToShow,
+                                      )
                                     : GroupedTaskListView(
                                         key: const ValueKey('list'),
-                                        tasks: tasksToShow),
+                                        tasks: tasksToShow,
+                                      ),
                               );
                             },
                           ),

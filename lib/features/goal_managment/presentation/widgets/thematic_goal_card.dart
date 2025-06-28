@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
+import '../../../../core/locale/app_localizations.dart';
 import '../pages/goal_details.dart';
 
 class ThematicGoalCard extends StatelessWidget {
@@ -54,7 +55,7 @@ class ThematicGoalCard extends StatelessWidget {
               _buildInfoOverlay(context, completedTasks, totalTasks, progress),
               // Layer 4: A "Completed" overlay that shows when the goal is done
               if (isCompleted && !previewMode && goal.tasks.isNotEmpty)
-                _buildCompletedOverlay(),
+                _buildCompletedOverlay(context),
             ],
           ),
         ),
@@ -91,6 +92,8 @@ class ThematicGoalCard extends StatelessWidget {
 
   Widget _buildInfoOverlay(
       BuildContext context, int completed, int total, double progress) {
+    final Lang lang = Lang.of(context)!;
+
     return Container(
       height: 150.0,
       padding: const EdgeInsets.all(20.0),
@@ -114,8 +117,8 @@ class ThematicGoalCard extends StatelessWidget {
             children: [
               Text(
                 total > 0
-                    ? "$completed of $total tasks complete"
-                    : "Let's get started!",
+                    ? lang.goalCard_tasksProgress(completed, total)
+                    : lang.goalCard_noTasks,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                       color: Colors.white.withOpacityDouble(0.9),
                     ),
@@ -141,7 +144,9 @@ class ThematicGoalCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCompletedOverlay() {
+  Widget _buildCompletedOverlay(BuildContext context) {
+    final Lang lang = Lang.of(context)!;
+
     // This widget covers the entire card when the goal is completed.
     return ClipRRect(
       borderRadius: BorderRadius.circular(20.0),
@@ -156,7 +161,7 @@ class ThematicGoalCard extends StatelessWidget {
                 const Icon(Icons.check_circle, color: Colors.white, size: 48),
                 const SizedBox(height: 8),
                 Text(
-                  "GOAL ACHIEVED!",
+                  lang.goalCard_completed_title,
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 18,

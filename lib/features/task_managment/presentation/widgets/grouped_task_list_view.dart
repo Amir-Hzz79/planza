@@ -14,7 +14,7 @@ class GroupedTaskListView extends StatelessWidget {
   Widget build(BuildContext context) {
     Lang lang = Lang.of(context)!;
 
-    final groupedTasks = _groupTasksByDate(tasks);
+    final groupedTasks = _groupTasksByDate(context, tasks);
     if (groupedTasks.isEmpty) {
       return Center(child: Text(lang.tasksPage_grouped_empty));
     }
@@ -46,7 +46,10 @@ class GroupedTaskListView extends StatelessWidget {
     );
   }
 
-  Map<String, List<TaskModel>> _groupTasksByDate(List<TaskModel> tasks) {
+  Map<String, List<TaskModel>> _groupTasksByDate(
+      BuildContext context, List<TaskModel> tasks) {
+    final Lang lang = Lang.of(context)!;
+
     final Map<String, List<TaskModel>> grouped = {};
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -55,16 +58,16 @@ class GroupedTaskListView extends StatelessWidget {
     for (final task in tasks.where((t) => !t.isCompleted)) {
       String groupKey;
       if (task.dueDate == null) {
-        groupKey = "No Date";
+        groupKey = lang.general_noDate;
       } else {
         final dueDate = DateTime(
             task.dueDate!.year, task.dueDate!.month, task.dueDate!.day);
         if (dueDate.isBefore(today)) {
-          groupKey = "Overdue";
+          groupKey = lang.general_overdue;
         } else if (dueDate == today) {
-          groupKey = "Today";
+          groupKey = lang.general_today;
         } else if (dueDate == tomorrow) {
-          groupKey = "Tomorrow";
+          groupKey = lang.general_tomarrow;
         } else {
           groupKey = DateFormat.MMMMd().format(dueDate);
         }
@@ -75,7 +78,11 @@ class GroupedTaskListView extends StatelessWidget {
     // Custom sort order for groups
     final sortedKeys = grouped.keys.toList()
       ..sort((a, b) {
-        const order = {"Overdue": 0, "Today": 1, "Tomorrow": 2};
+        final order = {
+          lang.general_overdue: 0,
+          lang.general_today: 1,
+          lang.general_tomarrow: 2
+        };
         return (order[a] ?? 99).compareTo(order[b] ?? 99);
       });
 

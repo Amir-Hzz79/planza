@@ -132,19 +132,16 @@ class GoalsPage extends StatelessWidget {
   }
 }
 
-// --- Carousel for Featured Goals ---
 class _FeaturedGoalsCarousel extends StatelessWidget {
   final List<GoalModel> goals;
   const _FeaturedGoalsCarousel({required this.goals});
 
   @override
   Widget build(BuildContext context) {
-    // PageView provides a nice snapping effect for a hero carousel.
     return SizedBox(
       height: 220,
       child: PageView.builder(
-        controller: PageController(
-            viewportFraction: 0.85), // Shows a glimpse of the next card
+        controller: PageController(viewportFraction: 0.85),
         itemCount: goals.length,
         itemBuilder: (context, index) {
           final goal = goals[index];
@@ -155,14 +152,12 @@ class _FeaturedGoalsCarousel extends StatelessWidget {
   }
 }
 
-// --- Carousel for Completed Goals ---
 class _CompletedGoalsCarousel extends StatelessWidget {
   final List<GoalModel> goals;
   const _CompletedGoalsCarousel({required this.goals});
 
   @override
   Widget build(BuildContext context) {
-    // A horizontal ListView is great for a continuous scroll.
     return SizedBox(
       height: 160,
       child: ListView.builder(
@@ -177,5 +172,3 @@ class _CompletedGoalsCarousel extends StatelessWidget {
     );
   }
 }
-
-// --- Individual Card Widgets ---

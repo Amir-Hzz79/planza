@@ -14,8 +14,7 @@ class AchievementDetailsPage extends StatelessWidget {
     Lang lang = Lang.of(context)!;
 
     return Scaffold(
-      backgroundColor:
-          Colors.black,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -42,7 +41,7 @@ class AchievementDetailsPage extends StatelessWidget {
               Icon(Icons.emoji_events, size: 80, color: Colors.amber.shade400),
               const SizedBox(height: 16),
               Text(
-                "GOAL ACHIEVED!",
+                lang.goalAchievement_title,
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -60,13 +59,21 @@ class AchievementDetailsPage extends StatelessWidget {
                     ),
               ),
               const SizedBox(height: 24),
-              _buildStatRow("Tasks Completed", "${goal.tasks.length}"),
+              _buildStatRow(
+                lang.goalAchievement_tasksCompleted_title,
+                "${goal.tasks.length}",
+              ),
               const Divider(color: Colors.white24),
-              _buildStatRow("Duration", "${goal.durationInDays} Days"),
+              _buildStatRow(
+                lang.general_duration,
+                lang.general_duration_day(goal.durationInDays),
+              ),
               const Divider(color: Colors.white24),
               if (goal.completedDate != null)
-                _buildStatRow("Completed On",
-                    DateFormat.yMMMMd().format(goal.completedDate!)),
+                _buildStatRow(
+                  lang.goalAchievement_completed_title,
+                  DateFormat.yMMMMd().format(goal.completedDate!),
+                ),
             ],
           ),
         ),
@@ -76,7 +83,7 @@ class AchievementDetailsPage extends StatelessWidget {
           // TODO: Implement sharing logic using a package like share_plus
           // Share.share('I just completed my goal: "${goal.name}" on Planza!');
         },
-        label:  Text(lang.general_share),
+        label: Text(lang.general_share),
         icon: const Icon(Icons.share),
         backgroundColor: Colors.amber.shade400,
         foregroundColor: Colors.black,
@@ -90,13 +97,15 @@ class AchievementDetailsPage extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(label,
-              style: const TextStyle(color: Colors.white70, fontSize: 16)),
-          Text(value,
-              style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold)),
+          Text(
+            label,
+            style: const TextStyle(color: Colors.white70, fontSize: 16),
+          ),
+          Text(
+            value,
+            style: const TextStyle(
+                color: Colors.white, fontSize: 16, fontWeight: FontWeight.bold),
+          ),
         ],
       ),
     );
