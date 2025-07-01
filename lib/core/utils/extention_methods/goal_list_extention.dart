@@ -6,7 +6,7 @@ import 'package:planza/core/utils/extention_methods/task_list_extention.dart';
 extension GoalListExtention on List<GoalModel> {
   List<GoalModel> filterOnDate(DateTime date) {
     return where(
-      (goal) => goal.deadline == null ? false : goal.deadline!.sameDay(date),
+      (goal) => goal.deadline == null ? false : goal.deadline!.isSameDay(date),
     ).toList();
   }
 

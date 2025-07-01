@@ -614,7 +614,7 @@ abstract class Lang {
   /// No description provided for @tasksPage_calendar_noTasks.
   ///
   /// In en, this message translates to:
-  /// **'No tasks for this day.'**
+  /// **'No tasks scheduled.'**
   String get tasksPage_calendar_noTasks;
 
   /// No description provided for @tasksPage_calendar_addTask_toolTip.

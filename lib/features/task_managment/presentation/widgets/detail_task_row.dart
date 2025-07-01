@@ -1,7 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
 
 import 'package:planza/core/data/models/task_model.dart';
@@ -9,6 +8,7 @@ import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/utils/app_date_formatter.dart';
 import '../pages/task_details_page.dart';
 
 class DetailedTaskRow extends StatefulWidget {
@@ -222,7 +222,7 @@ class _DetailedTaskRowState extends State<DetailedTaskRow> {
       );
     }
     return (
-      text: DateFormat.MMMd().format(deadline),
+      text: AppDateFormatter.of(context).formatFullDate(deadline),
       color: Theme.of(context).colorScheme.onSurface.withOpacityDouble(0.7),
       icon: Icons.calendar_today_outlined
     );

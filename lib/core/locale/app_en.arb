@@ -121,7 +121,7 @@
         }
     },
     "tasksPage_filter_tagSelection_title": "Select Tags",
-    "tasksPage_calendar_noTasks": "No tasks for this day.",
+    "tasksPage_calendar_noTasks": "No tasks scheduled.",
     "tasksPage_calendar_addTask_toolTip": "Add Task for this day",
     "tasksPage_calendar_sheet_title": "Tasks for {date}",
     "@tasksPage_calendar_sheet_title": {

@@ -40,7 +40,8 @@ dependencies:
   shamsi_date: ^1.1.0
   flutter_persian_calendar: ^0.0.3
   persian_datetime_picker: ^3.1.0
-  
+  shamsi_calendar: ^0.0.1
+
 dev_dependencies:
   flutter_test:
     sdk: flutter

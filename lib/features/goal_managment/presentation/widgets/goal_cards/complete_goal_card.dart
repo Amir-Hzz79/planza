@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'package:planza/core/utils/app_date_formatter.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../../core/data/models/goal_model.dart';
@@ -89,7 +89,7 @@ class CompletedGoalCard extends StatelessWidget {
                 const SizedBox(height: 4),
                 if (goal.completedDate != null)
                   Text(
-                    "Completed on ${DateFormat.yMMMd().format(goal.completedDate!)}",
+                    "Completed on ${AppDateFormatter.of(context).formatFullDate(goal.completedDate!)}",
                     style:
                         theme.textTheme.bodySmall?.copyWith(color: Colors.grey),
                   ),

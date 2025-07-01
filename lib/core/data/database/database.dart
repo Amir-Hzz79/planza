@@ -599,7 +599,6 @@ class AppDatabase extends _$AppDatabase {
   }
 
   @override
-  // TODO: implement migration
   MigrationStrategy get migration => MigrationStrategy(
         onUpgrade: (migrator, from, to) async {
           if (from < 2) {

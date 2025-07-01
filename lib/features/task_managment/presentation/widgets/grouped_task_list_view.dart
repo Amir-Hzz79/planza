@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
 import 'package:planza/core/data/models/task_model.dart';
 
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/utils/app_date_formatter.dart';
 import 'glassy_task_tile.dart';
 
 class GroupedTaskListView extends StatelessWidget {
@@ -69,7 +69,7 @@ class GroupedTaskListView extends StatelessWidget {
         } else if (dueDate == tomorrow) {
           groupKey = lang.general_tomarrow;
         } else {
-          groupKey = DateFormat.MMMMd().format(dueDate);
+          groupKey = AppDateFormatter.of(context).formatShortDate(dueDate);
         }
       }
       grouped.putIfAbsent(groupKey, () => []).add(task);

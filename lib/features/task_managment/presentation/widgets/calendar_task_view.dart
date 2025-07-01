@@ -3,12 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:intl/intl.dart';
 
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/data/bloc/task_bloc/task_bloc.dart';
 
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/utils/app_date_formatter.dart';
+import '../../../../core/widgets/calendar/adaptive_calendar.dart';
 import 'task_entry_sheet.dart';
 import 'glassy_task_tile.dart';
 
@@ -23,21 +24,20 @@ class CalendarTaskView extends StatefulWidget {
 class _CalendarTaskViewState extends State<CalendarTaskView> {
   final DraggableScrollableController _sheetController =
       DraggableScrollableController();
-  final double _snapInitial = 0.25;
-  final double _snapMiddle = 0.5;
-  final double _snapFull = 0.85;
+  final double _snapInitial = 0.15;
+  final double _snapMiddle = 0.45;
 
   DateTime _focusedDay = DateTime.now();
-  DateTime? _selectedDay;
-  late List<TaskModel> _selectedDayTasks;
-  late Map<DateTime, List<TaskModel>> _tasksByDay;
+  DateTime _selectedDay = DateTime.now();
+
+  Map<DateTime, List<TaskModel>> _tasksByDay = {};
+  List<TaskModel> _selectedDayTasks = [];
 
   @override
   void initState() {
     super.initState();
-    _selectedDay = _focusedDay;
     _groupTasksByDay();
-    _selectedDayTasks = _getTasksForDay(_selectedDay!);
+    _selectedDayTasks = _getTasksForDay(_selectedDay);
   }
 
   @override
@@ -45,11 +45,9 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
     super.didUpdateWidget(oldWidget);
     if (widget.tasks != oldWidget.tasks) {
       _groupTasksByDay();
-      if (_selectedDay != null) {
-        setState(() {
-          _selectedDayTasks = _getTasksForDay(_selectedDay!);
-        });
-      }
+      setState(() {
+        _selectedDayTasks = _getTasksForDay(_selectedDay);
+      });
     }
   }
 
@@ -57,9 +55,9 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
     _tasksByDay = {};
     for (final task in widget.tasks) {
       if (task.dueDate != null) {
-        final day = DateTime.utc(
+        final dayKey = DateTime.utc(
             task.dueDate!.year, task.dueDate!.month, task.dueDate!.day);
-        _tasksByDay.putIfAbsent(day, () => []).add(task);
+        _tasksByDay.putIfAbsent(dayKey, () => []).add(task);
       }
     }
   }
@@ -68,194 +66,82 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
     return _tasksByDay[DateTime.utc(day.year, day.month, day.day)] ?? [];
   }
 
-  void _onScrollEnd() {
-    final currentSize = _sheetController.size;
-    double closestSnap = _snapInitial;
+  void _onDaySelected(DateTime selectedDay) {
+    if (!mounted) return;
+    setState(() {
+      _selectedDay = selectedDay;
+      _selectedDayTasks = _getTasksForDay(selectedDay);
+    });
 
-    final distToInitial = (currentSize - _snapInitial).abs();
-    final distToMiddle = (currentSize - _snapMiddle).abs();
-    final distToFull = (currentSize - _snapFull).abs();
-
-    if (distToMiddle < distToInitial && distToMiddle < distToFull) {
-      closestSnap = _snapMiddle;
-    } else if (distToFull < distToInitial) {
-      closestSnap = _snapFull;
-    }
-
-    _sheetController.animateTo(
-      closestSnap,
-      duration: const Duration(milliseconds: 300),
-      curve: Curves.easeOutCubic,
-    );
+    Future.delayed(Duration.zero, () {
+      if (_sheetController.isAttached) {
+        final targetSnap =
+            _selectedDayTasks.isNotEmpty ? _snapMiddle : _snapInitial;
+        _sheetController.animateTo(
+          targetSnap,
+          duration: const Duration(milliseconds: 300),
+          curve: Curves.easeOutCubic,
+        );
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        _buildTableCalendar(context),
-        NotificationListener<DraggableScrollableNotification>(
-          onNotification: (notification) {
-            if (notification is ScrollEndNotification) {
-              _onScrollEnd();
-            }
-            return false;
-          },
-          child: _buildDraggableTaskSheet(context),
+        // The Adaptive Calendar
+        Column(
+          children: [
+            AdaptiveCalendar(
+              focusedMonth: _focusedDay,
+              selectedDate: _selectedDay,
+              onDaySelected: _onDaySelected,
+              onMonthChanged: (day) => setState(() => _focusedDay = day),
+              dayBuilder: (context, day, dayNumber) {
+                return _CustomDayCell(
+                  dayNumber: dayNumber,
+                  tasks: _getTasksForDay(day),
+                  isSelected: isSameDay(_selectedDay, day),
+                  isToday: isSameDay(DateTime.now(), day),
+                  onTap: () => _onDaySelected(day),
+                );
+              },
+            ),
+          ],
+        ),
+
+        // The Draggable Task Panel
+        _DraggableTaskSheet(
+          controller: _sheetController,
+          selectedDay: _selectedDay,
+          tasks: _selectedDayTasks,
         ),
       ],
     );
   }
+}
 
-  Widget _buildTableCalendar(BuildContext context) {
-    final theme = Theme.of(context);
-    return TableCalendar(
-      firstDay: DateTime.utc(2020, 1, 1),
-      lastDay: DateTime.utc(2030, 12, 31),
-      focusedDay: _focusedDay,
-      calendarFormat: CalendarFormat.month,
-      selectedDayPredicate: (day) => isSameDay(_selectedDay, day),
-      onDaySelected: (selectedDay, focusedDay) {
-        setState(() {
-          _selectedDay = selectedDay;
-          _focusedDay = focusedDay;
-          _selectedDayTasks = _getTasksForDay(selectedDay);
-        });
-        Future.delayed(Duration.zero, () {
-          if (_sheetController.isAttached) {
-            if (_selectedDayTasks.isNotEmpty) {
-              _sheetController.animateTo(_snapMiddle,
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeOut);
-            } else {
-              _sheetController.animateTo(_snapInitial,
-                  duration: const Duration(milliseconds: 400),
-                  curve: Curves.easeOut);
-            }
-          }
-        });
-      },
-      headerStyle: HeaderStyle(
-        titleCentered: true,
-        titleTextStyle:
-            theme.textTheme.titleMedium!.copyWith(fontWeight: FontWeight.bold),
-        formatButtonVisible: false,
-        leftChevronIcon:
-            Icon(Icons.chevron_left, color: theme.colorScheme.primary),
-        rightChevronIcon:
-            Icon(Icons.chevron_right, color: theme.colorScheme.primary),
-      ),
-      daysOfWeekStyle: DaysOfWeekStyle(
-        weekdayStyle: TextStyle(
-            color: theme.colorScheme.onSurface.withOpacityDouble(0.6)),
-        weekendStyle:
-            TextStyle(color: theme.colorScheme.primary.withOpacityDouble(0.8)),
-      ),
-      calendarStyle: const CalendarStyle(
-        outsideDaysVisible: false,
-      ),
-      calendarBuilders: CalendarBuilders(
-        selectedBuilder: (context, day, focusedDay) {
-          final tasks = _getTasksForDay(day);
-          final colors = tasks
-              .map((t) => t.goal?.color)
-              .whereType<Color>()
-              .toSet()
-              .toList();
+class _DraggableTaskSheet extends StatelessWidget {
+  final DraggableScrollableController controller;
+  final DateTime selectedDay;
+  final List<TaskModel> tasks;
 
-          final List<Color> gradientColors;
-          if (colors.isEmpty) {
-            gradientColors = [
-              theme.colorScheme.primary,
-              theme.colorScheme.primary.withOpacityDouble(0.6)
-            ];
-          } else if (colors.length == 1) {
-            gradientColors = [colors[0], colors[0].withOpacityDouble(0.6)];
-          } else {
-            gradientColors = colors;
-          }
+  const _DraggableTaskSheet({
+    required this.controller,
+    required this.selectedDay,
+    required this.tasks,
+  });
 
-          return AnimatedContainer(
-            duration: const Duration(milliseconds: 300),
-            margin: const EdgeInsets.all(4.0),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: gradientColors,
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-              shape: BoxShape.circle,
-            ),
-            child: Center(
-              child: Text(
-                '${day.day}',
-                style: const TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
-              ),
-            ),
-          );
-        },
-        todayBuilder: (context, day, focusedDay) {
-          return Center(
-            child: Text(
-              '${day.day}',
-              style: TextStyle(
-                  color: theme.colorScheme.primary,
-                  fontWeight: FontWeight.bold),
-            ),
-          );
-        },
-        defaultBuilder: (context, day, focusedDay) {
-          final tasks = _getTasksForDay(day);
-          if (tasks.isNotEmpty) {
-            final colors = tasks
-                .map((t) => t.goal?.color)
-                .whereType<Color>()
-                .toSet()
-                .toList();
-
-            if (colors.isNotEmpty) {
-              final List<Color> gradientColors;
-              if (colors.length > 1) {
-                gradientColors = [
-                  colors[0].withOpacityDouble(0.3),
-                  colors[1].withOpacityDouble(0.3)
-                ];
-              } else {
-                gradientColors = [
-                  colors[0].withOpacityDouble(0.3),
-                  colors[0].withOpacityDouble(0.15)
-                ];
-              }
-              return AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                margin: const EdgeInsets.all(8.0),
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    colors: gradientColors,
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
-                  shape: BoxShape.circle,
-                ),
-                child: Center(child: Text(day.day.toString())),
-              );
-            }
-          }
-          return null;
-        },
-      ),
-    );
-  }
-
-  Widget _buildDraggableTaskSheet(BuildContext context) {
+  @override
+  Widget build(BuildContext context) {
     Lang lang = Lang.of(context)!;
 
     return DraggableScrollableSheet(
-      controller: _sheetController,
-      initialChildSize: _snapInitial,
-      minChildSize: _snapInitial,
-      maxChildSize: _snapFull,
+      controller: controller,
+      initialChildSize: 0.25,
+      minChildSize: 0.25,
+      maxChildSize: 0.85,
       builder: (context, scrollController) {
         final theme = Theme.of(context);
         return ClipRRect(
@@ -288,13 +174,11 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        if (_selectedDay != null)
-                          Text(
-                            lang.tasksPage_calendar_sheet_title(
-                                DateFormat.MMMMd().format(_selectedDay!)),
+                        Text(
+                            AppDateFormatter.of(context)
+                                .formatShortDate(selectedDay),
                             style: theme.textTheme.titleMedium
-                                ?.copyWith(fontWeight: FontWeight.bold),
-                          ),
+                                ?.copyWith(fontWeight: FontWeight.bold)),
                         IconButton(
                           icon: const Icon(Icons.add_circle),
                           color: theme.colorScheme.primary,
@@ -303,14 +187,16 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
-                              /* backgroundColor: Colors.transparent, */
                               builder: (ctx) => TaskEntrySheet(
                                 initialTask:
-                                    TaskModel(title: '', dueDate: _selectedDay),
+                                    TaskModel(title: '', dueDate: selectedDay),
                                 onSubmit: (newTask) {
                                   context
                                       .read<TaskBloc>()
                                       .add(TaskAddedEvent(newTask: newTask));
+                                  /* showAppSnackBar(context,
+                                      message:
+                                          "Task '${newTask.title}' added!"); */
                                 },
                               ),
                             );
@@ -319,17 +205,16 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
                       ],
                     ),
                   ),
+                  const Divider(height: 1),
                   Expanded(
-                    child: _selectedDayTasks.isEmpty
+                    child: tasks.isEmpty
                         ? Center(child: Text(lang.tasksPage_calendar_noTasks))
                         : ListView.builder(
                             controller: scrollController,
                             padding: const EdgeInsets.only(top: 8, bottom: 80),
-                            itemCount: _selectedDayTasks.length,
-                            itemBuilder: (context, index) {
-                              return GlassyTaskCard(
-                                  task: _selectedDayTasks[index]);
-                            },
+                            itemCount: tasks.length,
+                            itemBuilder: (context, index) =>
+                                GlassyTaskCard(task: tasks[index]),
                           ),
                   ),
                 ],
@@ -338,6 +223,98 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
           ),
         );
       },
+    );
+  }
+}
+
+class _CustomDayCell extends StatelessWidget {
+  final int dayNumber;
+  final List<TaskModel> tasks;
+  final bool isSelected;
+  final bool isToday;
+  final VoidCallback onTap;
+
+  const _CustomDayCell({
+    required this.dayNumber,
+    required this.tasks,
+    required this.isSelected,
+    required this.isToday,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    final colors =
+        tasks.map((t) => t.goal?.color).whereType<Color>().toSet().toList();
+
+    BoxDecoration? decoration;
+    TextStyle textStyle = TextStyle(color: theme.colorScheme.onSurface);
+
+    if (isSelected) {
+      final gradientColors = colors.isNotEmpty
+          ? (colors.length > 1
+              ? colors
+              : [colors[0], colors[0].withOpacityDouble(0.6)])
+          : [
+              theme.colorScheme.primary,
+              theme.colorScheme.primary.withOpacityDouble(0.6)
+            ];
+
+      decoration = BoxDecoration(
+          /* border: Border.all(color: theme.colorScheme.primary, width: 1), */
+          gradient: LinearGradient(
+            colors: gradientColors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          shape: BoxShape.circle,
+          boxShadow: [
+            BoxShadow(
+              color: gradientColors.first.withOpacityDouble(0.4),
+              blurRadius: 8.0,
+            )
+          ]);
+      textStyle =
+          const TextStyle(color: Colors.white, fontWeight: FontWeight.bold);
+    } else if (tasks.isNotEmpty && colors.isNotEmpty) {
+      final gradientColors = colors.length > 1
+          ? [
+              colors[0].withOpacityDouble(0.3),
+              colors[1].withOpacityDouble(0.3),
+            ]
+          : [
+              colors[0].withOpacityDouble(0.3),
+              colors[0].withOpacityDouble(0.2)
+            ];
+
+      decoration = BoxDecoration(
+        border: isToday
+            ? Border.all(color: theme.colorScheme.primary, width: 1)
+            : null,
+        gradient: LinearGradient(
+            colors: gradientColors,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight),
+        shape: BoxShape.circle,
+      );
+    }
+
+    return InkResponse(
+      onTap: onTap,
+      customBorder: const CircleBorder(),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 300),
+        margin: const EdgeInsets.all(6.0),
+        decoration: decoration,
+        child: Center(
+          child: Text(
+            '$dayNumber',
+            style: textStyle,
+          ),
+        ),
+      ),
     );
   }
 }

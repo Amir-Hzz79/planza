@@ -5,7 +5,7 @@ import '../../data/models/task_model.dart';
 extension TaskListExtention on List<TaskModel> {
   List<TaskModel> filterOnDate(DateTime date) {
     return where(
-      (task) => task.dueDate == null ? false : task.dueDate!.sameDay(date),
+      (task) => task.dueDate == null ? false : task.dueDate!.isSameDay(date),
     ).toList();
   }
 

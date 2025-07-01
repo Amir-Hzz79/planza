@@ -8,6 +8,7 @@ import 'package:planza/core/data/models/task_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/utils/app_date_formatter.dart';
 import '../../../goal_managment/presentation/pages/goal_details.dart';
 import '../widgets/task_entry_sheet.dart';
 
@@ -226,9 +227,12 @@ class _DetailsPanel extends StatelessWidget {
             ),
           if (task.dueDate != null)
             _DetailRow(
-                icon: Icons.calendar_today_outlined,
-                title: lang.taskDetailsPage_date_label,
-                child: Text(DateFormat.yMMMMd().format(task.dueDate!))),
+              icon: Icons.calendar_today_outlined,
+              title: lang.taskDetailsPage_date_label,
+              child: Text(
+                AppDateFormatter.of(context).formatFullDate(task.dueDate!),
+              ),
+            ),
           if (task.priority != null)
             _DetailRow(
                 icon: Icons.priority_high_rounded,
@@ -309,7 +313,7 @@ class _MarkAsCompleteButton extends StatelessWidget {
             Icon(isCompleted ? Icons.check_circle : Icons.check_circle_outline),
         label: Text(isCompleted
             ? lang.taskDetailsPage_button_completed(
-                DateFormat.yMd().format(task.doneDate!),
+                AppDateFormatter.of(context).formatShortDate(task.doneDate!),
               )
             : lang.taskDetailsPage_button_unCompleted),
         style: FilledButton.styleFrom(

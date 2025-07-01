@@ -13,6 +13,8 @@ import 'package:planza/features/task_managment/presentation/widgets/filter_sheet
 import '../../../../core/data/models/goal_model.dart';
 import '../../../../core/data/models/tag_model.dart';
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/widgets/appbar/general_app_bar.dart';
+import '../../../home/presentation/widgets/drawer/drawer_section.dart';
 import '../widgets/filter_pill.dart';
 
 class TasksPage extends StatefulWidget {
@@ -124,7 +126,9 @@ class _TasksPageState extends State<TasksPage> {
               return TaskBlocBuilder(
                 onDataLoaded: (allTasks) {
                   return Scaffold(
+                    drawer: DrawerSection(),
                     appBar: AppBar(
+                      leading: GeneralAppBar(),
                       title: _isSearching
                           ? TextField(
                               controller: _searchController,
@@ -134,29 +138,42 @@ class _TasksPageState extends State<TasksPage> {
                                   border: InputBorder.none),
                               onChanged: (query) => setState(() {}),
                             )
-                          : Text(lang.tasksPage_title,
-                              style: TextStyle(fontWeight: FontWeight.bold)),
+                          : Text(
+                              lang.tasksPage_title,
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
                       actions: _isSearching
                           ? [
                               IconButton(
-                                  icon: const Icon(Icons.close),
-                                  onPressed: () =>
-                                      setState(() => _isSearching = false))
+                                icon: const Icon(Icons.close),
+                                onPressed: () => setState(
+                                  () => _isSearching = false,
+                                ),
+                              )
                             ]
                           : [
                               IconButton(
-                                  icon: Icon(_isCalendarView
+                                icon: Icon(
+                                  _isCalendarView
                                       ? Icons.view_list_outlined
-                                      : Icons.calendar_month_outlined),
-                                  onPressed: () => setState(() =>
-                                      _isCalendarView = !_isCalendarView)),
+                                      : Icons.calendar_month_outlined,
+                                ),
+                                onPressed: () => setState(
+                                  () => _isCalendarView = !_isCalendarView,
+                                ),
+                              ),
                               IconButton(
-                                  icon: const Icon(Icons.filter_list),
-                                  onPressed: _showFilterPanel),
+                                icon: const Icon(Icons.filter_alt_rounded),
+                                onPressed: _showFilterPanel,
+                              ),
                               IconButton(
-                                  icon: const Icon(Icons.search),
-                                  onPressed: () =>
-                                      setState(() => _isSearching = true)),
+                                icon: const Icon(Icons.search),
+                                onPressed: () => setState(
+                                  () => _isSearching = true,
+                                ),
+                              ),
                             ],
                     ),
                     body: Column(

@@ -45,7 +45,7 @@ final ColorScheme darkColorScheme = ColorScheme(
   onTertiary: Colors.black,
   tertiaryContainer: Color(0xFF388E3C),
   onTertiaryContainer: Color(0xFFC8E6C9),
-  surface: Color(0xFF1E1E1E),
+  surface: Colors.black,
   onSurface: Color(0xFFE0E0E0),
   onSurfaceVariant: Color(0xFFB0BEC5),
   surfaceContainer: Color(0xFF2B2B2B),

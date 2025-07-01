@@ -277,7 +277,7 @@ class LangEn extends Lang {
   String get tasksPage_filter_tagSelection_title => 'Select Tags';
 
   @override
-  String get tasksPage_calendar_noTasks => 'No tasks for this day.';
+  String get tasksPage_calendar_noTasks => 'No tasks scheduled.';
 
   @override
   String get tasksPage_calendar_addTask_toolTip => 'Add Task for this day';

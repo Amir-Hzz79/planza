@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:intl/intl.dart';
 
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
@@ -178,18 +177,22 @@ class _TaskEntrySheetState extends State<TaskEntrySheet> {
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          16, 16, 16, MediaQuery.of(context).viewInsets.bottom + 16),
+        16,
+        16,
+        16,
+        MediaQuery.of(context).viewInsets.bottom + 16,
+      ),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
+          /* Text(
             _isEditing
                 ? lang.addTaskSheet_title_edit
                 : lang.addTaskSheet_title_add,
             style: theme.textTheme.titleLarge,
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 8), */
           TextField(
             controller: _titleController,
             autofocus: true,

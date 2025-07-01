@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
+import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
 
 import 'package:planza/features/home/presentation/widgets/section_header.dart';
 import 'package:planza/features/home/presentation/widgets/metric_item.dart';
@@ -11,6 +11,7 @@ import 'package:planza/features/home/presentation/widgets/speed_dial_fab.dart';
 import 'package:planza/core/data/models/task_model.dart';
 
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/utils/app_date_formatter.dart';
 import '../../../../core/widgets/appbar/general_app_bar.dart';
 import '../../../task_managment/presentation/widgets/glassy_task_tile.dart';
 import '../widgets/drawer/drawer_section.dart';
@@ -109,7 +110,8 @@ class HomePage extends StatelessWidget {
 
   Widget _buildSliverAppBar(BuildContext context) {
     final String greeting = _getGreeting(context);
-    final String today = DateFormat.yMMMMd().format(DateTime.now());
+    final String today =
+        AppDateFormatter.of(context).formatFullDate(DateTime.now());
 
     return SliverAppBar(
       floating: true,
@@ -186,12 +188,5 @@ class HomePage extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-// Helper extension for checking date equality
-extension DateOnlyCompare on DateTime {
-  bool isSameDay(DateTime other) {
-    return year == other.year && month == other.month && day == other.year;
   }
 }

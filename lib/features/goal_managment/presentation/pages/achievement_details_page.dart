@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/utils/app_date_formatter.dart';
 
 class AchievementDetailsPage extends StatelessWidget {
   final GoalModel goal;
@@ -72,7 +72,8 @@ class AchievementDetailsPage extends StatelessWidget {
               if (goal.completedDate != null)
                 _buildStatRow(
                   lang.goalAchievement_completed_title,
-                  DateFormat.yMMMMd().format(goal.completedDate!),
+                  AppDateFormatter.of(context)
+                      .formatFullDate(goal.completedDate!),
                 ),
             ],
           ),
