@@ -5,7 +5,7 @@ import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 import 'package:planza/core/theme/app_theme.dart';
 
-import '../../data/services/theme_prefrence_servie.dart';
+import '../../services/theme_prefrence_servie.dart';
 
 part 'theme_event.dart';
 part 'theme_state.dart';

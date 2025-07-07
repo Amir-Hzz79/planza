@@ -3,7 +3,7 @@ import 'dart:ui' show PlatformDispatcher;
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show BuildContext, Locale;
 import 'package:get_it/get_it.dart';
-import 'package:planza/core/data/services/locale_prefrence_service.dart';
+import 'package:planza/core/services/locale_prefrence_service.dart';
 
 abstract class LocaleEvent extends Equatable {
   final LocalePreferenceService _preferenceService =

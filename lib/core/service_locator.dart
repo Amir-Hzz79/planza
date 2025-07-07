@@ -4,11 +4,10 @@ import 'package:planza/core/data/data_access_object/task_dao.dart';
 import 'package:planza/core/data/database/database.dart';
 
 import 'data/data_access_object/tag_dao.dart';
-import 'data/services/locale_prefrence_service.dart';
-import 'data/services/theme_prefrence_servie.dart';
+import 'services/locale_prefrence_service.dart';
+import 'services/theme_prefrence_servie.dart';
+import 'services/notification_service.dart';
 
-/* final sl = GetIt.instance;
- */
 Future<void> initServices() async {
   final AppDatabase database = AppDatabase();
 
@@ -34,5 +33,9 @@ Future<void> initServices() async {
 
   GetIt.instance.registerLazySingleton(
     () => LocalePreferenceService(),
+  );
+
+  GetIt.instance.registerLazySingleton(
+    () => NotificationService().init(),
   );
 }

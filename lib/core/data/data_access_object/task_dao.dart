@@ -43,8 +43,8 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
   Future<Task> getTaskById(int id) =>
       (select(tasks)..where((t) => t.id.equals(id))).getSingle();
 
-  Future<void> insertTask(TaskModel task) async {
-    return await transaction(() async {
+  Future<int> insertTask(TaskModel task) async {
+    return await transaction<int>(() async {
       final newTaskId = await into(tasks).insert(task.toCompanion());
 
       if (task.tags.isNotEmpty) {
@@ -59,6 +59,8 @@ class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
           b.insertAll(taskTags, tagCompanions);
         });
       }
+
+      return newTaskId;
     });
   }
 

@@ -6,11 +6,15 @@ import 'package:planza/core/data/data_access_object/task_dao.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:uuid/uuid.dart';
 
+import '../../../services/notification_service.dart';
+
 part 'task_event.dart';
 part 'task_state.dart';
 
 class TaskBloc extends Bloc<TaskEvent, TaskState> {
   final TaskDao _taskDao = GetIt.instance.get<TaskDao>();
+  final NotificationService _notificationService =
+      GetIt.instance.get<NotificationService>();
   StreamSubscription<List<TaskModel>>? _subscription;
 
   TaskBloc() : super(TaskInitial()) {
@@ -50,7 +54,11 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       emit(TasksLoadedState(optimisticTasks));
 
       try {
-        await _taskDao.insertTask(event.newTask);
+        int newTaskId = await _taskDao.insertTask(event.newTask);
+
+        await _notificationService.scheduleTaskReminder(
+          event.newTask.copyWith(id: newTaskId),
+        );
       } catch (e) {
         // If the database call fails, revert the UI to the previous state and show an error.
         emit(TasksLoadedState(currentState.tasks));
@@ -73,6 +81,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
       try {
         await _taskDao.updateTaskAndSyncTags(event.newTask);
+
+        await _notificationService.scheduleTaskReminder(event.newTask);
       } catch (e) {
         emit(TasksLoadedState(currentState.tasks));
         emit(TaskErrorState('Failed to update task. Please try again.'));
@@ -93,6 +103,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
 
       try {
         await _taskDao.deleteTask(event.task.id!);
+
+        await _notificationService.cancelTaskReminder(event.task.id!);
       } catch (e) {
         emit(TasksLoadedState(currentState.tasks));
         emit(TaskErrorState('Failed to delete task. Please try again.'));
