@@ -15,7 +15,9 @@ Planza is a task management app built with Flutter, designed to help users stay 
 | :---: | :---: |
 | <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg?raw=true" width="250"> | <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Achievement.jpg?raw=true" width="250"> |
 
-✨ Features
+
+
+## ✨ Features
 Create & Manage Tasks: Easily add, edit, complete, and delete tasks.
 
 Set Deadlines: Assign due dates and reminders to stay on track.
@@ -32,7 +34,7 @@ Localization: Support for multiple languages to cater to a global audience.
 
 Clean UI: A modern and intuitive user interface for a seamless experience.
 
-🛠️ Tech Stack & Tools
+## 🛠️ Tech Stack & Tools
 Framework: Flutter
 
 Language: Dart
