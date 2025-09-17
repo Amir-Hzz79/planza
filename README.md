@@ -39,8 +39,8 @@ Framework: Flutter
 
 Language: Dart
 
-State Management: (e.g., Provider, BLoC)
+State Management: (Provider, BLoC, e.g.)
 
-Database: (e.g., SQLite, Drift)
+Database: (SQLite, Drift, e.g.)
 
-Architecture: (e.g., MVVM, Clean Architecture)
+Architecture: (MVVM, Clean Architecture, e.g.)
