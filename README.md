@@ -7,10 +7,10 @@ Planza is a task management app built with Flutter, designed to help users stay 
 Home-Screen	Goals-Screen Tasks-Screen
 <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/HomeScreen.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalsScreen.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TasksScreen.jpg" width="250">
 
-Calendar-View	Goal-Setting	Task-Entry
+Calendar-View       	Goal-Setting        	Task-Entry
 <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Calendar.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalDetails.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TaskEntry.jpg" width="250">
 
-Goal-Entry	Achievement	Goal-Entry
+Goal-Entry      	Achievement         	Goal-Entry
 <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Achievement.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg" width="250">
 
 ✨ Features
