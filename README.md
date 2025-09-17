@@ -7,15 +7,12 @@ To display your app's screenshots in a clean grid, you can use a table.
 Home Screen	Goals Screen	Tasks Screen
 <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/HomeScreen.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalsScreen.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TasksScreen.jpg?raw=true" width="250">
 
-صادر کردن به «کاربرگ‌نگار»
 Calendar View	Goal Details	Task Entry
 <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Calendar.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalDetails.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TaskEntry.jpg?raw=true" width="250">
 
-صادر کردن به «کاربرگ‌نگار»
 Goal Entry	Achievement
 <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Achievement.jpg?raw=true" width="250">
 
-صادر کردن به «کاربرگ‌نگار»
 ✨ Features
 Create & Manage Tasks: Easily add, edit, complete, and delete tasks.
 
