@@ -4,14 +4,24 @@ Planza is a task management app built with Flutter, designed to help users stay 
 
 📸 App Screenshots
 
-Home-Screen	Goals-Screen Tasks-Screen
-<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/HomeScreen.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalsScreen.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TasksScreen.jpg" width="250">
-
-Calendar-View       	Goal-Setting        	Task-Entry
-<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Calendar.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalDetails.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TaskEntry.jpg" width="250">
-
-Goal-Entry      	Achievement         	Goal-Entry
-<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Achievement.jpg" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg" width="250">
+Home-Screen 
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/HomeScreen.jpg" width="250">
+Goals-Screen
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalsScreen.jpg" width="250">
+Tasks-Screen
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TasksScreen.jpg" width="250">
+Calendar-View
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Calendar.jpg" width="250">
+Goal-Setting
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalDetails.jpg" width="250">
+Task-Entry
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TaskEntry.jpg" width="250">
+Goal-Entry
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg" width="250">
+Achievement
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Achievement.jpg" width="250">
+Goal-Entry
+<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg" width="250">
 
 ✨ Features
 Create & Manage Tasks: Easily add, edit, complete, and delete tasks.
