@@ -1,17 +1,19 @@
 Planza - Task Management & Goal Planner App
 Planza is a task management app built with Flutter, designed to help users stay organized and achieve their goals effectively. With features like task creation, goal setting, and calendar integration, Planza offers a flexible and intuitive approach to managing daily activities.
 
-📸 App Screenshots
-To display your app's screenshots in a clean grid, you can use a table.
+## 📸 App Screenshots
 
-Home Screen	Goals Screen	Tasks Screen
-<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/HomeScreen.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalsScreen.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TasksScreen.jpg?raw=true" width="250">
+| Home Screen | Goals Screen | Tasks Screen |
+| :---: | :---: | :---: |
+| <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/HomeScreen.jpg?raw=true" width="250"> | <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalsScreen.jpg?raw=true" width="250"> | <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TasksScreen.jpg?raw=true" width="250"> |
 
-Calendar View	Goal Details	Task Entry
-<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Calendar.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalDetails.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TaskEntry.jpg?raw=true" width="250">
+| Calendar View | Goal Details | Task Entry |
+| :---: | :---: | :---: |
+| <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Calendar.jpg?raw=true" width="250"> | <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalDetails.jpg?raw=true" width="250"> | <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/TaskEntry.jpg?raw=true" width="250"> |
 
-Goal Entry	Achievement
-<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg?raw=true" width="250">	<img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Achievement.jpg?raw=true" width="250">
+| Goal Entry | Achievement |
+| :---: | :---: |
+| <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/GoalEntry.jpg?raw=true" width="250"> | <img src="https://github.com/Amir-Hzz79/planza/blob/release/screenshots/Achievement.jpg?raw=true" width="250"> |
 
 ✨ Features
 Create & Manage Tasks: Easily add, edit, complete, and delete tasks.
