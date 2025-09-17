@@ -42,9 +42,14 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
   late final GeneratedColumn<int> color = GeneratedColumn<int>(
       'color', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _iconMeta = const VerificationMeta('icon');
+  @override
+  late final GeneratedColumn<int> icon = GeneratedColumn<int>(
+      'icon', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true);
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, description, deadline, color];
+      [id, name, description, deadline, color, icon];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -80,6 +85,12 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
     } else if (isInserting) {
       context.missing(_colorMeta);
     }
+    if (data.containsKey('icon')) {
+      context.handle(
+          _iconMeta, icon.isAcceptableOrUnknown(data['icon']!, _iconMeta));
+    } else if (isInserting) {
+      context.missing(_iconMeta);
+    }
     return context;
   }
 
@@ -99,6 +110,8 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
           .read(DriftSqlType.dateTime, data['${effectivePrefix}deadline']),
       color: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}color'])!,
+      icon: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}icon'])!,
     );
   }
 
@@ -114,12 +127,14 @@ class Goal extends DataClass implements Insertable<Goal> {
   final String? description;
   final DateTime? deadline;
   final int color;
+  final int icon;
   const Goal(
       {required this.id,
       required this.name,
       this.description,
       this.deadline,
-      required this.color});
+      required this.color,
+      required this.icon});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -132,6 +147,7 @@ class Goal extends DataClass implements Insertable<Goal> {
       map['deadline'] = Variable<DateTime>(deadline);
     }
     map['color'] = Variable<int>(color);
+    map['icon'] = Variable<int>(icon);
     return map;
   }
 
@@ -146,6 +162,7 @@ class Goal extends DataClass implements Insertable<Goal> {
           ? const Value.absent()
           : Value(deadline),
       color: Value(color),
+      icon: Value(icon),
     );
   }
 
@@ -158,6 +175,7 @@ class Goal extends DataClass implements Insertable<Goal> {
       description: serializer.fromJson<String?>(json['description']),
       deadline: serializer.fromJson<DateTime?>(json['deadline']),
       color: serializer.fromJson<int>(json['color']),
+      icon: serializer.fromJson<int>(json['icon']),
     );
   }
   @override
@@ -169,6 +187,7 @@ class Goal extends DataClass implements Insertable<Goal> {
       'description': serializer.toJson<String?>(description),
       'deadline': serializer.toJson<DateTime?>(deadline),
       'color': serializer.toJson<int>(color),
+      'icon': serializer.toJson<int>(icon),
     };
   }
 
@@ -177,13 +196,15 @@ class Goal extends DataClass implements Insertable<Goal> {
           String? name,
           Value<String?> description = const Value.absent(),
           Value<DateTime?> deadline = const Value.absent(),
-          int? color}) =>
+          int? color,
+          int? icon}) =>
       Goal(
         id: id ?? this.id,
         name: name ?? this.name,
         description: description.present ? description.value : this.description,
         deadline: deadline.present ? deadline.value : this.deadline,
         color: color ?? this.color,
+        icon: icon ?? this.icon,
       );
   Goal copyWithCompanion(GoalsCompanion data) {
     return Goal(
@@ -193,6 +214,7 @@ class Goal extends DataClass implements Insertable<Goal> {
           data.description.present ? data.description.value : this.description,
       deadline: data.deadline.present ? data.deadline.value : this.deadline,
       color: data.color.present ? data.color.value : this.color,
+      icon: data.icon.present ? data.icon.value : this.icon,
     );
   }
 
@@ -203,13 +225,14 @@ class Goal extends DataClass implements Insertable<Goal> {
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('deadline: $deadline, ')
-          ..write('color: $color')
+          ..write('color: $color, ')
+          ..write('icon: $icon')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, description, deadline, color);
+  int get hashCode => Object.hash(id, name, description, deadline, color, icon);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -218,7 +241,8 @@ class Goal extends DataClass implements Insertable<Goal> {
           other.name == this.name &&
           other.description == this.description &&
           other.deadline == this.deadline &&
-          other.color == this.color);
+          other.color == this.color &&
+          other.icon == this.icon);
 }
 
 class GoalsCompanion extends UpdateCompanion<Goal> {
@@ -227,12 +251,14 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
   final Value<String?> description;
   final Value<DateTime?> deadline;
   final Value<int> color;
+  final Value<int> icon;
   const GoalsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
     this.description = const Value.absent(),
     this.deadline = const Value.absent(),
     this.color = const Value.absent(),
+    this.icon = const Value.absent(),
   });
   GoalsCompanion.insert({
     this.id = const Value.absent(),
@@ -240,14 +266,17 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     this.description = const Value.absent(),
     this.deadline = const Value.absent(),
     required int color,
+    required int icon,
   })  : name = Value(name),
-        color = Value(color);
+        color = Value(color),
+        icon = Value(icon);
   static Insertable<Goal> custom({
     Expression<int>? id,
     Expression<String>? name,
     Expression<String>? description,
     Expression<DateTime>? deadline,
     Expression<int>? color,
+    Expression<int>? icon,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -255,6 +284,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
       if (description != null) 'description': description,
       if (deadline != null) 'deadline': deadline,
       if (color != null) 'color': color,
+      if (icon != null) 'icon': icon,
     });
   }
 
@@ -263,13 +293,15 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
       Value<String>? name,
       Value<String?>? description,
       Value<DateTime?>? deadline,
-      Value<int>? color}) {
+      Value<int>? color,
+      Value<int>? icon}) {
     return GoalsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
       description: description ?? this.description,
       deadline: deadline ?? this.deadline,
       color: color ?? this.color,
+      icon: icon ?? this.icon,
     );
   }
 
@@ -291,6 +323,9 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     if (color.present) {
       map['color'] = Variable<int>(color.value);
     }
+    if (icon.present) {
+      map['icon'] = Variable<int>(icon.value);
+    }
     return map;
   }
 
@@ -301,7 +336,8 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
           ..write('name: $name, ')
           ..write('description: $description, ')
           ..write('deadline: $deadline, ')
-          ..write('color: $color')
+          ..write('color: $color, ')
+          ..write('icon: $icon')
           ..write(')'))
         .toString();
   }
@@ -1642,6 +1678,7 @@ typedef $$GoalsTableCreateCompanionBuilder = GoalsCompanion Function({
   Value<String?> description,
   Value<DateTime?> deadline,
   required int color,
+  required int icon,
 });
 typedef $$GoalsTableUpdateCompanionBuilder = GoalsCompanion Function({
   Value<int> id,
@@ -1649,6 +1686,7 @@ typedef $$GoalsTableUpdateCompanionBuilder = GoalsCompanion Function({
   Value<String?> description,
   Value<DateTime?> deadline,
   Value<int> color,
+  Value<int> icon,
 });
 
 final class $$GoalsTableReferences
@@ -1692,6 +1730,9 @@ class $$GoalsTableFilterComposer extends Composer<_$AppDatabase, $GoalsTable> {
 
   ColumnFilters<int> get color => $composableBuilder(
       column: $table.color, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get icon => $composableBuilder(
+      column: $table.icon, builder: (column) => ColumnFilters(column));
 
   Expression<bool> tasksRefs(
       Expression<bool> Function($$TasksTableFilterComposer f) f) {
@@ -1738,6 +1779,9 @@ class $$GoalsTableOrderingComposer
 
   ColumnOrderings<int> get color => $composableBuilder(
       column: $table.color, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get icon => $composableBuilder(
+      column: $table.icon, builder: (column) => ColumnOrderings(column));
 }
 
 class $$GoalsTableAnnotationComposer
@@ -1763,6 +1807,9 @@ class $$GoalsTableAnnotationComposer
 
   GeneratedColumn<int> get color =>
       $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<int> get icon =>
+      $composableBuilder(column: $table.icon, builder: (column) => column);
 
   Expression<T> tasksRefs<T extends Object>(
       Expression<T> Function($$TasksTableAnnotationComposer a) f) {
@@ -1814,6 +1861,7 @@ class $$GoalsTableTableManager extends RootTableManager<
             Value<String?> description = const Value.absent(),
             Value<DateTime?> deadline = const Value.absent(),
             Value<int> color = const Value.absent(),
+            Value<int> icon = const Value.absent(),
           }) =>
               GoalsCompanion(
             id: id,
@@ -1821,6 +1869,7 @@ class $$GoalsTableTableManager extends RootTableManager<
             description: description,
             deadline: deadline,
             color: color,
+            icon: icon,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -1828,6 +1877,7 @@ class $$GoalsTableTableManager extends RootTableManager<
             Value<String?> description = const Value.absent(),
             Value<DateTime?> deadline = const Value.absent(),
             required int color,
+            required int icon,
           }) =>
               GoalsCompanion.insert(
             id: id,
@@ -1835,6 +1885,7 @@ class $$GoalsTableTableManager extends RootTableManager<
             description: description,
             deadline: deadline,
             color: color,
+            icon: icon,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) =>

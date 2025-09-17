@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/locale/app_localizations.dart';
 import 'package:planza/core/utils/extention_methods/color_extention.dart';
 
 import '../../../goal_managment/presentation/pages/goal_details.dart';
+import '../../../goal_managment/presentation/pages/goal_entry_page.dart';
+import 'empty_section.dart';
 
 class GoalsCarousel extends StatelessWidget {
   final List<GoalModel> goals;
@@ -11,18 +14,31 @@ class GoalsCarousel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        height: 220,
-        child: PageView.builder(
-          controller: PageController(viewportFraction: 0.88),
-          itemCount: goals.length,
-          itemBuilder: (context, index) {
-            return _FeaturedGoalCard(goal: goals[index]);
-          },
-        ),
-      ),
-    );
+    final Lang lang = Lang.of(context)!;
+
+    return goals.isEmpty
+        ? EmptySection(
+            icon: Icons.check_circle_outline,
+            message: lang.homePage_goalsCarousel_empty,
+            actionButtonText: lang.homePage_goalsCarousel_empty_button,
+            onActionButtonClick: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const GoalEntryPage(),
+              ),
+            ),
+          )
+        : SliverToBoxAdapter(
+            child: SizedBox(
+              height: 220,
+              child: PageView.builder(
+                controller: PageController(viewportFraction: 0.88),
+                itemCount: goals.length,
+                itemBuilder: (context, index) {
+                  return _FeaturedGoalCard(goal: goals[index]);
+                },
+              ),
+            ),
+          );
   }
 }
 
@@ -58,8 +74,11 @@ class _FeaturedGoalCard extends StatelessWidget {
               Positioned(
                 right: -25,
                 bottom: -25,
-                child: Icon(Icons.fitness_center_rounded,
-                    size: 140.0, color: Colors.white.withOpacityDouble(0.15)),
+                child: Icon(
+                  goal.icon,
+                  size: 140.0,
+                  color: Colors.white.withOpacityDouble(0.15),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(20.0),

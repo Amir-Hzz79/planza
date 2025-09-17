@@ -6,7 +6,7 @@ import 'core/service_locator.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  initServices();
+  await initServices();
 
   runApp(const MyApp());
 }

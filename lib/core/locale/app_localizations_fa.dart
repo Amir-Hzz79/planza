@@ -142,6 +142,15 @@ class LangFa extends Lang {
   String get homePage_todaysFocus_empty => 'برای امروز همه چیز تمیزه!\nآماده‌ای برای حرکت بعدی؟';
 
   @override
+  String get homePage_todaysFocus_empty_button => 'همین الان یک کار تعریف کن.';
+
+  @override
+  String get homePage_goalsCarousel_empty => 'در حال حاضر هیج هدف فعالی نداری.\nمیخوای یک هدف جدید شروع کنی؟';
+
+  @override
+  String get homePage_goalsCarousel_empty_button => 'همین الان یک هدف را شروع کن';
+
+  @override
   String get homePage_activeGoals_title => 'در مسیر این اهداف';
 
   @override
@@ -154,7 +163,7 @@ class LangFa extends Lang {
   String get homePage_activeGoalCarousel_title => 'در مسیر این اهداف';
 
   @override
-  String get homePage_weeklyChart_title => 'پایداری شما';
+  String get homePage_weeklyChart_title => 'پایداری';
 
   @override
   String get homePage_tagAnalysisChart_title => 'انرژی شما کجا صرف می‌شود';
@@ -170,6 +179,12 @@ class LangFa extends Lang {
 
   @override
   String get homePage_energy_title => 'انرژی شما کجا صرف می‌شود';
+
+  @override
+  String get homePage_fab_addData => 'اضافه کردن دیتای تستی';
+
+  @override
+  String get homePage_fab_confirmation => 'تمام اطلاعات موجود حذف شده و با اطلاعات تستی جایگزین می شوند. این کار قابل بازگشت نیست.';
 
   @override
   String get homePage_fab_addTask => 'کار جدید';

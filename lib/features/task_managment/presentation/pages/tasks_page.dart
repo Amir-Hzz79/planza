@@ -82,7 +82,7 @@ class _TasksPageState extends State<TasksPage> {
       filterPills.add(
         FilterPill(
           label: goal.name,
-          icon: Icons.fitness_center_rounded,
+          icon: goal.icon,
           color: goal.color,
           onDeleted: () => setState(
             () => _goalIds.remove(goalId),

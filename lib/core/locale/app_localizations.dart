@@ -236,7 +236,7 @@ abstract class Lang {
   /// No description provided for @general_dueToday.
   ///
   /// In en, this message translates to:
-  /// **'Due Today'**
+  /// **'Today'**
   String get general_dueToday;
 
   /// No description provided for @general_noDate.
@@ -353,6 +353,24 @@ abstract class Lang {
   /// **'You\'re all clear for today!\nReady to plan your next move?'**
   String get homePage_todaysFocus_empty;
 
+  /// No description provided for @homePage_todaysFocus_empty_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a task now'**
+  String get homePage_todaysFocus_empty_button;
+
+  /// No description provided for @homePage_goalsCarousel_empty.
+  ///
+  /// In en, this message translates to:
+  /// **'You don\'t have any active goals for now.\nDo you want to start a new goal?'**
+  String get homePage_goalsCarousel_empty;
+
+  /// No description provided for @homePage_goalsCarousel_empty_button.
+  ///
+  /// In en, this message translates to:
+  /// **'Start New Goal Now'**
+  String get homePage_goalsCarousel_empty_button;
+
   /// No description provided for @homePage_activeGoals_title.
   ///
   /// In en, this message translates to:
@@ -412,6 +430,18 @@ abstract class Lang {
   /// In en, this message translates to:
   /// **'Where Your Energy Goes'**
   String get homePage_energy_title;
+
+  /// No description provided for @homePage_fab_addData.
+  ///
+  /// In en, this message translates to:
+  /// **'Seed Data(For Test)'**
+  String get homePage_fab_addData;
+
+  /// No description provided for @homePage_fab_confirmation.
+  ///
+  /// In en, this message translates to:
+  /// **'All data will deleted and seed data will be add. This action can not be undone!'**
+  String get homePage_fab_confirmation;
 
   /// No description provided for @homePage_fab_addTask.
   ///

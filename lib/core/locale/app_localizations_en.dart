@@ -78,7 +78,7 @@ class LangEn extends Lang {
   String get general_overdue => 'Overdue';
 
   @override
-  String get general_dueToday => 'Due Today';
+  String get general_dueToday => 'Today';
 
   @override
   String get general_noDate => 'No Date';
@@ -142,6 +142,15 @@ class LangEn extends Lang {
   String get homePage_todaysFocus_empty => 'You\'re all clear for today!\nReady to plan your next move?';
 
   @override
+  String get homePage_todaysFocus_empty_button => 'Create a task now';
+
+  @override
+  String get homePage_goalsCarousel_empty => 'You don\'t have any active goals for now.\nDo you want to start a new goal?';
+
+  @override
+  String get homePage_goalsCarousel_empty_button => 'Start New Goal Now';
+
+  @override
   String get homePage_activeGoals_title => 'Driving These Goals';
 
   @override
@@ -170,6 +179,12 @@ class LangEn extends Lang {
 
   @override
   String get homePage_energy_title => 'Where Your Energy Goes';
+
+  @override
+  String get homePage_fab_addData => 'Seed Data(For Test)';
+
+  @override
+  String get homePage_fab_confirmation => 'All data will deleted and seed data will be add. This action can not be undone!';
 
   @override
   String get homePage_fab_addTask => 'New Task';

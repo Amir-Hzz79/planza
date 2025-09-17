@@ -83,7 +83,7 @@ class ThematicGoalCard extends StatelessWidget {
       right: -25,
       bottom: -25,
       child: Icon(
-        Icons.fitness_center_rounded,
+        goal.icon,
         size: 140.0,
         color: Colors.white.withOpacityDouble(0.15),
       ),

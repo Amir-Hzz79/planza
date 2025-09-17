@@ -40,43 +40,45 @@ class GoalDetailsPage extends StatelessWidget {
           );
         }
 
-        return Scaffold(
-          floatingActionButton: FloatingActionButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                ModalBottomSheetRoute(
-                  showDragHandle: true,
-                  builder: (context) => IntrinsicHeight(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: TaskEntrySheet(
-                        initialTask: TaskModel(title: '', goal: goal),
-                        onSubmit: (newTask) {
-                          context
-                              .read<TaskBloc>()
-                              .add(TaskAddedEvent(newTask: newTask));
-                        },
+        return SafeArea(
+          child: Scaffold(
+            floatingActionButton: FloatingActionButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  ModalBottomSheetRoute(
+                    showDragHandle: true,
+                    builder: (context) => IntrinsicHeight(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10),
+                        child: TaskEntrySheet(
+                          initialTask: TaskModel(title: '', goal: goal),
+                          onSubmit: (newTask) {
+                            context
+                                .read<TaskBloc>()
+                                .add(TaskAddedEvent(newTask: newTask));
+                          },
+                        ),
                       ),
                     ),
+                    isScrollControlled: true,
                   ),
-                  isScrollControlled: true,
+                );
+              },
+              backgroundColor: goal.color,
+              child: Icon(Icons.add, color: goal.color.matchTextColor()),
+            ),
+            body: CustomScrollView(
+              slivers: [
+                _buildSliverAppBar(context, goal),
+                SliverToBoxAdapter(
+                  child: StatusOverviewDashboard(goal: goal),
                 ),
-              );
-            },
-            backgroundColor: goal.color,
-            child: Icon(Icons.add, color: goal.color.matchTextColor()),
-          ),
-          body: CustomScrollView(
-            slivers: [
-              _buildSliverAppBar(context, goal),
-              SliverToBoxAdapter(
-                child: StatusOverviewDashboard(goal: goal),
-              ),
-              if (goal.description?.isNotEmpty ?? false)
-                _buildDescription(context, goal),
-              _buildTaskListHeader(context, goal),
-              _buildTaskList(goal),
-            ],
+                if (goal.description?.isNotEmpty ?? false)
+                  _buildDescription(context, goal),
+                _buildTaskListHeader(context, goal),
+                _buildTaskList(goal),
+              ],
+            ),
           ),
         );
       },
@@ -164,7 +166,7 @@ class GoalDetailsPage extends StatelessWidget {
                   Directionality.of(context) == TextDirection.rtl ? null : -20,
               bottom: -20,
               child: Icon(
-                Icons.fitness_center_rounded,
+                goal.icon,
                 size: 200,
                 color: Colors.white.withOpacityDouble(0.15),
               ),

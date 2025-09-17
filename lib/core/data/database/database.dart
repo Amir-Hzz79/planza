@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
+import 'package:flutter/material.dart' show Icons;
 import 'package:path_provider/path_provider.dart';
 import '../data_access_object/tag_dao.dart';
 import '../data_access_object/task_dao.dart';
@@ -18,7 +19,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
@@ -48,6 +49,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Get fit in 3 months"),
       deadline: Value(DateTime(2025, 6, 1)),
       color: Value(0xFFffc8dd),
+      icon: Value(Icons.fitness_center_rounded.codePoint),
     ));
 
     await into(goals).insert(GoalsCompanion(
@@ -56,6 +58,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Read 12 books this year"),
       deadline: Value(DateTime(2025, 12, 31)),
       color: Value(0xFFbde0fe),
+      icon: Value(Icons.auto_stories_rounded.codePoint),
     ));
 
     await into(goals).insert(GoalsCompanion(
@@ -64,6 +67,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Plan summer vacation"),
       deadline: Value(DateTime(2025, 4, 15)),
       color: Value(0xFFa2d2ff),
+      icon: Value(Icons.flight_takeoff_rounded.codePoint),
     ));
 
     await into(goals).insert(GoalsCompanion(
@@ -72,6 +76,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Learn to cook 10 new recipes"),
       deadline: Value(DateTime(2025, 5, 30)),
       color: Value(0xFFffafcc),
+      icon: Value(Icons.soup_kitchen_rounded.codePoint),
     ));
 
     await into(goals).insert(GoalsCompanion(
@@ -80,6 +85,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Redesign the living room and kitchen"),
       deadline: Value(DateTime(2025, 7, 15)),
       color: Value(0xFFcdb4db),
+      icon: Value(Icons.home_work_rounded.codePoint),
     ));
 
     await into(goals).insert(GoalsCompanion(
@@ -88,6 +94,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Learn conversational Spanish"),
       deadline: Value(DateTime(2025, 10, 1)),
       color: Value(0xFFb9fbc0),
+      icon: Value(Icons.language_rounded.codePoint),
     ));
 
     await into(goals).insert(GoalsCompanion(
@@ -96,6 +103,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Grow vegetables and flowers in the backyard"),
       deadline: Value(DateTime(2025, 8, 15)),
       color: Value(0xFFffd6a5),
+      icon: Value(Icons.local_florist_rounded.codePoint),
     ));
 
     await into(goals).insert(GoalsCompanion(
@@ -104,6 +112,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Complete an advanced programming course"),
       deadline: Value(DateTime(2025, 9, 30)),
       color: Value(0xFFf4a261),
+      icon: Value(Icons.code_rounded.codePoint),
     ));
 
     await into(goals).insert(GoalsCompanion(
@@ -112,6 +121,7 @@ class AppDatabase extends _$AppDatabase {
       description: Value("Run a half marathon"),
       deadline: Value(DateTime(2025, 10, 20)),
       color: Value(0xFFe9c46a),
+      icon: Value(Icons.emoji_events_rounded.codePoint),
     ));
 
     // Insert Tasks
@@ -308,19 +318,9 @@ class AppDatabase extends _$AppDatabase {
     await into(taskTags).insert(TaskTagsCompanion.insert(
       tagId: Value(2),
       taskId: Value(4),
-    ));
-    await into(taskTags).insert(TaskTagsCompanion.insert(
-      tagId: Value(3),
-      taskId: Value(4),
-    ));
-
-    await into(taskTags).insert(TaskTagsCompanion.insert(
+    ));await into(taskTags).insert(TaskTagsCompanion.insert(
       tagId: Value(4),
-      taskId: Value(4),
-    ));
-    await into(taskTags).insert(TaskTagsCompanion.insert(
-      tagId: Value(5),
-      taskId: Value(4),
+      taskId: Value(3),
     ));
   }
 
@@ -335,6 +335,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("چالش تناسب اندام"),
       description: Value("رسیدن به تناسب اندام در ۳ ماه"),
       deadline: Value(DateTime(2025, 6, 1)),
+      icon: Value(Icons.fitness_center_rounded.codePoint),
       color: Value(0xFFffc8dd),
     ));
 
@@ -343,6 +344,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("کتاب‌خوانی بیشتر"),
       description: Value("خواندن ۱۲ کتاب در سال جاری"),
       deadline: Value(DateTime(2025, 12, 31)),
+      icon: Value(Icons.auto_stories_rounded.codePoint),
       color: Value(0xFFbde0fe),
     ));
 
@@ -351,6 +353,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("برنامه‌ریزی تعطیلات"),
       description: Value("برنامه‌ریزی برای تعطیلات تابستان"),
       deadline: Value(DateTime(2025, 4, 15)),
+      icon: Value(Icons.flight_takeoff_rounded.codePoint),
       color: Value(0xFFa2d2ff),
     ));
 
@@ -359,6 +362,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("چالش آشپزی"),
       description: Value("یادگیری ۱۰ دستور پخت جدید"),
       deadline: Value(DateTime(2025, 5, 30)),
+      icon: Value(Icons.soup_kitchen_rounded.codePoint),
       color: Value(0xFFffafcc),
     ));
 
@@ -367,6 +371,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("بازسازی خانه"),
       description: Value("طراحی مجدد اتاق نشیمن و آشپزخانه"),
       deadline: Value(DateTime(2025, 7, 15)),
+      icon: Value(Icons.home_work_rounded.codePoint),
       color: Value(0xFFcdb4db),
     ));
 
@@ -375,6 +380,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("یادگیری زبان"),
       description: Value("یادگیری مکالمه اسپانیایی"),
       deadline: Value(DateTime(2025, 10, 1)),
+      icon: Value(Icons.language_rounded.codePoint),
       color: Value(0xFFb9fbc0),
     ));
 
@@ -383,6 +389,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("پروژه باغبانی"),
       description: Value("پرورش سبزیجات و گل در حیاط"),
       deadline: Value(DateTime(2025, 8, 15)),
+      icon: Value(Icons.local_florist_rounded.codePoint),
       color: Value(0xFFffd6a5),
     ));
 
@@ -391,6 +398,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("بهبود مهارت‌های فنی"),
       description: Value("تکمیل یک دوره پیشرفته برنامه‌نویسی"),
       deadline: Value(DateTime(2025, 9, 30)),
+      icon: Value(Icons.code_off_rounded.codePoint),
       color: Value(0xFFf4a261),
     ));
 
@@ -399,6 +407,7 @@ class AppDatabase extends _$AppDatabase {
       name: Value("نقطه عطف ورزشی"),
       description: Value("دویدن در مسابقه نیمه ماراتن"),
       deadline: Value(DateTime(2025, 10, 20)),
+      icon: Value(Icons.emoji_events_rounded.codePoint),
       color: Value(0xFFe9c46a),
     ));
 
@@ -606,6 +615,16 @@ class AppDatabase extends _$AppDatabase {
               goals,
               GeneratedColumn(
                 'color',
+                'Goals',
+                false,
+                type: DriftSqlType.int,
+              ),
+            );
+          } else if (from < 3) {
+            await migrator.addColumn(
+              goals,
+              GeneratedColumn(
+                'icon',
                 'Goals',
                 false,
                 type: DriftSqlType.int,

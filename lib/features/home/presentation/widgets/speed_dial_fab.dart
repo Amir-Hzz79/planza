@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
+import '../../../../core/data/database/database.dart';
 import '../../../../core/locale/app_localizations.dart';
+import '../../../../core/locale/bloc/locale_bloc.dart';
+import '../../../../core/locale/bloc/locale_state.dart';
 import '../../../goal_managment/presentation/pages/goal_entry_page.dart';
 
 import '../../../task_managment/presentation/widgets/task_entry_sheet.dart';
@@ -62,6 +66,81 @@ class _SpeedDialFabState extends State<SpeedDialFab>
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
+                  _buildMiniFab(
+                    label: lang.homePage_fab_addData,
+                    icon: Icons.code_rounded,
+                    onPressed: () {
+                      showModalBottomSheet(
+                        context: context,
+                        isScrollControlled: true,
+                        showDragHandle: true,
+                        builder: (ctx) {
+                          return Padding(
+                            padding: EdgeInsets.fromLTRB(
+                              16,
+                              16,
+                              16,
+                              MediaQuery.of(context).viewInsets.bottom + 64,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              spacing: 16,
+                              children: [
+                                Text(
+                                  lang.homePage_fab_confirmation,
+                                  style:
+                                      Theme.of(context).textTheme.titleMedium,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(lang.general_cancel),
+                                    ),
+                                    TextButton(
+                                      onPressed: () {
+                                        String localeCode = (context
+                                                .read<LocaleBloc>()
+                                                .state as LocaleLoadedState)
+                                            .locale
+                                            .languageCode;
+
+                                        if (localeCode == 'en') {
+                                          GetIt.instance
+                                              .get<AppDatabase>()
+                                              .insertEnDummyData();
+                                        } else if (localeCode == 'fa') {
+                                          GetIt.instance
+                                              .get<AppDatabase>()
+                                              .insertFaDummyData();
+                                        }
+
+                                        setState(() {});
+                                        Navigator.pop(context);
+                                      },
+                                      style: TextButton.styleFrom(
+                                        /* backgroundColor: Theme.of(context)
+                                            .colorScheme
+                                            .error
+                                            .withOpacityDouble(0.4), */
+                                        foregroundColor:
+                                            Theme.of(context).colorScheme.error,
+                                      ),
+                                      child: Text(lang.general_deleteConfirm),
+                                    ),
+                                  ],
+                                )
+                              ],
+                            ),
+                          );
+                        },
+                      );
+                    },
+                  ),
+                  const SizedBox(height: 8),
                   _buildMiniFab(
                     label: lang.homePage_fab_addGoal,
                     icon: Icons.flag_outlined,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import 'package:planza/core/data/bloc/task_bloc/task_bloc_builder.dart';
 import 'package:planza/core/utils/extention_methods/date_time_extentions.dart';
@@ -10,10 +11,12 @@ import 'package:planza/features/home/presentation/widgets/empty_section.dart';
 import 'package:planza/features/home/presentation/widgets/speed_dial_fab.dart';
 import 'package:planza/core/data/models/task_model.dart';
 
+import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 import '../../../../core/locale/app_localizations.dart';
 import '../../../../core/utils/app_date_formatter.dart';
 import '../../../../core/widgets/appbar/general_app_bar.dart';
 import '../../../task_managment/presentation/widgets/glassy_task_tile.dart';
+import '../../../task_managment/presentation/widgets/task_entry_sheet.dart';
 import '../widgets/drawer/drawer_section.dart';
 import '../widgets/goals_carousel.dart';
 import '../widgets/tag_analysis_chart.dart';
@@ -147,6 +150,19 @@ class HomePage extends StatelessWidget {
       return EmptySection(
         icon: Icons.check_circle_outline,
         message: lang.homePage_todaysFocus_empty,
+        actionButtonText: lang.homePage_todaysFocus_empty_button,
+        onActionButtonClick: () => showModalBottomSheet(
+          context: context,
+          isScrollControlled: true,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+          ),
+          builder: (ctx) => TaskEntrySheet(
+            onSubmit: (newTask) {
+              context.read<TaskBloc>().add(TaskAddedEvent(newTask: newTask));
+            },
+          ),
+        ),
       );
     }
     return SliverList(
@@ -170,7 +186,7 @@ class HomePage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             MetricItem(
-                value: "12",
+                value: "0",
                 label: lang.homePage_statsBar_streak_title,
                 icon: Icons.local_fire_department_outlined,
                 color: Colors.orange),

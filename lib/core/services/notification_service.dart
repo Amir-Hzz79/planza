@@ -56,6 +56,8 @@ class NotificationService {
 
     await _plugin.zonedSchedule(
       task.id!,
+      uiLocalNotificationDateInterpretation:
+          UILocalNotificationDateInterpretation.wallClockTime,
       "Task Due: ${task.title}",
       "Your task is scheduled for now. Time to get it done!",
       scheduledDate,

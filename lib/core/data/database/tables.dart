@@ -19,6 +19,7 @@ class Goals extends Table {
   TextColumn get description => text().nullable()();
   DateTimeColumn get deadline => dateTime().nullable()();
   IntColumn get color => integer()();
+  IntColumn get icon => integer()();
 }
 
 /* class GoalTasks extends Table {

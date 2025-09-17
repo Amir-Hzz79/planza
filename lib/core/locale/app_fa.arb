@@ -57,16 +57,21 @@
     "homePage_greeting_evening": "شب بخیر!",
     "homePage_todaysFocus_title": "تمرکز امروز 🔥",
     "homePage_todaysFocus_empty": "برای امروز همه چیز تمیزه!\nآماده‌ای برای حرکت بعدی؟",
+    "homePage_todaysFocus_empty_button": "همین الان یک کار تعریف کن.",
+    "homePage_goalsCarousel_empty": "در حال حاضر هیج هدف فعالی نداری.\nمیخوای یک هدف جدید شروع کنی؟",
+    "homePage_goalsCarousel_empty_button": "همین الان یک هدف را شروع کن",
     "homePage_activeGoals_title": "در مسیر این اهداف",
     "homePage_momentum_title": "مومنتوم هفتگی شما",
     "homePage_statsBar_title": "علائم حیاتی شما",
     "homePage_activeGoalCarousel_title": "در مسیر این اهداف",
-    "homePage_weeklyChart_title": "پایداری شما",
+    "homePage_weeklyChart_title": "پایداری",
     "homePage_tagAnalysisChart_title": "انرژی شما کجا صرف می‌شود",
     "homePage_statsBar_streak_title": "روز متوالی",
     "homePage_statsBar_activeGoals_title": "اهداف فعال",
     "homePage_statsBar_weekTasks_title": "کارهای این هفته",
     "homePage_energy_title": "انرژی شما کجا صرف می‌شود",
+    "homePage_fab_addData": "اضافه کردن دیتای تستی",
+    "homePage_fab_confirmation": "تمام اطلاعات موجود حذف شده و با اطلاعات تستی جایگزین می شوند. این کار قابل بازگشت نیست.",
     "homePage_fab_addTask": "کار جدید",
     "homePage_fab_addGoal": "هدف جدید",
     "homePage_dashboardOverview_progress": "پیشرفت",

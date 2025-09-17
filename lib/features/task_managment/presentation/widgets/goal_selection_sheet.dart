@@ -33,8 +33,7 @@ class GoalSelectionSheet extends StatelessWidget {
                 final goal = allGoals[index];
                 return ListTile(
                   title: Text(goal.name),
-                  leading: Icon(/* goal.icon */ Icons.fitness_center_rounded,
-                      color: goal.color),
+                  leading: Icon(goal.icon, color: goal.color),
                   onTap: () => Navigator.of(context).pop(goal),
                 );
               },

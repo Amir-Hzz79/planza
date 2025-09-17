@@ -174,7 +174,7 @@ class _TaskDetailsAppBar extends StatelessWidget {
                   Directionality.of(context) == TextDirection.RTL ? -30 : null,
               bottom: -30,
               child: Icon(
-                /* goal!.icon */ Icons.fitness_center_rounded,
+                goal!.icon,
                 size: 180,
                 color: Colors.white.withOpacityDouble(0.15),
               ),
@@ -212,10 +212,8 @@ class _DetailsPanel extends StatelessWidget {
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: ActionChip(
-                  avatar: Icon(
-                      /* task.goal!.icon */ Icons.fitness_center_rounded,
-                      size: 18,
-                      color: task.goal!.color),
+                  avatar:
+                      Icon(task.goal!.icon, size: 18, color: task.goal!.color),
                   label: Text(task.goal!.name),
                   onPressed: () {
                     Navigator.of(context).push(MaterialPageRoute(

@@ -34,7 +34,7 @@ class _DeleteGoalSheetState extends State<DeleteGoalSheet> {
 
     return Padding(
       padding: EdgeInsets.fromLTRB(
-          16, 16, 16, MediaQuery.of(context).viewInsets.bottom + 16),
+          16, 16, 16, MediaQuery.of(context).viewInsets.bottom + 64),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -24,7 +24,8 @@ class CalendarTaskView extends StatefulWidget {
 class _CalendarTaskViewState extends State<CalendarTaskView> {
   final DraggableScrollableController _sheetController =
       DraggableScrollableController();
-  final double _snapInitial = 0.15;
+
+  final double _snapInitial = 0.40;
   final double _snapMiddle = 0.45;
 
   DateTime _focusedDay = DateTime.now();
@@ -115,6 +116,7 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
         _DraggableTaskSheet(
           controller: _sheetController,
           selectedDay: _selectedDay,
+          snapInitial: _snapInitial,
           tasks: _selectedDayTasks,
         ),
       ],
@@ -125,11 +127,13 @@ class _CalendarTaskViewState extends State<CalendarTaskView> {
 class _DraggableTaskSheet extends StatelessWidget {
   final DraggableScrollableController controller;
   final DateTime selectedDay;
+  final double snapInitial;
   final List<TaskModel> tasks;
 
   const _DraggableTaskSheet({
     required this.controller,
     required this.selectedDay,
+    required this.snapInitial,
     required this.tasks,
   });
 
@@ -139,7 +143,7 @@ class _DraggableTaskSheet extends StatelessWidget {
 
     return DraggableScrollableSheet(
       controller: controller,
-      initialChildSize: 0.25,
+      initialChildSize: snapInitial,
       minChildSize: 0.25,
       maxChildSize: 0.85,
       builder: (context, scrollController) {
@@ -154,9 +158,10 @@ class _DraggableTaskSheet extends StatelessWidget {
                 borderRadius:
                     const BorderRadius.vertical(top: Radius.circular(24)),
                 border: Border(
-                    top: BorderSide(
-                        color: theme.colorScheme.onSurface
-                            .withOpacityDouble(0.2))),
+                  top: BorderSide(
+                    color: theme.colorScheme.onSurface.withOpacityDouble(0.2),
+                  ),
+                ),
               ),
               child: Column(
                 children: [

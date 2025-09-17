@@ -21,7 +21,6 @@ class GoalBlocBuilder extends StatelessWidget {
                 8,
                 (index) => GoalModel(
                   id: index,
-                  color: Colors.grey,
                   name: 'place holder',
                   tasks: [
                     TaskModel(

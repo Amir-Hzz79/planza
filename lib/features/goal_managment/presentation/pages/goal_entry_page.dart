@@ -73,7 +73,7 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
       _nameController.text = goal.name;
       _descriptionController.text = goal.description ?? '';
       _selectedColor = goal.color;
-      _selectedIcon = /* goal.icon */ Icons.fitness_center_rounded;
+      _selectedIcon = goal.icon;
       _selectedDate = goal.deadline;
 
       for (var task in goal.tasks) {
@@ -109,7 +109,8 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
     if (listen) {
       controller.addListener(() {
         task = task.copyWith(title: controller.text);
-        if (task == _tasks.last && task.title.isNotEmpty) {
+
+        if (task.id == _tasks.last.id && task.title.isNotEmpty) {
           _addTaskField();
         }
       });
@@ -127,19 +128,19 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
   }
 
   void _addTaskField({bool isInitial = false}) {
-    if (!isInitial && (_tasks.isEmpty || _tasks.last.title.isNotEmpty)) {
+    if (!isInitial /* && (_tasks.isEmpty || _tasks.last.title.isNotEmpty) */) {
       final newTask =
           TaskModel(id: DateTime.now().millisecondsSinceEpoch, title: '');
       setState(() {
         _tasks.add(newTask);
-        _createControllerForTask(newTask);
+        _createControllerForTask(_tasks.last, listen: true);
       });
     } else if (isInitial && _tasks.isEmpty) {
       final newTask =
           TaskModel(id: DateTime.now().millisecondsSinceEpoch, title: '');
       setState(() {
         _tasks.add(newTask);
-        _createControllerForTask(newTask);
+        _createControllerForTask(newTask, listen: true);
       });
     }
   }
@@ -180,15 +181,16 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
       final finalTasks = _tasks.where((t) => t.title.isNotEmpty).toList();
 
       final goalData = GoalModel(
-          id: widget.initialGoal?.id,
-          name: _nameController.text,
-          description: _descriptionController.text.isNotEmpty
-              ? _descriptionController.text
-              : null,
-          color: _selectedColor,
-          /*  icon: _selectedIcon, */
-          deadline: _selectedDate,
-          tasks: finalTasks);
+        id: widget.initialGoal?.id,
+        name: _nameController.text,
+        description: _descriptionController.text.isNotEmpty
+            ? _descriptionController.text
+            : null,
+        color: _selectedColor,
+        icon: _selectedIcon,
+        deadline: _selectedDate,
+        tasks: finalTasks,
+      );
 
       if (_isEditing) {
         context.read<GoalBloc>().add(GoalUpdatedEvent(updatedGoal: goalData));
@@ -210,7 +212,7 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
               : lang.addGoalPage_title_add)
           : _nameController.text,
       color: _selectedColor,
-      /* icon: _selectedIcon, */
+      icon: _selectedIcon,
       tasks: _tasks,
     );
 
@@ -356,13 +358,22 @@ class _GoalEntryPageState extends State<GoalEntryPage> {
                                             ? lang.addGoalPage_tasks_hint
                                             : lang.addGoalPage_tasks_index(
                                                 index + 1),
-                                        border: InputBorder.none,
+                                        filled: true,
+                                        fillColor: Theme.of(context)
+                                            .colorScheme
+                                            .surfaceContainer,
+                                        border: OutlineInputBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(20),
+                                          borderSide: BorderSide.none,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                  if (!isLast ||
+                                  if (/* !isLast ||
                                       (_isEditing &&
-                                          controller.text.isNotEmpty))
+                                          controller.text.isNotEmpty) */
+                                      controller.text.isNotEmpty)
                                     IconButton(
                                       icon: const Icon(Icons.close),
                                       onPressed: () => _removeTaskField(task),

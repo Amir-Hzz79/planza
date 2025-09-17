@@ -47,8 +47,11 @@ class ActiveGoalCard extends StatelessWidget {
               Positioned(
                 right: -15,
                 bottom: -15,
-                child: Icon(/* goal.icon */ Icons.fitness_center_rounded,
-                    size: 80, color: goal.color.withOpacityDouble(0.1)),
+                child: Icon(
+                  goal.icon,
+                  size: 80,
+                  color: goal.color.withOpacityDouble(0.1),
+                ),
               ),
               Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -57,8 +60,11 @@ class ActiveGoalCard extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Icon(Icons.fitness_center_rounded,
-                            color: goal.color, size: 24),
+                        Icon(
+                          goal.icon,
+                          color: goal.color,
+                          size: 24,
+                        ),
                         const SizedBox(width: 12),
                         Expanded(
                           child: Text(

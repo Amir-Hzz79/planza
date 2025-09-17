@@ -1,20 +1,22 @@
 import 'package:drift/drift.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart' show Color;
+import 'package:flutter/material.dart' show Color, Colors, IconData, Icons;
 import 'package:planza/core/data/models/task_model.dart';
 
 import '../database/database.dart' show Goal, GoalsCompanion;
 
 class GoalModel extends Equatable {
   @override
-  List<Object?> get props => [id, name, description, deadline, color, tasks];
+  List<Object?> get props =>
+      [id, name, description, deadline, icon, color, tasks];
 
   const GoalModel({
     this.id,
     required this.name,
     this.description,
     this.deadline,
-    required this.color,
+    this.icon = Icons.golf_course_rounded,
+    this.color = Colors.grey,
     this.tasks = const [],
   });
 
@@ -23,6 +25,7 @@ class GoalModel extends Equatable {
   final String? description;
   final DateTime? deadline;
   final Color color;
+  final IconData icon;
   final List<TaskModel> tasks;
   bool get isCompleted =>
       tasks.isNotEmpty &&
@@ -104,6 +107,7 @@ class GoalModel extends Equatable {
       name: goalEntity.name,
       description: goalEntity.description,
       deadline: goalEntity.deadline,
+      icon: IconData(goalEntity.icon, fontFamily: 'MaterialIcons'),
       color: Color(goalEntity.color),
       tasks: sortTasks,
     );
@@ -116,6 +120,7 @@ class GoalModel extends Equatable {
       name: name,
       description: description,
       deadline: deadline,
+      icon: icon.codePoint,
       color: color.toARGB32(),
     );
   }
@@ -123,6 +128,7 @@ class GoalModel extends Equatable {
   GoalsCompanion toInsertCompanion() {
     return GoalsCompanion(
       name: Value(name),
+      icon: Value(icon.codePoint),
       color: Value(color.toARGB32()),
       deadline: Value(deadline),
       description: Value(description),

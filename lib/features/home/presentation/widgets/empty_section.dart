@@ -3,8 +3,16 @@ import 'package:flutter/material.dart';
 class EmptySection extends StatelessWidget {
   final IconData icon;
   final String message;
+  final String? actionButtonText;
+  final void Function() onActionButtonClick;
 
-  const EmptySection({super.key, required this.icon, required this.message});
+  const EmptySection({
+    super.key,
+    required this.icon,
+    required this.message,
+    this.actionButtonText,
+    required this.onActionButtonClick,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -21,6 +29,11 @@ class EmptySection extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(color: Colors.grey.shade600),
               ),
+              if (actionButtonText != null)
+                TextButton(
+                  onPressed: onActionButtonClick,
+                  child: Text(actionButtonText!),
+                ),
             ],
           ),
         ),

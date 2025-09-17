@@ -35,7 +35,8 @@ Future<void> initServices() async {
     () => LocalePreferenceService(),
   );
 
+  final notificationService = await NotificationService().init();
   GetIt.instance.registerLazySingleton(
-    () => NotificationService().init(),
+    () => notificationService,
   );
 }
