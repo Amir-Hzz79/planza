@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlTextField extends StatefulWidget {
   final TextEditingController? controller;
@@ -63,7 +63,8 @@ class _PlTextFieldState extends State<PlTextField> {
     super.initState();
     _obscureText = widget.obscureText;
     _focusNode = FocusNode();
-    _focusNode.addListener(() => setState(() => _hasFocus = _focusNode.hasFocus));
+    _focusNode
+        .addListener(() => setState(() => _hasFocus = _focusNode.hasFocus));
   }
 
   @override
@@ -76,7 +77,7 @@ class _PlTextFieldState extends State<PlTextField> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
     final hasError = widget.errorText != null;
 
     Color fillColor;
@@ -86,23 +87,30 @@ class _PlTextFieldState extends State<PlTextField> {
     switch (widget.style) {
       case PlTextFieldStyle.filled:
         fillColor = colors.surfaceVariant;
-        borderColor = hasError ? colors.error : (_hasFocus ? colors.primary : Colors.transparent);
+        borderColor = hasError
+            ? colors.error
+            : (_hasFocus ? colors.primary : Colors.transparent);
         borderWidth = 1.5;
         break;
       case PlTextFieldStyle.outlined:
         fillColor = colors.surface;
-        borderColor = hasError ? colors.error : (_hasFocus ? colors.primary : colors.outline);
+        borderColor = hasError
+            ? colors.error
+            : (_hasFocus ? colors.primary : colors.outline);
         borderWidth = _hasFocus ? 2 : 1;
         break;
       case PlTextFieldStyle.underlined:
         fillColor = Colors.transparent;
-        borderColor = hasError ? colors.error : (_hasFocus ? colors.primary : colors.outlineVariant);
+        borderColor = hasError
+            ? colors.error
+            : (_hasFocus ? colors.primary : colors.outlineVariant);
         borderWidth = _hasFocus ? 2 : 1;
         break;
     }
 
     final border = widget.style == PlTextFieldStyle.underlined
-        ? UnderlineInputBorder(borderSide: BorderSide(color: borderColor, width: borderWidth))
+        ? UnderlineInputBorder(
+            borderSide: BorderSide(color: borderColor, width: borderWidth))
         : OutlineInputBorder(
             borderRadius: PlBorderRadius.radiusMd,
             borderSide: BorderSide(color: borderColor, width: borderWidth),
@@ -159,12 +167,17 @@ class _PlTextFieldState extends State<PlTextField> {
           borderSide: BorderSide(color: colors.outlineVariant, width: 1),
         ),
         contentPadding: widget.contentPadding ??
-            const EdgeInsets.symmetric(horizontal: PlSpacing.md, vertical: PlSpacing.sm),
-        labelStyle: PlTypography.bodyMedium.copyWith(color: colors.onSurfaceVariant),
-        hintStyle: PlTypography.bodyMedium.copyWith(color: colors.onSurfaceVariant.withOpacity(0.5)),
-        helperStyle: PlTypography.bodySmall.copyWith(color: colors.onSurfaceVariant),
+            const EdgeInsets.symmetric(
+                horizontal: PlSpacing.md, vertical: PlSpacing.sm),
+        labelStyle:
+            PlTypography.bodyMedium.copyWith(color: colors.onSurfaceVariant),
+        hintStyle: PlTypography.bodyMedium
+            .copyWith(color: colors.onSurfaceVariant.withOpacity(0.5)),
+        helperStyle:
+            PlTypography.bodySmall.copyWith(color: colors.onSurfaceVariant),
         errorStyle: PlTypography.bodySmall.copyWith(color: colors.error),
-        counterStyle: PlTypography.bodySmall.copyWith(color: colors.onSurfaceVariant),
+        counterStyle:
+            PlTypography.bodySmall.copyWith(color: colors.onSurfaceVariant),
         alignLabelWithHint: widget.maxLines != null && widget.maxLines! > 1,
       ),
     );

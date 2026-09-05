@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
+
+import 'pl_button.dart';
 
 class PlDialog {
   static Future<T?> show<T>({
@@ -13,7 +15,7 @@ class PlDialog {
   }) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return showDialog<T>(
       context: context,
@@ -34,7 +36,9 @@ class PlDialog {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       if (title != null) ...[
-                        Text(title, style: PlTypography.titleLarge.copyWith(color: colors.onSurface)),
+                        Text(title,
+                            style: PlTypography.titleLarge
+                                .copyWith(color: colors.onSurface)),
                         SizedBox(height: PlSpacing.md),
                       ],
                       Flexible(child: child),

@@ -7,13 +7,14 @@ import 'package:path_provider/path_provider.dart';
 import '../data_access_object/tag_dao.dart';
 import '../data_access_object/task_dao.dart';
 import '../data_access_object/user_setting_dao.dart';
+import '../data_access_object/goal_dao.dart';
 import 'tables.dart';
 
 part 'database.g.dart';
 
 @DriftDatabase(
   tables: [Tasks, Subtasks, Tags, TaskTags, Goals, UserSettings],
-  daos: [TaskDao, TagDao, UserSettingsDao],
+  daos: [TaskDao, TagDao, UserSettingsDao, GoalDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());

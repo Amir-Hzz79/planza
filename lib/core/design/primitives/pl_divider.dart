@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlDivider extends StatelessWidget {
   final PlDividerDirection direction;
@@ -23,7 +23,7 @@ class PlDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final dividerColor = color ?? colors.outlineVariant;
 
@@ -54,3 +54,12 @@ class PlDivider extends StatelessWidget {
 }
 
 enum PlDividerDirection { horizontal, vertical }
+
+
+
+
+
+
+
+
+

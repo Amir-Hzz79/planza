@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlBottomSheet {
   static Future<T?> show<T>({
@@ -14,7 +14,7 @@ class PlBottomSheet {
   }) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return showModalBottomSheet<T>(
       context: context,
@@ -22,7 +22,8 @@ class PlBottomSheet {
       showDragHandle: showDragHandle,
       backgroundColor: backgroundColor ?? colors.surface,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: PlBorderRadius.radiusXl.topLeft),
+        borderRadius:
+            BorderRadius.vertical(top: PlBorderRadius.radiusXl.topLeft),
       ),
       builder: (context) => DraggableScrollableSheet(
         initialChildSize: size.initial,
@@ -37,7 +38,9 @@ class PlBottomSheet {
                 padding: padding ?? PlSpacing.pageHorizontal,
                 child: Row(
                   children: [
-                    Text(title, style: PlTypography.titleLarge.copyWith(color: colors.onSurface)),
+                    Text(title,
+                        style: PlTypography.titleLarge
+                            .copyWith(color: colors.onSurface)),
                     const Spacer(),
                     IconButton(
                       icon: Icon(Icons.close, color: colors.onSurfaceVariant),
@@ -45,6 +48,7 @@ class PlBottomSheet {
                     ),
                   ],
                 ),
+              ),
             Flexible(
               child: SingleChildScrollView(
                 controller: scrollController,
@@ -64,7 +68,8 @@ class PlBottomSheetSize {
   final double min;
   final double max;
 
-  const PlBottomSheetSize({required this.initial, required this.min, required this.max});
+  const PlBottomSheetSize(
+      {required this.initial, required this.min, required this.max});
 
   static const auto = PlBottomSheetSize(initial: 0.5, min: 0.3, max: 0.9);
   static const half = PlBottomSheetSize(initial: 0.5, min: 0.4, max: 0.6);

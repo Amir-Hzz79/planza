@@ -20,8 +20,8 @@ class ThemeController extends ChangeNotifier {
       return _getUnlockablePalette(_selectedPalette);
     }
     return _themeMode == ThemeMode.dark
-        ? [PlDarkColors.primary, PlDarkColors.primaryLight, PlDarkColors.primaryDark, PlDarkColors.primaryContainer]
-        : [PlColors.primary, PlColors.primaryLight, PlColors.primaryDark, PlColors.primaryContainer];
+        ? darkColors.getPalette(_selectedPalette)
+        : lightColors.getPalette(_selectedPalette);
   }
 
   Color get primaryColor => currentPalette[0];
@@ -48,7 +48,8 @@ class ThemeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<void> setPalette(String paletteName, {bool isUnlockable = false}) async {
+  Future<void> setPalette(String paletteName,
+      {bool isUnlockable = false}) async {
     _selectedPalette = paletteName;
     _useCustomPalette = isUnlockable;
     final prefs = await SharedPreferences.getInstance();
@@ -71,12 +72,15 @@ class ThemeController extends ChangeNotifier {
   }
 
   List<String> getUnlockedPalettes(List<String> userUnlocked) {
-    return ['default', ...userUnlocked.where((p) => PlColors.unlockablePalettes.containsKey(p))];
+    return [
+      'default',
+      ...userUnlocked.where((p) => PlColors.unlockablePalettes.containsKey(p))
+    ];
   }
 
   List<Color> _getUnlockablePalette(String name) {
     final isDark = _themeMode == ThemeMode.dark;
-    return isDark ? PlDarkColors.getPalette(name) : PlColors.getPalette(name);
+    return isDark ? darkColors.getPalette(name) : lightColors.getPalette(name);
   }
 
   ThemeData get lightTheme => _buildTheme(Brightness.light);
@@ -84,27 +88,28 @@ class ThemeController extends ChangeNotifier {
 
   ThemeData _buildTheme(Brightness brightness) {
     final isDark = brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
     final palette = currentPalette;
 
     final colorScheme = ColorScheme(
       brightness: brightness,
       primary: palette[0],
-      onPrimary: isDark ? PlDarkColors.onBackground : PlColors.onBackground,
+      onPrimary: isDark ? darkColors.onBackground : lightColors.onBackground,
       primaryContainer: palette[3],
-      onPrimaryContainer: isDark ? PlDarkColors.onSurface : PlColors.onSurface,
+      onPrimaryContainer: isDark ? darkColors.onSurface : lightColors.onSurface,
       secondary: palette[0].withOpacity(0.8),
-      onSecondary: isDark ? PlDarkColors.onBackground : PlColors.onBackground,
+      onSecondary: isDark ? darkColors.onBackground : lightColors.onBackground,
       secondaryContainer: palette[0].withOpacity(0.2),
-      onSecondaryContainer: isDark ? PlDarkColors.onSurface : PlColors.onSurface,
+      onSecondaryContainer:
+          isDark ? darkColors.onSurface : lightColors.onSurface,
       tertiary: palette[0].withOpacity(0.6),
-      onTertiary: isDark ? PlDarkColors.onBackground : PlColors.onBackground,
+      onTertiary: isDark ? darkColors.onBackground : lightColors.onBackground,
       tertiaryContainer: palette[0].withOpacity(0.15),
-      onTertiaryContainer: isDark ? PlDarkColors.onSurface : PlColors.onSurface,
+      onTertiaryContainer: isDark ? darkColors.onSurface : lightColors.onSurface,
       error: colors.error,
-      onError: isDark ? PlDarkColors.onBackground : PlColors.onBackground,
+      onError: isDark ? darkColors.onBackground : lightColors.onBackground,
       errorContainer: colors.errorContainer,
-      onErrorContainer: isDark ? PlDarkColors.onSurface : PlColors.onSurface,
+      onErrorContainer: isDark ? darkColors.onSurface : lightColors.onSurface,
       surface: colors.surface,
       onSurface: colors.onSurface,
       surfaceContainerHighest: colors.surfaceContainerHighest,
@@ -136,7 +141,8 @@ class ThemeController extends ChangeNotifier {
         elevation: 0,
         centerTitle: false,
         surfaceTintColor: Colors.transparent,
-        titleTextStyle: PlTypography.titleLarge.copyWith(color: colors.onSurface),
+        titleTextStyle:
+            PlTypography.titleLarge.copyWith(color: colors.onSurface),
       ),
       bottomNavigationBarTheme: BottomNavigationBarThemeData(
         backgroundColor: colors.surface,
@@ -147,15 +153,18 @@ class ThemeController extends ChangeNotifier {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: palette[0],
-        foregroundColor: isDark ? PlDarkColors.onBackground : PlColors.onBackground,
+foregroundColor:
+              isDark ? darkColors.onBackground : lightColors.onBackground,
         shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
         elevation: 4,
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ElevatedButton.styleFrom(
           backgroundColor: palette[0],
-          foregroundColor: isDark ? PlDarkColors.onBackground : PlColors.onBackground,
-          shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
+          foregroundColor:
+              isDark ? darkColors.onBackground : lightColors.onBackground,
+          shape:
+              RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
           padding: PlSpacing.buttonPadding,
           textStyle: PlTypography.buttonMedium,
           elevation: 1,
@@ -164,8 +173,10 @@ class ThemeController extends ChangeNotifier {
       filledButtonTheme: FilledButtonThemeData(
         style: FilledButton.styleFrom(
           backgroundColor: palette[0],
-          foregroundColor: isDark ? PlDarkColors.onBackground : PlColors.onBackground,
-          shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
+          foregroundColor:
+              isDark ? darkColors.onBackground : lightColors.onBackground,
+          shape:
+              RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
           padding: PlSpacing.buttonPadding,
           textStyle: PlTypography.buttonMedium,
         ),
@@ -174,7 +185,8 @@ class ThemeController extends ChangeNotifier {
         style: OutlinedButton.styleFrom(
           foregroundColor: palette[0],
           side: BorderSide(color: palette[0], width: 1.5),
-          shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
+          shape:
+              RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
           padding: PlSpacing.buttonPadding,
           textStyle: PlTypography.buttonMedium,
         ),
@@ -182,7 +194,8 @@ class ThemeController extends ChangeNotifier {
       textButtonTheme: TextButtonThemeData(
         style: TextButton.styleFrom(
           foregroundColor: palette[0],
-          shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
+          shape:
+              RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
           padding: PlSpacing.buttonPaddingSm,
           textStyle: PlTypography.buttonMedium,
         ),
@@ -190,7 +203,8 @@ class ThemeController extends ChangeNotifier {
       inputDecorationTheme: InputDecorationTheme(
         filled: true,
         fillColor: colors.surface,
-        contentPadding: const EdgeInsets.symmetric(horizontal: PlSpacing.md, vertical: PlSpacing.sm),
+        contentPadding: const EdgeInsets.symmetric(
+            horizontal: PlSpacing.md, vertical: PlSpacing.sm),
         border: OutlineInputBorder(
           borderRadius: PlBorderRadius.radiusMd,
           borderSide: BorderSide(color: colors.outline),
@@ -215,17 +229,21 @@ class ThemeController extends ChangeNotifier {
           borderRadius: PlBorderRadius.radiusMd,
           borderSide: BorderSide(color: colors.outlineVariant),
         ),
-        labelStyle: PlTypography.bodyMedium.copyWith(color: colors.onSurfaceVariant),
-        hintStyle: PlTypography.bodyMedium.copyWith(color: colors.onSurfaceVariant.withOpacity(0.5)),
+        labelStyle:
+            PlTypography.bodyMedium.copyWith(color: colors.onSurfaceVariant),
+        hintStyle: PlTypography.bodyMedium
+            .copyWith(color: colors.onSurfaceVariant.withOpacity(0.5)),
         errorStyle: PlTypography.bodySmall.copyWith(color: colors.error),
       ),
       chipTheme: ChipThemeData(
         backgroundColor: colors.surfaceVariant,
         selectedColor: palette[3],
         disabledColor: colors.surfaceContainerHighest,
-        padding: const EdgeInsets.symmetric(horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
+        padding: const EdgeInsets.symmetric(
+            horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
         labelStyle: PlTypography.labelMedium,
-        secondaryLabelStyle: PlTypography.labelMedium.copyWith(color: isDark ? PlDarkColors.onBackground : PlColors.onBackground),
+        secondaryLabelStyle: PlTypography.labelMedium.copyWith(
+            color: isDark ? darkColors.onBackground : lightColors.onBackground),
         shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
         side: BorderSide.none,
       ),
@@ -233,14 +251,17 @@ class ThemeController extends ChangeNotifier {
         backgroundColor: colors.surface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusLg),
-        titleTextStyle: PlTypography.titleLarge.copyWith(color: colors.onSurface),
-        contentTextStyle: PlTypography.bodyMedium.copyWith(color: colors.onSurface),
+        titleTextStyle:
+            PlTypography.titleLarge.copyWith(color: colors.onSurface),
+        contentTextStyle:
+            PlTypography.bodyMedium.copyWith(color: colors.onSurface),
       ),
       bottomSheetTheme: BottomSheetThemeData(
         backgroundColor: colors.surface,
         surfaceTintColor: Colors.transparent,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.vertical(top: PlBorderRadius.radiusXl.topLeft),
+          borderRadius:
+              BorderRadius.vertical(top: PlBorderRadius.radiusXl.topLeft),
         ),
         modalBackgroundColor: colors.surface,
       ),
@@ -263,8 +284,10 @@ class ThemeController extends ChangeNotifier {
           borderRadius: PlBorderRadius.radiusSm,
           boxShadow: PlElevation.shadow2,
         ),
-        textStyle: PlTypography.bodySmall.copyWith(color: colors.inverseOnSurface),
-        padding: const EdgeInsets.symmetric(horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
+        textStyle:
+            PlTypography.bodySmall.copyWith(color: colors.inverseOnSurface),
+        padding: const EdgeInsets.symmetric(
+            horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
         verticalOffset: PlSpacing.sm,
         preferBelow: true,
       ),
@@ -279,7 +302,8 @@ class ThemeController extends ChangeNotifier {
         thumbColor: palette[0],
         overlayColor: palette[0].withOpacity(0.2),
         valueIndicatorColor: palette[0],
-        valueIndicatorTextStyle: PlTypography.bodySmall.copyWith(color: isDark ? PlDarkColors.onBackground : PlColors.onBackground),
+        valueIndicatorTextStyle: PlTypography.bodySmall.copyWith(
+            color: isDark ? darkColors.onBackground : lightColors.onBackground),
       ),
       tabBarTheme: TabBarThemeData(
         labelColor: palette[0],
@@ -335,16 +359,20 @@ class _PlCustomThemeExtension extends ThemeExtension<_PlCustomThemeExtension> {
   }
 
   @override
-  _PlCustomThemeExtension lerp(ThemeExtension<_PlCustomThemeExtension>? other, double t) {
+  _PlCustomThemeExtension lerp(
+      ThemeExtension<_PlCustomThemeExtension>? other, double t) {
     return this;
   }
 }
 
 extension PlThemeExtension on BuildContext {
-  _PlCustomThemeExtension get plTheme => Theme.of(this).extension<_PlCustomThemeExtension>()!;
+  _PlCustomThemeExtension get plTheme =>
+      Theme.of(this).extension<_PlCustomThemeExtension>()!;
   List<Color> get plPalette => plTheme.palette;
   PlSpacing get plSpacing => plTheme.spacing;
   PlTypography get plTypography => plTheme.typography;
   PlBorderRadius get plBorderRadius => plTheme.borderRadius;
   PlMotion get plMotion => plTheme.motion;
 }
+
+

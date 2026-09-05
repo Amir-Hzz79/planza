@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../primitives/index.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/primitives/index.dart';
 
 class PriorityBadge extends StatelessWidget {
   final int priority;
@@ -18,7 +17,7 @@ class PriorityBadge extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final (label, color, icon) = _getPriorityInfo(priority, colors);
 
@@ -67,7 +66,7 @@ class PrioritySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return Wrap(
       spacing: PlSpacing.sm,
@@ -83,44 +82,59 @@ class PrioritySelector extends StatelessWidget {
             onTap: () => onChanged(null),
           ),
         ...[1, 2, 3, 4].map((p) => _PriorityOption(
-          priority: p,
-          label: _getLabel(p),
-          color: _getColor(p, colors),
-          icon: _getIcon(p),
-          isSelected: selectedPriority == p,
-          onTap: () => onChanged(p),
-        )),
+              priority: p,
+              label: _getLabel(p),
+              color: _getColor(p, colors),
+              icon: _getIcon(p),
+              isSelected: selectedPriority == p,
+              onTap: () => onChanged(p),
+            )),
       ],
     );
   }
 
   String _getLabel(int priority) {
     switch (priority) {
-      case 1: return 'Low';
-      case 2: return 'Medium';
-      case 3: return 'High';
-      case 4: return 'Critical';
-      default: return 'Unknown';
+      case 1:
+        return 'Low';
+      case 2:
+        return 'Medium';
+      case 3:
+        return 'High';
+      case 4:
+        return 'Critical';
+      default:
+        return 'Unknown';
     }
   }
 
   Color _getColor(int priority, dynamic colors) {
     switch (priority) {
-      case 1: return colors.success;
-      case 2: return colors.warning;
-      case 3: return colors.error;
-      case 4: return colors.tertiary;
-      default: return colors.outline;
+      case 1:
+        return colors.success;
+      case 2:
+        return colors.warning;
+      case 3:
+        return colors.error;
+      case 4:
+        return colors.tertiary;
+      default:
+        return colors.outline;
     }
   }
 
   IconData _getIcon(int priority) {
     switch (priority) {
-      case 1: return Icons.arrow_downward;
-      case 2: return Icons.remove;
-      case 3: return Icons.arrow_upward;
-      case 4: return Icons.priority_high;
-      default: return Icons.help_outline;
+      case 1:
+        return Icons.arrow_downward;
+      case 2:
+        return Icons.remove;
+      case 3:
+        return Icons.arrow_upward;
+      case 4:
+        return Icons.priority_high;
+      default:
+        return Icons.help_outline;
     }
   }
 }
@@ -150,7 +164,8 @@ class _PriorityOption extends StatelessWidget {
       child: AnimatedContainer(
         duration: PlMotion.fast,
         curve: PlMotion.standard,
-        padding: const EdgeInsets.symmetric(horizontal: PlSpacing.md, vertical: PlSpacing.sm),
+        padding: const EdgeInsets.symmetric(
+            horizontal: PlSpacing.md, vertical: PlSpacing.sm),
         decoration: BoxDecoration(
           color: isSelected ? color.withOpacity(0.15) : Colors.transparent,
           borderRadius: PlBorderRadius.radiusFull,
@@ -162,7 +177,8 @@ class _PriorityOption extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 16, color: isSelected ? color : color.withOpacity(0.7)),
+            Icon(icon,
+                size: 16, color: isSelected ? color : color.withOpacity(0.7)),
             SizedBox(width: PlSpacing.xs),
             Text(
               label,

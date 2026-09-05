@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../primitives/index.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/primitives/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class StreakCounter extends StatelessWidget {
   final int currentStreak;
@@ -22,7 +22,7 @@ class StreakCounter extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final streakColor = _getStreakColor(currentStreak, colors);
 
@@ -121,7 +121,7 @@ class StreakCalendar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final now = DateTime.now();
     final startDate = now.subtract(Duration(days: weeksToShow * 7));
@@ -207,3 +207,16 @@ class StreakCalendar extends StatelessWidget {
     return count;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

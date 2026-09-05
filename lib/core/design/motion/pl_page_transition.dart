@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/motion.dart';
 
 class PlPageTransition extends PageRouteBuilder {
   final Widget child;
@@ -12,7 +12,7 @@ class PlPageTransition extends PageRouteBuilder {
     this.type = PlPageTransitionType.fadeScale,
     this.duration = PlMotion.pageTransition,
     this.curve = PlMotion.pageTransitionCurve,
-    RouteSettings? settings,
+    super.settings,
   }) : super(
           pageBuilder: (context, animation, secondaryAnimation) => child,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -21,21 +21,24 @@ class PlPageTransition extends PageRouteBuilder {
           },
           transitionDuration: duration,
           reverseTransitionDuration: duration,
-          settings: settings,
         );
 
-  static Widget _buildTransition(PlPageTransitionType type, Animation<double> animation, Widget child) {
+  static Widget _buildTransition(
+      PlPageTransitionType type, Animation<double> animation, Widget child) {
     switch (type) {
       case PlPageTransitionType.fade:
         return FadeTransition(opacity: animation, child: child);
       case PlPageTransitionType.slideUp:
         return SlideTransition(
-          position: Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero).animate(animation),
+          position: Tween<Offset>(begin: const Offset(0, 0.3), end: Offset.zero)
+              .animate(animation),
           child: FadeTransition(opacity: animation, child: child),
         );
       case PlPageTransitionType.slideRight:
         return SlideTransition(
-          position: Tween<Offset>(begin: const Offset(-0.3, 0), end: Offset.zero).animate(animation),
+          position:
+              Tween<Offset>(begin: const Offset(-0.3, 0), end: Offset.zero)
+                  .animate(animation),
           child: FadeTransition(opacity: animation, child: child),
         );
       case PlPageTransitionType.scale:
@@ -53,7 +56,8 @@ class PlPageTransition extends PageRouteBuilder {
         );
       case PlPageTransitionType.slideFadeScale:
         return SlideTransition(
-          position: Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero).animate(animation),
+          position: Tween<Offset>(begin: const Offset(0, 0.1), end: Offset.zero)
+              .animate(animation),
           child: FadeTransition(
             opacity: animation,
             child: ScaleTransition(
@@ -117,10 +121,14 @@ class _SharedAxisTransition extends StatelessWidget {
 
         switch (transitionType) {
           case SharedAxisTransitionType.horizontal:
-            translateX = (1 - animation.value) * 300 * (animation.status == AnimationStatus.reverse ? -1 : 1);
+            translateX = (1 - animation.value) *
+                300 *
+                (animation.status == AnimationStatus.reverse ? -1 : 1);
             break;
           case SharedAxisTransitionType.vertical:
-            translateY = (1 - animation.value) * 300 * (animation.status == AnimationStatus.reverse ? -1 : 1);
+            translateY = (1 - animation.value) *
+                300 *
+                (animation.status == AnimationStatus.reverse ? -1 : 1);
             break;
           case SharedAxisTransitionType.scaled:
             scale = 0.9 + 0.1 * animation.value;
@@ -150,3 +158,6 @@ enum PlPageTransitionType {
 }
 
 enum SharedAxisTransitionType { horizontal, vertical, scaled }
+
+
+

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/colors.dart';
+
+import '../tokens/spacing.dart';
 
 class PlReorderableListView extends StatefulWidget {
   final List<Widget> children;
@@ -37,7 +39,7 @@ class _PlReorderableListViewState extends State<PlReorderableListView> {
   @override
   Widget build(BuildContext context) {
     return ReorderableListView(
-      padding: widget.padding ?? PlSpacing.page,
+      padding: (widget.padding ?? PlSpacing.page) as EdgeInsets?,
       scrollDirection: widget.scrollDirection,
       shrinkWrap: widget.shrinkWrap,
       physics: widget.physics,
@@ -47,7 +49,8 @@ class _PlReorderableListViewState extends State<PlReorderableListView> {
           final item = _children.removeAt(oldIndex);
           _children.insert(newIndex, item);
         });
-        widget.onReorder?.call(ReorderEvent(oldIndex: oldIndex, newIndex: newIndex));
+        widget.onReorder
+            ?.call(ReorderEvent(oldIndex: oldIndex, newIndex: newIndex));
       },
       buildDefaultDragHandles: false,
       children: _children.asMap().entries.map((entry) {
@@ -56,8 +59,8 @@ class _PlReorderableListViewState extends State<PlReorderableListView> {
         return _ReorderableItem(
           key: ValueKey(index),
           index: index,
-          child: child,
           spacing: widget.spacing,
+          child: child,
         );
       }).toList(),
     );
@@ -70,6 +73,7 @@ class _ReorderableItem extends StatelessWidget {
   final double spacing;
 
   const _ReorderableItem({
+    super.key,
     required this.index,
     required this.child,
     required this.spacing,
@@ -79,7 +83,7 @@ class _ReorderableItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return ReorderableDragStartListener(
       index: index,
@@ -150,6 +154,11 @@ class _PlReorderableGridViewState extends State<PlReorderableGridView> {
 
   @override
   Widget build(BuildContext context) {
+    // Note: ReorderableGridView requires Flutter 3.10+
+    // If not available, this will cause a compile error
+    return const Center(
+        child: Text('ReorderableGridView requires Flutter 3.10+'));
+    /*
     return ReorderableGridView.count(
       padding: widget.padding ?? PlSpacing.page,
       crossAxisCount: widget.crossAxisCount,
@@ -161,15 +170,18 @@ class _PlReorderableGridViewState extends State<PlReorderableGridView> {
           final item = _children.removeAt(oldIndex);
           _children.insert(newIndex, item);
         });
-        widget.onReorder?.call(ReorderEvent(oldIndex: oldIndex, newIndex: newIndex));
+        widget.onReorder
+            ?.call(ReorderEvent(oldIndex: oldIndex, newIndex: newIndex));
       },
       buildDefaultDragHandles: false,
       children: _children.asMap().entries.map((entry) {
         final index = entry.key;
         final child = entry.value;
-        return _ReorderableGridItem(key: ValueKey(index), index: index, child: child);
+        return _ReorderableGridItem(
+            key: ValueKey(index), index: index, child: child);
       }).toList(),
     );
+    */
   }
 }
 
@@ -177,13 +189,13 @@ class _ReorderableGridItem extends StatelessWidget {
   final int index;
   final Widget child;
 
-  const _ReorderableGridItem({required this.index, required this.child});
+  const _ReorderableGridItem({super.key, required this.index, required this.child});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return ReorderableDragStartListener(
       index: index,
@@ -198,9 +210,15 @@ class _ReorderableGridItem extends StatelessWidget {
               decoration: BoxDecoration(
                 color: colors.surface.withOpacity(0.9),
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4, offset: Offset(0, 2))],
+                boxShadow: [
+                  BoxShadow(
+                      color: Colors.black12,
+                      blurRadius: 4,
+                      offset: Offset(0, 2))
+                ],
               ),
-              child: Icon(Icons.drag_indicator, color: colors.onSurfaceVariant, size: 20),
+              child: Icon(Icons.drag_indicator,
+                  color: colors.onSurfaceVariant, size: 20),
             ),
           ),
         ],

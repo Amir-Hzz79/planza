@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../primitives/index.dart';
-import '../../tokens/index.dart';
-import '../../../data/models/tag_model.dart';
+import 'package:planza/core/design/primitives/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
+import '../../data/models/tag_model.dart';
 
 class TagChip extends StatelessWidget {
   final TagModel tag;
@@ -23,7 +23,7 @@ class TagChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final tagColor = Color(tag.id * 0x1000000 % 0xFFFFFF | 0xFF000000);
 
@@ -35,9 +35,7 @@ class TagChip extends StatelessWidget {
       style: showColor ? PlChipStyle.filled : PlChipStyle.outlined,
       color: showColor ? tagColor.withOpacity(0.15) : null,
       labelColor: showColor ? tagColor : null,
-      icon: showColor
-          ? Icon(Icons.label, size: 12, color: tagColor)
-          : null,
+      icon: showColor ? Icons.label : null,
     );
   }
 }
@@ -62,7 +60,7 @@ class TagChips extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     if (tags.isEmpty) {
       return const SizedBox.shrink();
@@ -76,16 +74,16 @@ class TagChips extends StatelessWidget {
       runSpacing: PlSpacing.xs,
       children: [
         ...visibleTags.map((tag) => TagChip(
-          tag: tag,
-          onTap: onTap != null ? () => onTap!(tag) : null,
-          onDeleted: onDelete != null ? () => onDelete!(tag) : null,
-          showColor: showColor,
-        )),
+              tag: tag,
+              onTap: onTap != null ? () => onTap!(tag) : null,
+              onDeleted: onDelete != null ? () => onDelete!(tag) : null,
+              showColor: showColor,
+            )),
         if (hiddenCount > 0)
           PlChip(
             label: '+$hiddenCount',
             style: PlChipStyle.outlined,
-            icon: Icon(Icons.more_horiz, size: 12, color: colors.onSurfaceVariant),
+            icon: Icons.more_horiz,
           ),
       ],
     );

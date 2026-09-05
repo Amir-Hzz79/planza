@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlCard extends StatelessWidget {
   final Widget child;
@@ -27,7 +27,7 @@ class PlCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     Color backgroundColor;
     List<BoxShadow> effectiveShadows;
@@ -37,7 +37,7 @@ class PlCard extends StatelessWidget {
       case PlCardStyle.elevated:
         backgroundColor = color ?? colors.surface;
         effectiveShadows = shadows ?? PlElevation.shadow2;
-        effectiveBorder = border ?? Border.none;
+        effectiveBorder = border ?? Border();
         break;
       case PlCardStyle.outlined:
         backgroundColor = color ?? colors.surface;
@@ -47,7 +47,7 @@ class PlCard extends StatelessWidget {
       case PlCardStyle.filled:
         backgroundColor = color ?? colors.surfaceVariant;
         effectiveShadows = shadows ?? [];
-        effectiveBorder = border ?? Border.none;
+        effectiveBorder = border ?? Border();
         break;
       case PlCardStyle.glass:
         backgroundColor = color ?? (isDark ? colors.surface.withOpacity(0.8) : colors.surface.withOpacity(0.6));
@@ -85,3 +85,12 @@ class PlCard extends StatelessWidget {
 }
 
 enum PlCardStyle { elevated, outlined, filled, glass }
+
+
+
+
+
+
+
+
+
