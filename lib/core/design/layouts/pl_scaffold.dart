@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '../../primitives/index.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/primitives/pl_app_bar.dart' show PlAppBar, PlAppBarStyle;
+import 'package:planza/core/design/tokens/index.dart' show PlColorScheme, PlLightColors, PlDarkColors, lightColors, darkColors, PlTypography, PlSpacing;
 
 class PlScaffold extends StatelessWidget {
   final Widget? body;
@@ -36,7 +36,7 @@ class PlScaffold extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return Scaffold(
       body: body,
@@ -85,7 +85,7 @@ class PlPageTemplate extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final appBar = showAppBar
         ? PlAppBar(
@@ -148,7 +148,7 @@ class PlListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final items = spacing > 0
         ? List<Widget>.generate(children.length * 2 - 1, (i) {
@@ -243,7 +243,7 @@ class PlSliverAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return SliverAppBar(
       title: title != null
@@ -262,3 +262,5 @@ class PlSliverAppBar extends StatelessWidget {
     );
   }
 }
+
+

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../primitives/index.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
+
+import '../primitives/pl_chip.dart';
 
 class DateChip extends StatelessWidget {
   final DateTime date;
@@ -22,7 +23,7 @@ class DateChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -59,6 +60,11 @@ class DateChip extends StatelessWidget {
           bgColor = colors.primaryContainer;
           fgColor = colors.primaryDark;
           break;
+        case DateChipStyle.full:
+        case DateChipStyle.calendar:
+          bgColor = colors.surfaceVariant;
+          fgColor = colors.onSurfaceVariant;
+          break;
       }
     }
 
@@ -69,7 +75,8 @@ class DateChip extends StatelessWidget {
         border: border,
       ),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
+        padding: const EdgeInsets.symmetric(
+            horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -86,7 +93,8 @@ class DateChip extends StatelessWidget {
               if (style == DateChipStyle.full)
                 Text(
                   ' ${_monthShort(date.month)}',
-                  style: PlTypography.bodySmall.copyWith(color: fgColor.withOpacity(0.8)),
+                  style: PlTypography.bodySmall
+                      .copyWith(color: fgColor.withOpacity(0.8)),
                 ),
             ],
           ],
@@ -107,8 +115,18 @@ class DateChip extends StatelessWidget {
 
   String _monthShort(int month) {
     const months = [
-      'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-      'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec'
     ];
     return months[month - 1];
   }
@@ -132,7 +150,7 @@ class DateRangeChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final chipColor = color ?? colors.primary;
 

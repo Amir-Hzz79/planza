@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import '../../primitives/index.dart';
-import '../../tokens/index.dart';
-import '../../../data/models/task_model.dart';
+import 'package:planza/core/design/primitives/index.dart';
+import '../../data/models/task_model.dart';
+import 'priority_badge.dart';
+import 'tag_chip.dart';
 
 class TaskTile extends StatelessWidget {
   final TaskModel task;
@@ -29,12 +30,13 @@ class TaskTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return PlCard(
       style: PlCardStyle.outlined,
       onTap: onTap,
-      padding: compact ? PlSpacing.listItemPaddingSm : PlSpacing.listItemPadding,
+      padding:
+          compact ? PlSpacing.listItemPaddingSm : PlSpacing.listItemPadding,
       margin: const EdgeInsets.only(bottom: PlSpacing.xs),
       child: Row(
         children: [
@@ -50,13 +52,16 @@ class TaskTile extends StatelessWidget {
                 border: Border.all(
                   color: task.isCompleted
                       ? colors.success
-                      : (task.priority != null ? _priorityColor(task.priority!, colors) : colors.outline),
+                      : (task.priority != null
+                          ? _priorityColor(task.priority!, colors)
+                          : colors.outline),
                   width: 2,
                 ),
                 color: task.isCompleted ? colors.success : Colors.transparent,
               ),
               child: task.isCompleted
-                  ? Icon(Icons.check, size: compact ? 12 : 16, color: colors.onBackground)
+                  ? Icon(Icons.check,
+                      size: compact ? 12 : 16, color: colors.onBackground)
                   : null,
             ),
           ),
@@ -70,9 +75,16 @@ class TaskTile extends StatelessWidget {
                     Expanded(
                       child: Text(
                         task.title,
-                        style: (compact ? PlTypography.bodyMedium : PlTypography.bodyLarge).copyWith(
-                          color: task.isCompleted ? colors.onSurfaceVariant : colors.onSurface,
-                          decoration: task.isCompleted ? TextDecoration.lineThrough : null,
+                        style: (compact
+                                ? PlTypography.bodyMedium
+                                : PlTypography.bodyLarge)
+                            .copyWith(
+                          color: task.isCompleted
+                              ? colors.onSurfaceVariant
+                              : colors.onSurface,
+                          decoration: task.isCompleted
+                              ? TextDecoration.lineThrough
+                              : null,
                           fontWeight: FontWeight.w500,
                         ),
                         maxLines: 1,
@@ -83,11 +95,14 @@ class TaskTile extends StatelessWidget {
                       PriorityBadge(priority: task.priority!),
                   ],
                 ),
-                if (task.description != null && task.description!.isNotEmpty && !compact) ...[
+                if (task.description != null &&
+                    task.description!.isNotEmpty &&
+                    !compact) ...[
                   SizedBox(height: PlSpacing.xs),
                   Text(
                     task.description!,
-                    style: PlTypography.bodySmall.copyWith(color: colors.onSurfaceVariant),
+                    style: PlTypography.bodySmall
+                        .copyWith(color: colors.onSurfaceVariant),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
@@ -123,7 +138,8 @@ class TaskTile extends StatelessWidget {
           ),
           if (onEdit != null || onDelete != null)
             PopupMenuButton<String>(
-              icon: Icon(Icons.more_vert, color: colors.onSurfaceVariant, size: 20),
+              icon: Icon(Icons.more_vert,
+                  color: colors.onSurfaceVariant, size: 20),
               onSelected: (value) {
                 if (value == 'edit') onEdit?.call();
                 if (value == 'delete') onDelete?.call();
@@ -134,7 +150,8 @@ class TaskTile extends StatelessWidget {
                     value: 'edit',
                     child: Row(
                       children: [
-                        Icon(Icons.edit_outlined, size: 18, color: colors.onSurfaceVariant),
+                        Icon(Icons.edit_outlined,
+                            size: 18, color: colors.onSurfaceVariant),
                         SizedBox(width: PlSpacing.sm),
                         Text('Edit'),
                       ],
@@ -145,7 +162,8 @@ class TaskTile extends StatelessWidget {
                     value: 'delete',
                     child: Row(
                       children: [
-                        Icon(Icons.delete_outline, size: 18, color: colors.error),
+                        Icon(Icons.delete_outline,
+                            size: 18, color: colors.error),
                         SizedBox(width: PlSpacing.sm),
                         Text('Delete', style: TextStyle(color: colors.error)),
                       ],
@@ -160,11 +178,16 @@ class TaskTile extends StatelessWidget {
 
   Color _priorityColor(int priority, dynamic colors) {
     switch (priority) {
-      case 1: return colors.success; // Low
-      case 2: return colors.warning; // Medium
-      case 3: return colors.error; // High
-      case 4: return colors.tertiary; // Critical
-      default: return colors.outline;
+      case 1:
+        return colors.success; // Low
+      case 2:
+        return colors.warning; // Medium
+      case 3:
+        return colors.error; // High
+      case 4:
+        return colors.tertiary; // Critical
+      default:
+        return colors.outline;
     }
   }
 
@@ -213,7 +236,8 @@ class _InfoChip extends StatelessWidget {
       style: PlChipStyle.filled,
       color: color.withOpacity(0.15),
       labelColor: color,
-      padding: const EdgeInsets.symmetric(horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
+      padding: const EdgeInsets.symmetric(
+          horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
     );
   }
 }

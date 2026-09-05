@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class ProgressRing extends StatelessWidget {
   final double progress;
@@ -27,7 +27,7 @@ class ProgressRing extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final bgColor = backgroundColor ?? colors.surfaceVariant;
     final fgColor = progressColor ?? colors.primary;
@@ -210,3 +210,16 @@ class _SegmentedProgressPainter extends CustomPainter {
 }
 
 enum PlProgressRingStyle { standard, gradient, segmented }
+
+
+
+
+
+
+
+
+
+
+
+
+

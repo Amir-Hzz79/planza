@@ -7,7 +7,7 @@ import '../models/task_model.dart';
 
 part 'task_dao.g.dart';
 
-@DriftAccessor(tables: [Tasks, Tags, TaskTags])
+@DriftAccessor(tables: [Tasks, Tags, TaskTags, Goals])
 class TaskDao extends DatabaseAccessor<AppDatabase> with _$TaskDaoMixin {
   TaskDao(super.attachedDatabase);
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class LoadingShimmer extends StatefulWidget {
   final Widget child;
@@ -48,7 +48,7 @@ class _LoadingShimmerState extends State<LoadingShimmer>
 
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final baseColor = widget.baseColor ?? colors.surfaceVariant;
     final highlightColor = widget.highlightColor ?? colors.surfaceContainerHighest;
@@ -95,7 +95,7 @@ class ShimmerPlaceholder extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     Widget placeholder;
 
@@ -162,3 +162,16 @@ class ShimmerList extends StatelessWidget {
 }
 
 enum PlShimmerShape { rectangle, circle, rounded }
+
+
+
+
+
+
+
+
+
+
+
+
+

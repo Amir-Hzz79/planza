@@ -8,4 +8,18 @@ mixin _$TagDaoMixin on DatabaseAccessor<AppDatabase> {
   $GoalsTable get goals => attachedDatabase.goals;
   $TasksTable get tasks => attachedDatabase.tasks;
   $TaskTagsTable get taskTags => attachedDatabase.taskTags;
+  TagDaoManager get managers => TagDaoManager(this);
+}
+
+class TagDaoManager {
+  final _$TagDaoMixin _db;
+  TagDaoManager(this._db);
+  $$TagsTableTableManager get tags =>
+      $$TagsTableTableManager(_db.attachedDatabase, _db.tags);
+  $$GoalsTableTableManager get goals =>
+      $$GoalsTableTableManager(_db.attachedDatabase, _db.goals);
+  $$TasksTableTableManager get tasks =>
+      $$TasksTableTableManager(_db.attachedDatabase, _db.tasks);
+  $$TaskTagsTableTableManager get taskTags =>
+      $$TaskTagsTableTableManager(_db.attachedDatabase, _db.taskTags);
 }

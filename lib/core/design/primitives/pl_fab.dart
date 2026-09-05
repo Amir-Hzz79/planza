@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlFAB extends StatelessWidget {
   final VoidCallback? onPressed;
@@ -21,13 +21,14 @@ class PlFAB extends StatelessWidget {
     this.backgroundColor,
     this.foregroundColor,
     this.tooltip,
-  }) : assert(icon != null || label != null, 'Either icon or label must be provided');
+  }) : assert(icon != null || label != null,
+            'Either icon or label must be provided');
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final bgColor = backgroundColor ?? colors.primary;
     final fgColor = foregroundColor ?? colors.onBackground;
@@ -57,7 +58,8 @@ class PlFAB extends StatelessWidget {
           backgroundColor: bgColor,
           foregroundColor: fgColor,
           elevation: 4,
-          shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
+          shape:
+              RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
           tooltip: tooltip,
           child: label != null
               ? Row(
@@ -67,7 +69,9 @@ class PlFAB extends StatelessWidget {
                       Icon(icon, size: iconSize),
                       SizedBox(width: PlSpacing.xs),
                     ],
-                    Text(label!, style: PlTypography.labelLarge.copyWith(color: fgColor)),
+                    Text(label!,
+                        style:
+                            PlTypography.labelLarge.copyWith(color: fgColor)),
                   ],
                 )
               : Icon(icon, size: iconSize),
@@ -79,10 +83,14 @@ class PlFAB extends StatelessWidget {
           backgroundColor: bgColor,
           foregroundColor: fgColor,
           elevation: 4,
-          shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
+          shape:
+              RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
           tooltip: tooltip,
           icon: icon != null ? Icon(icon, size: iconSize) : null,
-          label: label != null ? Text(label!, style: PlTypography.labelLarge.copyWith(color: fgColor)) : null,
+          label: label != null
+              ? Text(label!,
+                  style: PlTypography.labelLarge.copyWith(color: fgColor))
+              : Text(''),
         );
         break;
       case PlFABStyle.outlined:

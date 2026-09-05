@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String? title;
@@ -34,7 +34,7 @@ class PlAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final bgColor = backgroundColor ?? (style == PlAppBarStyle.transparent ? Colors.transparent : colors.surface);
     final fgColor = foregroundColor ?? colors.onSurface;
@@ -58,3 +58,12 @@ class PlAppBar extends StatelessWidget implements PreferredSizeWidget {
 }
 
 enum PlAppBarStyle { standard, transparent, elevated }
+
+
+
+
+
+
+
+
+

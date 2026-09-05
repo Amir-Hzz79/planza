@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlButton extends StatelessWidget {
   final String label;
@@ -29,7 +29,7 @@ class PlButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     Color backgroundColor;
     Color foregroundColor;
@@ -119,3 +119,13 @@ class PlButton extends StatelessWidget {
 enum PlButtonStyle { filled, filledTonal, outlined, text, destructive }
 
 enum PlButtonSize { sm, md, lg }
+
+
+
+
+
+
+
+
+
+

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../primitives/index.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/primitives/index.dart';
 
 class EmptyState extends StatelessWidget {
   final String title;
@@ -28,7 +27,7 @@ class EmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final defaultIcon = icon ?? _getDefaultIcon(style);
     final defaultIconSize = iconSize ?? 64;
@@ -58,7 +57,8 @@ class EmptyState extends StatelessWidget {
           SizedBox(height: PlSpacing.sm),
           Text(
             message!,
-            style: PlTypography.bodyMedium.copyWith(color: colors.onSurfaceVariant),
+            style: PlTypography.bodyMedium
+                .copyWith(color: colors.onSurfaceVariant),
             textAlign: TextAlign.center,
           ),
         ],
@@ -123,7 +123,7 @@ class EmptyStateIllustration extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -142,7 +142,8 @@ class EmptyStateIllustration extends StatelessWidget {
           SizedBox(height: PlSpacing.sm),
           Text(
             message!,
-            style: PlTypography.bodyMedium.copyWith(color: colors.onSurfaceVariant),
+            style: PlTypography.bodyMedium
+                .copyWith(color: colors.onSurfaceVariant),
             textAlign: TextAlign.center,
           ),
         ],
@@ -156,3 +157,11 @@ class EmptyStateIllustration extends StatelessWidget {
 }
 
 enum PlEmptyStateStyle { standard, card, fullscreen }
+
+
+
+
+
+
+
+

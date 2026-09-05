@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlAvatar extends StatelessWidget {
   final String? name;
@@ -25,7 +25,7 @@ class PlAvatar extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     final double radius = switch (size) {
       PlAvatarSize.xs => 12,
@@ -92,3 +92,12 @@ class PlAvatar extends StatelessWidget {
 }
 
 enum PlAvatarSize { xs, sm, md, lg, xl, xxl }
+
+
+
+
+
+
+
+
+

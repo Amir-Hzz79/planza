@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../primitives/index.dart';
-import '../../tokens/index.dart';
-import '../../../data/models/goal_model.dart';
+import 'package:planza/core/design/primitives/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
+import '../../data/models/goal_model.dart';
 
 class GoalCard extends StatelessWidget {
   final GoalModel goal;
@@ -25,7 +25,7 @@ class GoalCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     return PlCard(
       style: PlCardStyle.glass,
@@ -163,3 +163,16 @@ class GoalCard extends StatelessWidget {
     return 'Due in $diff days';
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

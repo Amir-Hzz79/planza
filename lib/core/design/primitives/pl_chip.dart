@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../tokens/index.dart';
+import 'package:planza/core/design/tokens/index.dart';
 
 class PlChip extends StatelessWidget {
   final String label;
@@ -29,15 +29,15 @@ class PlChip extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? PlDarkColors : PlColors;
+    final colors = isDark ? darkColors : lightColors;
 
     Color backgroundColor;
     Color foregroundColor;
     Border? border;
 
-    if (widget.color != null) {
-      backgroundColor = widget.color!;
-      foregroundColor = widget.labelColor ?? _getContrastColor(widget.color!);
+    if (color != null) {
+      backgroundColor = color!;
+      foregroundColor = labelColor ?? _getContrastColor(color!);
     } else if (isSelected) {
       backgroundColor = colors.primaryContainer;
       foregroundColor = colors.primaryDark;
@@ -66,12 +66,14 @@ class PlChip extends StatelessWidget {
           Icon(icon, size: 16, color: foregroundColor),
           SizedBox(width: PlSpacing.xs),
         ],
-        Text(label, style: PlTypography.labelMedium.copyWith(color: foregroundColor)),
+        Text(label,
+            style: PlTypography.labelMedium.copyWith(color: foregroundColor)),
         if (onDeleted != null) ...[
           SizedBox(width: PlSpacing.xs),
           GestureDetector(
             onTap: onDeleted,
-            child: Icon(Icons.close, size: 16, color: foregroundColor.withOpacity(0.7)),
+            child: Icon(Icons.close,
+                size: 16, color: foregroundColor.withOpacity(0.7)),
           ),
         ],
       ],
@@ -84,7 +86,9 @@ class PlChip extends StatelessWidget {
         border: border,
       ),
       child: Padding(
-        padding: padding ?? const EdgeInsets.symmetric(horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
+        padding: padding ??
+            const EdgeInsets.symmetric(
+                horizontal: PlSpacing.sm, vertical: PlSpacing.xs),
         child: child,
       ),
     );
