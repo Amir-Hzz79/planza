@@ -20,6 +20,8 @@ class Goals extends Table {
   DateTimeColumn get deadline => dateTime().nullable()();
   IntColumn get color => integer()();
   IntColumn get icon => integer()();
+  IntColumn get parentGoalId =>
+      integer().nullable().customConstraint('REFERENCES goals(id)')();
 }
 
 /* class GoalTasks extends Table {

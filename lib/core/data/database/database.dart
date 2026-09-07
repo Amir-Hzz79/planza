@@ -20,7 +20,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 4;
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
@@ -628,6 +628,16 @@ class AppDatabase extends _$AppDatabase {
                 'icon',
                 'Goals',
                 false,
+                type: DriftSqlType.int,
+              ),
+            );
+          } else if (from < 4) {
+            await migrator.addColumn(
+              goals,
+              GeneratedColumn(
+                'parentGoalId',
+                'Goals',
+                true,
                 type: DriftSqlType.int,
               ),
             );
