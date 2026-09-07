@@ -8,7 +8,7 @@ import '../database/database.dart' show Goal, GoalsCompanion;
 class GoalModel extends Equatable {
   @override
   List<Object?> get props =>
-      [id, name, description, deadline, icon, color, tasks];
+      [id, name, description, deadline, icon, color, tasks, parentGoalId];
 
   const GoalModel({
     this.id,
@@ -18,6 +18,7 @@ class GoalModel extends Equatable {
     this.icon = Icons.golf_course_rounded,
     this.color = Colors.grey,
     this.tasks = const [],
+    this.parentGoalId,
   });
 
   final int? id;
@@ -27,6 +28,7 @@ class GoalModel extends Equatable {
   final Color color;
   final IconData icon;
   final List<TaskModel> tasks;
+  final int? parentGoalId;
   bool get isCompleted =>
       tasks.isNotEmpty &&
       !tasks.any(
@@ -110,6 +112,7 @@ class GoalModel extends Equatable {
       icon: IconData(goalEntity.icon, fontFamily: 'MaterialIcons'),
       color: Color(goalEntity.color),
       tasks: sortTasks,
+      parentGoalId: goalEntity.parentGoalId,
     );
   }
 
@@ -122,6 +125,7 @@ class GoalModel extends Equatable {
       deadline: deadline,
       icon: icon.codePoint,
       color: color.toARGB32(),
+      parentGoalId: parentGoalId,
     );
   }
 
@@ -132,6 +136,7 @@ class GoalModel extends Equatable {
       color: Value(color.toARGB32()),
       deadline: Value(deadline),
       description: Value(description),
+      parentGoalId: Value(parentGoalId),
     );
   }
 }
