@@ -47,9 +47,17 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
   late final GeneratedColumn<int> icon = GeneratedColumn<int>(
       'icon', aliasedName, false,
       type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _parentGoalIdMeta =
+      const VerificationMeta('parentGoalId');
+  @override
+  late final GeneratedColumn<int> parentGoalId = GeneratedColumn<int>(
+      'parent_goal_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'REFERENCES goals(id)');
   @override
   List<GeneratedColumn> get $columns =>
-      [id, name, description, deadline, color, icon];
+      [id, name, description, deadline, color, icon, parentGoalId];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -91,6 +99,12 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
     } else if (isInserting) {
       context.missing(_iconMeta);
     }
+    if (data.containsKey('parent_goal_id')) {
+      context.handle(
+          _parentGoalIdMeta,
+          parentGoalId.isAcceptableOrUnknown(
+              data['parent_goal_id']!, _parentGoalIdMeta));
+    }
     return context;
   }
 
@@ -112,6 +126,8 @@ class $GoalsTable extends Goals with TableInfo<$GoalsTable, Goal> {
           .read(DriftSqlType.int, data['${effectivePrefix}color'])!,
       icon: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}icon'])!,
+      parentGoalId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}parent_goal_id']),
     );
   }
 
@@ -128,13 +144,15 @@ class Goal extends DataClass implements Insertable<Goal> {
   final DateTime? deadline;
   final int color;
   final int icon;
+  final int? parentGoalId;
   const Goal(
       {required this.id,
       required this.name,
       this.description,
       this.deadline,
       required this.color,
-      required this.icon});
+      required this.icon,
+      this.parentGoalId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
@@ -148,6 +166,9 @@ class Goal extends DataClass implements Insertable<Goal> {
     }
     map['color'] = Variable<int>(color);
     map['icon'] = Variable<int>(icon);
+    if (!nullToAbsent || parentGoalId != null) {
+      map['parent_goal_id'] = Variable<int>(parentGoalId);
+    }
     return map;
   }
 
@@ -163,6 +184,9 @@ class Goal extends DataClass implements Insertable<Goal> {
           : Value(deadline),
       color: Value(color),
       icon: Value(icon),
+      parentGoalId: parentGoalId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(parentGoalId),
     );
   }
 
@@ -176,6 +200,7 @@ class Goal extends DataClass implements Insertable<Goal> {
       deadline: serializer.fromJson<DateTime?>(json['deadline']),
       color: serializer.fromJson<int>(json['color']),
       icon: serializer.fromJson<int>(json['icon']),
+      parentGoalId: serializer.fromJson<int?>(json['parentGoalId']),
     );
   }
   @override
@@ -188,6 +213,7 @@ class Goal extends DataClass implements Insertable<Goal> {
       'deadline': serializer.toJson<DateTime?>(deadline),
       'color': serializer.toJson<int>(color),
       'icon': serializer.toJson<int>(icon),
+      'parentGoalId': serializer.toJson<int?>(parentGoalId),
     };
   }
 
@@ -197,7 +223,8 @@ class Goal extends DataClass implements Insertable<Goal> {
           Value<String?> description = const Value.absent(),
           Value<DateTime?> deadline = const Value.absent(),
           int? color,
-          int? icon}) =>
+          int? icon,
+          Value<int?> parentGoalId = const Value.absent()}) =>
       Goal(
         id: id ?? this.id,
         name: name ?? this.name,
@@ -205,6 +232,8 @@ class Goal extends DataClass implements Insertable<Goal> {
         deadline: deadline.present ? deadline.value : this.deadline,
         color: color ?? this.color,
         icon: icon ?? this.icon,
+        parentGoalId:
+            parentGoalId.present ? parentGoalId.value : this.parentGoalId,
       );
   Goal copyWithCompanion(GoalsCompanion data) {
     return Goal(
@@ -215,6 +244,9 @@ class Goal extends DataClass implements Insertable<Goal> {
       deadline: data.deadline.present ? data.deadline.value : this.deadline,
       color: data.color.present ? data.color.value : this.color,
       icon: data.icon.present ? data.icon.value : this.icon,
+      parentGoalId: data.parentGoalId.present
+          ? data.parentGoalId.value
+          : this.parentGoalId,
     );
   }
 
@@ -226,13 +258,15 @@ class Goal extends DataClass implements Insertable<Goal> {
           ..write('description: $description, ')
           ..write('deadline: $deadline, ')
           ..write('color: $color, ')
-          ..write('icon: $icon')
+          ..write('icon: $icon, ')
+          ..write('parentGoalId: $parentGoalId')
           ..write(')'))
         .toString();
   }
 
   @override
-  int get hashCode => Object.hash(id, name, description, deadline, color, icon);
+  int get hashCode =>
+      Object.hash(id, name, description, deadline, color, icon, parentGoalId);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -242,7 +276,8 @@ class Goal extends DataClass implements Insertable<Goal> {
           other.description == this.description &&
           other.deadline == this.deadline &&
           other.color == this.color &&
-          other.icon == this.icon);
+          other.icon == this.icon &&
+          other.parentGoalId == this.parentGoalId);
 }
 
 class GoalsCompanion extends UpdateCompanion<Goal> {
@@ -252,6 +287,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
   final Value<DateTime?> deadline;
   final Value<int> color;
   final Value<int> icon;
+  final Value<int?> parentGoalId;
   const GoalsCompanion({
     this.id = const Value.absent(),
     this.name = const Value.absent(),
@@ -259,6 +295,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     this.deadline = const Value.absent(),
     this.color = const Value.absent(),
     this.icon = const Value.absent(),
+    this.parentGoalId = const Value.absent(),
   });
   GoalsCompanion.insert({
     this.id = const Value.absent(),
@@ -267,6 +304,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     this.deadline = const Value.absent(),
     required int color,
     required int icon,
+    this.parentGoalId = const Value.absent(),
   })  : name = Value(name),
         color = Value(color),
         icon = Value(icon);
@@ -277,6 +315,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     Expression<DateTime>? deadline,
     Expression<int>? color,
     Expression<int>? icon,
+    Expression<int>? parentGoalId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -285,6 +324,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
       if (deadline != null) 'deadline': deadline,
       if (color != null) 'color': color,
       if (icon != null) 'icon': icon,
+      if (parentGoalId != null) 'parent_goal_id': parentGoalId,
     });
   }
 
@@ -294,7 +334,8 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
       Value<String?>? description,
       Value<DateTime?>? deadline,
       Value<int>? color,
-      Value<int>? icon}) {
+      Value<int>? icon,
+      Value<int?>? parentGoalId}) {
     return GoalsCompanion(
       id: id ?? this.id,
       name: name ?? this.name,
@@ -302,6 +343,7 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
       deadline: deadline ?? this.deadline,
       color: color ?? this.color,
       icon: icon ?? this.icon,
+      parentGoalId: parentGoalId ?? this.parentGoalId,
     );
   }
 
@@ -326,6 +368,9 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
     if (icon.present) {
       map['icon'] = Variable<int>(icon.value);
     }
+    if (parentGoalId.present) {
+      map['parent_goal_id'] = Variable<int>(parentGoalId.value);
+    }
     return map;
   }
 
@@ -337,7 +382,8 @@ class GoalsCompanion extends UpdateCompanion<Goal> {
           ..write('description: $description, ')
           ..write('deadline: $deadline, ')
           ..write('color: $color, ')
-          ..write('icon: $icon')
+          ..write('icon: $icon, ')
+          ..write('parentGoalId: $parentGoalId')
           ..write(')'))
         .toString();
   }
@@ -1651,6 +1697,512 @@ class UserSettingsCompanion extends UpdateCompanion<UserSetting> {
   }
 }
 
+class $TemplatesTable extends Templates
+    with TableInfo<$TemplatesTable, Template> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $TemplatesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _iconMeta = const VerificationMeta('icon');
+  @override
+  late final GeneratedColumn<int> icon = GeneratedColumn<int>(
+      'icon', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  @override
+  late final GeneratedColumn<int> color = GeneratedColumn<int>(
+      'color', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _payloadJsonMeta =
+      const VerificationMeta('payloadJson');
+  @override
+  late final GeneratedColumn<String> payloadJson = GeneratedColumn<String>(
+      'payload_json', aliasedName, false,
+      type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _isBuiltinMeta =
+      const VerificationMeta('isBuiltin');
+  @override
+  late final GeneratedColumn<bool> isBuiltin = GeneratedColumn<bool>(
+      'is_builtin', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_builtin" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        name,
+        description,
+        category,
+        icon,
+        color,
+        payloadJson,
+        isBuiltin,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'templates';
+  @override
+  VerificationContext validateIntegrity(Insertable<Template> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('icon')) {
+      context.handle(
+          _iconMeta, icon.isAcceptableOrUnknown(data['icon']!, _iconMeta));
+    }
+    if (data.containsKey('color')) {
+      context.handle(
+          _colorMeta, color.isAcceptableOrUnknown(data['color']!, _colorMeta));
+    }
+    if (data.containsKey('payload_json')) {
+      context.handle(
+          _payloadJsonMeta,
+          payloadJson.isAcceptableOrUnknown(
+              data['payload_json']!, _payloadJsonMeta));
+    } else if (isInserting) {
+      context.missing(_payloadJsonMeta);
+    }
+    if (data.containsKey('is_builtin')) {
+      context.handle(_isBuiltinMeta,
+          isBuiltin.isAcceptableOrUnknown(data['is_builtin']!, _isBuiltinMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Template map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Template(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+      icon: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}icon']),
+      color: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}color']),
+      payloadJson: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}payload_json'])!,
+      isBuiltin: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_builtin'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at']),
+    );
+  }
+
+  @override
+  $TemplatesTable createAlias(String alias) {
+    return $TemplatesTable(attachedDatabase, alias);
+  }
+}
+
+class Template extends DataClass implements Insertable<Template> {
+  final int id;
+  final String name;
+  final String? description;
+  final String category;
+  final int? icon;
+  final int? color;
+  final String payloadJson;
+  final bool isBuiltin;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  const Template(
+      {required this.id,
+      required this.name,
+      this.description,
+      required this.category,
+      this.icon,
+      this.color,
+      required this.payloadJson,
+      required this.isBuiltin,
+      required this.createdAt,
+      this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['category'] = Variable<String>(category);
+    if (!nullToAbsent || icon != null) {
+      map['icon'] = Variable<int>(icon);
+    }
+    if (!nullToAbsent || color != null) {
+      map['color'] = Variable<int>(color);
+    }
+    map['payload_json'] = Variable<String>(payloadJson);
+    map['is_builtin'] = Variable<bool>(isBuiltin);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  TemplatesCompanion toCompanion(bool nullToAbsent) {
+    return TemplatesCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      category: Value(category),
+      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
+      color:
+          color == null && nullToAbsent ? const Value.absent() : Value(color),
+      payloadJson: Value(payloadJson),
+      isBuiltin: Value(isBuiltin),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory Template.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Template(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String?>(json['description']),
+      category: serializer.fromJson<String>(json['category']),
+      icon: serializer.fromJson<int?>(json['icon']),
+      color: serializer.fromJson<int?>(json['color']),
+      payloadJson: serializer.fromJson<String>(json['payloadJson']),
+      isBuiltin: serializer.fromJson<bool>(json['isBuiltin']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String?>(description),
+      'category': serializer.toJson<String>(category),
+      'icon': serializer.toJson<int?>(icon),
+      'color': serializer.toJson<int?>(color),
+      'payloadJson': serializer.toJson<String>(payloadJson),
+      'isBuiltin': serializer.toJson<bool>(isBuiltin),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  Template copyWith(
+          {int? id,
+          String? name,
+          Value<String?> description = const Value.absent(),
+          String? category,
+          Value<int?> icon = const Value.absent(),
+          Value<int?> color = const Value.absent(),
+          String? payloadJson,
+          bool? isBuiltin,
+          DateTime? createdAt,
+          Value<DateTime?> updatedAt = const Value.absent()}) =>
+      Template(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description.present ? description.value : this.description,
+        category: category ?? this.category,
+        icon: icon.present ? icon.value : this.icon,
+        color: color.present ? color.value : this.color,
+        payloadJson: payloadJson ?? this.payloadJson,
+        isBuiltin: isBuiltin ?? this.isBuiltin,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+      );
+  Template copyWithCompanion(TemplatesCompanion data) {
+    return Template(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      description:
+          data.description.present ? data.description.value : this.description,
+      category: data.category.present ? data.category.value : this.category,
+      icon: data.icon.present ? data.icon.value : this.icon,
+      color: data.color.present ? data.color.value : this.color,
+      payloadJson:
+          data.payloadJson.present ? data.payloadJson.value : this.payloadJson,
+      isBuiltin: data.isBuiltin.present ? data.isBuiltin.value : this.isBuiltin,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Template(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('category: $category, ')
+          ..write('icon: $icon, ')
+          ..write('color: $color, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('isBuiltin: $isBuiltin, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, name, description, category, icon, color,
+      payloadJson, isBuiltin, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Template &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.category == this.category &&
+          other.icon == this.icon &&
+          other.color == this.color &&
+          other.payloadJson == this.payloadJson &&
+          other.isBuiltin == this.isBuiltin &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class TemplatesCompanion extends UpdateCompanion<Template> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String?> description;
+  final Value<String> category;
+  final Value<int?> icon;
+  final Value<int?> color;
+  final Value<String> payloadJson;
+  final Value<bool> isBuiltin;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  const TemplatesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.category = const Value.absent(),
+    this.icon = const Value.absent(),
+    this.color = const Value.absent(),
+    this.payloadJson = const Value.absent(),
+    this.isBuiltin = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  TemplatesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.description = const Value.absent(),
+    required String category,
+    this.icon = const Value.absent(),
+    this.color = const Value.absent(),
+    required String payloadJson,
+    this.isBuiltin = const Value.absent(),
+    required DateTime createdAt,
+    this.updatedAt = const Value.absent(),
+  })  : name = Value(name),
+        category = Value(category),
+        payloadJson = Value(payloadJson),
+        createdAt = Value(createdAt);
+  static Insertable<Template> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<String>? category,
+    Expression<int>? icon,
+    Expression<int>? color,
+    Expression<String>? payloadJson,
+    Expression<bool>? isBuiltin,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (category != null) 'category': category,
+      if (icon != null) 'icon': icon,
+      if (color != null) 'color': color,
+      if (payloadJson != null) 'payload_json': payloadJson,
+      if (isBuiltin != null) 'is_builtin': isBuiltin,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  TemplatesCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? name,
+      Value<String?>? description,
+      Value<String>? category,
+      Value<int?>? icon,
+      Value<int?>? color,
+      Value<String>? payloadJson,
+      Value<bool>? isBuiltin,
+      Value<DateTime>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return TemplatesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      icon: icon ?? this.icon,
+      color: color ?? this.color,
+      payloadJson: payloadJson ?? this.payloadJson,
+      isBuiltin: isBuiltin ?? this.isBuiltin,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (icon.present) {
+      map['icon'] = Variable<int>(icon.value);
+    }
+    if (color.present) {
+      map['color'] = Variable<int>(color.value);
+    }
+    if (payloadJson.present) {
+      map['payload_json'] = Variable<String>(payloadJson.value);
+    }
+    if (isBuiltin.present) {
+      map['is_builtin'] = Variable<bool>(isBuiltin.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TemplatesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('category: $category, ')
+          ..write('icon: $icon, ')
+          ..write('color: $color, ')
+          ..write('payloadJson: $payloadJson, ')
+          ..write('isBuiltin: $isBuiltin, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -1660,16 +2212,19 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TagsTable tags = $TagsTable(this);
   late final $TaskTagsTable taskTags = $TaskTagsTable(this);
   late final $UserSettingsTable userSettings = $UserSettingsTable(this);
+  late final $TemplatesTable templates = $TemplatesTable(this);
   late final TaskDao taskDao = TaskDao(this as AppDatabase);
   late final TagDao tagDao = TagDao(this as AppDatabase);
   late final UserSettingsDao userSettingsDao =
       UserSettingsDao(this as AppDatabase);
+  late final GoalDao goalDao = GoalDao(this as AppDatabase);
+  late final TemplateDao templateDao = TemplateDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [goals, tasks, subtasks, tags, taskTags, userSettings];
+      [goals, tasks, subtasks, tags, taskTags, userSettings, templates];
 }
 
 typedef $$GoalsTableCreateCompanionBuilder = GoalsCompanion Function({
@@ -1679,6 +2234,7 @@ typedef $$GoalsTableCreateCompanionBuilder = GoalsCompanion Function({
   Value<DateTime?> deadline,
   required int color,
   required int icon,
+  Value<int?> parentGoalId,
 });
 typedef $$GoalsTableUpdateCompanionBuilder = GoalsCompanion Function({
   Value<int> id,
@@ -1687,6 +2243,7 @@ typedef $$GoalsTableUpdateCompanionBuilder = GoalsCompanion Function({
   Value<DateTime?> deadline,
   Value<int> color,
   Value<int> icon,
+  Value<int?> parentGoalId,
 });
 
 final class $$GoalsTableReferences
@@ -1733,6 +2290,9 @@ class $$GoalsTableFilterComposer extends Composer<_$AppDatabase, $GoalsTable> {
 
   ColumnFilters<int> get icon => $composableBuilder(
       column: $table.icon, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get parentGoalId => $composableBuilder(
+      column: $table.parentGoalId, builder: (column) => ColumnFilters(column));
 
   Expression<bool> tasksRefs(
       Expression<bool> Function($$TasksTableFilterComposer f) f) {
@@ -1782,6 +2342,10 @@ class $$GoalsTableOrderingComposer
 
   ColumnOrderings<int> get icon => $composableBuilder(
       column: $table.icon, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get parentGoalId => $composableBuilder(
+      column: $table.parentGoalId,
+      builder: (column) => ColumnOrderings(column));
 }
 
 class $$GoalsTableAnnotationComposer
@@ -1810,6 +2374,9 @@ class $$GoalsTableAnnotationComposer
 
   GeneratedColumn<int> get icon =>
       $composableBuilder(column: $table.icon, builder: (column) => column);
+
+  GeneratedColumn<int> get parentGoalId => $composableBuilder(
+      column: $table.parentGoalId, builder: (column) => column);
 
   Expression<T> tasksRefs<T extends Object>(
       Expression<T> Function($$TasksTableAnnotationComposer a) f) {
@@ -1862,6 +2429,7 @@ class $$GoalsTableTableManager extends RootTableManager<
             Value<DateTime?> deadline = const Value.absent(),
             Value<int> color = const Value.absent(),
             Value<int> icon = const Value.absent(),
+            Value<int?> parentGoalId = const Value.absent(),
           }) =>
               GoalsCompanion(
             id: id,
@@ -1870,6 +2438,7 @@ class $$GoalsTableTableManager extends RootTableManager<
             deadline: deadline,
             color: color,
             icon: icon,
+            parentGoalId: parentGoalId,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
@@ -1878,6 +2447,7 @@ class $$GoalsTableTableManager extends RootTableManager<
             Value<DateTime?> deadline = const Value.absent(),
             required int color,
             required int icon,
+            Value<int?> parentGoalId = const Value.absent(),
           }) =>
               GoalsCompanion.insert(
             id: id,
@@ -1886,6 +2456,7 @@ class $$GoalsTableTableManager extends RootTableManager<
             deadline: deadline,
             color: color,
             icon: icon,
+            parentGoalId: parentGoalId,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) =>
@@ -3257,6 +3828,240 @@ typedef $$UserSettingsTableProcessedTableManager = ProcessedTableManager<
     ),
     UserSetting,
     PrefetchHooks Function()>;
+typedef $$TemplatesTableCreateCompanionBuilder = TemplatesCompanion Function({
+  Value<int> id,
+  required String name,
+  Value<String?> description,
+  required String category,
+  Value<int?> icon,
+  Value<int?> color,
+  required String payloadJson,
+  Value<bool> isBuiltin,
+  required DateTime createdAt,
+  Value<DateTime?> updatedAt,
+});
+typedef $$TemplatesTableUpdateCompanionBuilder = TemplatesCompanion Function({
+  Value<int> id,
+  Value<String> name,
+  Value<String?> description,
+  Value<String> category,
+  Value<int?> icon,
+  Value<int?> color,
+  Value<String> payloadJson,
+  Value<bool> isBuiltin,
+  Value<DateTime> createdAt,
+  Value<DateTime?> updatedAt,
+});
+
+class $$TemplatesTableFilterComposer
+    extends Composer<_$AppDatabase, $TemplatesTable> {
+  $$TemplatesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get icon => $composableBuilder(
+      column: $table.icon, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get color => $composableBuilder(
+      column: $table.color, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get payloadJson => $composableBuilder(
+      column: $table.payloadJson, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isBuiltin => $composableBuilder(
+      column: $table.isBuiltin, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$TemplatesTableOrderingComposer
+    extends Composer<_$AppDatabase, $TemplatesTable> {
+  $$TemplatesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get icon => $composableBuilder(
+      column: $table.icon, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get color => $composableBuilder(
+      column: $table.color, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get payloadJson => $composableBuilder(
+      column: $table.payloadJson, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isBuiltin => $composableBuilder(
+      column: $table.isBuiltin, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$TemplatesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $TemplatesTable> {
+  $$TemplatesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<int> get icon =>
+      $composableBuilder(column: $table.icon, builder: (column) => column);
+
+  GeneratedColumn<int> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<String> get payloadJson => $composableBuilder(
+      column: $table.payloadJson, builder: (column) => column);
+
+  GeneratedColumn<bool> get isBuiltin =>
+      $composableBuilder(column: $table.isBuiltin, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$TemplatesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $TemplatesTable,
+    Template,
+    $$TemplatesTableFilterComposer,
+    $$TemplatesTableOrderingComposer,
+    $$TemplatesTableAnnotationComposer,
+    $$TemplatesTableCreateCompanionBuilder,
+    $$TemplatesTableUpdateCompanionBuilder,
+    (Template, BaseReferences<_$AppDatabase, $TemplatesTable, Template>),
+    Template,
+    PrefetchHooks Function()> {
+  $$TemplatesTableTableManager(_$AppDatabase db, $TemplatesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$TemplatesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$TemplatesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$TemplatesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+            Value<String> category = const Value.absent(),
+            Value<int?> icon = const Value.absent(),
+            Value<int?> color = const Value.absent(),
+            Value<String> payloadJson = const Value.absent(),
+            Value<bool> isBuiltin = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              TemplatesCompanion(
+            id: id,
+            name: name,
+            description: description,
+            category: category,
+            icon: icon,
+            color: color,
+            payloadJson: payloadJson,
+            isBuiltin: isBuiltin,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String name,
+            Value<String?> description = const Value.absent(),
+            required String category,
+            Value<int?> icon = const Value.absent(),
+            Value<int?> color = const Value.absent(),
+            required String payloadJson,
+            Value<bool> isBuiltin = const Value.absent(),
+            required DateTime createdAt,
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              TemplatesCompanion.insert(
+            id: id,
+            name: name,
+            description: description,
+            category: category,
+            icon: icon,
+            color: color,
+            payloadJson: payloadJson,
+            isBuiltin: isBuiltin,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$TemplatesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $TemplatesTable,
+    Template,
+    $$TemplatesTableFilterComposer,
+    $$TemplatesTableOrderingComposer,
+    $$TemplatesTableAnnotationComposer,
+    $$TemplatesTableCreateCompanionBuilder,
+    $$TemplatesTableUpdateCompanionBuilder,
+    (Template, BaseReferences<_$AppDatabase, $TemplatesTable, Template>),
+    Template,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -3272,4 +4077,6 @@ class $AppDatabaseManager {
       $$TaskTagsTableTableManager(_db, _db.taskTags);
   $$UserSettingsTableTableManager get userSettings =>
       $$UserSettingsTableTableManager(_db, _db.userSettings);
+  $$TemplatesTableTableManager get templates =>
+      $$TemplatesTableTableManager(_db, _db.templates);
 }

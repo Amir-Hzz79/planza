@@ -3,28 +3,30 @@ import 'dart:io';
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
 import 'package:flutter/material.dart' show Icons;
-import 'package:path_provider/path_provider.dart';
+import '../../utils/app_paths.dart';
 import '../data_access_object/tag_dao.dart';
 import '../data_access_object/task_dao.dart';
 import '../data_access_object/user_setting_dao.dart';
+import '../data_access_object/goal_dao.dart';
+import '../data_access_object/template_dao.dart';
 import 'tables.dart';
 
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [Tasks, Subtasks, Tags, TaskTags, Goals, UserSettings],
-  daos: [TaskDao, TagDao, UserSettingsDao],
+  tables: [Tasks, Subtasks, Tags, TaskTags, Goals, UserSettings, Templates],
+  daos: [TaskDao, TagDao, UserSettingsDao, GoalDao, TemplateDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 5;
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
-      final dbFolder = await getApplicationDocumentsDirectory();
-      final dbFolderPath = '${dbFolder.path}/database';
+      final dbFolder = await AppPaths.getApplicationSupportDirectory();
+      final dbFolderPath = '${dbFolder.path}';
       final file = File('$dbFolderPath/planza_db.sqlite');
 
       // Ensure the directory exists
@@ -630,6 +632,18 @@ class AppDatabase extends _$AppDatabase {
                 type: DriftSqlType.int,
               ),
             );
+          } else if (from < 4) {
+            await migrator.addColumn(
+              goals,
+              GeneratedColumn(
+                'parentGoalId',
+                'Goals',
+                true,
+                type: DriftSqlType.int,
+              ),
+            );
+          } else if (from < 5) {
+            await migrator.createTable(templates);
           }
         },
       );

@@ -31,4 +31,11 @@ class TagModel extends Equatable {
       name: name,
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+    };
+  }
 }

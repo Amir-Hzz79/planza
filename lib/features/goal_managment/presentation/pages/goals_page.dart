@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:planza/core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import 'package:planza/core/data/models/goal_model.dart';
+import 'package:planza/core/design/composites/goal_tree_view.dart';
 
 import '../../../../core/locale/app_localizations.dart';
 import '../../../../core/widgets/appbar/general_app_bar.dart';
@@ -11,8 +14,16 @@ import '../widgets/goal_cards/complete_goal_card.dart';
 import '../widgets/goal_cards/featured_goal_card.dart';
 import 'goal_entry_page.dart';
 
-class GoalsPage extends StatelessWidget {
+class GoalsPage extends StatefulWidget {
   const GoalsPage({super.key});
+
+  @override
+  State<GoalsPage> createState() => _GoalsPageState();
+}
+
+class _GoalsPageState extends State<GoalsPage> {
+  final Set<int> _expandedGoals = {};
+  final Set<int> _selectedGoals = {};
 
   @override
   Widget build(BuildContext context) {
@@ -36,6 +47,29 @@ class GoalsPage extends StatelessWidget {
               ));
             },
           ),
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.view_module),
+            tooltip: 'View Options',
+            onSelected: (value) {
+              // Handle view options
+            },
+            itemBuilder: (context) => [
+              PopupMenuItem(
+                value: 'tree',
+                child: ListTile(
+                  leading: Icon(Icons.account_tree),
+                  title: Text('Tree View'),
+                ),
+              ),
+              PopupMenuItem(
+                value: 'list',
+                child: ListTile(
+                  leading: Icon(Icons.list),
+                  title: Text('List View'),
+                ),
+              ),
+            ],
+          ),
         ],
       ),
       body: GoalBlocBuilder(
@@ -43,46 +77,65 @@ class GoalsPage extends StatelessWidget {
           final activeGoals = goals.where((g) => !g.isCompleted).toList();
           final completedGoals = goals.where((g) => g.isCompleted).toList();
 
-          final featuredGoals = activeGoals.take(2).toList();
-          final otherActiveGoals = activeGoals.skip(2).toList();
-
           if (activeGoals.isEmpty && completedGoals.isEmpty) {
             return _buildEmptyState(context);
           }
 
-          return ListView(
-            padding: const EdgeInsets.only(bottom: 80.0),
+          return Column(
             children: [
-              // Featured Goals Carousel
-              if (featuredGoals.isNotEmpty)
-                _buildSectionHeader(
-                  context,
-                  lang.goalsPage_featuredGoals_title,
+              // Active Goals Tree
+              if (activeGoals.isNotEmpty) ...[
+                _buildSectionHeader(context, lang.goalsPage_activeGoals_title),
+                GoalTreeView(
+                  goals: activeGoals,
+                  expandedGoals: _expandedGoals,
+                  onTap: (goal) => _onGoalTap(goal),
+                  onReorder: _onGoalReorder,
                 ),
-              if (featuredGoals.isNotEmpty)
-                _FeaturedGoalsCarousel(goals: featuredGoals),
+              ],
 
-              // Other Active Goals
-              if (otherActiveGoals.isNotEmpty)
-                _buildSectionHeader(
-                  context,
-                  lang.goalsPage_activeGoals_title,
-                ),
-              ...otherActiveGoals.map((goal) => ActiveGoalCard(goal: goal)),
-
-              // Hall of Fame for Completed Goals
-              if (completedGoals.isNotEmpty)
+              // Completed Goals (flat list for now)
+              if (completedGoals.isNotEmpty) ...[
                 _buildSectionHeader(
                   context,
                   lang.goalsPage_completedGoals_title,
                 ),
-              if (completedGoals.isNotEmpty)
                 _CompletedGoalsCarousel(goals: completedGoals),
+              ],
             ],
           );
         },
       ),
     );
+  }
+
+  void _onGoalTap(GoalModel goal) {
+    if (_selectedGoals.contains(goal.id)) {
+      _selectedGoals.remove(goal.id);
+    } else {
+      _selectedGoals.add(goal.id!);
+    }
+    setState(() {});
+  }
+
+  void _onGoalReorder(int oldIndex, int newIndex, int? parentGoalId) {
+    // TODO: Handle reorder - would need bloc event
+    // final goalBloc = context.read<GoalBloc>();
+    // goalBloc.add(GoalReorderedEvent(
+    //   goalId: oldIndex, // This would need the actual goal ID
+    //   newParentId: parentGoalId,
+    //   newIndex: newIndex,
+    // ));
+  }
+
+  void _toggleExpand(int goalId) {
+    setState(() {
+      if (_expandedGoals.contains(goalId)) {
+        _expandedGoals.remove(goalId);
+      } else {
+        _expandedGoals.add(goalId);
+      }
+    });
   }
 
   Widget _buildSectionHeader(BuildContext context, String title) {
@@ -127,26 +180,6 @@ class GoalsPage extends StatelessWidget {
             },
           ),
         ],
-      ),
-    );
-  }
-}
-
-class _FeaturedGoalsCarousel extends StatelessWidget {
-  final List<GoalModel> goals;
-  const _FeaturedGoalsCarousel({required this.goals});
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 220,
-      child: PageView.builder(
-        controller: PageController(viewportFraction: 0.85),
-        itemCount: goals.length,
-        itemBuilder: (context, index) {
-          final goal = goals[index];
-          return FeaturedGoalCard(goal: goal);
-        },
       ),
     );
   }

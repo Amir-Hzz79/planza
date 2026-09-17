@@ -119,4 +119,18 @@ class TaskModel extends Equatable {
       tags: tags ?? List.from(this.tags),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'title': title,
+      'description': description,
+      'dueDate': dueDate?.toIso8601String(),
+      'doneDate': doneDate?.toIso8601String(),
+      'priority': priority,
+      'parentTaskId': parentTaskId,
+      'goal': goal?.toJson(),
+      'tags': tags.map((t) => t.toJson()).toList(),
+    };
+  }
 }
