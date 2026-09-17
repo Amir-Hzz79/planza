@@ -139,4 +139,17 @@ class GoalModel extends Equatable {
       parentGoalId: Value(parentGoalId),
     );
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'name': name,
+      'description': description,
+      'deadline': deadline?.toIso8601String(),
+      'icon': icon.codePoint,
+      'color': color.toARGB32(),
+      'tasks': tasks.map((t) => t.toJson()).toList(),
+      'parentGoalId': parentGoalId,
+    };
+  }
 }

@@ -1,43 +1,26 @@
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+// import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:planza/core/data/models/task_model.dart';
 import 'package:timezone/timezone.dart' as tz;
 
+/// Custom NotificationService placeholder - replaced flutter_local_notifications
 class NotificationService {
-  final FlutterLocalNotificationsPlugin _plugin =
-      FlutterLocalNotificationsPlugin();
-
   /// Cancel a specific notification
   Future<void> cancelTaskReminder(int taskId) async {
-    await _plugin.cancel(taskId);
+    // TODO: Implement via MethodChannel
+    print("CustomNotificationService: cancelTaskReminder($taskId)");
   }
 
   Future<NotificationService> init() async {
-    const AndroidInitializationSettings androidSettings =
-        AndroidInitializationSettings('@mipmap/planza_icon');
-
-    const InitializationSettings settings = InitializationSettings(
-      android: androidSettings,
-    );
-
-    await _plugin.initialize(
-      settings,
-      onDidReceiveNotificationResponse: (response) {
-        // Handle notification tap
-        print("Notification tapped with payload: ${response.payload}");
-        // TODO: Use a navigator service to open the TaskDetailsPage
-      },
-    );
-
+    // TODO: Implement via MethodChannel
+    print("CustomNotificationService: init()");
     return this;
   }
 
   // Request permission from the user (required for Android 13+)
   Future<bool> requestPermissions() async {
-    final result = await _plugin
-        .resolvePlatformSpecificImplementation<
-            AndroidFlutterLocalNotificationsPlugin>()
-        ?.requestNotificationsPermission();
-    return result ?? false;
+    // TODO: Implement via MethodChannel
+    print("CustomNotificationService: requestPermissions()");
+    return false;
   }
 
   /// Schedule a reminder for a specific task
@@ -54,26 +37,7 @@ class NotificationService {
       return;
     }
 
-    await _plugin.zonedSchedule(
-      task.id!,
-      uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.wallClockTime,
-      "Task Due: ${task.title}",
-      "Your task is scheduled for now. Time to get it done!",
-      scheduledDate,
-      const NotificationDetails(
-        android: AndroidNotificationDetails(
-          'task_reminders_channel',
-          'Task Reminders',
-          channelDescription: 'Notifications for task deadlines.',
-          importance: Importance.max,
-          priority: Priority.high,
-        ),
-      ),
-      payload: task.id.toString(),
-      androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
-      /* uiLocalNotificationDateInterpretation:
-          UILocalNotificationDateInterpretation.absoluteTime, */
-    );
+    // TODO: Implement via MethodChannel
+    print("CustomNotificationService: scheduleTaskReminder(${task.title})");
   }
 }

@@ -6,6 +6,7 @@ import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 import 'core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'core/data/bloc/tag_bloc/tag_bloc.dart';
 import 'core/data/bloc/task_bloc/task_bloc.dart';
+import 'core/data/bloc/template_bloc/template_bloc.dart';
 import 'core/locale/app_localizations.dart';
 import 'core/locale/bloc/locale_bloc.dart';
 import 'core/locale/bloc/locale_event.dart';
@@ -36,6 +37,13 @@ class MyApp extends StatelessWidget {
         ),
         BlocProvider(
           create: (context) => TagBloc()..add(StartWatchingTagsEvent()),
+        ),
+        BlocProvider(
+          create: (context) => TemplateBloc(
+            goalBloc: context.read<GoalBloc>(),
+            taskBloc: context.read<TaskBloc>(),
+            tagBloc: context.read<TagBloc>(),
+          )..add(LoadTemplates()),
         ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(

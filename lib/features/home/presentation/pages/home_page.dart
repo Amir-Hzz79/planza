@@ -20,7 +20,7 @@ import '../../../task_managment/presentation/widgets/task_entry_sheet.dart';
 import '../widgets/drawer/drawer_section.dart';
 import '../widgets/goals_carousel.dart';
 import '../widgets/tag_analysis_chart.dart';
-import '../widgets/weekly_chart.dart';
+// import '../widgets/weekly_chart.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
@@ -63,8 +63,8 @@ class HomePage extends StatelessWidget {
                     title: lang.homePage_activeGoalCarousel_title,
                   ),
                   GoalsCarousel(goals: activeGoals),
-                  SectionHeader(title: lang.homePage_weeklyChart_title),
-                  WeeklyChart(weeklyTasks: weeklyTaskData),
+                  // SectionHeader(title: lang.homePage_weeklyChart_title),
+// WeeklyChart(weeklyTasks: weeklyTaskData),
                   SectionHeader(title: lang.homePage_tagAnalysisChart_title),
                   TagAnalysisChart(tagData: tagData),
                   const SliverToBoxAdapter(child: SizedBox(height: 100)),
