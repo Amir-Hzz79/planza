@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/custom_shared_preferences.dart';
 import 'calendar_system.dart';
 import 'gregorian_calendar.dart';
 import 'jalali_calendar.dart';
@@ -29,7 +29,7 @@ class CalendarService extends ChangeNotifier {
   }
 
   Future<void> _loadPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
     _calendarType = CalendarType.values[prefs.getInt(_calendarTypeKey) ?? 0];
     _primaryCalendar = CalendarType.values[prefs.getInt(_primaryCalendarKey) ?? 0];
     notifyListeners();
@@ -37,14 +37,14 @@ class CalendarService extends ChangeNotifier {
 
   Future<void> setCalendarType(CalendarType type) async {
     _calendarType = type;
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
     await prefs.setInt(_calendarTypeKey, type.index);
     notifyListeners();
   }
 
   Future<void> setPrimaryCalendar(CalendarType calendar) async {
     _primaryCalendar = calendar;
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
     await prefs.setInt(_primaryCalendarKey, calendar.index);
     notifyListeners();
   }
@@ -84,6 +84,12 @@ class CalendarService extends ChangeNotifier {
     return primary.formatShortDate(primary.fromGregorian(gregorianDate));
   }
 
+  String formatWithSecondary(DateTime gregorianDate) {
+    final primaryStr = formatShortDate(gregorianDate);
+    final secondaryStr = secondary.formatShortDate(secondary.fromGregorian(gregorianDate));
+    return '$primaryStr / $secondaryStr';
+  }
+
   String formatMonthYear(DateTime gregorianDate) {
     return primary.formatMonthYear(primary.fromGregorian(gregorianDate));
   }
@@ -94,12 +100,6 @@ class CalendarService extends ChangeNotifier {
 
   String formatWeekday(DateTime gregorianDate) {
     return primary.formatWeekday(primary.fromGregorian(gregorianDate));
-  }
-
-  String formatWithSecondary(DateTime gregorianDate) {
-    final primaryStr = formatShortDate(gregorianDate);
-    final secondaryStr = secondary.formatShortDate(secondary.fromGregorian(gregorianDate));
-    return '$primaryStr / $secondaryStr';
   }
 
   List<DateTime> getWeekDays(DateTime weekStart) {

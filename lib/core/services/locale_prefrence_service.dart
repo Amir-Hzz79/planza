@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import '../utils/custom_shared_preferences.dart';
 
 class LocalePreferenceService {
   final String _key = 'locale';
 
   /// Saves the complete locale (language and country code) as a single string.
   Future<void> saveLocale(Locale locale) async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
 
     // Combine language and country codes into a string like "fa_IR" or just "en".
     String localeString = locale.languageCode;
@@ -19,7 +19,7 @@ class LocalePreferenceService {
 
   /// Loads the saved locale string and reconstructs the full Locale object.
   Future<Locale?> getLocale() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
     final String? localeString = prefs.getString(_key);
 
     if (localeString == null || localeString.isEmpty) {

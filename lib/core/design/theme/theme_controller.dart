@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:planza/core/utils/custom_shared_preferences.dart';
 import '../tokens/index.dart';
 
 class ThemeController extends ChangeNotifier {
@@ -34,7 +34,7 @@ class ThemeController extends ChangeNotifier {
   }
 
   Future<void> _loadPreferences() async {
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
     _themeMode = ThemeMode.values[prefs.getInt(_themeModeKey) ?? 0];
     _selectedPalette = prefs.getString(_selectedPaletteKey) ?? 'default';
     _useCustomPalette = prefs.getBool(_useCustomPaletteKey) ?? false;
@@ -43,7 +43,7 @@ class ThemeController extends ChangeNotifier {
 
   Future<void> setThemeMode(ThemeMode mode) async {
     _themeMode = mode;
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
     await prefs.setInt(_themeModeKey, mode.index);
     notifyListeners();
   }
@@ -52,7 +52,7 @@ class ThemeController extends ChangeNotifier {
       {bool isUnlockable = false}) async {
     _selectedPalette = paletteName;
     _useCustomPalette = isUnlockable;
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
     await prefs.setString(_selectedPaletteKey, paletteName);
     await prefs.setBool(_useCustomPaletteKey, isUnlockable);
     notifyListeners();
@@ -61,20 +61,21 @@ class ThemeController extends ChangeNotifier {
   Future<void> resetToDefault() async {
     _selectedPalette = 'default';
     _useCustomPalette = false;
-    final prefs = await SharedPreferences.getInstance();
+    final prefs = await CustomSharedPreferences.getInstance();
     await prefs.setString(_selectedPaletteKey, 'default');
     await prefs.setBool(_useCustomPaletteKey, false);
     notifyListeners();
   }
 
   List<String> get availablePalettes {
-    return ['default', ...PlColors.unlockablePalettes.keys];
+    return ['default', ...lightColors.unlockablePalettes.keys];
   }
 
   List<String> getUnlockedPalettes(List<String> userUnlocked) {
     return [
       'default',
-      ...userUnlocked.where((p) => PlColors.unlockablePalettes.containsKey(p))
+      ...userUnlocked
+          .where((p) => lightColors.unlockablePalettes.containsKey(p))
     ];
   }
 
@@ -105,7 +106,8 @@ class ThemeController extends ChangeNotifier {
       tertiary: palette[0].withOpacity(0.6),
       onTertiary: isDark ? darkColors.onBackground : lightColors.onBackground,
       tertiaryContainer: palette[0].withOpacity(0.15),
-      onTertiaryContainer: isDark ? darkColors.onSurface : lightColors.onSurface,
+      onTertiaryContainer:
+          isDark ? darkColors.onSurface : lightColors.onSurface,
       error: colors.error,
       onError: isDark ? darkColors.onBackground : lightColors.onBackground,
       errorContainer: colors.errorContainer,
@@ -153,8 +155,8 @@ class ThemeController extends ChangeNotifier {
       ),
       floatingActionButtonTheme: FloatingActionButtonThemeData(
         backgroundColor: palette[0],
-foregroundColor:
-              isDark ? darkColors.onBackground : lightColors.onBackground,
+        foregroundColor:
+            isDark ? darkColors.onBackground : lightColors.onBackground,
         shape: RoundedRectangleBorder(borderRadius: PlBorderRadius.radiusFull),
         elevation: 4,
       ),
@@ -374,5 +376,3 @@ extension PlThemeExtension on BuildContext {
   PlBorderRadius get plBorderRadius => plTheme.borderRadius;
   PlMotion get plMotion => plTheme.motion;
 }
-
-

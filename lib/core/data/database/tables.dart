@@ -65,3 +65,16 @@ class UserSettings extends Table {
       boolean().withDefault(const Constant(true))();
   TextColumn get theme => text().withLength(min: 1, max: 50).nullable()();
 }
+
+class Templates extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().withLength(min: 1, max: 255)();
+  TextColumn get description => text().nullable()();
+  TextColumn get category => text().withLength(min: 1, max: 100)();
+  IntColumn get icon => integer().nullable()();
+  IntColumn get color => integer().nullable()();
+  TextColumn get payloadJson => text()(); // JSON serialized GoalModel + Tasks + Tags
+  BoolColumn get isBuiltin => boolean().withDefault(const Constant(false))();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+}
