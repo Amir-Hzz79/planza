@@ -12,6 +12,7 @@ import 'package:planza/core/design/tokens/spacing.dart';
 import 'package:planza/core/design/tokens/typography.dart';
 import 'package:planza/features/template_gallery/presentation/bloc/template_gallery_bloc.dart';
 import 'package:planza/features/template_gallery/presentation/widgets/template_card.dart';
+import 'package:qr_flutter/qr_flutter.dart';
 
 class TemplateGalleryPage extends StatefulWidget {
   const TemplateGalleryPage({super.key});
@@ -115,6 +116,16 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(content: Text(state.message), backgroundColor: colorScheme.error),
               );
+            } else if (state is TemplateExportedToFile) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Template exported to: ${state.filePath}')),
+              );
+            } else if (state is TemplateImportedFromFile) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Template imported from: ${state.filePath}')),
+              );
+            } else if (state is TemplateQRCodeGenerated) {
+              _showQRCodeDialog(state.qrData);
             }
           },
           builder: (context, state) {
@@ -330,7 +341,9 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
           onTap: () => _showTemplateDetail(template),
           onUse: () => _useTemplate(template),
           onExport: () => _exportTemplate(template),
+          onExportToFile: () => _exportTemplateToFile(template),
           onShare: () => _shareTemplate(template),
+          onQRCode: () => _generateQRCode(template),
         );
       },
     );
@@ -369,8 +382,23 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
     context.read<TemplateGalleryBloc>().add(ExportTemplate(template.id!));
   }
 
+  void _exportTemplateToFile(TemplateModel template) {
+    context.read<TemplateGalleryBloc>().add(ExportTemplateToFile(template.id!));
+  }
+
   void _shareTemplate(TemplateModel template) {
     context.read<TemplateGalleryBloc>().add(ShareTemplate(template.id!));
+  }
+
+  void _generateQRCode(TemplateModel template) {
+    context.read<TemplateGalleryBloc>().add(GenerateTemplateQRCode(template.id!));
+  }
+
+  void _showQRCodeDialog(String qrData) {
+    showDialog(
+      context: context,
+      builder: (context) => _QRCodeDialog(qrData: qrData),
+    );
   }
 }
 
@@ -572,7 +600,9 @@ class _TemplateDetailSheet extends StatelessWidget {
               const SizedBox(height: PlSpacing.lg),
 
               // Action buttons
-              Row(
+              Wrap(
+                spacing: PlSpacing.md,
+                runSpacing: PlSpacing.md,
                 children: [
                   Expanded(
                     child: PlButton(
@@ -584,7 +614,6 @@ class _TemplateDetailSheet extends StatelessWidget {
                       },
                     ),
                   ),
-                  const SizedBox(width: PlSpacing.md),
                   Expanded(
                     child: PlButton(
                       label: 'Export',
@@ -592,6 +621,26 @@ class _TemplateDetailSheet extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                         context.read<TemplateGalleryBloc>().add(ExportTemplate(template.id!));
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: PlButton(
+                      label: 'Export to File',
+                      style: PlButtonStyle.outlined,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.read<TemplateGalleryBloc>().add(ExportTemplateToFile(template.id!));
+                      },
+                    ),
+                  ),
+                  Expanded(
+                    child: PlButton(
+                      label: 'QR Code',
+                      style: PlButtonStyle.outlined,
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.read<TemplateGalleryBloc>().add(GenerateTemplateQRCode(template.id!));
                       },
                     ),
                   ),
@@ -628,5 +677,53 @@ class _TemplateDetailSheet extends StatelessWidget {
     } catch (_) {
       return payloadJson;
     }
+  }
+}
+
+class _QRCodeDialog extends StatelessWidget {
+  final String qrData;
+
+  const _QRCodeDialog({required this.qrData});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+
+    return AlertDialog(
+      title: Text('Template QR Code', style: PlTypography.headlineSmall),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          QrImageView(
+            data: qrData,
+            version: QrVersions.auto,
+            size: 200,
+            backgroundColor: colorScheme.surface,
+          ),
+          const SizedBox(height: PlSpacing.md),
+          Text(
+            'Scan to import template',
+            style: PlTypography.bodyMedium.copyWith(
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ),
+          const SizedBox(height: PlSpacing.sm),
+          SelectableText(
+            qrData,
+            style: PlTypography.bodySmall.copyWith(
+              fontFamily: 'monospace',
+              color: colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ],
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('Close', style: PlTypography.labelLarge),
+        ),
+      ],
+    );
   }
 }

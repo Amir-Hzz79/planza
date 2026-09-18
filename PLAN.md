@@ -65,7 +65,7 @@
 ## Phase 1: Goal Hierarchy & Templates
 - [x] Parent goals, tree UI, drag-drop reorder
 - [x] Template engine (JSON serialization)
-- [ ] Import/export/share templates
+- [x] Import/export/share templates
 - [x] Template gallery with categories
 - [x] Template engine (JSON serialization)
 
@@ -80,12 +80,12 @@
 - [x] Category filtering and search
 - [x] Pull-to-refresh
 
-### Phase 1.5: Import/Export/Share UI (IN PROGRESS)
-- [ ] Export template as JSON file
-- [ ] Import template from JSON file
+### Phase 1.5: Import/Export/Share UI ✅ COMPLETED
+- [x] Export template as JSON file
+- [x] Import template from JSON file
 - [x] Share template via system share sheet
-- [ ] QR code generation for template sharing
-- [ ] Deep link handling for template import
+- [x] QR code generation for template sharing
+- [x] Deep link handling for template import
 - [x] Template engine (JSON serialization)
 
 ---
@@ -419,12 +419,12 @@ lib/
 - [x] Category filtering and search
 - [x] Pull-to-refresh
 
-### Phase 1.5: Import/Export/Share UI (IN PROGRESS)
-- [ ] Export template as JSON file
-- [ ] Import template from JSON file
+### Phase 1.5: Import/Export/Share UI ✅ COMPLETED
+- [x] Export template as JSON file
+- [x] Import template from JSON file
 - [x] Share template via system share sheet
-- [ ] QR code generation for template sharing
-- [ ] Deep link handling for template import
+- [x] QR code generation for template sharing
+- [x] Deep link handling for template import
 
 ---
 
@@ -492,9 +492,10 @@ flutter build appbundle --release
 
 ## Next Immediate Steps
 
-1. **Implement Export template** as JSON file (Phase 1.5)
-2. **Implement Import template** from JSON file (Phase 1.5)
-3. **Add QR code generation** for template sharing (Phase 1.5)
-4. **Add Deep link handling** for template import (Phase 1.5)
+1. **Phase 2: Gamification Core** - XP/Level/Streak system
+2. **Celebration animations** (Lottie integration)
+3. **Unlockables** (themes, icons, animations)
+4. **Profile page** with stats
 5. **Test on physical device** + emulator
+6. **Run full test suite** before PR
 6. **Run full test suite** before PR

@@ -1,4 +1,5 @@
-part of 'template_gallery_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:planza/core/data/models/template_model.dart';
 
 abstract class TemplateGalleryState extends Equatable {
   const TemplateGalleryState();
@@ -51,4 +52,31 @@ class TemplateGalleryActionSuccess extends TemplateGalleryState {
 
   @override
   List<Object?> get props => [message];
+}
+
+class TemplateExportedToFile extends TemplateGalleryState {
+  final String filePath;
+
+  const TemplateExportedToFile(this.filePath);
+
+  @override
+  List<Object?> get props => [filePath];
+}
+
+class TemplateImportedFromFile extends TemplateGalleryState {
+  final String filePath;
+
+  const TemplateImportedFromFile(this.filePath);
+
+  @override
+  List<Object?> get props => [filePath];
+}
+
+class TemplateQRCodeGenerated extends TemplateGalleryState {
+  final String qrData;
+
+  const TemplateQRCodeGenerated(this.qrData);
+
+  @override
+  List<Object?> get props => [qrData];
 }

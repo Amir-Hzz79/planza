@@ -1,4 +1,5 @@
-part of 'template_gallery_bloc.dart';
+import 'package:equatable/equatable.dart';
+import 'package:planza/core/data/models/template_model.dart';
 
 abstract class TemplateGalleryEvent extends Equatable {
   const TemplateGalleryEvent();
@@ -45,6 +46,15 @@ class ExportTemplate extends TemplateGalleryEvent {
   List<Object?> get props => [templateId];
 }
 
+class ExportTemplateToFile extends TemplateGalleryEvent {
+  final int templateId;
+
+  const ExportTemplateToFile(this.templateId);
+
+  @override
+  List<Object?> get props => [templateId];
+}
+
 class ImportTemplate extends TemplateGalleryEvent {
   final String jsonString;
 
@@ -54,10 +64,21 @@ class ImportTemplate extends TemplateGalleryEvent {
   List<Object?> get props => [jsonString];
 }
 
+class ImportTemplateFromFile extends TemplateGalleryEvent {}
+
 class ShareTemplate extends TemplateGalleryEvent {
   final int templateId;
 
   const ShareTemplate(this.templateId);
+
+  @override
+  List<Object?> get props => [templateId];
+}
+
+class GenerateTemplateQRCode extends TemplateGalleryEvent {
+  final int templateId;
+
+  const GenerateTemplateQRCode(this.templateId);
 
   @override
   List<Object?> get props => [templateId];

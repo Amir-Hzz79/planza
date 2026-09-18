@@ -9,16 +9,20 @@ class TemplateCard extends StatelessWidget {
   final TemplateModel template;
   final VoidCallback? onTap;
   final VoidCallback? onExport;
+  final VoidCallback? onExportToFile;
   final VoidCallback? onShare;
   final VoidCallback? onUse;
+  final VoidCallback? onQRCode;
 
   const TemplateCard({
     super.key,
     required this.template,
     this.onTap,
     this.onExport,
+    this.onExportToFile,
     this.onShare,
     this.onUse,
+    this.onQRCode,
   });
 
   @override
@@ -98,44 +102,39 @@ class TemplateCard extends StatelessWidget {
                 const SizedBox(height: PlSpacing.md),
 
                 // Action buttons
-                Row(
+                Wrap(
+                  spacing: PlSpacing.sm,
+                  runSpacing: PlSpacing.sm,
                   children: [
                     if (onUse != null)
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: onUse,
-                          icon: const Icon(Icons.add, size: 18),
-                          label: const Text('Use'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: PlSpacing.sm),
-                          ),
-                        ),
+                      _ActionButton(
+                        icon: Icons.add,
+                        label: 'Use',
+                        onPressed: onUse!,
                       ),
-                    if (onUse != null && (onExport != null || onShare != null))
-                      const SizedBox(width: PlSpacing.sm),
                     if (onExport != null)
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: onExport,
-                          icon: const Icon(Icons.download, size: 18),
-                          label: const Text('Export'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: PlSpacing.sm),
-                          ),
-                        ),
+                      _ActionButton(
+                        icon: Icons.download,
+                        label: 'Export',
+                        onPressed: onExport!,
                       ),
-                    if (onExport != null && onShare != null)
-                      const SizedBox(width: PlSpacing.sm),
+                    if (onExportToFile != null)
+                      _ActionButton(
+                        icon: Icons.save_alt,
+                        label: 'File',
+                        onPressed: onExportToFile!,
+                      ),
                     if (onShare != null)
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: onShare,
-                          icon: const Icon(Icons.share, size: 18),
-                          label: const Text('Share'),
-                          style: OutlinedButton.styleFrom(
-                            padding: const EdgeInsets.symmetric(vertical: PlSpacing.sm),
-                          ),
-                        ),
+                      _ActionButton(
+                        icon: Icons.share,
+                        label: 'Share',
+                        onPressed: onShare!,
+                      ),
+                    if (onQRCode != null)
+                      _ActionButton(
+                        icon: Icons.qr_code,
+                        label: 'QR',
+                        onPressed: onQRCode!,
                       ),
                   ],
                 ),
@@ -162,5 +161,31 @@ class TemplateCard extends StatelessWidget {
       default:
         return category;
     }
+  }
+}
+
+class _ActionButton extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onPressed;
+
+  const _ActionButton({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return OutlinedButton.icon(
+      onPressed: onPressed,
+      icon: Icon(icon, size: 16),
+      label: Text(label),
+      style: OutlinedButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+        minimumSize: const Size(70, 36),
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+    );
   }
 }
