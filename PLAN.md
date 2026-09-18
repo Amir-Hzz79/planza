@@ -255,10 +255,10 @@ master (production) ← stage (stable release) ← dev (integration) ← feature
 | `master` | Production releases only | Protected, tag required |
 | `stage` | Pre-release testing, QA | Protected, PR required |
 | `dev` | Ongoing integration | Direct push allowed (or PR) |
-| `feature/*` | Individual tasks | PR required to merge to `dev` |
+| `feature/*` | Conceptual features (gamification, templates, notifications, etc.) | PR required to merge to `dev` |
 
 ### Branch Naming Convention
-- `feature/<phase>.<task>` — e.g., `feature/1.4-template-gallery`
+- `feature/<conceptual-feature>` — e.g., `feature/gamification`, `feature/templates`, `feature/notifications`
 - `fix/<issue>` — Bug fixes
 - `refactor/<area>` — Refactoring
 - `chore/<task>` — Maintenance
@@ -266,15 +266,15 @@ master (production) ← stage (stable release) ← dev (integration) ← feature
 ### Workflow
 ```
 1. git checkout dev && git pull origin dev
-2. git checkout -b feature/<phase>.<task-name>
-3. Implement feature (atomic commits)
+2. git checkout -b feature/<conceptual-feature>
+3. Implement feature with multiple atomic commits
 4. Run: flutter analyze && flutter test && dart run build_runner build
-5. git add . && git commit -m "feat: <description>"
+5. git add . && git commit -m "feat(<feature>): <description>"
 6. git push origin feature/<branch>
 7. Create PR: feature/* → dev (self-review + CI)
 8. After review: merge to dev
-9. Phase complete → PR: dev → stage (QA)
-9. Stable → PR: stage → master (with tag)
+9. Feature complete → PR: dev → stage (QA)
+10. Stable → PR: stage → master (with tag)
 ```
 
 ### Commit Message Convention
@@ -289,10 +289,14 @@ master (production) ← stage (stable release) ← dev (integration) ← feature
 Types: `feat`, `fix`, `refactor`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`
 
 Examples:
-- `feat(template): add template gallery UI with category tabs`
+- `feat(gamification): add XP/Level/Streak system with UserStats model`
+- `feat(gamification): add Lottie celebration animations and CelebrationService`
+- `feat(gamification): add Profile page with unlockables UI`
+- `feat(templates): complete template gallery UI with category tabs`
+- `feat(templates): add import/export/share with file operations and QR codes`
 - `fix(template): fix export JSON parsing for nested objects`
-- `refactor(template): extract TemplateCard widget`
-- `docs(template): add README for template system`
+- `refactor(gamification): extract XP progress ring widget`
+- `docs(gamification): add README for gamification system`
 
 ---
 
@@ -430,15 +434,15 @@ lib/
 - [x] QR code generation for template sharing
 - [x] Deep link handling for template import
 
-### Phase 2: Gamification Core (IN PROGRESS)
+### Phase 2: Gamification Core ✅ COMPLETED
 - [x] XP/Level/Streak system (backend)
 - [x] UserStats model with level calculation
 - [x] UserStatsDao with streak tracking
 - [x] UserStatsBloc for state management
 - [x] Celebration animations (Lottie) - Level up, Streak milestone, Task complete
 - [x] CelebrationService for triggering celebrations
-- [ ] Unlockables (themes, icons, animations) UI
-- [ ] Profile page with stats
+- [x] Unlockables (themes, icons, animations) UI
+- [x] Profile page with stats
 
 ---
 

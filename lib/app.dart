@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:persian_datetime_picker/persian_datetime_picker.dart';
 
 import 'core/data/bloc/goal_bloc/goal_bloc.dart';
@@ -8,6 +9,8 @@ import 'core/data/bloc/tag_bloc/tag_bloc.dart';
 import 'core/data/bloc/task_bloc/task_bloc.dart';
 import 'core/data/bloc/template_bloc/template_bloc.dart';
 import 'core/data/bloc/user_stats_bloc/user_stats_bloc.dart';
+import 'core/data/data_access_object/user_stats_dao.dart';
+import 'core/data/database/database.dart';
 import 'core/locale/app_localizations.dart';
 import 'core/locale/bloc/locale_bloc.dart';
 import 'core/locale/bloc/locale_event.dart';
@@ -17,12 +20,22 @@ import 'core/theme/bloc/theme_bloc.dart';
 import 'core/services/celebration_service.dart';
 import 'root_page.dart';
 
+final getIt = GetIt.instance;
+
+void _registerDependencies() {
+  // Register UserStatsDao in GetIt
+  getIt.registerLazySingleton<UserStatsDao>(() => UserStatsDao(AppDatabase()));
+}
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   // This widget is the root of application.
   @override
   Widget build(BuildContext context) {
+    // Register dependencies
+    _registerDependencies();
+    
     return MultiBlocProvider(
       providers: [
         BlocProvider(

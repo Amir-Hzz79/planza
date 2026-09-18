@@ -3,6 +3,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/services.dart';
 
 import 'package:planza/features/goal_managment/presentation/pages/goals_page.dart';
+import 'package:planza/features/gamification/presentation/pages/profile_page.dart';
 import 'package:planza/features/home/presentation/pages/home_page.dart';
 
 import 'core/locale/app_localizations.dart';
@@ -22,6 +23,7 @@ class _RootPageState extends State<RootPage> {
     const HomePage(),
     const TasksPage(),
     const GoalsPage(),
+    const ProfilePage(),
   ];
 
   DateTime? _lastPressedAt;
@@ -32,7 +34,7 @@ class _RootPageState extends State<RootPage> {
 
     return PopScope(
       canPop: false,
-      onPopInvoked: (bool didPop) {
+      onPopInvokedWithResult: (bool didPop, Object? result) {
         if (didPop) return;
 
         final now = DateTime.now();
@@ -71,6 +73,7 @@ class _RootPageState extends State<RootPage> {
             Icon(Icons.home_rounded, size: 30),
             Icon(Icons.task_alt_rounded, size: 30),
             Icon(Icons.golf_course_rounded, size: 30),
+            Icon(Icons.person_rounded, size: 30),
           ],
           onTap: (index) {
             setState(() {
