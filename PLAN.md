@@ -254,7 +254,7 @@ master (production) ← stage (stable release) ← dev (integration) ← feature
 | `feature/*` | Individual tasks | PR required to merge to `dev` |
 
 ### Branch Naming Convention
-- `feature/<phase>.<task>` — e.g., `feature/1.4-template-gallery`
+- `feature/<task-name>` — e.g., `feature/template-gallery`
 - `fix/<issue>` — Bug fixes
 - `refactor/<area>` — Refactoring
 - `chore/<task>` — Maintenance

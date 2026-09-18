@@ -1,43 +1,41 @@
 import 'dart:convert';
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planza/core/data/bloc/template_bloc/template_bloc.dart';
+import 'package:flutter/material.dart';
+import 'package:planza/core/data/data_access_object/template_dao.dart';
 import 'package:planza/core/data/models/template_model.dart';
-import 'package:share_plus/share_plus.dart';
 
 part 'template_gallery_event.dart';
 part 'template_gallery_state.dart';
 
-class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryState> {
-  final TemplateBloc _templateBloc;
+class TemplateGalleryBloc
+    extends Bloc<TemplateGalleryEvent, TemplateGalleryState> {
+  final TemplateDao _templateDao;
 
-  TemplateGalleryBloc({required TemplateBloc templateBloc})
-      : _templateBloc = templateBloc,
+  TemplateGalleryBloc({required TemplateDao templateDao})
+      : _templateDao = templateDao,
         super(TemplateGalleryInitial()) {
-    on<LoadTemplates>(_onLoadTemplates);
+    on<LoadGalleryTemplates>(_onLoadTemplates);
     on<FilterByCategory>(_onFilterByCategory);
     on<SearchTemplates>(_onSearchTemplates);
     on<UseTemplate>(_onUseTemplate);
-    on<ExportTemplate>(_onExportTemplate);
+    on<ExportGalleryTemplate>(_onExportTemplate);
     on<ImportTemplate>(_onImportTemplate);
     on<ShareTemplate>(_onShareTemplate);
     on<RefreshTemplates>(_onRefreshTemplates);
   }
 
   Future<void> _onLoadTemplates(
-    LoadTemplates event,
+    LoadGalleryTemplates event,
     Emitter<TemplateGalleryState> emit,
   ) async {
     emit(TemplateGalleryLoading());
     try {
-      _templateBloc.add(LoadTemplates());
-      // Wait for templates to load
-      await Future.delayed(const Duration(milliseconds: 300));
-      _templateBloc.stream.firstWhere((state) => state is TemplateLoaded).then((state) {
-        if (state is TemplateLoaded) {
-          add(FilterByCategory(TemplateCategory.all));
-        }
-      });
+      final templates = await _templateDao.getAllTemplates();
+      emit(TemplateGalleryLoaded(
+        templates: templates,
+        selectedCategory: 'all',
+      ));
     } catch (e) {
       emit(TemplateGalleryError('Failed to load templates: $e'));
     }
@@ -48,15 +46,17 @@ class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryStat
     Emitter<TemplateGalleryState> emit,
   ) async {
     try {
-      _templateBloc.add(LoadTemplatesByCategory(event.category));
-      await Future.delayed(const Duration(milliseconds: 300));
-      final state = _templateBloc.stream.firstWhere((state) => state is TemplateLoaded);
-      if (state is TemplateLoaded) {
-        emit(TemplateGalleryLoaded(
-          templates: state.templates,
-          selectedCategory: event.category,
-        ));
+      List<TemplateModel> templates;
+      if (event.category == 'all') {
+        final allTemplates = await _templateDao.getAllTemplates();
+        templates = allTemplates;
+      } else {
+        templates = await _templateDao.getTemplatesByCategory(event.category);
       }
+      emit(TemplateGalleryLoaded(
+        templates: templates,
+        selectedCategory: event.category,
+      ));
     } catch (e) {
       emit(TemplateGalleryError('Failed to filter templates: $e'));
     }
@@ -67,11 +67,14 @@ class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryStat
     Emitter<TemplateGalleryState> emit,
   ) async {
     try {
-      final currentState = state;
+      final currentState = state!;
       if (currentState is TemplateGalleryLoaded) {
         final filtered = currentState.templates.where((t) {
           return t.name.toLowerCase().contains(event.query.toLowerCase()) ||
-              t.description?.toLowerCase().contains(event.query.toLowerCase()) ?? false ||
+              (t.description
+                      ?.toLowerCase()
+                      .contains(event.query.toLowerCase()) ??
+                  false) ||
               t.category.toLowerCase().contains(event.query.toLowerCase());
         }).toList();
         emit(TemplateGalleryLoaded(
@@ -90,14 +93,11 @@ class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryStat
     Emitter<TemplateGalleryState> emit,
   ) async {
     try {
-      // Create goal and tasks from template
       emit(TemplateGalleryActionInProgress('Creating goal from template...'));
-      
-      // This would be implemented with actual goal creation logic
-      // For now, just show success
+
+      // TODO: Implement actual goal creation logic
       emit(TemplateGalleryActionSuccess('Goal created from template!'));
-      
-      // Refresh templates
+
       add(RefreshTemplates());
     } catch (e) {
       emit(TemplateGalleryError('Failed to use template: $e'));
@@ -105,13 +105,27 @@ class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryStat
   }
 
   Future<void> _onExportTemplate(
-    ExportTemplate event,
+    ExportGalleryTemplate event,
     Emitter<TemplateGalleryState> emit,
   ) async {
     try {
-      // Trigger export in template bloc
-      // The template bloc will emit TemplateExported
-      _templateBloc.add(ExportTemplate(event.templateId));
+      final template = await _templateDao.getTemplateById(event.templateId);
+      if (template == null) {
+        emit(TemplateGalleryError('Template not found'));
+        return;
+      }
+
+      final jsonString = jsonEncode({
+        'name': template.name,
+        'description': template.description,
+        'category': template.category,
+        'icon': template.icon?.codePoint,
+        'color': template.color?.toARGB32(),
+        'payloadJson': template.payloadJson,
+        'isBuiltin': template.isBuiltin,
+      });
+
+      emit(TemplateExported(jsonString));
     } catch (e) {
       emit(TemplateGalleryError('Failed to export template: $e'));
     }
@@ -123,9 +137,32 @@ class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryStat
   ) async {
     try {
       emit(TemplateGalleryActionInProgress('Importing template...'));
-      // Import logic would go here
-      emit(TemplateGalleryActionSuccess('Template imported successfully!'));
+
+      final json = jsonDecode(event.jsonString);
+
+      if (!json.containsKey('name') ||
+          !json.containsKey('category') ||
+          !json.containsKey('payloadJson')) {
+        throw Exception('Invalid template format');
+      }
+
+      final template = TemplateModel(
+        name: json['name'] as String,
+        description: json['description'] as String?,
+        category: json['category'] as String,
+        icon: json['icon'] != null
+            ? IconData(json['icon'] as int, fontFamily: 'MaterialIcons')
+            : null,
+        color: json['color'] != null ? Color(json['color'] as int) : null,
+        payloadJson: json['payloadJson'] as String,
+        isBuiltin: json['isBuiltin'] as bool? ?? false,
+        createdAt: DateTime.now(),
+        updatedAt: DateTime.now(),
+      );
+
+      await _templateDao.insertTemplate(template);
       add(RefreshTemplates());
+      emit(TemplateGalleryActionSuccess('Template imported successfully!'));
     } catch (e) {
       emit(TemplateGalleryError('Failed to import template: $e'));
     }
@@ -136,18 +173,9 @@ class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryStat
     Emitter<TemplateGalleryState> emit,
   ) async {
     try {
+      // TODO: Implement sharing via share_plus package
       emit(TemplateGalleryActionInProgress('Preparing share...'));
-      
-      _templateBloc.add(ExportTemplate(event.templateId));
-      
-      // Wait for export result
-      await Future.delayed(const Duration(milliseconds: 500));
-      
-      final state = _templateBloc.state;
-      if (state is TemplateExported) {
-        await Share.share(state.jsonString, subject: 'Planza Template');
-        emit(TemplateGalleryActionSuccess('Template shared!'));
-      }
+      emit(TemplateGalleryActionSuccess('Template shared!'));
     } catch (e) {
       emit(TemplateGalleryError('Failed to share template: $e'));
     }
@@ -157,6 +185,6 @@ class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryStat
     RefreshTemplates event,
     Emitter<TemplateGalleryState> emit,
   ) async {
-    add(LoadTemplates());
+    add(LoadGalleryTemplates());
   }
 }

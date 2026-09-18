@@ -7,7 +7,12 @@
     <application
         android:label="planza"
         android:name="${applicationName}"
-        android:icon="@mipmap/planza_icon">
+        android:icon="@mipmap/planza_icon"
+        android:hardwareAccelerated="false"
+        android:enableOnBackInvokedCallback="true">
+        <meta-data
+            android:name="io.flutter.embedding.android.EnableImpeller"
+            android:value="false" />
         <activity
             android:name=".MainActivity"
             android:exported="true"
