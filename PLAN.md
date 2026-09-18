@@ -95,7 +95,8 @@
 - [x] UserStats model with level calculation
 - [x] UserStatsDao with streak tracking
 - [x] UserStatsBloc for state management
-- [ ] Celebration animations (Lottie)
+- [x] Celebration animations (Lottie) - Level up, Streak milestone, Task complete
+- [x] CelebrationService for triggering celebrations
 - [ ] Unlockables (themes, icons, animations) UI
 - [ ] Profile page with stats
 
@@ -434,7 +435,8 @@ lib/
 - [x] UserStats model with level calculation
 - [x] UserStatsDao with streak tracking
 - [x] UserStatsBloc for state management
-- [ ] Celebration animations (Lottie)
+- [x] Celebration animations (Lottie) - Level up, Streak milestone, Task complete
+- [x] CelebrationService for triggering celebrations
 - [ ] Unlockables (themes, icons, animations) UI
 - [ ] Profile page with stats
 
@@ -505,9 +507,8 @@ flutter build appbundle --release
 
 ## Next Immediate Steps
 
-1. **Celebration animations** (Lottie integration) for level up, streak milestones
-2. **Unlockables UI** - display unlocked themes, icons, animations
-3. **Profile page** with stats display (XP bar, level, streaks)
-4. **Integrate XP rewards** into task/goal completion
-5. **Test on physical device** + emulator
-6. **Run full test suite** before PR
+1. **Unlockables UI** - display unlocked themes, icons, animations
+2. **Profile page** with stats display (XP bar, level, streaks)
+3. **Integrate XP rewards** into task/goal completion
+4. **Test on physical device** + emulator
+5. **Run full test suite** before PR

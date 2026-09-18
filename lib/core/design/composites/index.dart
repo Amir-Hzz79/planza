@@ -8,6 +8,7 @@ export 'date_chip.dart';
 export 'empty_state.dart';
 export 'loading_shimmer.dart';
 export 'goal_tree_view.dart';
+export 'celebration.dart';
 export '../tokens/index.dart';
 
 
