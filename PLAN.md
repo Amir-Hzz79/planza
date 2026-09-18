@@ -98,11 +98,16 @@
 
 ---
 
-## Phase 3: Smart Notifications
-- [ ] Presets (10m, 1h, 1d, custom)
-- [ ] Rich actions (complete/snooze)
-- [ ] Quiet hours, working days
-- [ ] Per-goal overrides
+## Phase 3: Smart Notifications (IN PROGRESS)
+- [x] Notification service with flutter_local_notifications
+- [x] Notification channel creation
+- [x] Task reminder scheduling with timezone support
+- [x] Rich actions (Complete, Snooze 10m, Snooze 1h)
+- [x] Notification channel with high priority
+- [ ] Presets (10m, 1h, 1d, custom) - UI
+- [ ] Quiet hours, working days - UI
+- [ ] Per-goal overrides - UI
+- [ ] Notification settings page
 
 ---
 

@@ -14,14 +14,14 @@ import 'tables.dart';
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [Tasks, Subtasks, Tags, TaskTags, Goals, UserSettings, Templates],
+  tables: [Tasks, Subtasks, Tags, TaskTags, Goals, UserSettings, Templates, NotificationPrefs, GoalNotificationOverride],
   daos: [TaskDao, TagDao, UserSettingsDao, GoalDao, TemplateDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
@@ -644,6 +644,9 @@ class AppDatabase extends _$AppDatabase {
             );
           } else if (from < 5) {
             await migrator.createTable(templates);
+          } else if (from < 6) {
+            await migrator.createTable(notificationPrefs);
+            await migrator.createTable(goalNotificationOverride);
           }
         },
       );
