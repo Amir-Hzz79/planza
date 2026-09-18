@@ -65,35 +65,38 @@
 ## Phase 1: Goal Hierarchy & Templates
 - [x] Parent goals, tree UI, drag-drop reorder
 - [x] Template engine (JSON serialization)
-- [ ] Import/export/share templates
-- [ ] Template gallery with categories
+- [x] Import/export/share templates
+- [x] Template gallery with categories
 - [x] Template engine (JSON serialization)
 
-### Phase 1.4: Template Gallery UI (IN PROGRESS)
-- [ ] TemplateGalleryPage with category tabs
-- [ ] TemplateCard widget with preview
-- [ ] Category tabs (Habit, Project, Learning, Fitness, Custom)
-- [ ] Search and filter templates
-- [ ] Create template from scratch button
-- [ ] Template detail view
-- [ ] "Use Template" action (creates goal + tasks)
-- [ ] Category filtering and search
-- [ ] Pull-to-refresh
+### Phase 1.4: Template Gallery UI ✅ COMPLETED
+- [x] TemplateGalleryPage with category tabs
+- [x] TemplateCard widget with preview
+- [x] Category tabs (Habit, Project, Learning, Fitness, Custom)
+- [x] Search and filter templates
+- [x] Create template from scratch button
+- [x] Template detail view
+- [x] "Use Template" action (creates goal + tasks)
+- [x] Category filtering and search
+- [x] Pull-to-refresh
 
-### Phase 1.5: Import/Export/Share UI
-- [ ] Export template as JSON file
-- [ ] Import template from JSON file
-- [ ] Share template via system share sheet
-- [ ] QR code generation for template sharing
-- [ ] Deep link handling for template import
+### Phase 1.5: Import/Export/Share UI ✅ COMPLETED
+- [x] Export template as JSON file
+- [x] Import template from JSON file
+- [x] Share template via system share sheet
+- [x] QR code generation for template sharing
+- [x] Deep link handling for template import
 - [x] Template engine (JSON serialization)
 
 ---
 
-## Phase 2: Gamification Core
-- [ ] XP/Level/Streak system
+## Phase 2: Gamification Core (IN PROGRESS)
+- [x] XP/Level/Streak system (backend)
+- [x] UserStats model with level calculation
+- [x] UserStatsDao with streak tracking
+- [x] UserStatsBloc for state management
 - [ ] Celebration animations (Lottie)
-- [ ] Unlockables (themes, icons, animations)
+- [ ] Unlockables (themes, icons, animations) UI
 - [ ] Profile page with stats
 
 ---
@@ -406,25 +409,34 @@ lib/
 
 ## Current Active Branch
 
-**Branch**: `feature/1.4-template-gallery` (from dev)
+**Branch**: `feature/gamification-core` (from dev)
 
-### Phase 1.4: Template Gallery UI (IN PROGRESS)
-- [ ] TemplateGalleryPage with category tabs
-- [ ] TemplateCard widget with preview
-- [ ] Category tabs (Habit, Project, Learning, Fitness, Custom)
-- [ ] Search and filter templates
-- [ ] Create template from scratch button
-- [ ] Template detail view
-- [ ] "Use Template" action (creates Goal + Tasks)
-- [ ] Category filtering and search
-- [ ] Pull-to-refresh
+### Phase 1.4: Template Gallery UI ✅ COMPLETED
+- [x] TemplateGalleryPage with category tabs
+- [x] TemplateCard widget with preview
+- [x] Category tabs (Habit, Project, Learning, Fitness, Custom)
+- [x] Search and filter templates
+- [x] Create template from scratch button
+- [x] Template detail view
+- [x] "Use Template" action (creates Goal + Tasks)
+- [x] Category filtering and search
+- [x] Pull-to-refresh
 
-### Phase 1.5: Import/Export/Share UI (PENDING)
-- [ ] Export template as JSON file
-- [ ] Import template from JSON file
-- [ ] Share template via system share sheet
-- [ ] QR code generation for template sharing
-- [ ] Deep link handling for template import
+### Phase 1.5: Import/Export/Share UI ✅ COMPLETED
+- [x] Export template as JSON file
+- [x] Import template from JSON file
+- [x] Share template via system share sheet
+- [x] QR code generation for template sharing
+- [x] Deep link handling for template import
+
+### Phase 2: Gamification Core (IN PROGRESS)
+- [x] XP/Level/Streak system (backend)
+- [x] UserStats model with level calculation
+- [x] UserStatsDao with streak tracking
+- [x] UserStatsBloc for state management
+- [ ] Celebration animations (Lottie)
+- [ ] Unlockables (themes, icons, animations) UI
+- [ ] Profile page with stats
 
 ---
 
@@ -432,9 +444,11 @@ lib/
 
 ```bash
 # Current branch
-feature/1.4-template-gallery (from dev)
+feature/gamification-core (from dev)
 
 # Recent commits
+- feat(template): complete import/export/share UI with file operations, QR codes, and deep links
+- feat(template): complete template gallery UI with category tabs, search, filter, and share
 - feat(template): add template gallery bloc with import/export/share
 - feat(template): add template gallery UI with category tabs
 - feat(template): add template tree UI with expand/collapse
@@ -491,11 +505,9 @@ flutter build appbundle --release
 
 ## Next Immediate Steps
 
-1. **Complete TemplateGalleryPage** with category tabs
-2. **Implement TemplateCard** with preview image + metadata
-3. **Add category filtering** with animated transitions
-4. **Implement "Use Template"** → creates Goal + Tasks
-5. **Build Export/Import/Share UI** with share_plus
-4. **Add pull-to-refresh** and search
+1. **Celebration animations** (Lottie integration) for level up, streak milestones
+2. **Unlockables UI** - display unlocked themes, icons, animations
+3. **Profile page** with stats display (XP bar, level, streaks)
+4. **Integrate XP rewards** into task/goal completion
 5. **Test on physical device** + emulator
-5. **Run full test suite** before PR
+6. **Run full test suite** before PR

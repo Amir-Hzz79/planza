@@ -78,3 +78,20 @@ class Templates extends Table {
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }
+
+class UserStats extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get xp => integer().withDefault(const Constant(0))();
+  IntColumn get level => integer().withDefault(const Constant(1))();
+  IntColumn get currentStreak => integer().withDefault(const Constant(0))();
+  IntColumn get longestStreak => integer().withDefault(const Constant(0))();
+  DateTimeColumn get lastActiveDate => dateTime().nullable()();
+  IntColumn get totalTasksCompleted => integer().withDefault(const Constant(0))();
+  IntColumn get totalGoalsCompleted => integer().withDefault(const Constant(0))();
+  IntColumn get totalTemplatesCreated => integer().withDefault(const Constant(0))();
+  TextColumn get unlockedThemes => text().nullable()(); // JSON array of theme IDs
+  TextColumn get unlockedIcons => text().nullable()(); // JSON array of icon IDs
+  TextColumn get unlockedAnimations => text().nullable()(); // JSON array of animation IDs
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+}
