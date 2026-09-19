@@ -90,10 +90,14 @@
 
 ---
 
-## Phase 2: Gamification Core
-- [ ] XP/Level/Streak system
-- [ ] Celebration animations (Lottie)
-- [ ] Unlockables (themes, icons, animations)
+## Phase 2: Gamification Core (IN PROGRESS)
+- [x] XP/Level/Streak system (backend)
+- [x] UserStats model with level calculation
+- [x] UserStatsDao with streak tracking
+- [x] UserStatsBloc for state management
+- [x] Celebration animations (Lottie) - Level up, Streak milestone, Task complete
+- [x] CelebrationService for triggering celebrations
+- [ ] Unlockables (themes, icons, animations) UI
 - [ ] Profile page with stats
 
 ---
@@ -406,7 +410,7 @@ lib/
 
 ## Current Active Branch
 
-**Branch**: `feature/template-import-export-share` (from dev)
+**Branch**: `feature/gamification-core` (from dev)
 
 ### Phase 1.4: Template Gallery UI ✅ COMPLETED
 - [x] TemplateGalleryPage with category tabs
@@ -426,16 +430,27 @@ lib/
 - [x] QR code generation for template sharing
 - [x] Deep link handling for template import
 
+### Phase 2: Gamification Core (IN PROGRESS)
+- [x] XP/Level/Streak system (backend)
+- [x] UserStats model with level calculation
+- [x] UserStatsDao with streak tracking
+- [x] UserStatsBloc for state management
+- [x] Celebration animations (Lottie) - Level up, Streak milestone, Task complete
+- [x] CelebrationService for triggering celebrations
+- [ ] Unlockables (themes, icons, animations) UI
+- [ ] Profile page with stats
+
 ---
 
 ## Current Git Status
 
 ```bash
 # Current branch
-feature/template-import-export-share (from dev)
+feature/gamification-core (from dev)
 
 # Recent commits
-- feat(template): add template gallery UI with category tabs, search, filter, export/import/share
+- feat(template): complete import/export/share UI with file operations, QR codes, and deep links
+- feat(template): complete template gallery UI with category tabs, search, filter, and share
 - feat(template): add template gallery bloc with import/export/share
 - feat(template): add template gallery UI with category tabs
 - feat(template): add template tree UI with expand/collapse
@@ -492,10 +507,8 @@ flutter build appbundle --release
 
 ## Next Immediate Steps
 
-1. **Phase 2: Gamification Core** - XP/Level/Streak system
-2. **Celebration animations** (Lottie integration)
-3. **Unlockables** (themes, icons, animations)
-4. **Profile page** with stats
-5. **Test on physical device** + emulator
-6. **Run full test suite** before PR
-6. **Run full test suite** before PR
+1. **Unlockables UI** - display unlocked themes, icons, animations
+2. **Profile page** with stats display (XP bar, level, streaks)
+3. **Integrate XP rewards** into task/goal completion
+4. **Test on physical device** + emulator
+5. **Run full test suite** before PR

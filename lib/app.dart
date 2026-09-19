@@ -7,12 +7,14 @@ import 'core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'core/data/bloc/tag_bloc/tag_bloc.dart';
 import 'core/data/bloc/task_bloc/task_bloc.dart';
 import 'core/data/bloc/template_bloc/template_bloc.dart';
+import 'core/data/bloc/user_stats_bloc/user_stats_bloc.dart';
 import 'core/locale/app_localizations.dart';
 import 'core/locale/bloc/locale_bloc.dart';
 import 'core/locale/bloc/locale_event.dart';
 import 'core/locale/bloc/locale_state.dart';
 import 'core/theme/app_theme.dart';
 import 'core/theme/bloc/theme_bloc.dart';
+import 'core/services/celebration_service.dart';
 import 'root_page.dart';
 
 class MyApp extends StatelessWidget {
@@ -45,6 +47,9 @@ class MyApp extends StatelessWidget {
             tagBloc: context.read<TagBloc>(),
           )..add(LoadTemplates()),
         ),
+        BlocProvider(
+          create: (context) => UserStatsBloc()..add(LoadUserStats()),
+        ),
       ],
       child: BlocBuilder<ThemeBloc, ThemeState>(
         builder: (context, themeState) {
@@ -71,6 +76,10 @@ class MyApp extends StatelessWidget {
                         GlobalWidgetsLocalizations.delegate,
                         GlobalCupertinoLocalizations.delegate,
                       ],
+                      builder: (context, child) {
+                        CelebrationService().initialize(context);
+                        return child!;
+                      },
                       home: SafeArea(
                         child: const RootPage(),
                       ),

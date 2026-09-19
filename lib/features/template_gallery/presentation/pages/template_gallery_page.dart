@@ -25,7 +25,14 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
     with TickerProviderStateMixin {
   final _searchController = TextEditingController();
   late TabController _tabController;
-  final _categories = ['All', 'Habit', 'Project', 'Learning', 'Fitness', 'Custom'];
+  final _categories = [
+    'All',
+    'Habit',
+    'Project',
+    'Learning',
+    'Fitness',
+    'Custom'
+  ];
 
   @override
   void initState() {
@@ -73,7 +80,9 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
                   hint: 'Search templates...',
                   prefixIcon: Icons.search,
                   onChanged: (value) {
-                    context.read<TemplateGalleryBloc>().add(SearchTemplates(value));
+                    context
+                        .read<TemplateGalleryBloc>()
+                        .add(SearchTemplates(value));
                   },
                 ),
               ),
@@ -86,15 +95,20 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
                 indicatorColor: colorScheme.primary,
                 labelColor: colorScheme.primary,
                 unselectedLabelColor: colorScheme.onSurfaceVariant,
-                labelStyle: PlTypography.labelLarge.copyWith(fontWeight: FontWeight.w600),
+                labelStyle: PlTypography.labelLarge
+                    .copyWith(fontWeight: FontWeight.w600),
                 unselectedLabelStyle: PlTypography.labelLarge,
                 tabs: _categories.map((cat) => Tab(text: cat)).toList(),
                 onTap: (index) {
                   final category = _categories[index].toLowerCase();
                   if (category == 'all') {
-                    context.read<TemplateGalleryBloc>().add(FilterByCategory('all'));
+                    context
+                        .read<TemplateGalleryBloc>()
+                        .add(FilterByCategory('all'));
                   } else {
-                    context.read<TemplateGalleryBloc>().add(FilterByCategory(category));
+                    context
+                        .read<TemplateGalleryBloc>()
+                        .add(FilterByCategory(category));
                   }
                 },
               ),
@@ -114,15 +128,19 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
               );
             } else if (state is TemplateGalleryError) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.message), backgroundColor: colorScheme.error),
+                SnackBar(
+                    content: Text(state.message),
+                    backgroundColor: colorScheme.error),
               );
             } else if (state is TemplateExportedToFile) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Template exported to: ${state.filePath}')),
+                SnackBar(
+                    content: Text('Template exported to: ${state.filePath}')),
               );
             } else if (state is TemplateImportedFromFile) {
               ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Template imported from: ${state.filePath}')),
+                SnackBar(
+                    content: Text('Template imported from: ${state.filePath}')),
               );
             } else if (state is TemplateQRCodeGenerated) {
               _showQRCodeDialog(state.qrData);
@@ -196,21 +214,27 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
                     Expanded(
                       child: Container(
                         height: 36,
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
                       ),
                     ),
                     const SizedBox(width: PlSpacing.sm),
                     Expanded(
                       child: Container(
                         height: 36,
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
                       ),
                     ),
                     const SizedBox(width: PlSpacing.sm),
                     Expanded(
                       child: Container(
                         height: 36,
-                        color: Theme.of(context).colorScheme.surfaceContainerHighest,
+                        color: Theme.of(context)
+                            .colorScheme
+                            .surfaceContainerHighest,
                       ),
                     ),
                   ],
@@ -269,7 +293,9 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
               onPressed: searchQuery != null && searchQuery.isNotEmpty
                   ? () {
                       _searchController.clear();
-                      context.read<TemplateGalleryBloc>().add(SearchTemplates(''));
+                      context
+                          .read<TemplateGalleryBloc>()
+                          .add(SearchTemplates(''));
                     }
                   : _showCreateTemplateDialog,
             ),
@@ -391,7 +417,9 @@ class _TemplateGalleryPageState extends State<TemplateGalleryPage>
   }
 
   void _generateQRCode(TemplateModel template) {
-    context.read<TemplateGalleryBloc>().add(GenerateTemplateQRCode(template.id!));
+    context
+        .read<TemplateGalleryBloc>()
+        .add(GenerateTemplateQRCode(template.id!));
   }
 
   void _showQRCodeDialog(String qrData) {
@@ -517,7 +545,8 @@ class _TemplateDetailSheet extends StatelessWidget {
                     width: 64,
                     height: 64,
                     decoration: BoxDecoration(
-                      color: template.color?.withValues(alpha: 0.15) ?? colorScheme.primaryContainer,
+                      color: template.color?.withValues(alpha: 0.15) ??
+                          colorScheme.primaryContainer,
                       borderRadius: PlBorderRadius.radiusMd,
                     ),
                     child: Icon(
@@ -533,7 +562,8 @@ class _TemplateDetailSheet extends StatelessWidget {
                       children: [
                         Text(
                           template.name,
-                          style: PlTypography.headlineSmall.copyWith(fontWeight: FontWeight.w600),
+                          style: PlTypography.headlineSmall
+                              .copyWith(fontWeight: FontWeight.w600),
                         ),
                         const SizedBox(height: PlSpacing.xs),
                         Container(
@@ -610,7 +640,9 @@ class _TemplateDetailSheet extends StatelessWidget {
                       style: PlButtonStyle.filled,
                       onPressed: () {
                         Navigator.pop(context);
-                        context.read<TemplateGalleryBloc>().add(UseTemplate(template));
+                        context
+                            .read<TemplateGalleryBloc>()
+                            .add(UseTemplate(template));
                       },
                     ),
                   ),
@@ -620,7 +652,9 @@ class _TemplateDetailSheet extends StatelessWidget {
                       style: PlButtonStyle.outlined,
                       onPressed: () {
                         Navigator.pop(context);
-                        context.read<TemplateGalleryBloc>().add(ExportTemplate(template.id!));
+                        context
+                            .read<TemplateGalleryBloc>()
+                            .add(ExportTemplate(template.id!));
                       },
                     ),
                   ),
@@ -630,7 +664,9 @@ class _TemplateDetailSheet extends StatelessWidget {
                       style: PlButtonStyle.outlined,
                       onPressed: () {
                         Navigator.pop(context);
-                        context.read<TemplateGalleryBloc>().add(ExportTemplateToFile(template.id!));
+                        context
+                            .read<TemplateGalleryBloc>()
+                            .add(ExportTemplateToFile(template.id!));
                       },
                     ),
                   ),
@@ -640,7 +676,9 @@ class _TemplateDetailSheet extends StatelessWidget {
                       style: PlButtonStyle.outlined,
                       onPressed: () {
                         Navigator.pop(context);
-                        context.read<TemplateGalleryBloc>().add(GenerateTemplateQRCode(template.id!));
+                        context
+                            .read<TemplateGalleryBloc>()
+                            .add(GenerateTemplateQRCode(template.id!));
                       },
                     ),
                   ),

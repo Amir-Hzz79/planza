@@ -1,5 +1,4 @@
-import 'package:equatable/equatable.dart';
-import 'package:planza/core/data/models/template_model.dart';
+part of 'template_gallery_bloc.dart';
 
 abstract class TemplateGalleryEvent extends Equatable {
   const TemplateGalleryEvent();
