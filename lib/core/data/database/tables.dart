@@ -24,17 +24,6 @@ class Goals extends Table {
       integer().nullable().customConstraint('REFERENCES goals(id)')();
 }
 
-/* class GoalTasks extends Table {
-  IntColumn get goalId =>
-      integer().customConstraint('REFERENCES goals(id)').nullable()();
-  IntColumn get taskId =>
-      integer().customConstraint('REFERENCES tasks(id)').nullable()();
-
-  @override
-  Set<Column> get primaryKey =>
-      {goalId, taskId}; // ترکیب دو ستون به عنوان کلید اصلی
-} */
-
 class TaskTags extends Table {
   IntColumn get taskId =>
       integer().customConstraint('REFERENCES tasks(id)').nullable()();
@@ -43,7 +32,7 @@ class TaskTags extends Table {
 
   @override
   Set<Column> get primaryKey =>
-      {taskId, tagId}; // ترکیب دو ستون به عنوان کلید اصلی
+      {taskId, tagId};
 }
 
 class Tasks extends Table {
@@ -66,6 +55,44 @@ class UserSettings extends Table {
   TextColumn get theme => text().withLength(min: 1, max: 50).nullable()();
 }
 
+class NotificationPrefs extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  BoolColumn get notificationsEnabled =>
+      boolean().withDefault(const Constant(true))();
+  IntColumn get defaultReminderMinutes =>
+      integer().withDefault(const Constant(30))();
+  BoolColumn get snoozeEnabled =>
+      boolean().withDefault(const Constant(true))();
+  TextColumn get snoozePresets =>
+      text().withDefault(const Constant('[10,60,1440]'))();
+  BoolColumn get quietHoursEnabled =>
+      boolean().withDefault(const Constant(false))();
+  TextColumn get quietHoursStart =>
+      text().withDefault(const Constant('22:00'))();
+  TextColumn get quietHoursEnd =>
+      text().withDefault(const Constant('08:00'))();
+  TextColumn get workingDays =>
+      text().withDefault(const Constant('[1,2,3,4,5]'))();
+  BoolColumn get goalOverrideEnabled =>
+      boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+}
+
+class GoalNotificationOverride extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get goalId =>
+      integer().nullable().customConstraint('REFERENCES goals(id)')();
+  BoolColumn get notificationsEnabled =>
+      boolean().withDefault(const Constant(true))();
+  IntColumn get reminderMinutes =>
+      integer().nullable().withDefault(const Constant(0))();
+  BoolColumn get snoozeEnabled =>
+      boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+}
+
 class Templates extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().withLength(min: 1, max: 255)();
@@ -73,25 +100,8 @@ class Templates extends Table {
   TextColumn get category => text().withLength(min: 1, max: 100)();
   IntColumn get icon => integer().nullable()();
   IntColumn get color => integer().nullable()();
-  TextColumn get payloadJson => text()(); // JSON serialized GoalModel + Tasks + Tags
+  TextColumn get payloadJson => text()();
   BoolColumn get isBuiltin => boolean().withDefault(const Constant(false))();
-  DateTimeColumn get createdAt => dateTime()();
-  DateTimeColumn get updatedAt => dateTime().nullable()();
-}
-
-class UserStats extends Table {
-  IntColumn get id => integer().autoIncrement()();
-  IntColumn get xp => integer().withDefault(const Constant(0))();
-  IntColumn get level => integer().withDefault(const Constant(1))();
-  IntColumn get currentStreak => integer().withDefault(const Constant(0))();
-  IntColumn get longestStreak => integer().withDefault(const Constant(0))();
-  DateTimeColumn get lastActiveDate => dateTime().nullable()();
-  IntColumn get totalTasksCompleted => integer().withDefault(const Constant(0))();
-  IntColumn get totalGoalsCompleted => integer().withDefault(const Constant(0))();
-  IntColumn get totalTemplatesCreated => integer().withDefault(const Constant(0))();
-  TextColumn get unlockedThemes => text().nullable()(); // JSON array of theme IDs
-  TextColumn get unlockedIcons => text().nullable()(); // JSON array of icon IDs
-  TextColumn get unlockedAnimations => text().nullable()(); // JSON array of animation IDs
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }

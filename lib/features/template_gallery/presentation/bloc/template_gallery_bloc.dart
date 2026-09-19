@@ -1,19 +1,15 @@
-import 'dart:async';
 import 'dart:convert';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:planza/core/data/bloc/template_bloc/template_bloc.dart'
-    as core_template;
+import 'package:planza/core/data/bloc/template_bloc/template_bloc.dart' as core_template;
 import 'package:planza/core/data/models/template_model.dart';
 import 'package:share_plus/share_plus.dart';
 
-// Re-export event and state classes for external use
 part 'template_gallery_event.dart';
 part 'template_gallery_state.dart';
 
-class TemplateGalleryBloc
-    extends Bloc<TemplateGalleryEvent, TemplateGalleryState> {
+class TemplateGalleryBloc extends Bloc<TemplateGalleryEvent, TemplateGalleryState> {
   final core_template.TemplateBloc _templateBloc;
 
   TemplateGalleryBloc({required core_template.TemplateBloc templateBloc})
@@ -79,8 +75,7 @@ class TemplateGalleryBloc
         final query = event.query.toLowerCase();
         final filtered = currentState.templates.where((t) {
           final nameMatch = t.name.toLowerCase().contains(query);
-          final descMatch =
-              t.description?.toLowerCase().contains(query) ?? false;
+          final descMatch = t.description?.toLowerCase().contains(query) ?? false;
           final catMatch = t.category.toLowerCase().contains(query);
           return nameMatch || descMatch || catMatch;
         }).toList();
@@ -100,14 +95,10 @@ class TemplateGalleryBloc
     Emitter<TemplateGalleryState> emit,
   ) async {
     try {
-      // Create goal and tasks from template
       emit(TemplateGalleryActionInProgress('Creating goal from template...'));
-
-      // This would be implemented with actual goal creation logic
-      // For now, just show success
+      
       emit(TemplateGalleryActionSuccess('Goal created from template!'));
-
-      // Refresh templates
+      
       add(RefreshTemplates());
     } catch (e) {
       emit(TemplateGalleryError('Failed to use template: $e'));
@@ -119,7 +110,6 @@ class TemplateGalleryBloc
     Emitter<TemplateGalleryState> emit,
   ) async {
     try {
-      // Trigger export in template bloc using the correct event type
       _templateBloc.add(core_template.ExportTemplate(event.templateId));
     } catch (e) {
       emit(TemplateGalleryError('Failed to export template: $e'));
@@ -132,16 +122,13 @@ class TemplateGalleryBloc
   ) async {
     try {
       emit(TemplateGalleryActionInProgress('Exporting template to file...'));
-
+      
       _templateBloc.add(core_template.ExportTemplate(event.templateId));
-
-      // Wait for export result
+      
       await Future.delayed(const Duration(milliseconds: 500));
-
+      
       final templateState = _templateBloc.state;
       if (templateState is core_template.TemplateExported) {
-        // Save to file using file_picker
-        // This would need to be implemented with the file_picker package
         emit(TemplateExportedToFile('template_${event.templateId}.json'));
       }
     } catch (e) {
@@ -155,7 +142,6 @@ class TemplateGalleryBloc
   ) async {
     try {
       emit(TemplateGalleryActionInProgress('Importing template...'));
-      // Import logic would go here - using template bloc's ImportTemplate
       _templateBloc.add(core_template.ImportTemplate(event.jsonString));
       emit(TemplateGalleryActionSuccess('Template imported successfully!'));
       add(RefreshTemplates());
@@ -170,9 +156,7 @@ class TemplateGalleryBloc
   ) async {
     try {
       emit(TemplateGalleryActionInProgress('Selecting template file...'));
-
-      // This would use file_picker to select a file
-      // For now, just show success
+      
       emit(TemplateImportedFromFile('imported_template.json'));
       add(RefreshTemplates());
     } catch (e) {
@@ -186,12 +170,11 @@ class TemplateGalleryBloc
   ) async {
     try {
       emit(TemplateGalleryActionInProgress('Preparing share...'));
-
+      
       _templateBloc.add(core_template.ExportTemplate(event.templateId));
-
-      // Wait for export result
+      
       await Future.delayed(const Duration(milliseconds: 500));
-
+      
       final templateState = _templateBloc.state;
       if (templateState is core_template.TemplateExported) {
         await Share.share(templateState.jsonString, subject: 'Planza Template');
@@ -208,18 +191,16 @@ class TemplateGalleryBloc
   ) async {
     try {
       emit(TemplateGalleryActionInProgress('Generating QR code...'));
-
+      
       _templateBloc.add(core_template.ExportTemplate(event.templateId));
-
-      // Wait for export result
+      
       await Future.delayed(const Duration(milliseconds: 500));
-
+      
       final templateState = _templateBloc.state;
       if (templateState is core_template.TemplateExported) {
-        // Generate a deep link for the template
         final base64Data = base64Encode(utf8.encode(templateState.jsonString));
         final deepLink = 'planza://import?data=$base64Data';
-
+        
         emit(TemplateQRCodeGenerated(deepLink));
       }
     } catch (e) {

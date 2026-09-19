@@ -9,6 +9,7 @@ export 'pl_app_bar.dart';
 export 'pl_fab.dart';
 export 'pl_divider.dart';
 export 'pl_tooltip.dart';
+export 'pl_switch.dart';
 export '../tokens/index.dart';
 
 

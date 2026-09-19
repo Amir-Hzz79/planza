@@ -2203,12 +2203,12 @@ class TemplatesCompanion extends UpdateCompanion<Template> {
   }
 }
 
-class $UserStatsTable extends UserStats
-    with TableInfo<$UserStatsTable, UserStat> {
+class $NotificationPrefsTable extends NotificationPrefs
+    with TableInfo<$NotificationPrefsTable, NotificationPref> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $UserStatsTable(this.attachedDatabase, [this._alias]);
+  $NotificationPrefsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
   @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
@@ -2218,84 +2218,86 @@ class $UserStatsTable extends UserStats
       requiredDuringInsert: false,
       defaultConstraints:
           GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _xpMeta = const VerificationMeta('xp');
+  static const VerificationMeta _notificationsEnabledMeta =
+      const VerificationMeta('notificationsEnabled');
   @override
-  late final GeneratedColumn<int> xp = GeneratedColumn<int>(
-      'xp', aliasedName, false,
+  late final GeneratedColumn<bool> notificationsEnabled = GeneratedColumn<bool>(
+      'notifications_enabled', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("notifications_enabled" IN (0, 1))'),
+      defaultValue: const Constant(true));
+  static const VerificationMeta _defaultReminderMinutesMeta =
+      const VerificationMeta('defaultReminderMinutes');
+  @override
+  late final GeneratedColumn<int> defaultReminderMinutes = GeneratedColumn<int>(
+      'default_reminder_minutes', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _levelMeta = const VerificationMeta('level');
+      defaultValue: const Constant(30));
+  static const VerificationMeta _snoozeEnabledMeta =
+      const VerificationMeta('snoozeEnabled');
   @override
-  late final GeneratedColumn<int> level = GeneratedColumn<int>(
-      'level', aliasedName, false,
-      type: DriftSqlType.int,
+  late final GeneratedColumn<bool> snoozeEnabled = GeneratedColumn<bool>(
+      'snooze_enabled', aliasedName, false,
+      type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultValue: const Constant(1));
-  static const VerificationMeta _currentStreakMeta =
-      const VerificationMeta('currentStreak');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("snooze_enabled" IN (0, 1))'),
+      defaultValue: const Constant(true));
+  static const VerificationMeta _snoozePresetsMeta =
+      const VerificationMeta('snoozePresets');
   @override
-  late final GeneratedColumn<int> currentStreak = GeneratedColumn<int>(
-      'current_streak', aliasedName, false,
-      type: DriftSqlType.int,
+  late final GeneratedColumn<String> snoozePresets = GeneratedColumn<String>(
+      'snooze_presets', aliasedName, false,
+      type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _longestStreakMeta =
-      const VerificationMeta('longestStreak');
+      defaultValue: const Constant('[10,60,1440]'));
+  static const VerificationMeta _quietHoursEnabledMeta =
+      const VerificationMeta('quietHoursEnabled');
   @override
-  late final GeneratedColumn<int> longestStreak = GeneratedColumn<int>(
-      'longest_streak', aliasedName, false,
-      type: DriftSqlType.int,
+  late final GeneratedColumn<bool> quietHoursEnabled = GeneratedColumn<bool>(
+      'quiet_hours_enabled', aliasedName, false,
+      type: DriftSqlType.bool,
       requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _lastActiveDateMeta =
-      const VerificationMeta('lastActiveDate');
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("quiet_hours_enabled" IN (0, 1))'),
+      defaultValue: const Constant(false));
+  static const VerificationMeta _quietHoursStartMeta =
+      const VerificationMeta('quietHoursStart');
   @override
-  late final GeneratedColumn<DateTime> lastActiveDate =
-      GeneratedColumn<DateTime>('last_active_date', aliasedName, true,
-          type: DriftSqlType.dateTime, requiredDuringInsert: false);
-  static const VerificationMeta _totalTasksCompletedMeta =
-      const VerificationMeta('totalTasksCompleted');
-  @override
-  late final GeneratedColumn<int> totalTasksCompleted = GeneratedColumn<int>(
-      'total_tasks_completed', aliasedName, false,
-      type: DriftSqlType.int,
+  late final GeneratedColumn<String> quietHoursStart = GeneratedColumn<String>(
+      'quiet_hours_start', aliasedName, false,
+      type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _totalGoalsCompletedMeta =
-      const VerificationMeta('totalGoalsCompleted');
+      defaultValue: const Constant('22:00'));
+  static const VerificationMeta _quietHoursEndMeta =
+      const VerificationMeta('quietHoursEnd');
   @override
-  late final GeneratedColumn<int> totalGoalsCompleted = GeneratedColumn<int>(
-      'total_goals_completed', aliasedName, false,
-      type: DriftSqlType.int,
+  late final GeneratedColumn<String> quietHoursEnd = GeneratedColumn<String>(
+      'quiet_hours_end', aliasedName, false,
+      type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _totalTemplatesCreatedMeta =
-      const VerificationMeta('totalTemplatesCreated');
+      defaultValue: const Constant('08:00'));
+  static const VerificationMeta _workingDaysMeta =
+      const VerificationMeta('workingDays');
   @override
-  late final GeneratedColumn<int> totalTemplatesCreated = GeneratedColumn<int>(
-      'total_templates_created', aliasedName, false,
-      type: DriftSqlType.int,
+  late final GeneratedColumn<String> workingDays = GeneratedColumn<String>(
+      'working_days', aliasedName, false,
+      type: DriftSqlType.string,
       requiredDuringInsert: false,
-      defaultValue: const Constant(0));
-  static const VerificationMeta _unlockedThemesMeta =
-      const VerificationMeta('unlockedThemes');
+      defaultValue: const Constant('[1,2,3,4,5]'));
+  static const VerificationMeta _goalOverrideEnabledMeta =
+      const VerificationMeta('goalOverrideEnabled');
   @override
-  late final GeneratedColumn<String> unlockedThemes = GeneratedColumn<String>(
-      'unlocked_themes', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _unlockedIconsMeta =
-      const VerificationMeta('unlockedIcons');
-  @override
-  late final GeneratedColumn<String> unlockedIcons = GeneratedColumn<String>(
-      'unlocked_icons', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
-  static const VerificationMeta _unlockedAnimationsMeta =
-      const VerificationMeta('unlockedAnimations');
-  @override
-  late final GeneratedColumn<String> unlockedAnimations =
-      GeneratedColumn<String>('unlocked_animations', aliasedName, true,
-          type: DriftSqlType.string, requiredDuringInsert: false);
+  late final GeneratedColumn<bool> goalOverrideEnabled = GeneratedColumn<bool>(
+      'goal_override_enabled', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("goal_override_enabled" IN (0, 1))'),
+      defaultValue: const Constant(true));
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   @override
@@ -2311,17 +2313,15 @@ class $UserStatsTable extends UserStats
   @override
   List<GeneratedColumn> get $columns => [
         id,
-        xp,
-        level,
-        currentStreak,
-        longestStreak,
-        lastActiveDate,
-        totalTasksCompleted,
-        totalGoalsCompleted,
-        totalTemplatesCreated,
-        unlockedThemes,
-        unlockedIcons,
-        unlockedAnimations,
+        notificationsEnabled,
+        defaultReminderMinutes,
+        snoozeEnabled,
+        snoozePresets,
+        quietHoursEnabled,
+        quietHoursStart,
+        quietHoursEnd,
+        workingDays,
+        goalOverrideEnabled,
         createdAt,
         updatedAt
       ];
@@ -2329,75 +2329,68 @@ class $UserStatsTable extends UserStats
   String get aliasedName => _alias ?? actualTableName;
   @override
   String get actualTableName => $name;
-  static const String $name = 'user_stats';
+  static const String $name = 'notification_prefs';
   @override
-  VerificationContext validateIntegrity(Insertable<UserStat> instance,
+  VerificationContext validateIntegrity(Insertable<NotificationPref> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
     }
-    if (data.containsKey('xp')) {
-      context.handle(_xpMeta, xp.isAcceptableOrUnknown(data['xp']!, _xpMeta));
-    }
-    if (data.containsKey('level')) {
+    if (data.containsKey('notifications_enabled')) {
       context.handle(
-          _levelMeta, level.isAcceptableOrUnknown(data['level']!, _levelMeta));
+          _notificationsEnabledMeta,
+          notificationsEnabled.isAcceptableOrUnknown(
+              data['notifications_enabled']!, _notificationsEnabledMeta));
     }
-    if (data.containsKey('current_streak')) {
+    if (data.containsKey('default_reminder_minutes')) {
       context.handle(
-          _currentStreakMeta,
-          currentStreak.isAcceptableOrUnknown(
-              data['current_streak']!, _currentStreakMeta));
+          _defaultReminderMinutesMeta,
+          defaultReminderMinutes.isAcceptableOrUnknown(
+              data['default_reminder_minutes']!, _defaultReminderMinutesMeta));
     }
-    if (data.containsKey('longest_streak')) {
+    if (data.containsKey('snooze_enabled')) {
       context.handle(
-          _longestStreakMeta,
-          longestStreak.isAcceptableOrUnknown(
-              data['longest_streak']!, _longestStreakMeta));
+          _snoozeEnabledMeta,
+          snoozeEnabled.isAcceptableOrUnknown(
+              data['snooze_enabled']!, _snoozeEnabledMeta));
     }
-    if (data.containsKey('last_active_date')) {
+    if (data.containsKey('snooze_presets')) {
       context.handle(
-          _lastActiveDateMeta,
-          lastActiveDate.isAcceptableOrUnknown(
-              data['last_active_date']!, _lastActiveDateMeta));
+          _snoozePresetsMeta,
+          snoozePresets.isAcceptableOrUnknown(
+              data['snooze_presets']!, _snoozePresetsMeta));
     }
-    if (data.containsKey('total_tasks_completed')) {
+    if (data.containsKey('quiet_hours_enabled')) {
       context.handle(
-          _totalTasksCompletedMeta,
-          totalTasksCompleted.isAcceptableOrUnknown(
-              data['total_tasks_completed']!, _totalTasksCompletedMeta));
+          _quietHoursEnabledMeta,
+          quietHoursEnabled.isAcceptableOrUnknown(
+              data['quiet_hours_enabled']!, _quietHoursEnabledMeta));
     }
-    if (data.containsKey('total_goals_completed')) {
+    if (data.containsKey('quiet_hours_start')) {
       context.handle(
-          _totalGoalsCompletedMeta,
-          totalGoalsCompleted.isAcceptableOrUnknown(
-              data['total_goals_completed']!, _totalGoalsCompletedMeta));
+          _quietHoursStartMeta,
+          quietHoursStart.isAcceptableOrUnknown(
+              data['quiet_hours_start']!, _quietHoursStartMeta));
     }
-    if (data.containsKey('total_templates_created')) {
+    if (data.containsKey('quiet_hours_end')) {
       context.handle(
-          _totalTemplatesCreatedMeta,
-          totalTemplatesCreated.isAcceptableOrUnknown(
-              data['total_templates_created']!, _totalTemplatesCreatedMeta));
+          _quietHoursEndMeta,
+          quietHoursEnd.isAcceptableOrUnknown(
+              data['quiet_hours_end']!, _quietHoursEndMeta));
     }
-    if (data.containsKey('unlocked_themes')) {
+    if (data.containsKey('working_days')) {
       context.handle(
-          _unlockedThemesMeta,
-          unlockedThemes.isAcceptableOrUnknown(
-              data['unlocked_themes']!, _unlockedThemesMeta));
+          _workingDaysMeta,
+          workingDays.isAcceptableOrUnknown(
+              data['working_days']!, _workingDaysMeta));
     }
-    if (data.containsKey('unlocked_icons')) {
+    if (data.containsKey('goal_override_enabled')) {
       context.handle(
-          _unlockedIconsMeta,
-          unlockedIcons.isAcceptableOrUnknown(
-              data['unlocked_icons']!, _unlockedIconsMeta));
-    }
-    if (data.containsKey('unlocked_animations')) {
-      context.handle(
-          _unlockedAnimationsMeta,
-          unlockedAnimations.isAcceptableOrUnknown(
-              data['unlocked_animations']!, _unlockedAnimationsMeta));
+          _goalOverrideEnabledMeta,
+          goalOverrideEnabled.isAcceptableOrUnknown(
+              data['goal_override_enabled']!, _goalOverrideEnabledMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -2415,33 +2408,30 @@ class $UserStatsTable extends UserStats
   @override
   Set<GeneratedColumn> get $primaryKey => {id};
   @override
-  UserStat map(Map<String, dynamic> data, {String? tablePrefix}) {
+  NotificationPref map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return UserStat(
+    return NotificationPref(
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      xp: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}xp'])!,
-      level: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}level'])!,
-      currentStreak: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}current_streak'])!,
-      longestStreak: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}longest_streak'])!,
-      lastActiveDate: attachedDatabase.typeMapping.read(
-          DriftSqlType.dateTime, data['${effectivePrefix}last_active_date']),
-      totalTasksCompleted: attachedDatabase.typeMapping.read(
-          DriftSqlType.int, data['${effectivePrefix}total_tasks_completed'])!,
-      totalGoalsCompleted: attachedDatabase.typeMapping.read(
-          DriftSqlType.int, data['${effectivePrefix}total_goals_completed'])!,
-      totalTemplatesCreated: attachedDatabase.typeMapping.read(
-          DriftSqlType.int, data['${effectivePrefix}total_templates_created'])!,
-      unlockedThemes: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}unlocked_themes']),
-      unlockedIcons: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}unlocked_icons']),
-      unlockedAnimations: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}unlocked_animations']),
+      notificationsEnabled: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}notifications_enabled'])!,
+      defaultReminderMinutes: attachedDatabase.typeMapping.read(
+          DriftSqlType.int,
+          data['${effectivePrefix}default_reminder_minutes'])!,
+      snoozeEnabled: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}snooze_enabled'])!,
+      snoozePresets: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}snooze_presets'])!,
+      quietHoursEnabled: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}quiet_hours_enabled'])!,
+      quietHoursStart: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}quiet_hours_start'])!,
+      quietHoursEnd: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}quiet_hours_end'])!,
+      workingDays: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}working_days'])!,
+      goalOverrideEnabled: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}goal_override_enabled'])!,
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -2450,64 +2440,51 @@ class $UserStatsTable extends UserStats
   }
 
   @override
-  $UserStatsTable createAlias(String alias) {
-    return $UserStatsTable(attachedDatabase, alias);
+  $NotificationPrefsTable createAlias(String alias) {
+    return $NotificationPrefsTable(attachedDatabase, alias);
   }
 }
 
-class UserStat extends DataClass implements Insertable<UserStat> {
+class NotificationPref extends DataClass
+    implements Insertable<NotificationPref> {
   final int id;
-  final int xp;
-  final int level;
-  final int currentStreak;
-  final int longestStreak;
-  final DateTime? lastActiveDate;
-  final int totalTasksCompleted;
-  final int totalGoalsCompleted;
-  final int totalTemplatesCreated;
-  final String? unlockedThemes;
-  final String? unlockedIcons;
-  final String? unlockedAnimations;
+  final bool notificationsEnabled;
+  final int defaultReminderMinutes;
+  final bool snoozeEnabled;
+  final String snoozePresets;
+  final bool quietHoursEnabled;
+  final String quietHoursStart;
+  final String quietHoursEnd;
+  final String workingDays;
+  final bool goalOverrideEnabled;
   final DateTime createdAt;
   final DateTime? updatedAt;
-  const UserStat(
+  const NotificationPref(
       {required this.id,
-      required this.xp,
-      required this.level,
-      required this.currentStreak,
-      required this.longestStreak,
-      this.lastActiveDate,
-      required this.totalTasksCompleted,
-      required this.totalGoalsCompleted,
-      required this.totalTemplatesCreated,
-      this.unlockedThemes,
-      this.unlockedIcons,
-      this.unlockedAnimations,
+      required this.notificationsEnabled,
+      required this.defaultReminderMinutes,
+      required this.snoozeEnabled,
+      required this.snoozePresets,
+      required this.quietHoursEnabled,
+      required this.quietHoursStart,
+      required this.quietHoursEnd,
+      required this.workingDays,
+      required this.goalOverrideEnabled,
       required this.createdAt,
       this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['xp'] = Variable<int>(xp);
-    map['level'] = Variable<int>(level);
-    map['current_streak'] = Variable<int>(currentStreak);
-    map['longest_streak'] = Variable<int>(longestStreak);
-    if (!nullToAbsent || lastActiveDate != null) {
-      map['last_active_date'] = Variable<DateTime>(lastActiveDate);
-    }
-    map['total_tasks_completed'] = Variable<int>(totalTasksCompleted);
-    map['total_goals_completed'] = Variable<int>(totalGoalsCompleted);
-    map['total_templates_created'] = Variable<int>(totalTemplatesCreated);
-    if (!nullToAbsent || unlockedThemes != null) {
-      map['unlocked_themes'] = Variable<String>(unlockedThemes);
-    }
-    if (!nullToAbsent || unlockedIcons != null) {
-      map['unlocked_icons'] = Variable<String>(unlockedIcons);
-    }
-    if (!nullToAbsent || unlockedAnimations != null) {
-      map['unlocked_animations'] = Variable<String>(unlockedAnimations);
-    }
+    map['notifications_enabled'] = Variable<bool>(notificationsEnabled);
+    map['default_reminder_minutes'] = Variable<int>(defaultReminderMinutes);
+    map['snooze_enabled'] = Variable<bool>(snoozeEnabled);
+    map['snooze_presets'] = Variable<String>(snoozePresets);
+    map['quiet_hours_enabled'] = Variable<bool>(quietHoursEnabled);
+    map['quiet_hours_start'] = Variable<String>(quietHoursStart);
+    map['quiet_hours_end'] = Variable<String>(quietHoursEnd);
+    map['working_days'] = Variable<String>(workingDays);
+    map['goal_override_enabled'] = Variable<bool>(goalOverrideEnabled);
     map['created_at'] = Variable<DateTime>(createdAt);
     if (!nullToAbsent || updatedAt != null) {
       map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -2515,28 +2492,18 @@ class UserStat extends DataClass implements Insertable<UserStat> {
     return map;
   }
 
-  UserStatsCompanion toCompanion(bool nullToAbsent) {
-    return UserStatsCompanion(
+  NotificationPrefsCompanion toCompanion(bool nullToAbsent) {
+    return NotificationPrefsCompanion(
       id: Value(id),
-      xp: Value(xp),
-      level: Value(level),
-      currentStreak: Value(currentStreak),
-      longestStreak: Value(longestStreak),
-      lastActiveDate: lastActiveDate == null && nullToAbsent
-          ? const Value.absent()
-          : Value(lastActiveDate),
-      totalTasksCompleted: Value(totalTasksCompleted),
-      totalGoalsCompleted: Value(totalGoalsCompleted),
-      totalTemplatesCreated: Value(totalTemplatesCreated),
-      unlockedThemes: unlockedThemes == null && nullToAbsent
-          ? const Value.absent()
-          : Value(unlockedThemes),
-      unlockedIcons: unlockedIcons == null && nullToAbsent
-          ? const Value.absent()
-          : Value(unlockedIcons),
-      unlockedAnimations: unlockedAnimations == null && nullToAbsent
-          ? const Value.absent()
-          : Value(unlockedAnimations),
+      notificationsEnabled: Value(notificationsEnabled),
+      defaultReminderMinutes: Value(defaultReminderMinutes),
+      snoozeEnabled: Value(snoozeEnabled),
+      snoozePresets: Value(snoozePresets),
+      quietHoursEnabled: Value(quietHoursEnabled),
+      quietHoursStart: Value(quietHoursStart),
+      quietHoursEnd: Value(quietHoursEnd),
+      workingDays: Value(workingDays),
+      goalOverrideEnabled: Value(goalOverrideEnabled),
       createdAt: Value(createdAt),
       updatedAt: updatedAt == null && nullToAbsent
           ? const Value.absent()
@@ -2544,26 +2511,23 @@ class UserStat extends DataClass implements Insertable<UserStat> {
     );
   }
 
-  factory UserStat.fromJson(Map<String, dynamic> json,
+  factory NotificationPref.fromJson(Map<String, dynamic> json,
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
-    return UserStat(
+    return NotificationPref(
       id: serializer.fromJson<int>(json['id']),
-      xp: serializer.fromJson<int>(json['xp']),
-      level: serializer.fromJson<int>(json['level']),
-      currentStreak: serializer.fromJson<int>(json['currentStreak']),
-      longestStreak: serializer.fromJson<int>(json['longestStreak']),
-      lastActiveDate: serializer.fromJson<DateTime?>(json['lastActiveDate']),
-      totalTasksCompleted:
-          serializer.fromJson<int>(json['totalTasksCompleted']),
-      totalGoalsCompleted:
-          serializer.fromJson<int>(json['totalGoalsCompleted']),
-      totalTemplatesCreated:
-          serializer.fromJson<int>(json['totalTemplatesCreated']),
-      unlockedThemes: serializer.fromJson<String?>(json['unlockedThemes']),
-      unlockedIcons: serializer.fromJson<String?>(json['unlockedIcons']),
-      unlockedAnimations:
-          serializer.fromJson<String?>(json['unlockedAnimations']),
+      notificationsEnabled:
+          serializer.fromJson<bool>(json['notificationsEnabled']),
+      defaultReminderMinutes:
+          serializer.fromJson<int>(json['defaultReminderMinutes']),
+      snoozeEnabled: serializer.fromJson<bool>(json['snoozeEnabled']),
+      snoozePresets: serializer.fromJson<String>(json['snoozePresets']),
+      quietHoursEnabled: serializer.fromJson<bool>(json['quietHoursEnabled']),
+      quietHoursStart: serializer.fromJson<String>(json['quietHoursStart']),
+      quietHoursEnd: serializer.fromJson<String>(json['quietHoursEnd']),
+      workingDays: serializer.fromJson<String>(json['workingDays']),
+      goalOverrideEnabled:
+          serializer.fromJson<bool>(json['goalOverrideEnabled']),
       createdAt: serializer.fromJson<DateTime>(json['createdAt']),
       updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
     );
@@ -2573,91 +2537,77 @@ class UserStat extends DataClass implements Insertable<UserStat> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'xp': serializer.toJson<int>(xp),
-      'level': serializer.toJson<int>(level),
-      'currentStreak': serializer.toJson<int>(currentStreak),
-      'longestStreak': serializer.toJson<int>(longestStreak),
-      'lastActiveDate': serializer.toJson<DateTime?>(lastActiveDate),
-      'totalTasksCompleted': serializer.toJson<int>(totalTasksCompleted),
-      'totalGoalsCompleted': serializer.toJson<int>(totalGoalsCompleted),
-      'totalTemplatesCreated': serializer.toJson<int>(totalTemplatesCreated),
-      'unlockedThemes': serializer.toJson<String?>(unlockedThemes),
-      'unlockedIcons': serializer.toJson<String?>(unlockedIcons),
-      'unlockedAnimations': serializer.toJson<String?>(unlockedAnimations),
+      'notificationsEnabled': serializer.toJson<bool>(notificationsEnabled),
+      'defaultReminderMinutes': serializer.toJson<int>(defaultReminderMinutes),
+      'snoozeEnabled': serializer.toJson<bool>(snoozeEnabled),
+      'snoozePresets': serializer.toJson<String>(snoozePresets),
+      'quietHoursEnabled': serializer.toJson<bool>(quietHoursEnabled),
+      'quietHoursStart': serializer.toJson<String>(quietHoursStart),
+      'quietHoursEnd': serializer.toJson<String>(quietHoursEnd),
+      'workingDays': serializer.toJson<String>(workingDays),
+      'goalOverrideEnabled': serializer.toJson<bool>(goalOverrideEnabled),
       'createdAt': serializer.toJson<DateTime>(createdAt),
       'updatedAt': serializer.toJson<DateTime?>(updatedAt),
     };
   }
 
-  UserStat copyWith(
+  NotificationPref copyWith(
           {int? id,
-          int? xp,
-          int? level,
-          int? currentStreak,
-          int? longestStreak,
-          Value<DateTime?> lastActiveDate = const Value.absent(),
-          int? totalTasksCompleted,
-          int? totalGoalsCompleted,
-          int? totalTemplatesCreated,
-          Value<String?> unlockedThemes = const Value.absent(),
-          Value<String?> unlockedIcons = const Value.absent(),
-          Value<String?> unlockedAnimations = const Value.absent(),
+          bool? notificationsEnabled,
+          int? defaultReminderMinutes,
+          bool? snoozeEnabled,
+          String? snoozePresets,
+          bool? quietHoursEnabled,
+          String? quietHoursStart,
+          String? quietHoursEnd,
+          String? workingDays,
+          bool? goalOverrideEnabled,
           DateTime? createdAt,
           Value<DateTime?> updatedAt = const Value.absent()}) =>
-      UserStat(
+      NotificationPref(
         id: id ?? this.id,
-        xp: xp ?? this.xp,
-        level: level ?? this.level,
-        currentStreak: currentStreak ?? this.currentStreak,
-        longestStreak: longestStreak ?? this.longestStreak,
-        lastActiveDate:
-            lastActiveDate.present ? lastActiveDate.value : this.lastActiveDate,
-        totalTasksCompleted: totalTasksCompleted ?? this.totalTasksCompleted,
-        totalGoalsCompleted: totalGoalsCompleted ?? this.totalGoalsCompleted,
-        totalTemplatesCreated:
-            totalTemplatesCreated ?? this.totalTemplatesCreated,
-        unlockedThemes:
-            unlockedThemes.present ? unlockedThemes.value : this.unlockedThemes,
-        unlockedIcons:
-            unlockedIcons.present ? unlockedIcons.value : this.unlockedIcons,
-        unlockedAnimations: unlockedAnimations.present
-            ? unlockedAnimations.value
-            : this.unlockedAnimations,
+        notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+        defaultReminderMinutes:
+            defaultReminderMinutes ?? this.defaultReminderMinutes,
+        snoozeEnabled: snoozeEnabled ?? this.snoozeEnabled,
+        snoozePresets: snoozePresets ?? this.snoozePresets,
+        quietHoursEnabled: quietHoursEnabled ?? this.quietHoursEnabled,
+        quietHoursStart: quietHoursStart ?? this.quietHoursStart,
+        quietHoursEnd: quietHoursEnd ?? this.quietHoursEnd,
+        workingDays: workingDays ?? this.workingDays,
+        goalOverrideEnabled: goalOverrideEnabled ?? this.goalOverrideEnabled,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
       );
-  UserStat copyWithCompanion(UserStatsCompanion data) {
-    return UserStat(
+  NotificationPref copyWithCompanion(NotificationPrefsCompanion data) {
+    return NotificationPref(
       id: data.id.present ? data.id.value : this.id,
-      xp: data.xp.present ? data.xp.value : this.xp,
-      level: data.level.present ? data.level.value : this.level,
-      currentStreak: data.currentStreak.present
-          ? data.currentStreak.value
-          : this.currentStreak,
-      longestStreak: data.longestStreak.present
-          ? data.longestStreak.value
-          : this.longestStreak,
-      lastActiveDate: data.lastActiveDate.present
-          ? data.lastActiveDate.value
-          : this.lastActiveDate,
-      totalTasksCompleted: data.totalTasksCompleted.present
-          ? data.totalTasksCompleted.value
-          : this.totalTasksCompleted,
-      totalGoalsCompleted: data.totalGoalsCompleted.present
-          ? data.totalGoalsCompleted.value
-          : this.totalGoalsCompleted,
-      totalTemplatesCreated: data.totalTemplatesCreated.present
-          ? data.totalTemplatesCreated.value
-          : this.totalTemplatesCreated,
-      unlockedThemes: data.unlockedThemes.present
-          ? data.unlockedThemes.value
-          : this.unlockedThemes,
-      unlockedIcons: data.unlockedIcons.present
-          ? data.unlockedIcons.value
-          : this.unlockedIcons,
-      unlockedAnimations: data.unlockedAnimations.present
-          ? data.unlockedAnimations.value
-          : this.unlockedAnimations,
+      notificationsEnabled: data.notificationsEnabled.present
+          ? data.notificationsEnabled.value
+          : this.notificationsEnabled,
+      defaultReminderMinutes: data.defaultReminderMinutes.present
+          ? data.defaultReminderMinutes.value
+          : this.defaultReminderMinutes,
+      snoozeEnabled: data.snoozeEnabled.present
+          ? data.snoozeEnabled.value
+          : this.snoozeEnabled,
+      snoozePresets: data.snoozePresets.present
+          ? data.snoozePresets.value
+          : this.snoozePresets,
+      quietHoursEnabled: data.quietHoursEnabled.present
+          ? data.quietHoursEnabled.value
+          : this.quietHoursEnabled,
+      quietHoursStart: data.quietHoursStart.present
+          ? data.quietHoursStart.value
+          : this.quietHoursStart,
+      quietHoursEnd: data.quietHoursEnd.present
+          ? data.quietHoursEnd.value
+          : this.quietHoursEnd,
+      workingDays:
+          data.workingDays.present ? data.workingDays.value : this.workingDays,
+      goalOverrideEnabled: data.goalOverrideEnabled.present
+          ? data.goalOverrideEnabled.value
+          : this.goalOverrideEnabled,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -2665,19 +2615,17 @@ class UserStat extends DataClass implements Insertable<UserStat> {
 
   @override
   String toString() {
-    return (StringBuffer('UserStat(')
+    return (StringBuffer('NotificationPref(')
           ..write('id: $id, ')
-          ..write('xp: $xp, ')
-          ..write('level: $level, ')
-          ..write('currentStreak: $currentStreak, ')
-          ..write('longestStreak: $longestStreak, ')
-          ..write('lastActiveDate: $lastActiveDate, ')
-          ..write('totalTasksCompleted: $totalTasksCompleted, ')
-          ..write('totalGoalsCompleted: $totalGoalsCompleted, ')
-          ..write('totalTemplatesCreated: $totalTemplatesCreated, ')
-          ..write('unlockedThemes: $unlockedThemes, ')
-          ..write('unlockedIcons: $unlockedIcons, ')
-          ..write('unlockedAnimations: $unlockedAnimations, ')
+          ..write('notificationsEnabled: $notificationsEnabled, ')
+          ..write('defaultReminderMinutes: $defaultReminderMinutes, ')
+          ..write('snoozeEnabled: $snoozeEnabled, ')
+          ..write('snoozePresets: $snoozePresets, ')
+          ..write('quietHoursEnabled: $quietHoursEnabled, ')
+          ..write('quietHoursStart: $quietHoursStart, ')
+          ..write('quietHoursEnd: $quietHoursEnd, ')
+          ..write('workingDays: $workingDays, ')
+          ..write('goalOverrideEnabled: $goalOverrideEnabled, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -2687,152 +2635,134 @@ class UserStat extends DataClass implements Insertable<UserStat> {
   @override
   int get hashCode => Object.hash(
       id,
-      xp,
-      level,
-      currentStreak,
-      longestStreak,
-      lastActiveDate,
-      totalTasksCompleted,
-      totalGoalsCompleted,
-      totalTemplatesCreated,
-      unlockedThemes,
-      unlockedIcons,
-      unlockedAnimations,
+      notificationsEnabled,
+      defaultReminderMinutes,
+      snoozeEnabled,
+      snoozePresets,
+      quietHoursEnabled,
+      quietHoursStart,
+      quietHoursEnd,
+      workingDays,
+      goalOverrideEnabled,
       createdAt,
       updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
-      (other is UserStat &&
+      (other is NotificationPref &&
           other.id == this.id &&
-          other.xp == this.xp &&
-          other.level == this.level &&
-          other.currentStreak == this.currentStreak &&
-          other.longestStreak == this.longestStreak &&
-          other.lastActiveDate == this.lastActiveDate &&
-          other.totalTasksCompleted == this.totalTasksCompleted &&
-          other.totalGoalsCompleted == this.totalGoalsCompleted &&
-          other.totalTemplatesCreated == this.totalTemplatesCreated &&
-          other.unlockedThemes == this.unlockedThemes &&
-          other.unlockedIcons == this.unlockedIcons &&
-          other.unlockedAnimations == this.unlockedAnimations &&
+          other.notificationsEnabled == this.notificationsEnabled &&
+          other.defaultReminderMinutes == this.defaultReminderMinutes &&
+          other.snoozeEnabled == this.snoozeEnabled &&
+          other.snoozePresets == this.snoozePresets &&
+          other.quietHoursEnabled == this.quietHoursEnabled &&
+          other.quietHoursStart == this.quietHoursStart &&
+          other.quietHoursEnd == this.quietHoursEnd &&
+          other.workingDays == this.workingDays &&
+          other.goalOverrideEnabled == this.goalOverrideEnabled &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
 
-class UserStatsCompanion extends UpdateCompanion<UserStat> {
+class NotificationPrefsCompanion extends UpdateCompanion<NotificationPref> {
   final Value<int> id;
-  final Value<int> xp;
-  final Value<int> level;
-  final Value<int> currentStreak;
-  final Value<int> longestStreak;
-  final Value<DateTime?> lastActiveDate;
-  final Value<int> totalTasksCompleted;
-  final Value<int> totalGoalsCompleted;
-  final Value<int> totalTemplatesCreated;
-  final Value<String?> unlockedThemes;
-  final Value<String?> unlockedIcons;
-  final Value<String?> unlockedAnimations;
+  final Value<bool> notificationsEnabled;
+  final Value<int> defaultReminderMinutes;
+  final Value<bool> snoozeEnabled;
+  final Value<String> snoozePresets;
+  final Value<bool> quietHoursEnabled;
+  final Value<String> quietHoursStart;
+  final Value<String> quietHoursEnd;
+  final Value<String> workingDays;
+  final Value<bool> goalOverrideEnabled;
   final Value<DateTime> createdAt;
   final Value<DateTime?> updatedAt;
-  const UserStatsCompanion({
+  const NotificationPrefsCompanion({
     this.id = const Value.absent(),
-    this.xp = const Value.absent(),
-    this.level = const Value.absent(),
-    this.currentStreak = const Value.absent(),
-    this.longestStreak = const Value.absent(),
-    this.lastActiveDate = const Value.absent(),
-    this.totalTasksCompleted = const Value.absent(),
-    this.totalGoalsCompleted = const Value.absent(),
-    this.totalTemplatesCreated = const Value.absent(),
-    this.unlockedThemes = const Value.absent(),
-    this.unlockedIcons = const Value.absent(),
-    this.unlockedAnimations = const Value.absent(),
+    this.notificationsEnabled = const Value.absent(),
+    this.defaultReminderMinutes = const Value.absent(),
+    this.snoozeEnabled = const Value.absent(),
+    this.snoozePresets = const Value.absent(),
+    this.quietHoursEnabled = const Value.absent(),
+    this.quietHoursStart = const Value.absent(),
+    this.quietHoursEnd = const Value.absent(),
+    this.workingDays = const Value.absent(),
+    this.goalOverrideEnabled = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
-  UserStatsCompanion.insert({
+  NotificationPrefsCompanion.insert({
     this.id = const Value.absent(),
-    this.xp = const Value.absent(),
-    this.level = const Value.absent(),
-    this.currentStreak = const Value.absent(),
-    this.longestStreak = const Value.absent(),
-    this.lastActiveDate = const Value.absent(),
-    this.totalTasksCompleted = const Value.absent(),
-    this.totalGoalsCompleted = const Value.absent(),
-    this.totalTemplatesCreated = const Value.absent(),
-    this.unlockedThemes = const Value.absent(),
-    this.unlockedIcons = const Value.absent(),
-    this.unlockedAnimations = const Value.absent(),
+    this.notificationsEnabled = const Value.absent(),
+    this.defaultReminderMinutes = const Value.absent(),
+    this.snoozeEnabled = const Value.absent(),
+    this.snoozePresets = const Value.absent(),
+    this.quietHoursEnabled = const Value.absent(),
+    this.quietHoursStart = const Value.absent(),
+    this.quietHoursEnd = const Value.absent(),
+    this.workingDays = const Value.absent(),
+    this.goalOverrideEnabled = const Value.absent(),
     required DateTime createdAt,
     this.updatedAt = const Value.absent(),
   }) : createdAt = Value(createdAt);
-  static Insertable<UserStat> custom({
+  static Insertable<NotificationPref> custom({
     Expression<int>? id,
-    Expression<int>? xp,
-    Expression<int>? level,
-    Expression<int>? currentStreak,
-    Expression<int>? longestStreak,
-    Expression<DateTime>? lastActiveDate,
-    Expression<int>? totalTasksCompleted,
-    Expression<int>? totalGoalsCompleted,
-    Expression<int>? totalTemplatesCreated,
-    Expression<String>? unlockedThemes,
-    Expression<String>? unlockedIcons,
-    Expression<String>? unlockedAnimations,
+    Expression<bool>? notificationsEnabled,
+    Expression<int>? defaultReminderMinutes,
+    Expression<bool>? snoozeEnabled,
+    Expression<String>? snoozePresets,
+    Expression<bool>? quietHoursEnabled,
+    Expression<String>? quietHoursStart,
+    Expression<String>? quietHoursEnd,
+    Expression<String>? workingDays,
+    Expression<bool>? goalOverrideEnabled,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
-      if (xp != null) 'xp': xp,
-      if (level != null) 'level': level,
-      if (currentStreak != null) 'current_streak': currentStreak,
-      if (longestStreak != null) 'longest_streak': longestStreak,
-      if (lastActiveDate != null) 'last_active_date': lastActiveDate,
-      if (totalTasksCompleted != null)
-        'total_tasks_completed': totalTasksCompleted,
-      if (totalGoalsCompleted != null)
-        'total_goals_completed': totalGoalsCompleted,
-      if (totalTemplatesCreated != null)
-        'total_templates_created': totalTemplatesCreated,
-      if (unlockedThemes != null) 'unlocked_themes': unlockedThemes,
-      if (unlockedIcons != null) 'unlocked_icons': unlockedIcons,
-      if (unlockedAnimations != null) 'unlocked_animations': unlockedAnimations,
+      if (notificationsEnabled != null)
+        'notifications_enabled': notificationsEnabled,
+      if (defaultReminderMinutes != null)
+        'default_reminder_minutes': defaultReminderMinutes,
+      if (snoozeEnabled != null) 'snooze_enabled': snoozeEnabled,
+      if (snoozePresets != null) 'snooze_presets': snoozePresets,
+      if (quietHoursEnabled != null) 'quiet_hours_enabled': quietHoursEnabled,
+      if (quietHoursStart != null) 'quiet_hours_start': quietHoursStart,
+      if (quietHoursEnd != null) 'quiet_hours_end': quietHoursEnd,
+      if (workingDays != null) 'working_days': workingDays,
+      if (goalOverrideEnabled != null)
+        'goal_override_enabled': goalOverrideEnabled,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
   }
 
-  UserStatsCompanion copyWith(
+  NotificationPrefsCompanion copyWith(
       {Value<int>? id,
-      Value<int>? xp,
-      Value<int>? level,
-      Value<int>? currentStreak,
-      Value<int>? longestStreak,
-      Value<DateTime?>? lastActiveDate,
-      Value<int>? totalTasksCompleted,
-      Value<int>? totalGoalsCompleted,
-      Value<int>? totalTemplatesCreated,
-      Value<String?>? unlockedThemes,
-      Value<String?>? unlockedIcons,
-      Value<String?>? unlockedAnimations,
+      Value<bool>? notificationsEnabled,
+      Value<int>? defaultReminderMinutes,
+      Value<bool>? snoozeEnabled,
+      Value<String>? snoozePresets,
+      Value<bool>? quietHoursEnabled,
+      Value<String>? quietHoursStart,
+      Value<String>? quietHoursEnd,
+      Value<String>? workingDays,
+      Value<bool>? goalOverrideEnabled,
       Value<DateTime>? createdAt,
       Value<DateTime?>? updatedAt}) {
-    return UserStatsCompanion(
+    return NotificationPrefsCompanion(
       id: id ?? this.id,
-      xp: xp ?? this.xp,
-      level: level ?? this.level,
-      currentStreak: currentStreak ?? this.currentStreak,
-      longestStreak: longestStreak ?? this.longestStreak,
-      lastActiveDate: lastActiveDate ?? this.lastActiveDate,
-      totalTasksCompleted: totalTasksCompleted ?? this.totalTasksCompleted,
-      totalGoalsCompleted: totalGoalsCompleted ?? this.totalGoalsCompleted,
-      totalTemplatesCreated:
-          totalTemplatesCreated ?? this.totalTemplatesCreated,
-      unlockedThemes: unlockedThemes ?? this.unlockedThemes,
-      unlockedIcons: unlockedIcons ?? this.unlockedIcons,
-      unlockedAnimations: unlockedAnimations ?? this.unlockedAnimations,
+      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+      defaultReminderMinutes:
+          defaultReminderMinutes ?? this.defaultReminderMinutes,
+      snoozeEnabled: snoozeEnabled ?? this.snoozeEnabled,
+      snoozePresets: snoozePresets ?? this.snoozePresets,
+      quietHoursEnabled: quietHoursEnabled ?? this.quietHoursEnabled,
+      quietHoursStart: quietHoursStart ?? this.quietHoursStart,
+      quietHoursEnd: quietHoursEnd ?? this.quietHoursEnd,
+      workingDays: workingDays ?? this.workingDays,
+      goalOverrideEnabled: goalOverrideEnabled ?? this.goalOverrideEnabled,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -2844,39 +2774,33 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
     if (id.present) {
       map['id'] = Variable<int>(id.value);
     }
-    if (xp.present) {
-      map['xp'] = Variable<int>(xp.value);
+    if (notificationsEnabled.present) {
+      map['notifications_enabled'] = Variable<bool>(notificationsEnabled.value);
     }
-    if (level.present) {
-      map['level'] = Variable<int>(level.value);
+    if (defaultReminderMinutes.present) {
+      map['default_reminder_minutes'] =
+          Variable<int>(defaultReminderMinutes.value);
     }
-    if (currentStreak.present) {
-      map['current_streak'] = Variable<int>(currentStreak.value);
+    if (snoozeEnabled.present) {
+      map['snooze_enabled'] = Variable<bool>(snoozeEnabled.value);
     }
-    if (longestStreak.present) {
-      map['longest_streak'] = Variable<int>(longestStreak.value);
+    if (snoozePresets.present) {
+      map['snooze_presets'] = Variable<String>(snoozePresets.value);
     }
-    if (lastActiveDate.present) {
-      map['last_active_date'] = Variable<DateTime>(lastActiveDate.value);
+    if (quietHoursEnabled.present) {
+      map['quiet_hours_enabled'] = Variable<bool>(quietHoursEnabled.value);
     }
-    if (totalTasksCompleted.present) {
-      map['total_tasks_completed'] = Variable<int>(totalTasksCompleted.value);
+    if (quietHoursStart.present) {
+      map['quiet_hours_start'] = Variable<String>(quietHoursStart.value);
     }
-    if (totalGoalsCompleted.present) {
-      map['total_goals_completed'] = Variable<int>(totalGoalsCompleted.value);
+    if (quietHoursEnd.present) {
+      map['quiet_hours_end'] = Variable<String>(quietHoursEnd.value);
     }
-    if (totalTemplatesCreated.present) {
-      map['total_templates_created'] =
-          Variable<int>(totalTemplatesCreated.value);
+    if (workingDays.present) {
+      map['working_days'] = Variable<String>(workingDays.value);
     }
-    if (unlockedThemes.present) {
-      map['unlocked_themes'] = Variable<String>(unlockedThemes.value);
-    }
-    if (unlockedIcons.present) {
-      map['unlocked_icons'] = Variable<String>(unlockedIcons.value);
-    }
-    if (unlockedAnimations.present) {
-      map['unlocked_animations'] = Variable<String>(unlockedAnimations.value);
+    if (goalOverrideEnabled.present) {
+      map['goal_override_enabled'] = Variable<bool>(goalOverrideEnabled.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
@@ -2889,19 +2813,428 @@ class UserStatsCompanion extends UpdateCompanion<UserStat> {
 
   @override
   String toString() {
-    return (StringBuffer('UserStatsCompanion(')
+    return (StringBuffer('NotificationPrefsCompanion(')
           ..write('id: $id, ')
-          ..write('xp: $xp, ')
-          ..write('level: $level, ')
-          ..write('currentStreak: $currentStreak, ')
-          ..write('longestStreak: $longestStreak, ')
-          ..write('lastActiveDate: $lastActiveDate, ')
-          ..write('totalTasksCompleted: $totalTasksCompleted, ')
-          ..write('totalGoalsCompleted: $totalGoalsCompleted, ')
-          ..write('totalTemplatesCreated: $totalTemplatesCreated, ')
-          ..write('unlockedThemes: $unlockedThemes, ')
-          ..write('unlockedIcons: $unlockedIcons, ')
-          ..write('unlockedAnimations: $unlockedAnimations, ')
+          ..write('notificationsEnabled: $notificationsEnabled, ')
+          ..write('defaultReminderMinutes: $defaultReminderMinutes, ')
+          ..write('snoozeEnabled: $snoozeEnabled, ')
+          ..write('snoozePresets: $snoozePresets, ')
+          ..write('quietHoursEnabled: $quietHoursEnabled, ')
+          ..write('quietHoursStart: $quietHoursStart, ')
+          ..write('quietHoursEnd: $quietHoursEnd, ')
+          ..write('workingDays: $workingDays, ')
+          ..write('goalOverrideEnabled: $goalOverrideEnabled, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $GoalNotificationOverrideTable extends GoalNotificationOverride
+    with
+        TableInfo<$GoalNotificationOverrideTable,
+            GoalNotificationOverrideData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $GoalNotificationOverrideTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _goalIdMeta = const VerificationMeta('goalId');
+  @override
+  late final GeneratedColumn<int> goalId = GeneratedColumn<int>(
+      'goal_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'REFERENCES goals(id)');
+  static const VerificationMeta _notificationsEnabledMeta =
+      const VerificationMeta('notificationsEnabled');
+  @override
+  late final GeneratedColumn<bool> notificationsEnabled = GeneratedColumn<bool>(
+      'notifications_enabled', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("notifications_enabled" IN (0, 1))'),
+      defaultValue: const Constant(true));
+  static const VerificationMeta _reminderMinutesMeta =
+      const VerificationMeta('reminderMinutes');
+  @override
+  late final GeneratedColumn<int> reminderMinutes = GeneratedColumn<int>(
+      'reminder_minutes', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _snoozeEnabledMeta =
+      const VerificationMeta('snoozeEnabled');
+  @override
+  late final GeneratedColumn<bool> snoozeEnabled = GeneratedColumn<bool>(
+      'snooze_enabled', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints: GeneratedColumn.constraintIsAlways(
+          'CHECK ("snooze_enabled" IN (0, 1))'),
+      defaultValue: const Constant(true));
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        goalId,
+        notificationsEnabled,
+        reminderMinutes,
+        snoozeEnabled,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'goal_notification_override';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<GoalNotificationOverrideData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('goal_id')) {
+      context.handle(_goalIdMeta,
+          goalId.isAcceptableOrUnknown(data['goal_id']!, _goalIdMeta));
+    }
+    if (data.containsKey('notifications_enabled')) {
+      context.handle(
+          _notificationsEnabledMeta,
+          notificationsEnabled.isAcceptableOrUnknown(
+              data['notifications_enabled']!, _notificationsEnabledMeta));
+    }
+    if (data.containsKey('reminder_minutes')) {
+      context.handle(
+          _reminderMinutesMeta,
+          reminderMinutes.isAcceptableOrUnknown(
+              data['reminder_minutes']!, _reminderMinutesMeta));
+    }
+    if (data.containsKey('snooze_enabled')) {
+      context.handle(
+          _snoozeEnabledMeta,
+          snoozeEnabled.isAcceptableOrUnknown(
+              data['snooze_enabled']!, _snoozeEnabledMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  GoalNotificationOverrideData map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return GoalNotificationOverrideData(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      goalId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}goal_id']),
+      notificationsEnabled: attachedDatabase.typeMapping.read(
+          DriftSqlType.bool, data['${effectivePrefix}notifications_enabled'])!,
+      reminderMinutes: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}reminder_minutes']),
+      snoozeEnabled: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}snooze_enabled'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at']),
+    );
+  }
+
+  @override
+  $GoalNotificationOverrideTable createAlias(String alias) {
+    return $GoalNotificationOverrideTable(attachedDatabase, alias);
+  }
+}
+
+class GoalNotificationOverrideData extends DataClass
+    implements Insertable<GoalNotificationOverrideData> {
+  final int id;
+  final int? goalId;
+  final bool notificationsEnabled;
+  final int? reminderMinutes;
+  final bool snoozeEnabled;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  const GoalNotificationOverrideData(
+      {required this.id,
+      this.goalId,
+      required this.notificationsEnabled,
+      this.reminderMinutes,
+      required this.snoozeEnabled,
+      required this.createdAt,
+      this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || goalId != null) {
+      map['goal_id'] = Variable<int>(goalId);
+    }
+    map['notifications_enabled'] = Variable<bool>(notificationsEnabled);
+    if (!nullToAbsent || reminderMinutes != null) {
+      map['reminder_minutes'] = Variable<int>(reminderMinutes);
+    }
+    map['snooze_enabled'] = Variable<bool>(snoozeEnabled);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  GoalNotificationOverrideCompanion toCompanion(bool nullToAbsent) {
+    return GoalNotificationOverrideCompanion(
+      id: Value(id),
+      goalId:
+          goalId == null && nullToAbsent ? const Value.absent() : Value(goalId),
+      notificationsEnabled: Value(notificationsEnabled),
+      reminderMinutes: reminderMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(reminderMinutes),
+      snoozeEnabled: Value(snoozeEnabled),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory GoalNotificationOverrideData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return GoalNotificationOverrideData(
+      id: serializer.fromJson<int>(json['id']),
+      goalId: serializer.fromJson<int?>(json['goalId']),
+      notificationsEnabled:
+          serializer.fromJson<bool>(json['notificationsEnabled']),
+      reminderMinutes: serializer.fromJson<int?>(json['reminderMinutes']),
+      snoozeEnabled: serializer.fromJson<bool>(json['snoozeEnabled']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'goalId': serializer.toJson<int?>(goalId),
+      'notificationsEnabled': serializer.toJson<bool>(notificationsEnabled),
+      'reminderMinutes': serializer.toJson<int?>(reminderMinutes),
+      'snoozeEnabled': serializer.toJson<bool>(snoozeEnabled),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  GoalNotificationOverrideData copyWith(
+          {int? id,
+          Value<int?> goalId = const Value.absent(),
+          bool? notificationsEnabled,
+          Value<int?> reminderMinutes = const Value.absent(),
+          bool? snoozeEnabled,
+          DateTime? createdAt,
+          Value<DateTime?> updatedAt = const Value.absent()}) =>
+      GoalNotificationOverrideData(
+        id: id ?? this.id,
+        goalId: goalId.present ? goalId.value : this.goalId,
+        notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+        reminderMinutes: reminderMinutes.present
+            ? reminderMinutes.value
+            : this.reminderMinutes,
+        snoozeEnabled: snoozeEnabled ?? this.snoozeEnabled,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+      );
+  GoalNotificationOverrideData copyWithCompanion(
+      GoalNotificationOverrideCompanion data) {
+    return GoalNotificationOverrideData(
+      id: data.id.present ? data.id.value : this.id,
+      goalId: data.goalId.present ? data.goalId.value : this.goalId,
+      notificationsEnabled: data.notificationsEnabled.present
+          ? data.notificationsEnabled.value
+          : this.notificationsEnabled,
+      reminderMinutes: data.reminderMinutes.present
+          ? data.reminderMinutes.value
+          : this.reminderMinutes,
+      snoozeEnabled: data.snoozeEnabled.present
+          ? data.snoozeEnabled.value
+          : this.snoozeEnabled,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GoalNotificationOverrideData(')
+          ..write('id: $id, ')
+          ..write('goalId: $goalId, ')
+          ..write('notificationsEnabled: $notificationsEnabled, ')
+          ..write('reminderMinutes: $reminderMinutes, ')
+          ..write('snoozeEnabled: $snoozeEnabled, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, goalId, notificationsEnabled,
+      reminderMinutes, snoozeEnabled, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is GoalNotificationOverrideData &&
+          other.id == this.id &&
+          other.goalId == this.goalId &&
+          other.notificationsEnabled == this.notificationsEnabled &&
+          other.reminderMinutes == this.reminderMinutes &&
+          other.snoozeEnabled == this.snoozeEnabled &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class GoalNotificationOverrideCompanion
+    extends UpdateCompanion<GoalNotificationOverrideData> {
+  final Value<int> id;
+  final Value<int?> goalId;
+  final Value<bool> notificationsEnabled;
+  final Value<int?> reminderMinutes;
+  final Value<bool> snoozeEnabled;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  const GoalNotificationOverrideCompanion({
+    this.id = const Value.absent(),
+    this.goalId = const Value.absent(),
+    this.notificationsEnabled = const Value.absent(),
+    this.reminderMinutes = const Value.absent(),
+    this.snoozeEnabled = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  GoalNotificationOverrideCompanion.insert({
+    this.id = const Value.absent(),
+    this.goalId = const Value.absent(),
+    this.notificationsEnabled = const Value.absent(),
+    this.reminderMinutes = const Value.absent(),
+    this.snoozeEnabled = const Value.absent(),
+    required DateTime createdAt,
+    this.updatedAt = const Value.absent(),
+  }) : createdAt = Value(createdAt);
+  static Insertable<GoalNotificationOverrideData> custom({
+    Expression<int>? id,
+    Expression<int>? goalId,
+    Expression<bool>? notificationsEnabled,
+    Expression<int>? reminderMinutes,
+    Expression<bool>? snoozeEnabled,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (goalId != null) 'goal_id': goalId,
+      if (notificationsEnabled != null)
+        'notifications_enabled': notificationsEnabled,
+      if (reminderMinutes != null) 'reminder_minutes': reminderMinutes,
+      if (snoozeEnabled != null) 'snooze_enabled': snoozeEnabled,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  GoalNotificationOverrideCompanion copyWith(
+      {Value<int>? id,
+      Value<int?>? goalId,
+      Value<bool>? notificationsEnabled,
+      Value<int?>? reminderMinutes,
+      Value<bool>? snoozeEnabled,
+      Value<DateTime>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return GoalNotificationOverrideCompanion(
+      id: id ?? this.id,
+      goalId: goalId ?? this.goalId,
+      notificationsEnabled: notificationsEnabled ?? this.notificationsEnabled,
+      reminderMinutes: reminderMinutes ?? this.reminderMinutes,
+      snoozeEnabled: snoozeEnabled ?? this.snoozeEnabled,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (goalId.present) {
+      map['goal_id'] = Variable<int>(goalId.value);
+    }
+    if (notificationsEnabled.present) {
+      map['notifications_enabled'] = Variable<bool>(notificationsEnabled.value);
+    }
+    if (reminderMinutes.present) {
+      map['reminder_minutes'] = Variable<int>(reminderMinutes.value);
+    }
+    if (snoozeEnabled.present) {
+      map['snooze_enabled'] = Variable<bool>(snoozeEnabled.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('GoalNotificationOverrideCompanion(')
+          ..write('id: $id, ')
+          ..write('goalId: $goalId, ')
+          ..write('notificationsEnabled: $notificationsEnabled, ')
+          ..write('reminderMinutes: $reminderMinutes, ')
+          ..write('snoozeEnabled: $snoozeEnabled, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -2919,14 +3252,16 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final $TaskTagsTable taskTags = $TaskTagsTable(this);
   late final $UserSettingsTable userSettings = $UserSettingsTable(this);
   late final $TemplatesTable templates = $TemplatesTable(this);
-  late final $UserStatsTable userStats = $UserStatsTable(this);
+  late final $NotificationPrefsTable notificationPrefs =
+      $NotificationPrefsTable(this);
+  late final $GoalNotificationOverrideTable goalNotificationOverride =
+      $GoalNotificationOverrideTable(this);
   late final TaskDao taskDao = TaskDao(this as AppDatabase);
   late final TagDao tagDao = TagDao(this as AppDatabase);
   late final UserSettingsDao userSettingsDao =
       UserSettingsDao(this as AppDatabase);
   late final GoalDao goalDao = GoalDao(this as AppDatabase);
   late final TemplateDao templateDao = TemplateDao(this as AppDatabase);
-  late final UserStatsDao userStatsDao = UserStatsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -2939,7 +3274,8 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         taskTags,
         userSettings,
         templates,
-        userStats
+        notificationPrefs,
+        goalNotificationOverride
       ];
 }
 
@@ -2976,6 +3312,25 @@ final class $$GoalsTableReferences
         .filter((f) => f.goalId.id.sqlEquals($_itemColumn<int>('id')!));
 
     final cache = $_typedResult.readTableOrNull(_tasksRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$GoalNotificationOverrideTable,
+      List<GoalNotificationOverrideData>> _goalNotificationOverrideRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.goalNotificationOverride,
+          aliasName: $_aliasNameGenerator(
+              db.goals.id, db.goalNotificationOverride.goalId));
+
+  $$GoalNotificationOverrideTableProcessedTableManager
+      get goalNotificationOverrideRefs {
+    final manager = $$GoalNotificationOverrideTableTableManager(
+            $_db, $_db.goalNotificationOverride)
+        .filter((f) => f.goalId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache =
+        $_typedResult.readTableOrNull(_goalNotificationOverrideRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -3028,6 +3383,29 @@ class $$GoalsTableFilterComposer extends Composer<_$AppDatabase, $GoalsTable> {
               $removeJoinBuilderFromRootComposer:
                   $removeJoinBuilderFromRootComposer,
             ));
+    return f(composer);
+  }
+
+  Expression<bool> goalNotificationOverrideRefs(
+      Expression<bool> Function($$GoalNotificationOverrideTableFilterComposer f)
+          f) {
+    final $$GoalNotificationOverrideTableFilterComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.goalNotificationOverride,
+            getReferencedColumn: (t) => t.goalId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$GoalNotificationOverrideTableFilterComposer(
+                  $db: $db,
+                  $table: $db.goalNotificationOverride,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
     return f(composer);
   }
 }
@@ -3114,6 +3492,30 @@ class $$GoalsTableAnnotationComposer
             ));
     return f(composer);
   }
+
+  Expression<T> goalNotificationOverrideRefs<T extends Object>(
+      Expression<T> Function(
+              $$GoalNotificationOverrideTableAnnotationComposer a)
+          f) {
+    final $$GoalNotificationOverrideTableAnnotationComposer composer =
+        $composerBuilder(
+            composer: this,
+            getCurrentColumn: (t) => t.id,
+            referencedTable: $db.goalNotificationOverride,
+            getReferencedColumn: (t) => t.goalId,
+            builder: (joinBuilder,
+                    {$addJoinBuilderToRootComposer,
+                    $removeJoinBuilderFromRootComposer}) =>
+                $$GoalNotificationOverrideTableAnnotationComposer(
+                  $db: $db,
+                  $table: $db.goalNotificationOverride,
+                  $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+                  joinBuilder: joinBuilder,
+                  $removeJoinBuilderFromRootComposer:
+                      $removeJoinBuilderFromRootComposer,
+                ));
+    return f(composer);
+  }
 }
 
 class $$GoalsTableTableManager extends RootTableManager<
@@ -3127,7 +3529,8 @@ class $$GoalsTableTableManager extends RootTableManager<
     $$GoalsTableUpdateCompanionBuilder,
     (Goal, $$GoalsTableReferences),
     Goal,
-    PrefetchHooks Function({bool tasksRefs})> {
+    PrefetchHooks Function(
+        {bool tasksRefs, bool goalNotificationOverrideRefs})> {
   $$GoalsTableTableManager(_$AppDatabase db, $GoalsTable table)
       : super(TableManagerState(
           db: db,
@@ -3178,10 +3581,14 @@ class $$GoalsTableTableManager extends RootTableManager<
               .map((e) =>
                   (e.readTable(table), $$GoalsTableReferences(db, table, e)))
               .toList(),
-          prefetchHooksCallback: ({tasksRefs = false}) {
+          prefetchHooksCallback: (
+              {tasksRefs = false, goalNotificationOverrideRefs = false}) {
             return PrefetchHooks(
               db: db,
-              explicitlyWatchedTables: [if (tasksRefs) db.tasks],
+              explicitlyWatchedTables: [
+                if (tasksRefs) db.tasks,
+                if (goalNotificationOverrideRefs) db.goalNotificationOverride
+              ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
                 return [
@@ -3192,6 +3599,19 @@ class $$GoalsTableTableManager extends RootTableManager<
                             $$GoalsTableReferences._tasksRefsTable(db),
                         managerFromTypedResult: (p0) =>
                             $$GoalsTableReferences(db, table, p0).tasksRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.goalId == item.id),
+                        typedResults: items),
+                  if (goalNotificationOverrideRefs)
+                    await $_getPrefetchedData<Goal, $GoalsTable,
+                            GoalNotificationOverrideData>(
+                        currentTable: table,
+                        referencedTable: $$GoalsTableReferences
+                            ._goalNotificationOverrideRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$GoalsTableReferences(db, table, p0)
+                                .goalNotificationOverrideRefs,
                         referencedItemsForCurrentItem: (item,
                                 referencedItems) =>
                             referencedItems.where((e) => e.goalId == item.id),
@@ -3214,7 +3634,8 @@ typedef $$GoalsTableProcessedTableManager = ProcessedTableManager<
     $$GoalsTableUpdateCompanionBuilder,
     (Goal, $$GoalsTableReferences),
     Goal,
-    PrefetchHooks Function({bool tasksRefs})>;
+    PrefetchHooks Function(
+        {bool tasksRefs, bool goalNotificationOverrideRefs})>;
 typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
   Value<int> id,
   required String title,
@@ -4778,42 +5199,40 @@ typedef $$TemplatesTableProcessedTableManager = ProcessedTableManager<
     (Template, BaseReferences<_$AppDatabase, $TemplatesTable, Template>),
     Template,
     PrefetchHooks Function()>;
-typedef $$UserStatsTableCreateCompanionBuilder = UserStatsCompanion Function({
+typedef $$NotificationPrefsTableCreateCompanionBuilder
+    = NotificationPrefsCompanion Function({
   Value<int> id,
-  Value<int> xp,
-  Value<int> level,
-  Value<int> currentStreak,
-  Value<int> longestStreak,
-  Value<DateTime?> lastActiveDate,
-  Value<int> totalTasksCompleted,
-  Value<int> totalGoalsCompleted,
-  Value<int> totalTemplatesCreated,
-  Value<String?> unlockedThemes,
-  Value<String?> unlockedIcons,
-  Value<String?> unlockedAnimations,
+  Value<bool> notificationsEnabled,
+  Value<int> defaultReminderMinutes,
+  Value<bool> snoozeEnabled,
+  Value<String> snoozePresets,
+  Value<bool> quietHoursEnabled,
+  Value<String> quietHoursStart,
+  Value<String> quietHoursEnd,
+  Value<String> workingDays,
+  Value<bool> goalOverrideEnabled,
   required DateTime createdAt,
   Value<DateTime?> updatedAt,
 });
-typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
+typedef $$NotificationPrefsTableUpdateCompanionBuilder
+    = NotificationPrefsCompanion Function({
   Value<int> id,
-  Value<int> xp,
-  Value<int> level,
-  Value<int> currentStreak,
-  Value<int> longestStreak,
-  Value<DateTime?> lastActiveDate,
-  Value<int> totalTasksCompleted,
-  Value<int> totalGoalsCompleted,
-  Value<int> totalTemplatesCreated,
-  Value<String?> unlockedThemes,
-  Value<String?> unlockedIcons,
-  Value<String?> unlockedAnimations,
+  Value<bool> notificationsEnabled,
+  Value<int> defaultReminderMinutes,
+  Value<bool> snoozeEnabled,
+  Value<String> snoozePresets,
+  Value<bool> quietHoursEnabled,
+  Value<String> quietHoursStart,
+  Value<String> quietHoursEnd,
+  Value<String> workingDays,
+  Value<bool> goalOverrideEnabled,
   Value<DateTime> createdAt,
   Value<DateTime?> updatedAt,
 });
 
-class $$UserStatsTableFilterComposer
-    extends Composer<_$AppDatabase, $UserStatsTable> {
-  $$UserStatsTableFilterComposer({
+class $$NotificationPrefsTableFilterComposer
+    extends Composer<_$AppDatabase, $NotificationPrefsTable> {
+  $$NotificationPrefsTableFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4823,43 +5242,36 @@ class $$UserStatsTableFilterComposer
   ColumnFilters<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get xp => $composableBuilder(
-      column: $table.xp, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<int> get level => $composableBuilder(
-      column: $table.level, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<int> get currentStreak => $composableBuilder(
-      column: $table.currentStreak, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<int> get longestStreak => $composableBuilder(
-      column: $table.longestStreak, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get lastActiveDate => $composableBuilder(
-      column: $table.lastActiveDate,
+  ColumnFilters<bool> get notificationsEnabled => $composableBuilder(
+      column: $table.notificationsEnabled,
       builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get totalTasksCompleted => $composableBuilder(
-      column: $table.totalTasksCompleted,
+  ColumnFilters<int> get defaultReminderMinutes => $composableBuilder(
+      column: $table.defaultReminderMinutes,
       builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get totalGoalsCompleted => $composableBuilder(
-      column: $table.totalGoalsCompleted,
+  ColumnFilters<bool> get snoozeEnabled => $composableBuilder(
+      column: $table.snoozeEnabled, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get snoozePresets => $composableBuilder(
+      column: $table.snoozePresets, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get quietHoursEnabled => $composableBuilder(
+      column: $table.quietHoursEnabled,
       builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<int> get totalTemplatesCreated => $composableBuilder(
-      column: $table.totalTemplatesCreated,
+  ColumnFilters<String> get quietHoursStart => $composableBuilder(
+      column: $table.quietHoursStart,
       builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get unlockedThemes => $composableBuilder(
-      column: $table.unlockedThemes,
-      builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get quietHoursEnd => $composableBuilder(
+      column: $table.quietHoursEnd, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get unlockedIcons => $composableBuilder(
-      column: $table.unlockedIcons, builder: (column) => ColumnFilters(column));
+  ColumnFilters<String> get workingDays => $composableBuilder(
+      column: $table.workingDays, builder: (column) => ColumnFilters(column));
 
-  ColumnFilters<String> get unlockedAnimations => $composableBuilder(
-      column: $table.unlockedAnimations,
+  ColumnFilters<bool> get goalOverrideEnabled => $composableBuilder(
+      column: $table.goalOverrideEnabled,
       builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
@@ -4869,9 +5281,9 @@ class $$UserStatsTableFilterComposer
       column: $table.updatedAt, builder: (column) => ColumnFilters(column));
 }
 
-class $$UserStatsTableOrderingComposer
-    extends Composer<_$AppDatabase, $UserStatsTable> {
-  $$UserStatsTableOrderingComposer({
+class $$NotificationPrefsTableOrderingComposer
+    extends Composer<_$AppDatabase, $NotificationPrefsTable> {
+  $$NotificationPrefsTableOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4881,46 +5293,39 @@ class $$UserStatsTableOrderingComposer
   ColumnOrderings<int> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get xp => $composableBuilder(
-      column: $table.xp, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<int> get level => $composableBuilder(
-      column: $table.level, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<int> get currentStreak => $composableBuilder(
-      column: $table.currentStreak,
+  ColumnOrderings<bool> get notificationsEnabled => $composableBuilder(
+      column: $table.notificationsEnabled,
       builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get longestStreak => $composableBuilder(
-      column: $table.longestStreak,
+  ColumnOrderings<int> get defaultReminderMinutes => $composableBuilder(
+      column: $table.defaultReminderMinutes,
       builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<DateTime> get lastActiveDate => $composableBuilder(
-      column: $table.lastActiveDate,
+  ColumnOrderings<bool> get snoozeEnabled => $composableBuilder(
+      column: $table.snoozeEnabled,
       builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get totalTasksCompleted => $composableBuilder(
-      column: $table.totalTasksCompleted,
+  ColumnOrderings<String> get snoozePresets => $composableBuilder(
+      column: $table.snoozePresets,
       builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get totalGoalsCompleted => $composableBuilder(
-      column: $table.totalGoalsCompleted,
+  ColumnOrderings<bool> get quietHoursEnabled => $composableBuilder(
+      column: $table.quietHoursEnabled,
       builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<int> get totalTemplatesCreated => $composableBuilder(
-      column: $table.totalTemplatesCreated,
+  ColumnOrderings<String> get quietHoursStart => $composableBuilder(
+      column: $table.quietHoursStart,
       builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get unlockedThemes => $composableBuilder(
-      column: $table.unlockedThemes,
+  ColumnOrderings<String> get quietHoursEnd => $composableBuilder(
+      column: $table.quietHoursEnd,
       builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get unlockedIcons => $composableBuilder(
-      column: $table.unlockedIcons,
-      builder: (column) => ColumnOrderings(column));
+  ColumnOrderings<String> get workingDays => $composableBuilder(
+      column: $table.workingDays, builder: (column) => ColumnOrderings(column));
 
-  ColumnOrderings<String> get unlockedAnimations => $composableBuilder(
-      column: $table.unlockedAnimations,
+  ColumnOrderings<bool> get goalOverrideEnabled => $composableBuilder(
+      column: $table.goalOverrideEnabled,
       builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
@@ -4930,9 +5335,9 @@ class $$UserStatsTableOrderingComposer
       column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
 }
 
-class $$UserStatsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $UserStatsTable> {
-  $$UserStatsTableAnnotationComposer({
+class $$NotificationPrefsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $NotificationPrefsTable> {
+  $$NotificationPrefsTableAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -4942,38 +5347,32 @@ class $$UserStatsTableAnnotationComposer
   GeneratedColumn<int> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
-  GeneratedColumn<int> get xp =>
-      $composableBuilder(column: $table.xp, builder: (column) => column);
+  GeneratedColumn<bool> get notificationsEnabled => $composableBuilder(
+      column: $table.notificationsEnabled, builder: (column) => column);
 
-  GeneratedColumn<int> get level =>
-      $composableBuilder(column: $table.level, builder: (column) => column);
+  GeneratedColumn<int> get defaultReminderMinutes => $composableBuilder(
+      column: $table.defaultReminderMinutes, builder: (column) => column);
 
-  GeneratedColumn<int> get currentStreak => $composableBuilder(
-      column: $table.currentStreak, builder: (column) => column);
+  GeneratedColumn<bool> get snoozeEnabled => $composableBuilder(
+      column: $table.snoozeEnabled, builder: (column) => column);
 
-  GeneratedColumn<int> get longestStreak => $composableBuilder(
-      column: $table.longestStreak, builder: (column) => column);
+  GeneratedColumn<String> get snoozePresets => $composableBuilder(
+      column: $table.snoozePresets, builder: (column) => column);
 
-  GeneratedColumn<DateTime> get lastActiveDate => $composableBuilder(
-      column: $table.lastActiveDate, builder: (column) => column);
+  GeneratedColumn<bool> get quietHoursEnabled => $composableBuilder(
+      column: $table.quietHoursEnabled, builder: (column) => column);
 
-  GeneratedColumn<int> get totalTasksCompleted => $composableBuilder(
-      column: $table.totalTasksCompleted, builder: (column) => column);
+  GeneratedColumn<String> get quietHoursStart => $composableBuilder(
+      column: $table.quietHoursStart, builder: (column) => column);
 
-  GeneratedColumn<int> get totalGoalsCompleted => $composableBuilder(
-      column: $table.totalGoalsCompleted, builder: (column) => column);
+  GeneratedColumn<String> get quietHoursEnd => $composableBuilder(
+      column: $table.quietHoursEnd, builder: (column) => column);
 
-  GeneratedColumn<int> get totalTemplatesCreated => $composableBuilder(
-      column: $table.totalTemplatesCreated, builder: (column) => column);
+  GeneratedColumn<String> get workingDays => $composableBuilder(
+      column: $table.workingDays, builder: (column) => column);
 
-  GeneratedColumn<String> get unlockedThemes => $composableBuilder(
-      column: $table.unlockedThemes, builder: (column) => column);
-
-  GeneratedColumn<String> get unlockedIcons => $composableBuilder(
-      column: $table.unlockedIcons, builder: (column) => column);
-
-  GeneratedColumn<String> get unlockedAnimations => $composableBuilder(
-      column: $table.unlockedAnimations, builder: (column) => column);
+  GeneratedColumn<bool> get goalOverrideEnabled => $composableBuilder(
+      column: $table.goalOverrideEnabled, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -4982,89 +5381,86 @@ class $$UserStatsTableAnnotationComposer
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 }
 
-class $$UserStatsTableTableManager extends RootTableManager<
+class $$NotificationPrefsTableTableManager extends RootTableManager<
     _$AppDatabase,
-    $UserStatsTable,
-    UserStat,
-    $$UserStatsTableFilterComposer,
-    $$UserStatsTableOrderingComposer,
-    $$UserStatsTableAnnotationComposer,
-    $$UserStatsTableCreateCompanionBuilder,
-    $$UserStatsTableUpdateCompanionBuilder,
-    (UserStat, BaseReferences<_$AppDatabase, $UserStatsTable, UserStat>),
-    UserStat,
+    $NotificationPrefsTable,
+    NotificationPref,
+    $$NotificationPrefsTableFilterComposer,
+    $$NotificationPrefsTableOrderingComposer,
+    $$NotificationPrefsTableAnnotationComposer,
+    $$NotificationPrefsTableCreateCompanionBuilder,
+    $$NotificationPrefsTableUpdateCompanionBuilder,
+    (
+      NotificationPref,
+      BaseReferences<_$AppDatabase, $NotificationPrefsTable, NotificationPref>
+    ),
+    NotificationPref,
     PrefetchHooks Function()> {
-  $$UserStatsTableTableManager(_$AppDatabase db, $UserStatsTable table)
+  $$NotificationPrefsTableTableManager(
+      _$AppDatabase db, $NotificationPrefsTable table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$UserStatsTableFilterComposer($db: db, $table: table),
+              $$NotificationPrefsTableFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$UserStatsTableOrderingComposer($db: db, $table: table),
+              $$NotificationPrefsTableOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$UserStatsTableAnnotationComposer($db: db, $table: table),
+              $$NotificationPrefsTableAnnotationComposer(
+                  $db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
-            Value<int> xp = const Value.absent(),
-            Value<int> level = const Value.absent(),
-            Value<int> currentStreak = const Value.absent(),
-            Value<int> longestStreak = const Value.absent(),
-            Value<DateTime?> lastActiveDate = const Value.absent(),
-            Value<int> totalTasksCompleted = const Value.absent(),
-            Value<int> totalGoalsCompleted = const Value.absent(),
-            Value<int> totalTemplatesCreated = const Value.absent(),
-            Value<String?> unlockedThemes = const Value.absent(),
-            Value<String?> unlockedIcons = const Value.absent(),
-            Value<String?> unlockedAnimations = const Value.absent(),
+            Value<bool> notificationsEnabled = const Value.absent(),
+            Value<int> defaultReminderMinutes = const Value.absent(),
+            Value<bool> snoozeEnabled = const Value.absent(),
+            Value<String> snoozePresets = const Value.absent(),
+            Value<bool> quietHoursEnabled = const Value.absent(),
+            Value<String> quietHoursStart = const Value.absent(),
+            Value<String> quietHoursEnd = const Value.absent(),
+            Value<String> workingDays = const Value.absent(),
+            Value<bool> goalOverrideEnabled = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime?> updatedAt = const Value.absent(),
           }) =>
-              UserStatsCompanion(
+              NotificationPrefsCompanion(
             id: id,
-            xp: xp,
-            level: level,
-            currentStreak: currentStreak,
-            longestStreak: longestStreak,
-            lastActiveDate: lastActiveDate,
-            totalTasksCompleted: totalTasksCompleted,
-            totalGoalsCompleted: totalGoalsCompleted,
-            totalTemplatesCreated: totalTemplatesCreated,
-            unlockedThemes: unlockedThemes,
-            unlockedIcons: unlockedIcons,
-            unlockedAnimations: unlockedAnimations,
+            notificationsEnabled: notificationsEnabled,
+            defaultReminderMinutes: defaultReminderMinutes,
+            snoozeEnabled: snoozeEnabled,
+            snoozePresets: snoozePresets,
+            quietHoursEnabled: quietHoursEnabled,
+            quietHoursStart: quietHoursStart,
+            quietHoursEnd: quietHoursEnd,
+            workingDays: workingDays,
+            goalOverrideEnabled: goalOverrideEnabled,
             createdAt: createdAt,
             updatedAt: updatedAt,
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
-            Value<int> xp = const Value.absent(),
-            Value<int> level = const Value.absent(),
-            Value<int> currentStreak = const Value.absent(),
-            Value<int> longestStreak = const Value.absent(),
-            Value<DateTime?> lastActiveDate = const Value.absent(),
-            Value<int> totalTasksCompleted = const Value.absent(),
-            Value<int> totalGoalsCompleted = const Value.absent(),
-            Value<int> totalTemplatesCreated = const Value.absent(),
-            Value<String?> unlockedThemes = const Value.absent(),
-            Value<String?> unlockedIcons = const Value.absent(),
-            Value<String?> unlockedAnimations = const Value.absent(),
+            Value<bool> notificationsEnabled = const Value.absent(),
+            Value<int> defaultReminderMinutes = const Value.absent(),
+            Value<bool> snoozeEnabled = const Value.absent(),
+            Value<String> snoozePresets = const Value.absent(),
+            Value<bool> quietHoursEnabled = const Value.absent(),
+            Value<String> quietHoursStart = const Value.absent(),
+            Value<String> quietHoursEnd = const Value.absent(),
+            Value<String> workingDays = const Value.absent(),
+            Value<bool> goalOverrideEnabled = const Value.absent(),
             required DateTime createdAt,
             Value<DateTime?> updatedAt = const Value.absent(),
           }) =>
-              UserStatsCompanion.insert(
+              NotificationPrefsCompanion.insert(
             id: id,
-            xp: xp,
-            level: level,
-            currentStreak: currentStreak,
-            longestStreak: longestStreak,
-            lastActiveDate: lastActiveDate,
-            totalTasksCompleted: totalTasksCompleted,
-            totalGoalsCompleted: totalGoalsCompleted,
-            totalTemplatesCreated: totalTemplatesCreated,
-            unlockedThemes: unlockedThemes,
-            unlockedIcons: unlockedIcons,
-            unlockedAnimations: unlockedAnimations,
+            notificationsEnabled: notificationsEnabled,
+            defaultReminderMinutes: defaultReminderMinutes,
+            snoozeEnabled: snoozeEnabled,
+            snoozePresets: snoozePresets,
+            quietHoursEnabled: quietHoursEnabled,
+            quietHoursStart: quietHoursStart,
+            quietHoursEnd: quietHoursEnd,
+            workingDays: workingDays,
+            goalOverrideEnabled: goalOverrideEnabled,
             createdAt: createdAt,
             updatedAt: updatedAt,
           ),
@@ -5075,18 +5471,336 @@ class $$UserStatsTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$UserStatsTableProcessedTableManager = ProcessedTableManager<
+typedef $$NotificationPrefsTableProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
-    $UserStatsTable,
-    UserStat,
-    $$UserStatsTableFilterComposer,
-    $$UserStatsTableOrderingComposer,
-    $$UserStatsTableAnnotationComposer,
-    $$UserStatsTableCreateCompanionBuilder,
-    $$UserStatsTableUpdateCompanionBuilder,
-    (UserStat, BaseReferences<_$AppDatabase, $UserStatsTable, UserStat>),
-    UserStat,
+    $NotificationPrefsTable,
+    NotificationPref,
+    $$NotificationPrefsTableFilterComposer,
+    $$NotificationPrefsTableOrderingComposer,
+    $$NotificationPrefsTableAnnotationComposer,
+    $$NotificationPrefsTableCreateCompanionBuilder,
+    $$NotificationPrefsTableUpdateCompanionBuilder,
+    (
+      NotificationPref,
+      BaseReferences<_$AppDatabase, $NotificationPrefsTable, NotificationPref>
+    ),
+    NotificationPref,
     PrefetchHooks Function()>;
+typedef $$GoalNotificationOverrideTableCreateCompanionBuilder
+    = GoalNotificationOverrideCompanion Function({
+  Value<int> id,
+  Value<int?> goalId,
+  Value<bool> notificationsEnabled,
+  Value<int?> reminderMinutes,
+  Value<bool> snoozeEnabled,
+  required DateTime createdAt,
+  Value<DateTime?> updatedAt,
+});
+typedef $$GoalNotificationOverrideTableUpdateCompanionBuilder
+    = GoalNotificationOverrideCompanion Function({
+  Value<int> id,
+  Value<int?> goalId,
+  Value<bool> notificationsEnabled,
+  Value<int?> reminderMinutes,
+  Value<bool> snoozeEnabled,
+  Value<DateTime> createdAt,
+  Value<DateTime?> updatedAt,
+});
+
+final class $$GoalNotificationOverrideTableReferences extends BaseReferences<
+    _$AppDatabase,
+    $GoalNotificationOverrideTable,
+    GoalNotificationOverrideData> {
+  $$GoalNotificationOverrideTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $GoalsTable _goalIdTable(_$AppDatabase db) => db.goals.createAlias(
+      $_aliasNameGenerator(db.goalNotificationOverride.goalId, db.goals.id));
+
+  $$GoalsTableProcessedTableManager? get goalId {
+    final $_column = $_itemColumn<int>('goal_id');
+    if ($_column == null) return null;
+    final manager = $$GoalsTableTableManager($_db, $_db.goals)
+        .filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_goalIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$GoalNotificationOverrideTableFilterComposer
+    extends Composer<_$AppDatabase, $GoalNotificationOverrideTable> {
+  $$GoalNotificationOverrideTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get notificationsEnabled => $composableBuilder(
+      column: $table.notificationsEnabled,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get reminderMinutes => $composableBuilder(
+      column: $table.reminderMinutes,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get snoozeEnabled => $composableBuilder(
+      column: $table.snoozeEnabled, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  $$GoalsTableFilterComposer get goalId {
+    final $$GoalsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableFilterComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$GoalNotificationOverrideTableOrderingComposer
+    extends Composer<_$AppDatabase, $GoalNotificationOverrideTable> {
+  $$GoalNotificationOverrideTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get notificationsEnabled => $composableBuilder(
+      column: $table.notificationsEnabled,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get reminderMinutes => $composableBuilder(
+      column: $table.reminderMinutes,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get snoozeEnabled => $composableBuilder(
+      column: $table.snoozeEnabled,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  $$GoalsTableOrderingComposer get goalId {
+    final $$GoalsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableOrderingComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$GoalNotificationOverrideTableAnnotationComposer
+    extends Composer<_$AppDatabase, $GoalNotificationOverrideTable> {
+  $$GoalNotificationOverrideTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<bool> get notificationsEnabled => $composableBuilder(
+      column: $table.notificationsEnabled, builder: (column) => column);
+
+  GeneratedColumn<int> get reminderMinutes => $composableBuilder(
+      column: $table.reminderMinutes, builder: (column) => column);
+
+  GeneratedColumn<bool> get snoozeEnabled => $composableBuilder(
+      column: $table.snoozeEnabled, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$GoalsTableAnnotationComposer get goalId {
+    final $$GoalsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$GoalNotificationOverrideTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $GoalNotificationOverrideTable,
+    GoalNotificationOverrideData,
+    $$GoalNotificationOverrideTableFilterComposer,
+    $$GoalNotificationOverrideTableOrderingComposer,
+    $$GoalNotificationOverrideTableAnnotationComposer,
+    $$GoalNotificationOverrideTableCreateCompanionBuilder,
+    $$GoalNotificationOverrideTableUpdateCompanionBuilder,
+    (GoalNotificationOverrideData, $$GoalNotificationOverrideTableReferences),
+    GoalNotificationOverrideData,
+    PrefetchHooks Function({bool goalId})> {
+  $$GoalNotificationOverrideTableTableManager(
+      _$AppDatabase db, $GoalNotificationOverrideTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$GoalNotificationOverrideTableFilterComposer(
+                  $db: db, $table: table),
+          createOrderingComposer: () =>
+              $$GoalNotificationOverrideTableOrderingComposer(
+                  $db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$GoalNotificationOverrideTableAnnotationComposer(
+                  $db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int?> goalId = const Value.absent(),
+            Value<bool> notificationsEnabled = const Value.absent(),
+            Value<int?> reminderMinutes = const Value.absent(),
+            Value<bool> snoozeEnabled = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              GoalNotificationOverrideCompanion(
+            id: id,
+            goalId: goalId,
+            notificationsEnabled: notificationsEnabled,
+            reminderMinutes: reminderMinutes,
+            snoozeEnabled: snoozeEnabled,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int?> goalId = const Value.absent(),
+            Value<bool> notificationsEnabled = const Value.absent(),
+            Value<int?> reminderMinutes = const Value.absent(),
+            Value<bool> snoozeEnabled = const Value.absent(),
+            required DateTime createdAt,
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              GoalNotificationOverrideCompanion.insert(
+            id: id,
+            goalId: goalId,
+            notificationsEnabled: notificationsEnabled,
+            reminderMinutes: reminderMinutes,
+            snoozeEnabled: snoozeEnabled,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$GoalNotificationOverrideTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({goalId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (goalId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.goalId,
+                    referencedTable: $$GoalNotificationOverrideTableReferences
+                        ._goalIdTable(db),
+                    referencedColumn: $$GoalNotificationOverrideTableReferences
+                        ._goalIdTable(db)
+                        .id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$GoalNotificationOverrideTableProcessedTableManager
+    = ProcessedTableManager<
+        _$AppDatabase,
+        $GoalNotificationOverrideTable,
+        GoalNotificationOverrideData,
+        $$GoalNotificationOverrideTableFilterComposer,
+        $$GoalNotificationOverrideTableOrderingComposer,
+        $$GoalNotificationOverrideTableAnnotationComposer,
+        $$GoalNotificationOverrideTableCreateCompanionBuilder,
+        $$GoalNotificationOverrideTableUpdateCompanionBuilder,
+        (
+          GoalNotificationOverrideData,
+          $$GoalNotificationOverrideTableReferences
+        ),
+        GoalNotificationOverrideData,
+        PrefetchHooks Function({bool goalId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5104,6 +5818,9 @@ class $AppDatabaseManager {
       $$UserSettingsTableTableManager(_db, _db.userSettings);
   $$TemplatesTableTableManager get templates =>
       $$TemplatesTableTableManager(_db, _db.templates);
-  $$UserStatsTableTableManager get userStats =>
-      $$UserStatsTableTableManager(_db, _db.userStats);
+  $$NotificationPrefsTableTableManager get notificationPrefs =>
+      $$NotificationPrefsTableTableManager(_db, _db.notificationPrefs);
+  $$GoalNotificationOverrideTableTableManager get goalNotificationOverride =>
+      $$GoalNotificationOverrideTableTableManager(
+          _db, _db.goalNotificationOverride);
 }

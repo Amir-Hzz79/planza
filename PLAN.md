@@ -65,48 +65,53 @@
 ## Phase 1: Goal Hierarchy & Templates
 - [x] Parent goals, tree UI, drag-drop reorder
 - [x] Template engine (JSON serialization)
-- [x] Import/export/share templates
-- [x] Template gallery with categories
+- [ ] Import/export/share templates
+- [ ] Template gallery with categories
 - [x] Template engine (JSON serialization)
 
-### Phase 1.4: Template Gallery UI ✅ COMPLETED
-- [x] TemplateGalleryPage with category tabs
-- [x] TemplateCard widget with preview
-- [x] Category tabs (Habit, Project, Learning, Fitness, Custom)
-- [x] Search and filter templates
-- [x] Create template from scratch button
-- [x] Template detail view
-- [x] "Use Template" action (creates goal + tasks)
-- [x] Category filtering and search
-- [x] Pull-to-refresh
+### Phase 1.4: Template Gallery UI (IN PROGRESS)
+- [ ] TemplateGalleryPage with category tabs
+- [ ] TemplateCard widget with preview
+- [ ] Category tabs (Habit, Project, Learning, Fitness, Custom)
+- [ ] Search and filter templates
+- [ ] Create template from scratch button
+- [ ] Template detail view
+- [ ] "Use Template" action (creates goal + tasks)
+- [ ] Category filtering and search
+- [ ] Pull-to-refresh
 
-### Phase 1.5: Import/Export/Share UI ✅ COMPLETED
-- [x] Export template as JSON file
-- [x] Import template from JSON file
-- [x] Share template via system share sheet
-- [x] QR code generation for template sharing
-- [x] Deep link handling for template import
+### Phase 1.5: Import/Export/Share UI
+- [ ] Export template as JSON file
+- [ ] Import template from JSON file
+- [ ] Share template via system share sheet
+- [ ] QR code generation for template sharing
+- [ ] Deep link handling for template import
 - [x] Template engine (JSON serialization)
 
 ---
 
-## Phase 2: Gamification Core (IN PROGRESS)
-- [x] XP/Level/Streak system (backend)
-- [x] UserStats model with level calculation
-- [x] UserStatsDao with streak tracking
-- [x] UserStatsBloc for state management
-- [x] Celebration animations (Lottie) - Level up, Streak milestone, Task complete
-- [x] CelebrationService for triggering celebrations
-- [ ] Unlockables (themes, icons, animations) UI
+## Phase 2: Gamification Core
+- [ ] XP/Level/Streak system
+- [ ] Celebration animations (Lottie)
+- [ ] Unlockables (themes, icons, animations)
 - [ ] Profile page with stats
 
 ---
 
-## Phase 3: Smart Notifications
-- [ ] Presets (10m, 1h, 1d, custom)
-- [ ] Rich actions (complete/snooze)
-- [ ] Quiet hours, working days
-- [ ] Per-goal overrides
+## Phase 3: Smart Notifications (IN PROGRESS)
+- [x] Notification service with flutter_local_notifications
+- [x] Notification channel creation
+- [x] Task reminder scheduling with timezone support
+- [x] Rich actions (Complete, Snooze 10m, Snooze 1h)
+- [x] Notification channel with high priority
+- [x] Presets (10m, 1h, 1d, custom) - UI
+- [x] Quiet hours, working days - UI
+- [x] Per-goal overrides - UI
+- [x] Notification settings page
+- [ ] Snooze presets editor with custom add/remove
+- [ ] Quiet hours time picker
+- [ ] Working days selector
+- [ ] Test notification button
 
 ---
 
@@ -255,10 +260,10 @@ master (production) ← stage (stable release) ← dev (integration) ← feature
 | `master` | Production releases only | Protected, tag required |
 | `stage` | Pre-release testing, QA | Protected, PR required |
 | `dev` | Ongoing integration | Direct push allowed (or PR) |
-| `feature/*` | Conceptual features (gamification, templates, notifications, etc.) | PR required to merge to `dev` |
+| `feature/*` | Individual tasks | PR required to merge to `dev` |
 
 ### Branch Naming Convention
-- `feature/<conceptual-feature>` — e.g., `feature/gamification`, `feature/templates`, `feature/notifications`
+- `feature/<phase>.<task>` — e.g., `feature/1.4-template-gallery`
 - `fix/<issue>` — Bug fixes
 - `refactor/<area>` — Refactoring
 - `chore/<task>` — Maintenance
@@ -266,15 +271,15 @@ master (production) ← stage (stable release) ← dev (integration) ← feature
 ### Workflow
 ```
 1. git checkout dev && git pull origin dev
-2. git checkout -b feature/<conceptual-feature>
-3. Implement feature with multiple atomic commits
+2. git checkout -b feature/<phase>.<task-name>
+3. Implement feature (atomic commits)
 4. Run: flutter analyze && flutter test && dart run build_runner build
-5. git add . && git commit -m "feat(<feature>): <description>"
+5. git add . && git commit -m "feat: <description>"
 6. git push origin feature/<branch>
 7. Create PR: feature/* → dev (self-review + CI)
 8. After review: merge to dev
-9. Feature complete → PR: dev → stage (QA)
-10. Stable → PR: stage → master (with tag)
+9. Phase complete → PR: dev → stage (QA)
+9. Stable → PR: stage → master (with tag)
 ```
 
 ### Commit Message Convention
@@ -289,14 +294,10 @@ master (production) ← stage (stable release) ← dev (integration) ← feature
 Types: `feat`, `fix`, `refactor`, `docs`, `style`, `refactor`, `test`, `chore`, `perf`
 
 Examples:
-- `feat(gamification): add XP/Level/Streak system with UserStats model`
-- `feat(gamification): add Lottie celebration animations and CelebrationService`
-- `feat(gamification): add Profile page with unlockables UI`
-- `feat(templates): complete template gallery UI with category tabs`
-- `feat(templates): add import/export/share with file operations and QR codes`
+- `feat(template): add template gallery UI with category tabs`
 - `fix(template): fix export JSON parsing for nested objects`
-- `refactor(gamification): extract XP progress ring widget`
-- `docs(gamification): add README for gamification system`
+- `refactor(template): extract TemplateCard widget`
+- `docs(template): add README for template system`
 
 ---
 
@@ -414,7 +415,7 @@ lib/
 
 ## Current Active Branch
 
-**Branch**: `feature/gamification-core` (from dev)
+**Branch**: `feature/smart-notifications` (from dev)
 
 ### Phase 1.4: Template Gallery UI ✅ COMPLETED
 - [x] TemplateGalleryPage with category tabs
@@ -444,15 +445,33 @@ lib/
 - [x] Unlockables (themes, icons, animations) UI
 - [x] Profile page with stats
 
+### Phase 3: Smart Notifications (IN PROGRESS)
+- [x] Notification service with flutter_local_notifications
+- [x] Notification channel creation
+- [x] Task reminder scheduling with timezone support
+- [x] Rich actions (Complete, Snooze 10m, Snooze 1h)
+- [x] Notification channel with high priority
+- [x] Presets (10m, 1h, 1d, custom) - UI
+- [x] Quiet hours, working days - UI
+- [x] Per-goal overrides - UI
+- [x] Notification settings page
+- [ ] Snooze presets editor with custom add/remove
+- [ ] Quiet hours time picker
+- [ ] Working days selector
+- [ ] Test notification button
+
 ---
 
 ## Current Git Status
 
 ```bash
 # Current branch
-feature/gamification-core (from dev)
+feature/smart-notifications (from dev)
 
 # Recent commits
+- feat(notifications): add smart notification system with flutter_local_notifications
+- feat(gamification): add Profile page with unlockables UI and fix UserStatsDao GetIt registration
+- feat(gamification): add Lottie celebration animations and CelebrationService
 - feat(template): complete import/export/share UI with file operations, QR codes, and deep links
 - feat(template): complete template gallery UI with category tabs, search, filter, and share
 - feat(template): add template gallery bloc with import/export/share
@@ -511,8 +530,11 @@ flutter build appbundle --release
 
 ## Next Immediate Steps
 
-1. **Unlockables UI** - display unlocked themes, icons, animations
-2. **Profile page** with stats display (XP bar, level, streaks)
-3. **Integrate XP rewards** into task/goal completion
-4. **Test on physical device** + emulator
+1. **Complete TemplateGalleryPage** with category tabs
+2. **Implement TemplateCard** with preview image + metadata
+3. **Add category filtering** with animated transitions
+4. **Implement "Use Template"** → creates Goal + Tasks
+5. **Build Export/Import/Share UI** with share_plus
+4. **Add pull-to-refresh** and search
+5. **Test on physical device** + emulator
 5. **Run full test suite** before PR

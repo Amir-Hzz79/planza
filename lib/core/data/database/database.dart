@@ -9,14 +9,13 @@ import '../data_access_object/task_dao.dart';
 import '../data_access_object/user_setting_dao.dart';
 import '../data_access_object/goal_dao.dart';
 import '../data_access_object/template_dao.dart';
-import '../data_access_object/user_stats_dao.dart';
 import 'tables.dart';
 
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [Tasks, Subtasks, Tags, TaskTags, Goals, UserSettings, Templates, UserStats],
-  daos: [TaskDao, TagDao, UserSettingsDao, GoalDao, TemplateDao, UserStatsDao],
+  tables: [Tasks, Subtasks, Tags, TaskTags, Goals, UserSettings, Templates, NotificationPrefs, GoalNotificationOverride],
+  daos: [TaskDao, TagDao, UserSettingsDao, GoalDao, TemplateDao],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -646,7 +645,8 @@ class AppDatabase extends _$AppDatabase {
           } else if (from < 5) {
             await migrator.createTable(templates);
           } else if (from < 6) {
-            await migrator.createTable(userStats);
+            await migrator.createTable(notificationPrefs);
+            await migrator.createTable(goalNotificationOverride);
           }
         },
       );
