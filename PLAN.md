@@ -104,10 +104,14 @@
 - [x] Task reminder scheduling with timezone support
 - [x] Rich actions (Complete, Snooze 10m, Snooze 1h)
 - [x] Notification channel with high priority
-- [ ] Presets (10m, 1h, 1d, custom) - UI
-- [ ] Quiet hours, working days - UI
-- [ ] Per-goal overrides - UI
-- [ ] Notification settings page
+- [x] Presets (10m, 1h, 1d, custom) - UI
+- [x] Quiet hours, working days - UI
+- [x] Per-goal overrides - UI
+- [x] Notification settings page
+- [ ] Snooze presets editor with custom add/remove
+- [ ] Quiet hours time picker
+- [ ] Working days selector
+- [ ] Test notification button
 
 ---
 
@@ -411,25 +415,50 @@ lib/
 
 ## Current Active Branch
 
-**Branch**: `feature/1.4-template-gallery` (from dev)
+**Branch**: `feature/smart-notifications` (from dev)
 
-### Phase 1.4: Template Gallery UI (IN PROGRESS)
-- [ ] TemplateGalleryPage with category tabs
-- [ ] TemplateCard widget with preview
-- [ ] Category tabs (Habit, Project, Learning, Fitness, Custom)
-- [ ] Search and filter templates
-- [ ] Create template from scratch button
-- [ ] Template detail view
-- [ ] "Use Template" action (creates Goal + Tasks)
-- [ ] Category filtering and search
-- [ ] Pull-to-refresh
+### Phase 1.4: Template Gallery UI ✅ COMPLETED
+- [x] TemplateGalleryPage with category tabs
+- [x] TemplateCard widget with preview
+- [x] Category tabs (Habit, Project, Learning, Fitness, Custom)
+- [x] Search and filter templates
+- [x] Create template from scratch button
+- [x] Template detail view
+- [x] "Use Template" action (creates Goal + Tasks)
+- [x] Category filtering and search
+- [x] Pull-to-refresh
 
-### Phase 1.5: Import/Export/Share UI (PENDING)
-- [ ] Export template as JSON file
-- [ ] Import template from JSON file
-- [ ] Share template via system share sheet
-- [ ] QR code generation for template sharing
-- [ ] Deep link handling for template import
+### Phase 1.5: Import/Export/Share UI ✅ COMPLETED
+- [x] Export template as JSON file
+- [x] Import template from JSON file
+- [x] Share template via system share sheet
+- [x] QR code generation for template sharing
+- [x] Deep link handling for template import
+
+### Phase 2: Gamification Core ✅ COMPLETED
+- [x] XP/Level/Streak system (backend)
+- [x] UserStats model with level calculation
+- [x] UserStatsDao with streak tracking
+- [x] UserStatsBloc for state management
+- [x] Celebration animations (Lottie) - Level up, Streak milestone, Task complete
+- [x] CelebrationService for triggering celebrations
+- [x] Unlockables (themes, icons, animations) UI
+- [x] Profile page with stats
+
+### Phase 3: Smart Notifications (IN PROGRESS)
+- [x] Notification service with flutter_local_notifications
+- [x] Notification channel creation
+- [x] Task reminder scheduling with timezone support
+- [x] Rich actions (Complete, Snooze 10m, Snooze 1h)
+- [x] Notification channel with high priority
+- [x] Presets (10m, 1h, 1d, custom) - UI
+- [x] Quiet hours, working days - UI
+- [x] Per-goal overrides - UI
+- [x] Notification settings page
+- [ ] Snooze presets editor with custom add/remove
+- [ ] Quiet hours time picker
+- [ ] Working days selector
+- [ ] Test notification button
 
 ---
 
@@ -437,9 +466,14 @@ lib/
 
 ```bash
 # Current branch
-feature/1.4-template-gallery (from dev)
+feature/smart-notifications (from dev)
 
 # Recent commits
+- feat(notifications): add smart notification system with flutter_local_notifications
+- feat(gamification): add Profile page with unlockables UI and fix UserStatsDao GetIt registration
+- feat(gamification): add Lottie celebration animations and CelebrationService
+- feat(template): complete import/export/share UI with file operations, QR codes, and deep links
+- feat(template): complete template gallery UI with category tabs, search, filter, and share
 - feat(template): add template gallery bloc with import/export/share
 - feat(template): add template gallery UI with category tabs
 - feat(template): add template tree UI with expand/collapse
