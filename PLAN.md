@@ -115,7 +115,10 @@
 
 ---
 
-## Phase 4: Hobbies & Habits
+## Phase 4: Hobbies & Habits (IN PROGRESS)
+- [x] Database schema for Hobbies and HobbySessions (migration v8)
+- [x] HobbyModel and HobbySessionModel with JSON serialization
+- [x] HobbiesDao and HobbySessionsDao with CRUD + watch streams
 - [ ] Recurring engine (daily/weekly/custom)
 - [ ] Session tracking with mood
 - [ ] Insights charts (time allocation, correlations)
@@ -435,6 +438,28 @@ lib/
 - [x] QR code generation for template sharing
 - [x] Deep link handling for template import
 
+## Current Active Branch
+
+**Branch**: `feature/hobbies-habits` (from dev)
+
+### Phase 1.4: Template Gallery UI ✅ COMPLETED
+- [x] TemplateGalleryPage with category tabs
+- [x] TemplateCard widget with preview
+- [x] Category tabs (Habit, Project, Learning, Fitness, Custom)
+- [x] Search and filter templates
+- [x] Create template from scratch button
+- [x] Template detail view
+- [x] "Use Template" action (creates Goal + Tasks)
+- [x] Category filtering and search
+- [x] Pull-to-refresh
+
+### Phase 1.5: Import/Export/Share UI ✅ COMPLETED
+- [x] Export template as JSON file
+- [x] Import template from JSON file
+- [x] Share template via system share sheet
+- [x] QR code generation for template sharing
+- [x] Deep link handling for template import
+
 ### Phase 2: Gamification Core ✅ COMPLETED
 - [x] XP/Level/Streak system (backend)
 - [x] UserStats model with level calculation
@@ -445,7 +470,7 @@ lib/
 - [x] Unlockables (themes, icons, animations) UI
 - [x] Profile page with stats
 
-### Phase 3: Smart Notifications (IN PROGRESS)
+### Phase 3: Smart Notifications ✅ COMPLETED
 - [x] Notification service with flutter_local_notifications
 - [x] Notification channel creation
 - [x] Task reminder scheduling with timezone support
@@ -455,10 +480,14 @@ lib/
 - [x] Quiet hours, working days - UI
 - [x] Per-goal overrides - UI
 - [x] Notification settings page
-- [ ] Snooze presets editor with custom add/remove
-- [ ] Quiet hours time picker
-- [ ] Working days selector
-- [ ] Test notification button
+
+### Phase 4: Hobbies & Habits (IN PROGRESS)
+- [x] Database schema for Hobbies and HobbySessions (migration v8)
+- [x] HobbyModel and HobbySessionModel with JSON serialization
+- [x] HobbiesDao and HobbySessionsDao with CRUD + watch streams
+- [ ] Recurring engine (daily/weekly/custom)
+- [ ] Session tracking with mood
+- [ ] Insights charts (time allocation, correlations)
 
 ---
 
@@ -466,10 +495,11 @@ lib/
 
 ```bash
 # Current branch
-feature/smart-notifications (from dev)
+feature/hobbies-habits (from dev)
 
 # Recent commits
-- feat(notifications): add smart notification system with flutter_local_notifications
+- feat(hobbies): add Hobbies & HobbySessions database schema (migration v8)
+- feat(notifications): complete smart notification system with flutter_local_notifications
 - feat(gamification): add Profile page with unlockables UI and fix UserStatsDao GetIt registration
 - feat(gamification): add Lottie celebration animations and CelebrationService
 - feat(template): complete import/export/share UI with file operations, QR codes, and deep links
@@ -530,11 +560,9 @@ flutter build appbundle --release
 
 ## Next Immediate Steps
 
-1. **Complete TemplateGalleryPage** with category tabs
-2. **Implement TemplateCard** with preview image + metadata
-3. **Add category filtering** with animated transitions
-4. **Implement "Use Template"** → creates Goal + Tasks
-5. **Build Export/Import/Share UI** with share_plus
-4. **Add pull-to-refresh** and search
+1. **Recurring engine** (daily/weekly/custom) for Hobbies
+2. **Session tracking with mood** - start/end session, mood rating, notes
+3. **Insights charts** (time allocation, correlations)
+4. **Hobby UI pages** - list, detail, create/edit
 5. **Test on physical device** + emulator
-5. **Run full test suite** before PR
+6. **Run full test suite** before PR

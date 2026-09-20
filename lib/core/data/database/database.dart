@@ -1,4 +1,4 @@
-import 'dart:io';
+﻿import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
@@ -9,19 +9,42 @@ import '../data_access_object/task_dao.dart';
 import '../data_access_object/user_setting_dao.dart';
 import '../data_access_object/goal_dao.dart';
 import '../data_access_object/template_dao.dart';
+import '../data_access_object/hobbies_dao.dart';
+import '../data_access_object/hobby_sessions_dao.dart';
 import 'tables.dart';
 
 part 'database.g.dart';
 
 @DriftDatabase(
-  tables: [Tasks, Subtasks, Tags, TaskTags, Goals, UserSettings, Templates, NotificationPrefs, GoalNotificationOverride],
-  daos: [TaskDao, TagDao, UserSettingsDao, GoalDao, TemplateDao],
+  tables: [
+    Tasks,
+    Subtasks,
+    Tags,
+    TaskTags,
+    Goals,
+    UserSettings,
+    Templates,
+    NotificationPrefs,
+    GoalNotificationOverride,
+    UserStats,
+    Hobbies,
+    HobbySessions
+  ],
+  daos: [
+    TaskDao,
+    TagDao,
+    UserSettingsDao,
+    GoalDao,
+    TemplateDao,
+    HobbiesDao,
+    HobbySessionsDao
+  ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 8;
 
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
@@ -320,7 +343,8 @@ class AppDatabase extends _$AppDatabase {
     await into(taskTags).insert(TaskTagsCompanion.insert(
       tagId: Value(2),
       taskId: Value(4),
-    ));await into(taskTags).insert(TaskTagsCompanion.insert(
+    ));
+    await into(taskTags).insert(TaskTagsCompanion.insert(
       tagId: Value(4),
       taskId: Value(3),
     ));
@@ -647,6 +671,11 @@ class AppDatabase extends _$AppDatabase {
           } else if (from < 6) {
             await migrator.createTable(notificationPrefs);
             await migrator.createTable(goalNotificationOverride);
+          } else if (from < 7) {
+            await migrator.createTable(userStats);
+          } else if (from < 8) {
+            await migrator.createTable(hobbies);
+            await migrator.createTable(hobbySessions);
           }
         },
       );

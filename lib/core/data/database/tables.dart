@@ -93,6 +93,23 @@ class GoalNotificationOverride extends Table {
   DateTimeColumn get updatedAt => dateTime().nullable()();
 }
 
+class UserStats extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get xp => integer().withDefault(const Constant(0))();
+  IntColumn get level => integer().withDefault(const Constant(1))();
+  IntColumn get currentStreak => integer().withDefault(const Constant(0))();
+  IntColumn get longestStreak => integer().withDefault(const Constant(0))();
+  DateTimeColumn get lastActiveDate => dateTime().nullable()();
+  IntColumn get totalTasksCompleted => integer().withDefault(const Constant(0))();
+  IntColumn get totalGoalsCompleted => integer().withDefault(const Constant(0))();
+  IntColumn get totalTemplatesCreated => integer().withDefault(const Constant(0))();
+  TextColumn get unlockedThemes => text().nullable()();
+  TextColumn get unlockedIcons => text().nullable()();
+  TextColumn get unlockedAnimations => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+}
+
 class Templates extends Table {
   IntColumn get id => integer().autoIncrement()();
   TextColumn get name => text().withLength(min: 1, max: 255)();
@@ -104,4 +121,31 @@ class Templates extends Table {
   BoolColumn get isBuiltin => boolean().withDefault(const Constant(false))();
   DateTimeColumn get createdAt => dateTime()();
   DateTimeColumn get updatedAt => dateTime().nullable()();
+}
+
+class Hobbies extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  TextColumn get name => text().withLength(min: 1, max: 255)();
+  TextColumn get description => text().nullable()();
+  TextColumn get category => text().withLength(min: 1, max: 100)();
+  IntColumn get icon => integer().nullable()();
+  IntColumn get color => integer().nullable()();
+  TextColumn get frequency => text().withDefault(const Constant('daily'))(); // daily, weekly, custom
+  TextColumn get customFrequencyJson => text().nullable().withDefault(const Constant(''))(); // JSON for custom frequency
+  IntColumn get targetDurationMinutes => integer().nullable()();
+  IntColumn get goalId => integer().nullable().customConstraint('REFERENCES goals(id)')();
+  BoolColumn get isActive => boolean().withDefault(const Constant(true))();
+  DateTimeColumn get createdAt => dateTime()();
+  DateTimeColumn get updatedAt => dateTime().nullable()();
+}
+
+class HobbySessions extends Table {
+  IntColumn get id => integer().autoIncrement()();
+  IntColumn get hobbyId => integer().nullable().customConstraint('REFERENCES hobbies(id)')();
+  DateTimeColumn get startTime => dateTime()();
+  DateTimeColumn get endTime => dateTime().nullable()();
+  IntColumn get durationMinutes => integer().nullable()();
+  IntColumn get mood => integer().nullable()();
+  TextColumn get notes => text().nullable()();
+  DateTimeColumn get createdAt => dateTime()();
 }

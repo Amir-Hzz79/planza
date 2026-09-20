@@ -3242,6 +3242,1790 @@ class GoalNotificationOverrideCompanion
   }
 }
 
+class $UserStatsTable extends UserStats
+    with TableInfo<$UserStatsTable, UserStat> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserStatsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _xpMeta = const VerificationMeta('xp');
+  @override
+  late final GeneratedColumn<int> xp = GeneratedColumn<int>(
+      'xp', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _levelMeta = const VerificationMeta('level');
+  @override
+  late final GeneratedColumn<int> level = GeneratedColumn<int>(
+      'level', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(1));
+  static const VerificationMeta _currentStreakMeta =
+      const VerificationMeta('currentStreak');
+  @override
+  late final GeneratedColumn<int> currentStreak = GeneratedColumn<int>(
+      'current_streak', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _longestStreakMeta =
+      const VerificationMeta('longestStreak');
+  @override
+  late final GeneratedColumn<int> longestStreak = GeneratedColumn<int>(
+      'longest_streak', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _lastActiveDateMeta =
+      const VerificationMeta('lastActiveDate');
+  @override
+  late final GeneratedColumn<DateTime> lastActiveDate =
+      GeneratedColumn<DateTime>('last_active_date', aliasedName, true,
+          type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _totalTasksCompletedMeta =
+      const VerificationMeta('totalTasksCompleted');
+  @override
+  late final GeneratedColumn<int> totalTasksCompleted = GeneratedColumn<int>(
+      'total_tasks_completed', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _totalGoalsCompletedMeta =
+      const VerificationMeta('totalGoalsCompleted');
+  @override
+  late final GeneratedColumn<int> totalGoalsCompleted = GeneratedColumn<int>(
+      'total_goals_completed', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _totalTemplatesCreatedMeta =
+      const VerificationMeta('totalTemplatesCreated');
+  @override
+  late final GeneratedColumn<int> totalTemplatesCreated = GeneratedColumn<int>(
+      'total_templates_created', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultValue: const Constant(0));
+  static const VerificationMeta _unlockedThemesMeta =
+      const VerificationMeta('unlockedThemes');
+  @override
+  late final GeneratedColumn<String> unlockedThemes = GeneratedColumn<String>(
+      'unlocked_themes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _unlockedIconsMeta =
+      const VerificationMeta('unlockedIcons');
+  @override
+  late final GeneratedColumn<String> unlockedIcons = GeneratedColumn<String>(
+      'unlocked_icons', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _unlockedAnimationsMeta =
+      const VerificationMeta('unlockedAnimations');
+  @override
+  late final GeneratedColumn<String> unlockedAnimations =
+      GeneratedColumn<String>('unlocked_animations', aliasedName, true,
+          type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        xp,
+        level,
+        currentStreak,
+        longestStreak,
+        lastActiveDate,
+        totalTasksCompleted,
+        totalGoalsCompleted,
+        totalTemplatesCreated,
+        unlockedThemes,
+        unlockedIcons,
+        unlockedAnimations,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user_stats';
+  @override
+  VerificationContext validateIntegrity(Insertable<UserStat> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('xp')) {
+      context.handle(_xpMeta, xp.isAcceptableOrUnknown(data['xp']!, _xpMeta));
+    }
+    if (data.containsKey('level')) {
+      context.handle(
+          _levelMeta, level.isAcceptableOrUnknown(data['level']!, _levelMeta));
+    }
+    if (data.containsKey('current_streak')) {
+      context.handle(
+          _currentStreakMeta,
+          currentStreak.isAcceptableOrUnknown(
+              data['current_streak']!, _currentStreakMeta));
+    }
+    if (data.containsKey('longest_streak')) {
+      context.handle(
+          _longestStreakMeta,
+          longestStreak.isAcceptableOrUnknown(
+              data['longest_streak']!, _longestStreakMeta));
+    }
+    if (data.containsKey('last_active_date')) {
+      context.handle(
+          _lastActiveDateMeta,
+          lastActiveDate.isAcceptableOrUnknown(
+              data['last_active_date']!, _lastActiveDateMeta));
+    }
+    if (data.containsKey('total_tasks_completed')) {
+      context.handle(
+          _totalTasksCompletedMeta,
+          totalTasksCompleted.isAcceptableOrUnknown(
+              data['total_tasks_completed']!, _totalTasksCompletedMeta));
+    }
+    if (data.containsKey('total_goals_completed')) {
+      context.handle(
+          _totalGoalsCompletedMeta,
+          totalGoalsCompleted.isAcceptableOrUnknown(
+              data['total_goals_completed']!, _totalGoalsCompletedMeta));
+    }
+    if (data.containsKey('total_templates_created')) {
+      context.handle(
+          _totalTemplatesCreatedMeta,
+          totalTemplatesCreated.isAcceptableOrUnknown(
+              data['total_templates_created']!, _totalTemplatesCreatedMeta));
+    }
+    if (data.containsKey('unlocked_themes')) {
+      context.handle(
+          _unlockedThemesMeta,
+          unlockedThemes.isAcceptableOrUnknown(
+              data['unlocked_themes']!, _unlockedThemesMeta));
+    }
+    if (data.containsKey('unlocked_icons')) {
+      context.handle(
+          _unlockedIconsMeta,
+          unlockedIcons.isAcceptableOrUnknown(
+              data['unlocked_icons']!, _unlockedIconsMeta));
+    }
+    if (data.containsKey('unlocked_animations')) {
+      context.handle(
+          _unlockedAnimationsMeta,
+          unlockedAnimations.isAcceptableOrUnknown(
+              data['unlocked_animations']!, _unlockedAnimationsMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  UserStat map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserStat(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      xp: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}xp'])!,
+      level: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}level'])!,
+      currentStreak: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}current_streak'])!,
+      longestStreak: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}longest_streak'])!,
+      lastActiveDate: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}last_active_date']),
+      totalTasksCompleted: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}total_tasks_completed'])!,
+      totalGoalsCompleted: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}total_goals_completed'])!,
+      totalTemplatesCreated: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}total_templates_created'])!,
+      unlockedThemes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}unlocked_themes']),
+      unlockedIcons: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}unlocked_icons']),
+      unlockedAnimations: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}unlocked_animations']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at']),
+    );
+  }
+
+  @override
+  $UserStatsTable createAlias(String alias) {
+    return $UserStatsTable(attachedDatabase, alias);
+  }
+}
+
+class UserStat extends DataClass implements Insertable<UserStat> {
+  final int id;
+  final int xp;
+  final int level;
+  final int currentStreak;
+  final int longestStreak;
+  final DateTime? lastActiveDate;
+  final int totalTasksCompleted;
+  final int totalGoalsCompleted;
+  final int totalTemplatesCreated;
+  final String? unlockedThemes;
+  final String? unlockedIcons;
+  final String? unlockedAnimations;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  const UserStat(
+      {required this.id,
+      required this.xp,
+      required this.level,
+      required this.currentStreak,
+      required this.longestStreak,
+      this.lastActiveDate,
+      required this.totalTasksCompleted,
+      required this.totalGoalsCompleted,
+      required this.totalTemplatesCreated,
+      this.unlockedThemes,
+      this.unlockedIcons,
+      this.unlockedAnimations,
+      required this.createdAt,
+      this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['xp'] = Variable<int>(xp);
+    map['level'] = Variable<int>(level);
+    map['current_streak'] = Variable<int>(currentStreak);
+    map['longest_streak'] = Variable<int>(longestStreak);
+    if (!nullToAbsent || lastActiveDate != null) {
+      map['last_active_date'] = Variable<DateTime>(lastActiveDate);
+    }
+    map['total_tasks_completed'] = Variable<int>(totalTasksCompleted);
+    map['total_goals_completed'] = Variable<int>(totalGoalsCompleted);
+    map['total_templates_created'] = Variable<int>(totalTemplatesCreated);
+    if (!nullToAbsent || unlockedThemes != null) {
+      map['unlocked_themes'] = Variable<String>(unlockedThemes);
+    }
+    if (!nullToAbsent || unlockedIcons != null) {
+      map['unlocked_icons'] = Variable<String>(unlockedIcons);
+    }
+    if (!nullToAbsent || unlockedAnimations != null) {
+      map['unlocked_animations'] = Variable<String>(unlockedAnimations);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  UserStatsCompanion toCompanion(bool nullToAbsent) {
+    return UserStatsCompanion(
+      id: Value(id),
+      xp: Value(xp),
+      level: Value(level),
+      currentStreak: Value(currentStreak),
+      longestStreak: Value(longestStreak),
+      lastActiveDate: lastActiveDate == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastActiveDate),
+      totalTasksCompleted: Value(totalTasksCompleted),
+      totalGoalsCompleted: Value(totalGoalsCompleted),
+      totalTemplatesCreated: Value(totalTemplatesCreated),
+      unlockedThemes: unlockedThemes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(unlockedThemes),
+      unlockedIcons: unlockedIcons == null && nullToAbsent
+          ? const Value.absent()
+          : Value(unlockedIcons),
+      unlockedAnimations: unlockedAnimations == null && nullToAbsent
+          ? const Value.absent()
+          : Value(unlockedAnimations),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory UserStat.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserStat(
+      id: serializer.fromJson<int>(json['id']),
+      xp: serializer.fromJson<int>(json['xp']),
+      level: serializer.fromJson<int>(json['level']),
+      currentStreak: serializer.fromJson<int>(json['currentStreak']),
+      longestStreak: serializer.fromJson<int>(json['longestStreak']),
+      lastActiveDate: serializer.fromJson<DateTime?>(json['lastActiveDate']),
+      totalTasksCompleted:
+          serializer.fromJson<int>(json['totalTasksCompleted']),
+      totalGoalsCompleted:
+          serializer.fromJson<int>(json['totalGoalsCompleted']),
+      totalTemplatesCreated:
+          serializer.fromJson<int>(json['totalTemplatesCreated']),
+      unlockedThemes: serializer.fromJson<String?>(json['unlockedThemes']),
+      unlockedIcons: serializer.fromJson<String?>(json['unlockedIcons']),
+      unlockedAnimations:
+          serializer.fromJson<String?>(json['unlockedAnimations']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'xp': serializer.toJson<int>(xp),
+      'level': serializer.toJson<int>(level),
+      'currentStreak': serializer.toJson<int>(currentStreak),
+      'longestStreak': serializer.toJson<int>(longestStreak),
+      'lastActiveDate': serializer.toJson<DateTime?>(lastActiveDate),
+      'totalTasksCompleted': serializer.toJson<int>(totalTasksCompleted),
+      'totalGoalsCompleted': serializer.toJson<int>(totalGoalsCompleted),
+      'totalTemplatesCreated': serializer.toJson<int>(totalTemplatesCreated),
+      'unlockedThemes': serializer.toJson<String?>(unlockedThemes),
+      'unlockedIcons': serializer.toJson<String?>(unlockedIcons),
+      'unlockedAnimations': serializer.toJson<String?>(unlockedAnimations),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  UserStat copyWith(
+          {int? id,
+          int? xp,
+          int? level,
+          int? currentStreak,
+          int? longestStreak,
+          Value<DateTime?> lastActiveDate = const Value.absent(),
+          int? totalTasksCompleted,
+          int? totalGoalsCompleted,
+          int? totalTemplatesCreated,
+          Value<String?> unlockedThemes = const Value.absent(),
+          Value<String?> unlockedIcons = const Value.absent(),
+          Value<String?> unlockedAnimations = const Value.absent(),
+          DateTime? createdAt,
+          Value<DateTime?> updatedAt = const Value.absent()}) =>
+      UserStat(
+        id: id ?? this.id,
+        xp: xp ?? this.xp,
+        level: level ?? this.level,
+        currentStreak: currentStreak ?? this.currentStreak,
+        longestStreak: longestStreak ?? this.longestStreak,
+        lastActiveDate:
+            lastActiveDate.present ? lastActiveDate.value : this.lastActiveDate,
+        totalTasksCompleted: totalTasksCompleted ?? this.totalTasksCompleted,
+        totalGoalsCompleted: totalGoalsCompleted ?? this.totalGoalsCompleted,
+        totalTemplatesCreated:
+            totalTemplatesCreated ?? this.totalTemplatesCreated,
+        unlockedThemes:
+            unlockedThemes.present ? unlockedThemes.value : this.unlockedThemes,
+        unlockedIcons:
+            unlockedIcons.present ? unlockedIcons.value : this.unlockedIcons,
+        unlockedAnimations: unlockedAnimations.present
+            ? unlockedAnimations.value
+            : this.unlockedAnimations,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+      );
+  UserStat copyWithCompanion(UserStatsCompanion data) {
+    return UserStat(
+      id: data.id.present ? data.id.value : this.id,
+      xp: data.xp.present ? data.xp.value : this.xp,
+      level: data.level.present ? data.level.value : this.level,
+      currentStreak: data.currentStreak.present
+          ? data.currentStreak.value
+          : this.currentStreak,
+      longestStreak: data.longestStreak.present
+          ? data.longestStreak.value
+          : this.longestStreak,
+      lastActiveDate: data.lastActiveDate.present
+          ? data.lastActiveDate.value
+          : this.lastActiveDate,
+      totalTasksCompleted: data.totalTasksCompleted.present
+          ? data.totalTasksCompleted.value
+          : this.totalTasksCompleted,
+      totalGoalsCompleted: data.totalGoalsCompleted.present
+          ? data.totalGoalsCompleted.value
+          : this.totalGoalsCompleted,
+      totalTemplatesCreated: data.totalTemplatesCreated.present
+          ? data.totalTemplatesCreated.value
+          : this.totalTemplatesCreated,
+      unlockedThemes: data.unlockedThemes.present
+          ? data.unlockedThemes.value
+          : this.unlockedThemes,
+      unlockedIcons: data.unlockedIcons.present
+          ? data.unlockedIcons.value
+          : this.unlockedIcons,
+      unlockedAnimations: data.unlockedAnimations.present
+          ? data.unlockedAnimations.value
+          : this.unlockedAnimations,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserStat(')
+          ..write('id: $id, ')
+          ..write('xp: $xp, ')
+          ..write('level: $level, ')
+          ..write('currentStreak: $currentStreak, ')
+          ..write('longestStreak: $longestStreak, ')
+          ..write('lastActiveDate: $lastActiveDate, ')
+          ..write('totalTasksCompleted: $totalTasksCompleted, ')
+          ..write('totalGoalsCompleted: $totalGoalsCompleted, ')
+          ..write('totalTemplatesCreated: $totalTemplatesCreated, ')
+          ..write('unlockedThemes: $unlockedThemes, ')
+          ..write('unlockedIcons: $unlockedIcons, ')
+          ..write('unlockedAnimations: $unlockedAnimations, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      xp,
+      level,
+      currentStreak,
+      longestStreak,
+      lastActiveDate,
+      totalTasksCompleted,
+      totalGoalsCompleted,
+      totalTemplatesCreated,
+      unlockedThemes,
+      unlockedIcons,
+      unlockedAnimations,
+      createdAt,
+      updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserStat &&
+          other.id == this.id &&
+          other.xp == this.xp &&
+          other.level == this.level &&
+          other.currentStreak == this.currentStreak &&
+          other.longestStreak == this.longestStreak &&
+          other.lastActiveDate == this.lastActiveDate &&
+          other.totalTasksCompleted == this.totalTasksCompleted &&
+          other.totalGoalsCompleted == this.totalGoalsCompleted &&
+          other.totalTemplatesCreated == this.totalTemplatesCreated &&
+          other.unlockedThemes == this.unlockedThemes &&
+          other.unlockedIcons == this.unlockedIcons &&
+          other.unlockedAnimations == this.unlockedAnimations &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class UserStatsCompanion extends UpdateCompanion<UserStat> {
+  final Value<int> id;
+  final Value<int> xp;
+  final Value<int> level;
+  final Value<int> currentStreak;
+  final Value<int> longestStreak;
+  final Value<DateTime?> lastActiveDate;
+  final Value<int> totalTasksCompleted;
+  final Value<int> totalGoalsCompleted;
+  final Value<int> totalTemplatesCreated;
+  final Value<String?> unlockedThemes;
+  final Value<String?> unlockedIcons;
+  final Value<String?> unlockedAnimations;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  const UserStatsCompanion({
+    this.id = const Value.absent(),
+    this.xp = const Value.absent(),
+    this.level = const Value.absent(),
+    this.currentStreak = const Value.absent(),
+    this.longestStreak = const Value.absent(),
+    this.lastActiveDate = const Value.absent(),
+    this.totalTasksCompleted = const Value.absent(),
+    this.totalGoalsCompleted = const Value.absent(),
+    this.totalTemplatesCreated = const Value.absent(),
+    this.unlockedThemes = const Value.absent(),
+    this.unlockedIcons = const Value.absent(),
+    this.unlockedAnimations = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  UserStatsCompanion.insert({
+    this.id = const Value.absent(),
+    this.xp = const Value.absent(),
+    this.level = const Value.absent(),
+    this.currentStreak = const Value.absent(),
+    this.longestStreak = const Value.absent(),
+    this.lastActiveDate = const Value.absent(),
+    this.totalTasksCompleted = const Value.absent(),
+    this.totalGoalsCompleted = const Value.absent(),
+    this.totalTemplatesCreated = const Value.absent(),
+    this.unlockedThemes = const Value.absent(),
+    this.unlockedIcons = const Value.absent(),
+    this.unlockedAnimations = const Value.absent(),
+    required DateTime createdAt,
+    this.updatedAt = const Value.absent(),
+  }) : createdAt = Value(createdAt);
+  static Insertable<UserStat> custom({
+    Expression<int>? id,
+    Expression<int>? xp,
+    Expression<int>? level,
+    Expression<int>? currentStreak,
+    Expression<int>? longestStreak,
+    Expression<DateTime>? lastActiveDate,
+    Expression<int>? totalTasksCompleted,
+    Expression<int>? totalGoalsCompleted,
+    Expression<int>? totalTemplatesCreated,
+    Expression<String>? unlockedThemes,
+    Expression<String>? unlockedIcons,
+    Expression<String>? unlockedAnimations,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (xp != null) 'xp': xp,
+      if (level != null) 'level': level,
+      if (currentStreak != null) 'current_streak': currentStreak,
+      if (longestStreak != null) 'longest_streak': longestStreak,
+      if (lastActiveDate != null) 'last_active_date': lastActiveDate,
+      if (totalTasksCompleted != null)
+        'total_tasks_completed': totalTasksCompleted,
+      if (totalGoalsCompleted != null)
+        'total_goals_completed': totalGoalsCompleted,
+      if (totalTemplatesCreated != null)
+        'total_templates_created': totalTemplatesCreated,
+      if (unlockedThemes != null) 'unlocked_themes': unlockedThemes,
+      if (unlockedIcons != null) 'unlocked_icons': unlockedIcons,
+      if (unlockedAnimations != null) 'unlocked_animations': unlockedAnimations,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  UserStatsCompanion copyWith(
+      {Value<int>? id,
+      Value<int>? xp,
+      Value<int>? level,
+      Value<int>? currentStreak,
+      Value<int>? longestStreak,
+      Value<DateTime?>? lastActiveDate,
+      Value<int>? totalTasksCompleted,
+      Value<int>? totalGoalsCompleted,
+      Value<int>? totalTemplatesCreated,
+      Value<String?>? unlockedThemes,
+      Value<String?>? unlockedIcons,
+      Value<String?>? unlockedAnimations,
+      Value<DateTime>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return UserStatsCompanion(
+      id: id ?? this.id,
+      xp: xp ?? this.xp,
+      level: level ?? this.level,
+      currentStreak: currentStreak ?? this.currentStreak,
+      longestStreak: longestStreak ?? this.longestStreak,
+      lastActiveDate: lastActiveDate ?? this.lastActiveDate,
+      totalTasksCompleted: totalTasksCompleted ?? this.totalTasksCompleted,
+      totalGoalsCompleted: totalGoalsCompleted ?? this.totalGoalsCompleted,
+      totalTemplatesCreated:
+          totalTemplatesCreated ?? this.totalTemplatesCreated,
+      unlockedThemes: unlockedThemes ?? this.unlockedThemes,
+      unlockedIcons: unlockedIcons ?? this.unlockedIcons,
+      unlockedAnimations: unlockedAnimations ?? this.unlockedAnimations,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (xp.present) {
+      map['xp'] = Variable<int>(xp.value);
+    }
+    if (level.present) {
+      map['level'] = Variable<int>(level.value);
+    }
+    if (currentStreak.present) {
+      map['current_streak'] = Variable<int>(currentStreak.value);
+    }
+    if (longestStreak.present) {
+      map['longest_streak'] = Variable<int>(longestStreak.value);
+    }
+    if (lastActiveDate.present) {
+      map['last_active_date'] = Variable<DateTime>(lastActiveDate.value);
+    }
+    if (totalTasksCompleted.present) {
+      map['total_tasks_completed'] = Variable<int>(totalTasksCompleted.value);
+    }
+    if (totalGoalsCompleted.present) {
+      map['total_goals_completed'] = Variable<int>(totalGoalsCompleted.value);
+    }
+    if (totalTemplatesCreated.present) {
+      map['total_templates_created'] =
+          Variable<int>(totalTemplatesCreated.value);
+    }
+    if (unlockedThemes.present) {
+      map['unlocked_themes'] = Variable<String>(unlockedThemes.value);
+    }
+    if (unlockedIcons.present) {
+      map['unlocked_icons'] = Variable<String>(unlockedIcons.value);
+    }
+    if (unlockedAnimations.present) {
+      map['unlocked_animations'] = Variable<String>(unlockedAnimations.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserStatsCompanion(')
+          ..write('id: $id, ')
+          ..write('xp: $xp, ')
+          ..write('level: $level, ')
+          ..write('currentStreak: $currentStreak, ')
+          ..write('longestStreak: $longestStreak, ')
+          ..write('lastActiveDate: $lastActiveDate, ')
+          ..write('totalTasksCompleted: $totalTasksCompleted, ')
+          ..write('totalGoalsCompleted: $totalGoalsCompleted, ')
+          ..write('totalTemplatesCreated: $totalTemplatesCreated, ')
+          ..write('unlockedThemes: $unlockedThemes, ')
+          ..write('unlockedIcons: $unlockedIcons, ')
+          ..write('unlockedAnimations: $unlockedAnimations, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $HobbiesTable extends Hobbies with TableInfo<$HobbiesTable, Hobby> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $HobbiesTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _nameMeta = const VerificationMeta('name');
+  @override
+  late final GeneratedColumn<String> name = GeneratedColumn<String>(
+      'name', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 255),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  @override
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _categoryMeta =
+      const VerificationMeta('category');
+  @override
+  late final GeneratedColumn<String> category = GeneratedColumn<String>(
+      'category', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 1, maxTextLength: 100),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _iconMeta = const VerificationMeta('icon');
+  @override
+  late final GeneratedColumn<int> icon = GeneratedColumn<int>(
+      'icon', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _colorMeta = const VerificationMeta('color');
+  @override
+  late final GeneratedColumn<int> color = GeneratedColumn<int>(
+      'color', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _frequencyMeta =
+      const VerificationMeta('frequency');
+  @override
+  late final GeneratedColumn<String> frequency = GeneratedColumn<String>(
+      'frequency', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      defaultValue: const Constant('daily'));
+  static const VerificationMeta _customFrequencyJsonMeta =
+      const VerificationMeta('customFrequencyJson');
+  @override
+  late final GeneratedColumn<String> customFrequencyJson =
+      GeneratedColumn<String>('custom_frequency_json', aliasedName, true,
+          type: DriftSqlType.string,
+          requiredDuringInsert: false,
+          defaultValue: const Constant(''));
+  static const VerificationMeta _targetDurationMinutesMeta =
+      const VerificationMeta('targetDurationMinutes');
+  @override
+  late final GeneratedColumn<int> targetDurationMinutes = GeneratedColumn<int>(
+      'target_duration_minutes', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _goalIdMeta = const VerificationMeta('goalId');
+  @override
+  late final GeneratedColumn<int> goalId = GeneratedColumn<int>(
+      'goal_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'REFERENCES goals(id)');
+  static const VerificationMeta _isActiveMeta =
+      const VerificationMeta('isActive');
+  @override
+  late final GeneratedColumn<bool> isActive = GeneratedColumn<bool>(
+      'is_active', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('CHECK ("is_active" IN (0, 1))'),
+      defaultValue: const Constant(true));
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  @override
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        name,
+        description,
+        category,
+        icon,
+        color,
+        frequency,
+        customFrequencyJson,
+        targetDurationMinutes,
+        goalId,
+        isActive,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'hobbies';
+  @override
+  VerificationContext validateIntegrity(Insertable<Hobby> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('name')) {
+      context.handle(
+          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+    } else if (isInserting) {
+      context.missing(_nameMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('category')) {
+      context.handle(_categoryMeta,
+          category.isAcceptableOrUnknown(data['category']!, _categoryMeta));
+    } else if (isInserting) {
+      context.missing(_categoryMeta);
+    }
+    if (data.containsKey('icon')) {
+      context.handle(
+          _iconMeta, icon.isAcceptableOrUnknown(data['icon']!, _iconMeta));
+    }
+    if (data.containsKey('color')) {
+      context.handle(
+          _colorMeta, color.isAcceptableOrUnknown(data['color']!, _colorMeta));
+    }
+    if (data.containsKey('frequency')) {
+      context.handle(_frequencyMeta,
+          frequency.isAcceptableOrUnknown(data['frequency']!, _frequencyMeta));
+    }
+    if (data.containsKey('custom_frequency_json')) {
+      context.handle(
+          _customFrequencyJsonMeta,
+          customFrequencyJson.isAcceptableOrUnknown(
+              data['custom_frequency_json']!, _customFrequencyJsonMeta));
+    }
+    if (data.containsKey('target_duration_minutes')) {
+      context.handle(
+          _targetDurationMinutesMeta,
+          targetDurationMinutes.isAcceptableOrUnknown(
+              data['target_duration_minutes']!, _targetDurationMinutesMeta));
+    }
+    if (data.containsKey('goal_id')) {
+      context.handle(_goalIdMeta,
+          goalId.isAcceptableOrUnknown(data['goal_id']!, _goalIdMeta));
+    }
+    if (data.containsKey('is_active')) {
+      context.handle(_isActiveMeta,
+          isActive.isAcceptableOrUnknown(data['is_active']!, _isActiveMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  Hobby map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return Hobby(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      name: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      category: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}category'])!,
+      icon: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}icon']),
+      color: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}color']),
+      frequency: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}frequency'])!,
+      customFrequencyJson: attachedDatabase.typeMapping.read(
+          DriftSqlType.string, data['${effectivePrefix}custom_frequency_json']),
+      targetDurationMinutes: attachedDatabase.typeMapping.read(
+          DriftSqlType.int, data['${effectivePrefix}target_duration_minutes']),
+      goalId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}goal_id']),
+      isActive: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_active'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at']),
+    );
+  }
+
+  @override
+  $HobbiesTable createAlias(String alias) {
+    return $HobbiesTable(attachedDatabase, alias);
+  }
+}
+
+class Hobby extends DataClass implements Insertable<Hobby> {
+  final int id;
+  final String name;
+  final String? description;
+  final String category;
+  final int? icon;
+  final int? color;
+  final String frequency;
+  final String? customFrequencyJson;
+  final int? targetDurationMinutes;
+  final int? goalId;
+  final bool isActive;
+  final DateTime createdAt;
+  final DateTime? updatedAt;
+  const Hobby(
+      {required this.id,
+      required this.name,
+      this.description,
+      required this.category,
+      this.icon,
+      this.color,
+      required this.frequency,
+      this.customFrequencyJson,
+      this.targetDurationMinutes,
+      this.goalId,
+      required this.isActive,
+      required this.createdAt,
+      this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['name'] = Variable<String>(name);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['category'] = Variable<String>(category);
+    if (!nullToAbsent || icon != null) {
+      map['icon'] = Variable<int>(icon);
+    }
+    if (!nullToAbsent || color != null) {
+      map['color'] = Variable<int>(color);
+    }
+    map['frequency'] = Variable<String>(frequency);
+    if (!nullToAbsent || customFrequencyJson != null) {
+      map['custom_frequency_json'] = Variable<String>(customFrequencyJson);
+    }
+    if (!nullToAbsent || targetDurationMinutes != null) {
+      map['target_duration_minutes'] = Variable<int>(targetDurationMinutes);
+    }
+    if (!nullToAbsent || goalId != null) {
+      map['goal_id'] = Variable<int>(goalId);
+    }
+    map['is_active'] = Variable<bool>(isActive);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    if (!nullToAbsent || updatedAt != null) {
+      map['updated_at'] = Variable<DateTime>(updatedAt);
+    }
+    return map;
+  }
+
+  HobbiesCompanion toCompanion(bool nullToAbsent) {
+    return HobbiesCompanion(
+      id: Value(id),
+      name: Value(name),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      category: Value(category),
+      icon: icon == null && nullToAbsent ? const Value.absent() : Value(icon),
+      color:
+          color == null && nullToAbsent ? const Value.absent() : Value(color),
+      frequency: Value(frequency),
+      customFrequencyJson: customFrequencyJson == null && nullToAbsent
+          ? const Value.absent()
+          : Value(customFrequencyJson),
+      targetDurationMinutes: targetDurationMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(targetDurationMinutes),
+      goalId:
+          goalId == null && nullToAbsent ? const Value.absent() : Value(goalId),
+      isActive: Value(isActive),
+      createdAt: Value(createdAt),
+      updatedAt: updatedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(updatedAt),
+    );
+  }
+
+  factory Hobby.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Hobby(
+      id: serializer.fromJson<int>(json['id']),
+      name: serializer.fromJson<String>(json['name']),
+      description: serializer.fromJson<String?>(json['description']),
+      category: serializer.fromJson<String>(json['category']),
+      icon: serializer.fromJson<int?>(json['icon']),
+      color: serializer.fromJson<int?>(json['color']),
+      frequency: serializer.fromJson<String>(json['frequency']),
+      customFrequencyJson:
+          serializer.fromJson<String?>(json['customFrequencyJson']),
+      targetDurationMinutes:
+          serializer.fromJson<int?>(json['targetDurationMinutes']),
+      goalId: serializer.fromJson<int?>(json['goalId']),
+      isActive: serializer.fromJson<bool>(json['isActive']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+      updatedAt: serializer.fromJson<DateTime?>(json['updatedAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'name': serializer.toJson<String>(name),
+      'description': serializer.toJson<String?>(description),
+      'category': serializer.toJson<String>(category),
+      'icon': serializer.toJson<int?>(icon),
+      'color': serializer.toJson<int?>(color),
+      'frequency': serializer.toJson<String>(frequency),
+      'customFrequencyJson': serializer.toJson<String?>(customFrequencyJson),
+      'targetDurationMinutes': serializer.toJson<int?>(targetDurationMinutes),
+      'goalId': serializer.toJson<int?>(goalId),
+      'isActive': serializer.toJson<bool>(isActive),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+      'updatedAt': serializer.toJson<DateTime?>(updatedAt),
+    };
+  }
+
+  Hobby copyWith(
+          {int? id,
+          String? name,
+          Value<String?> description = const Value.absent(),
+          String? category,
+          Value<int?> icon = const Value.absent(),
+          Value<int?> color = const Value.absent(),
+          String? frequency,
+          Value<String?> customFrequencyJson = const Value.absent(),
+          Value<int?> targetDurationMinutes = const Value.absent(),
+          Value<int?> goalId = const Value.absent(),
+          bool? isActive,
+          DateTime? createdAt,
+          Value<DateTime?> updatedAt = const Value.absent()}) =>
+      Hobby(
+        id: id ?? this.id,
+        name: name ?? this.name,
+        description: description.present ? description.value : this.description,
+        category: category ?? this.category,
+        icon: icon.present ? icon.value : this.icon,
+        color: color.present ? color.value : this.color,
+        frequency: frequency ?? this.frequency,
+        customFrequencyJson: customFrequencyJson.present
+            ? customFrequencyJson.value
+            : this.customFrequencyJson,
+        targetDurationMinutes: targetDurationMinutes.present
+            ? targetDurationMinutes.value
+            : this.targetDurationMinutes,
+        goalId: goalId.present ? goalId.value : this.goalId,
+        isActive: isActive ?? this.isActive,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt.present ? updatedAt.value : this.updatedAt,
+      );
+  Hobby copyWithCompanion(HobbiesCompanion data) {
+    return Hobby(
+      id: data.id.present ? data.id.value : this.id,
+      name: data.name.present ? data.name.value : this.name,
+      description:
+          data.description.present ? data.description.value : this.description,
+      category: data.category.present ? data.category.value : this.category,
+      icon: data.icon.present ? data.icon.value : this.icon,
+      color: data.color.present ? data.color.value : this.color,
+      frequency: data.frequency.present ? data.frequency.value : this.frequency,
+      customFrequencyJson: data.customFrequencyJson.present
+          ? data.customFrequencyJson.value
+          : this.customFrequencyJson,
+      targetDurationMinutes: data.targetDurationMinutes.present
+          ? data.targetDurationMinutes.value
+          : this.targetDurationMinutes,
+      goalId: data.goalId.present ? data.goalId.value : this.goalId,
+      isActive: data.isActive.present ? data.isActive.value : this.isActive,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Hobby(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('category: $category, ')
+          ..write('icon: $icon, ')
+          ..write('color: $color, ')
+          ..write('frequency: $frequency, ')
+          ..write('customFrequencyJson: $customFrequencyJson, ')
+          ..write('targetDurationMinutes: $targetDurationMinutes, ')
+          ..write('goalId: $goalId, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id,
+      name,
+      description,
+      category,
+      icon,
+      color,
+      frequency,
+      customFrequencyJson,
+      targetDurationMinutes,
+      goalId,
+      isActive,
+      createdAt,
+      updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Hobby &&
+          other.id == this.id &&
+          other.name == this.name &&
+          other.description == this.description &&
+          other.category == this.category &&
+          other.icon == this.icon &&
+          other.color == this.color &&
+          other.frequency == this.frequency &&
+          other.customFrequencyJson == this.customFrequencyJson &&
+          other.targetDurationMinutes == this.targetDurationMinutes &&
+          other.goalId == this.goalId &&
+          other.isActive == this.isActive &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class HobbiesCompanion extends UpdateCompanion<Hobby> {
+  final Value<int> id;
+  final Value<String> name;
+  final Value<String?> description;
+  final Value<String> category;
+  final Value<int?> icon;
+  final Value<int?> color;
+  final Value<String> frequency;
+  final Value<String?> customFrequencyJson;
+  final Value<int?> targetDurationMinutes;
+  final Value<int?> goalId;
+  final Value<bool> isActive;
+  final Value<DateTime> createdAt;
+  final Value<DateTime?> updatedAt;
+  const HobbiesCompanion({
+    this.id = const Value.absent(),
+    this.name = const Value.absent(),
+    this.description = const Value.absent(),
+    this.category = const Value.absent(),
+    this.icon = const Value.absent(),
+    this.color = const Value.absent(),
+    this.frequency = const Value.absent(),
+    this.customFrequencyJson = const Value.absent(),
+    this.targetDurationMinutes = const Value.absent(),
+    this.goalId = const Value.absent(),
+    this.isActive = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  HobbiesCompanion.insert({
+    this.id = const Value.absent(),
+    required String name,
+    this.description = const Value.absent(),
+    required String category,
+    this.icon = const Value.absent(),
+    this.color = const Value.absent(),
+    this.frequency = const Value.absent(),
+    this.customFrequencyJson = const Value.absent(),
+    this.targetDurationMinutes = const Value.absent(),
+    this.goalId = const Value.absent(),
+    this.isActive = const Value.absent(),
+    required DateTime createdAt,
+    this.updatedAt = const Value.absent(),
+  })  : name = Value(name),
+        category = Value(category),
+        createdAt = Value(createdAt);
+  static Insertable<Hobby> custom({
+    Expression<int>? id,
+    Expression<String>? name,
+    Expression<String>? description,
+    Expression<String>? category,
+    Expression<int>? icon,
+    Expression<int>? color,
+    Expression<String>? frequency,
+    Expression<String>? customFrequencyJson,
+    Expression<int>? targetDurationMinutes,
+    Expression<int>? goalId,
+    Expression<bool>? isActive,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (name != null) 'name': name,
+      if (description != null) 'description': description,
+      if (category != null) 'category': category,
+      if (icon != null) 'icon': icon,
+      if (color != null) 'color': color,
+      if (frequency != null) 'frequency': frequency,
+      if (customFrequencyJson != null)
+        'custom_frequency_json': customFrequencyJson,
+      if (targetDurationMinutes != null)
+        'target_duration_minutes': targetDurationMinutes,
+      if (goalId != null) 'goal_id': goalId,
+      if (isActive != null) 'is_active': isActive,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  HobbiesCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? name,
+      Value<String?>? description,
+      Value<String>? category,
+      Value<int?>? icon,
+      Value<int?>? color,
+      Value<String>? frequency,
+      Value<String?>? customFrequencyJson,
+      Value<int?>? targetDurationMinutes,
+      Value<int?>? goalId,
+      Value<bool>? isActive,
+      Value<DateTime>? createdAt,
+      Value<DateTime?>? updatedAt}) {
+    return HobbiesCompanion(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      description: description ?? this.description,
+      category: category ?? this.category,
+      icon: icon ?? this.icon,
+      color: color ?? this.color,
+      frequency: frequency ?? this.frequency,
+      customFrequencyJson: customFrequencyJson ?? this.customFrequencyJson,
+      targetDurationMinutes:
+          targetDurationMinutes ?? this.targetDurationMinutes,
+      goalId: goalId ?? this.goalId,
+      isActive: isActive ?? this.isActive,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (name.present) {
+      map['name'] = Variable<String>(name.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (category.present) {
+      map['category'] = Variable<String>(category.value);
+    }
+    if (icon.present) {
+      map['icon'] = Variable<int>(icon.value);
+    }
+    if (color.present) {
+      map['color'] = Variable<int>(color.value);
+    }
+    if (frequency.present) {
+      map['frequency'] = Variable<String>(frequency.value);
+    }
+    if (customFrequencyJson.present) {
+      map['custom_frequency_json'] =
+          Variable<String>(customFrequencyJson.value);
+    }
+    if (targetDurationMinutes.present) {
+      map['target_duration_minutes'] =
+          Variable<int>(targetDurationMinutes.value);
+    }
+    if (goalId.present) {
+      map['goal_id'] = Variable<int>(goalId.value);
+    }
+    if (isActive.present) {
+      map['is_active'] = Variable<bool>(isActive.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HobbiesCompanion(')
+          ..write('id: $id, ')
+          ..write('name: $name, ')
+          ..write('description: $description, ')
+          ..write('category: $category, ')
+          ..write('icon: $icon, ')
+          ..write('color: $color, ')
+          ..write('frequency: $frequency, ')
+          ..write('customFrequencyJson: $customFrequencyJson, ')
+          ..write('targetDurationMinutes: $targetDurationMinutes, ')
+          ..write('goalId: $goalId, ')
+          ..write('isActive: $isActive, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class $HobbySessionsTable extends HobbySessions
+    with TableInfo<$HobbySessionsTable, HobbySession> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $HobbySessionsTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  @override
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _hobbyIdMeta =
+      const VerificationMeta('hobbyId');
+  @override
+  late final GeneratedColumn<int> hobbyId = GeneratedColumn<int>(
+      'hobby_id', aliasedName, true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'REFERENCES hobbies(id)');
+  static const VerificationMeta _startTimeMeta =
+      const VerificationMeta('startTime');
+  @override
+  late final GeneratedColumn<DateTime> startTime = GeneratedColumn<DateTime>(
+      'start_time', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _endTimeMeta =
+      const VerificationMeta('endTime');
+  @override
+  late final GeneratedColumn<DateTime> endTime = GeneratedColumn<DateTime>(
+      'end_time', aliasedName, true,
+      type: DriftSqlType.dateTime, requiredDuringInsert: false);
+  static const VerificationMeta _durationMinutesMeta =
+      const VerificationMeta('durationMinutes');
+  @override
+  late final GeneratedColumn<int> durationMinutes = GeneratedColumn<int>(
+      'duration_minutes', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _moodMeta = const VerificationMeta('mood');
+  @override
+  late final GeneratedColumn<int> mood = GeneratedColumn<int>(
+      'mood', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false);
+  static const VerificationMeta _notesMeta = const VerificationMeta('notes');
+  @override
+  late final GeneratedColumn<String> notes = GeneratedColumn<String>(
+      'notes', aliasedName, true,
+      type: DriftSqlType.string, requiredDuringInsert: false);
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  @override
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        hobbyId,
+        startTime,
+        endTime,
+        durationMinutes,
+        mood,
+        notes,
+        createdAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'hobby_sessions';
+  @override
+  VerificationContext validateIntegrity(Insertable<HobbySession> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('hobby_id')) {
+      context.handle(_hobbyIdMeta,
+          hobbyId.isAcceptableOrUnknown(data['hobby_id']!, _hobbyIdMeta));
+    }
+    if (data.containsKey('start_time')) {
+      context.handle(_startTimeMeta,
+          startTime.isAcceptableOrUnknown(data['start_time']!, _startTimeMeta));
+    } else if (isInserting) {
+      context.missing(_startTimeMeta);
+    }
+    if (data.containsKey('end_time')) {
+      context.handle(_endTimeMeta,
+          endTime.isAcceptableOrUnknown(data['end_time']!, _endTimeMeta));
+    }
+    if (data.containsKey('duration_minutes')) {
+      context.handle(
+          _durationMinutesMeta,
+          durationMinutes.isAcceptableOrUnknown(
+              data['duration_minutes']!, _durationMinutesMeta));
+    }
+    if (data.containsKey('mood')) {
+      context.handle(
+          _moodMeta, mood.isAcceptableOrUnknown(data['mood']!, _moodMeta));
+    }
+    if (data.containsKey('notes')) {
+      context.handle(
+          _notesMeta, notes.isAcceptableOrUnknown(data['notes']!, _notesMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  HobbySession map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return HobbySession(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      hobbyId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}hobby_id']),
+      startTime: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}start_time'])!,
+      endTime: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}end_time']),
+      durationMinutes: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}duration_minutes']),
+      mood: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}mood']),
+      notes: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}notes']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+    );
+  }
+
+  @override
+  $HobbySessionsTable createAlias(String alias) {
+    return $HobbySessionsTable(attachedDatabase, alias);
+  }
+}
+
+class HobbySession extends DataClass implements Insertable<HobbySession> {
+  final int id;
+  final int? hobbyId;
+  final DateTime startTime;
+  final DateTime? endTime;
+  final int? durationMinutes;
+  final int? mood;
+  final String? notes;
+  final DateTime createdAt;
+  const HobbySession(
+      {required this.id,
+      this.hobbyId,
+      required this.startTime,
+      this.endTime,
+      this.durationMinutes,
+      this.mood,
+      this.notes,
+      required this.createdAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    if (!nullToAbsent || hobbyId != null) {
+      map['hobby_id'] = Variable<int>(hobbyId);
+    }
+    map['start_time'] = Variable<DateTime>(startTime);
+    if (!nullToAbsent || endTime != null) {
+      map['end_time'] = Variable<DateTime>(endTime);
+    }
+    if (!nullToAbsent || durationMinutes != null) {
+      map['duration_minutes'] = Variable<int>(durationMinutes);
+    }
+    if (!nullToAbsent || mood != null) {
+      map['mood'] = Variable<int>(mood);
+    }
+    if (!nullToAbsent || notes != null) {
+      map['notes'] = Variable<String>(notes);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    return map;
+  }
+
+  HobbySessionsCompanion toCompanion(bool nullToAbsent) {
+    return HobbySessionsCompanion(
+      id: Value(id),
+      hobbyId: hobbyId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(hobbyId),
+      startTime: Value(startTime),
+      endTime: endTime == null && nullToAbsent
+          ? const Value.absent()
+          : Value(endTime),
+      durationMinutes: durationMinutes == null && nullToAbsent
+          ? const Value.absent()
+          : Value(durationMinutes),
+      mood: mood == null && nullToAbsent ? const Value.absent() : Value(mood),
+      notes:
+          notes == null && nullToAbsent ? const Value.absent() : Value(notes),
+      createdAt: Value(createdAt),
+    );
+  }
+
+  factory HobbySession.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return HobbySession(
+      id: serializer.fromJson<int>(json['id']),
+      hobbyId: serializer.fromJson<int?>(json['hobbyId']),
+      startTime: serializer.fromJson<DateTime>(json['startTime']),
+      endTime: serializer.fromJson<DateTime?>(json['endTime']),
+      durationMinutes: serializer.fromJson<int?>(json['durationMinutes']),
+      mood: serializer.fromJson<int?>(json['mood']),
+      notes: serializer.fromJson<String?>(json['notes']),
+      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'hobbyId': serializer.toJson<int?>(hobbyId),
+      'startTime': serializer.toJson<DateTime>(startTime),
+      'endTime': serializer.toJson<DateTime?>(endTime),
+      'durationMinutes': serializer.toJson<int?>(durationMinutes),
+      'mood': serializer.toJson<int?>(mood),
+      'notes': serializer.toJson<String?>(notes),
+      'createdAt': serializer.toJson<DateTime>(createdAt),
+    };
+  }
+
+  HobbySession copyWith(
+          {int? id,
+          Value<int?> hobbyId = const Value.absent(),
+          DateTime? startTime,
+          Value<DateTime?> endTime = const Value.absent(),
+          Value<int?> durationMinutes = const Value.absent(),
+          Value<int?> mood = const Value.absent(),
+          Value<String?> notes = const Value.absent(),
+          DateTime? createdAt}) =>
+      HobbySession(
+        id: id ?? this.id,
+        hobbyId: hobbyId.present ? hobbyId.value : this.hobbyId,
+        startTime: startTime ?? this.startTime,
+        endTime: endTime.present ? endTime.value : this.endTime,
+        durationMinutes: durationMinutes.present
+            ? durationMinutes.value
+            : this.durationMinutes,
+        mood: mood.present ? mood.value : this.mood,
+        notes: notes.present ? notes.value : this.notes,
+        createdAt: createdAt ?? this.createdAt,
+      );
+  HobbySession copyWithCompanion(HobbySessionsCompanion data) {
+    return HobbySession(
+      id: data.id.present ? data.id.value : this.id,
+      hobbyId: data.hobbyId.present ? data.hobbyId.value : this.hobbyId,
+      startTime: data.startTime.present ? data.startTime.value : this.startTime,
+      endTime: data.endTime.present ? data.endTime.value : this.endTime,
+      durationMinutes: data.durationMinutes.present
+          ? data.durationMinutes.value
+          : this.durationMinutes,
+      mood: data.mood.present ? data.mood.value : this.mood,
+      notes: data.notes.present ? data.notes.value : this.notes,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HobbySession(')
+          ..write('id: $id, ')
+          ..write('hobbyId: $hobbyId, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime, ')
+          ..write('durationMinutes: $durationMinutes, ')
+          ..write('mood: $mood, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      id, hobbyId, startTime, endTime, durationMinutes, mood, notes, createdAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is HobbySession &&
+          other.id == this.id &&
+          other.hobbyId == this.hobbyId &&
+          other.startTime == this.startTime &&
+          other.endTime == this.endTime &&
+          other.durationMinutes == this.durationMinutes &&
+          other.mood == this.mood &&
+          other.notes == this.notes &&
+          other.createdAt == this.createdAt);
+}
+
+class HobbySessionsCompanion extends UpdateCompanion<HobbySession> {
+  final Value<int> id;
+  final Value<int?> hobbyId;
+  final Value<DateTime> startTime;
+  final Value<DateTime?> endTime;
+  final Value<int?> durationMinutes;
+  final Value<int?> mood;
+  final Value<String?> notes;
+  final Value<DateTime> createdAt;
+  const HobbySessionsCompanion({
+    this.id = const Value.absent(),
+    this.hobbyId = const Value.absent(),
+    this.startTime = const Value.absent(),
+    this.endTime = const Value.absent(),
+    this.durationMinutes = const Value.absent(),
+    this.mood = const Value.absent(),
+    this.notes = const Value.absent(),
+    this.createdAt = const Value.absent(),
+  });
+  HobbySessionsCompanion.insert({
+    this.id = const Value.absent(),
+    this.hobbyId = const Value.absent(),
+    required DateTime startTime,
+    this.endTime = const Value.absent(),
+    this.durationMinutes = const Value.absent(),
+    this.mood = const Value.absent(),
+    this.notes = const Value.absent(),
+    required DateTime createdAt,
+  })  : startTime = Value(startTime),
+        createdAt = Value(createdAt);
+  static Insertable<HobbySession> custom({
+    Expression<int>? id,
+    Expression<int>? hobbyId,
+    Expression<DateTime>? startTime,
+    Expression<DateTime>? endTime,
+    Expression<int>? durationMinutes,
+    Expression<int>? mood,
+    Expression<String>? notes,
+    Expression<DateTime>? createdAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (hobbyId != null) 'hobby_id': hobbyId,
+      if (startTime != null) 'start_time': startTime,
+      if (endTime != null) 'end_time': endTime,
+      if (durationMinutes != null) 'duration_minutes': durationMinutes,
+      if (mood != null) 'mood': mood,
+      if (notes != null) 'notes': notes,
+      if (createdAt != null) 'created_at': createdAt,
+    });
+  }
+
+  HobbySessionsCompanion copyWith(
+      {Value<int>? id,
+      Value<int?>? hobbyId,
+      Value<DateTime>? startTime,
+      Value<DateTime?>? endTime,
+      Value<int?>? durationMinutes,
+      Value<int?>? mood,
+      Value<String?>? notes,
+      Value<DateTime>? createdAt}) {
+    return HobbySessionsCompanion(
+      id: id ?? this.id,
+      hobbyId: hobbyId ?? this.hobbyId,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+      durationMinutes: durationMinutes ?? this.durationMinutes,
+      mood: mood ?? this.mood,
+      notes: notes ?? this.notes,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (hobbyId.present) {
+      map['hobby_id'] = Variable<int>(hobbyId.value);
+    }
+    if (startTime.present) {
+      map['start_time'] = Variable<DateTime>(startTime.value);
+    }
+    if (endTime.present) {
+      map['end_time'] = Variable<DateTime>(endTime.value);
+    }
+    if (durationMinutes.present) {
+      map['duration_minutes'] = Variable<int>(durationMinutes.value);
+    }
+    if (mood.present) {
+      map['mood'] = Variable<int>(mood.value);
+    }
+    if (notes.present) {
+      map['notes'] = Variable<String>(notes.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('HobbySessionsCompanion(')
+          ..write('id: $id, ')
+          ..write('hobbyId: $hobbyId, ')
+          ..write('startTime: $startTime, ')
+          ..write('endTime: $endTime, ')
+          ..write('durationMinutes: $durationMinutes, ')
+          ..write('mood: $mood, ')
+          ..write('notes: $notes, ')
+          ..write('createdAt: $createdAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
@@ -3256,12 +5040,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       $NotificationPrefsTable(this);
   late final $GoalNotificationOverrideTable goalNotificationOverride =
       $GoalNotificationOverrideTable(this);
+  late final $UserStatsTable userStats = $UserStatsTable(this);
+  late final $HobbiesTable hobbies = $HobbiesTable(this);
+  late final $HobbySessionsTable hobbySessions = $HobbySessionsTable(this);
   late final TaskDao taskDao = TaskDao(this as AppDatabase);
   late final TagDao tagDao = TagDao(this as AppDatabase);
   late final UserSettingsDao userSettingsDao =
       UserSettingsDao(this as AppDatabase);
   late final GoalDao goalDao = GoalDao(this as AppDatabase);
   late final TemplateDao templateDao = TemplateDao(this as AppDatabase);
+  late final HobbiesDao hobbiesDao = HobbiesDao(this as AppDatabase);
+  late final HobbySessionsDao hobbySessionsDao =
+      HobbySessionsDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
@@ -3275,7 +5065,10 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         userSettings,
         templates,
         notificationPrefs,
-        goalNotificationOverride
+        goalNotificationOverride,
+        userStats,
+        hobbies,
+        hobbySessions
       ];
 }
 
@@ -3331,6 +5124,20 @@ final class $$GoalsTableReferences
 
     final cache =
         $_typedResult.readTableOrNull(_goalNotificationOverrideRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<$HobbiesTable, List<Hobby>> _hobbiesRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.hobbies,
+          aliasName: $_aliasNameGenerator(db.goals.id, db.hobbies.goalId));
+
+  $$HobbiesTableProcessedTableManager get hobbiesRefs {
+    final manager = $$HobbiesTableTableManager($_db, $_db.hobbies)
+        .filter((f) => f.goalId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_hobbiesRefsTable($_db));
     return ProcessedTableManager(
         manager.$state.copyWith(prefetchedData: cache));
   }
@@ -3406,6 +5213,27 @@ class $$GoalsTableFilterComposer extends Composer<_$AppDatabase, $GoalsTable> {
                   $removeJoinBuilderFromRootComposer:
                       $removeJoinBuilderFromRootComposer,
                 ));
+    return f(composer);
+  }
+
+  Expression<bool> hobbiesRefs(
+      Expression<bool> Function($$HobbiesTableFilterComposer f) f) {
+    final $$HobbiesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.hobbies,
+        getReferencedColumn: (t) => t.goalId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$HobbiesTableFilterComposer(
+              $db: $db,
+              $table: $db.hobbies,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
     return f(composer);
   }
 }
@@ -3516,6 +5344,27 @@ class $$GoalsTableAnnotationComposer
                 ));
     return f(composer);
   }
+
+  Expression<T> hobbiesRefs<T extends Object>(
+      Expression<T> Function($$HobbiesTableAnnotationComposer a) f) {
+    final $$HobbiesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.hobbies,
+        getReferencedColumn: (t) => t.goalId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$HobbiesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.hobbies,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
 }
 
 class $$GoalsTableTableManager extends RootTableManager<
@@ -3530,7 +5379,9 @@ class $$GoalsTableTableManager extends RootTableManager<
     (Goal, $$GoalsTableReferences),
     Goal,
     PrefetchHooks Function(
-        {bool tasksRefs, bool goalNotificationOverrideRefs})> {
+        {bool tasksRefs,
+        bool goalNotificationOverrideRefs,
+        bool hobbiesRefs})> {
   $$GoalsTableTableManager(_$AppDatabase db, $GoalsTable table)
       : super(TableManagerState(
           db: db,
@@ -3582,12 +5433,15 @@ class $$GoalsTableTableManager extends RootTableManager<
                   (e.readTable(table), $$GoalsTableReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: (
-              {tasksRefs = false, goalNotificationOverrideRefs = false}) {
+              {tasksRefs = false,
+              goalNotificationOverrideRefs = false,
+              hobbiesRefs = false}) {
             return PrefetchHooks(
               db: db,
               explicitlyWatchedTables: [
                 if (tasksRefs) db.tasks,
-                if (goalNotificationOverrideRefs) db.goalNotificationOverride
+                if (goalNotificationOverrideRefs) db.goalNotificationOverride,
+                if (hobbiesRefs) db.hobbies
               ],
               addJoins: null,
               getPrefetchedDataCallback: (items) async {
@@ -3615,6 +5469,17 @@ class $$GoalsTableTableManager extends RootTableManager<
                         referencedItemsForCurrentItem: (item,
                                 referencedItems) =>
                             referencedItems.where((e) => e.goalId == item.id),
+                        typedResults: items),
+                  if (hobbiesRefs)
+                    await $_getPrefetchedData<Goal, $GoalsTable, Hobby>(
+                        currentTable: table,
+                        referencedTable:
+                            $$GoalsTableReferences._hobbiesRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$GoalsTableReferences(db, table, p0).hobbiesRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.goalId == item.id),
                         typedResults: items)
                 ];
               },
@@ -3635,7 +5500,7 @@ typedef $$GoalsTableProcessedTableManager = ProcessedTableManager<
     (Goal, $$GoalsTableReferences),
     Goal,
     PrefetchHooks Function(
-        {bool tasksRefs, bool goalNotificationOverrideRefs})>;
+        {bool tasksRefs, bool goalNotificationOverrideRefs, bool hobbiesRefs})>;
 typedef $$TasksTableCreateCompanionBuilder = TasksCompanion Function({
   Value<int> id,
   required String title,
@@ -5801,6 +7666,1092 @@ typedef $$GoalNotificationOverrideTableProcessedTableManager
         ),
         GoalNotificationOverrideData,
         PrefetchHooks Function({bool goalId})>;
+typedef $$UserStatsTableCreateCompanionBuilder = UserStatsCompanion Function({
+  Value<int> id,
+  Value<int> xp,
+  Value<int> level,
+  Value<int> currentStreak,
+  Value<int> longestStreak,
+  Value<DateTime?> lastActiveDate,
+  Value<int> totalTasksCompleted,
+  Value<int> totalGoalsCompleted,
+  Value<int> totalTemplatesCreated,
+  Value<String?> unlockedThemes,
+  Value<String?> unlockedIcons,
+  Value<String?> unlockedAnimations,
+  required DateTime createdAt,
+  Value<DateTime?> updatedAt,
+});
+typedef $$UserStatsTableUpdateCompanionBuilder = UserStatsCompanion Function({
+  Value<int> id,
+  Value<int> xp,
+  Value<int> level,
+  Value<int> currentStreak,
+  Value<int> longestStreak,
+  Value<DateTime?> lastActiveDate,
+  Value<int> totalTasksCompleted,
+  Value<int> totalGoalsCompleted,
+  Value<int> totalTemplatesCreated,
+  Value<String?> unlockedThemes,
+  Value<String?> unlockedIcons,
+  Value<String?> unlockedAnimations,
+  Value<DateTime> createdAt,
+  Value<DateTime?> updatedAt,
+});
+
+class $$UserStatsTableFilterComposer
+    extends Composer<_$AppDatabase, $UserStatsTable> {
+  $$UserStatsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get xp => $composableBuilder(
+      column: $table.xp, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get level => $composableBuilder(
+      column: $table.level, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get currentStreak => $composableBuilder(
+      column: $table.currentStreak, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get longestStreak => $composableBuilder(
+      column: $table.longestStreak, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get lastActiveDate => $composableBuilder(
+      column: $table.lastActiveDate,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get totalTasksCompleted => $composableBuilder(
+      column: $table.totalTasksCompleted,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get totalGoalsCompleted => $composableBuilder(
+      column: $table.totalGoalsCompleted,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get totalTemplatesCreated => $composableBuilder(
+      column: $table.totalTemplatesCreated,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get unlockedThemes => $composableBuilder(
+      column: $table.unlockedThemes,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get unlockedIcons => $composableBuilder(
+      column: $table.unlockedIcons, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get unlockedAnimations => $composableBuilder(
+      column: $table.unlockedAnimations,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $$UserStatsTableOrderingComposer
+    extends Composer<_$AppDatabase, $UserStatsTable> {
+  $$UserStatsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get xp => $composableBuilder(
+      column: $table.xp, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get level => $composableBuilder(
+      column: $table.level, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get currentStreak => $composableBuilder(
+      column: $table.currentStreak,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get longestStreak => $composableBuilder(
+      column: $table.longestStreak,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get lastActiveDate => $composableBuilder(
+      column: $table.lastActiveDate,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get totalTasksCompleted => $composableBuilder(
+      column: $table.totalTasksCompleted,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get totalGoalsCompleted => $composableBuilder(
+      column: $table.totalGoalsCompleted,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get totalTemplatesCreated => $composableBuilder(
+      column: $table.totalTemplatesCreated,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get unlockedThemes => $composableBuilder(
+      column: $table.unlockedThemes,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get unlockedIcons => $composableBuilder(
+      column: $table.unlockedIcons,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get unlockedAnimations => $composableBuilder(
+      column: $table.unlockedAnimations,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $$UserStatsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserStatsTable> {
+  $$UserStatsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<int> get xp =>
+      $composableBuilder(column: $table.xp, builder: (column) => column);
+
+  GeneratedColumn<int> get level =>
+      $composableBuilder(column: $table.level, builder: (column) => column);
+
+  GeneratedColumn<int> get currentStreak => $composableBuilder(
+      column: $table.currentStreak, builder: (column) => column);
+
+  GeneratedColumn<int> get longestStreak => $composableBuilder(
+      column: $table.longestStreak, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastActiveDate => $composableBuilder(
+      column: $table.lastActiveDate, builder: (column) => column);
+
+  GeneratedColumn<int> get totalTasksCompleted => $composableBuilder(
+      column: $table.totalTasksCompleted, builder: (column) => column);
+
+  GeneratedColumn<int> get totalGoalsCompleted => $composableBuilder(
+      column: $table.totalGoalsCompleted, builder: (column) => column);
+
+  GeneratedColumn<int> get totalTemplatesCreated => $composableBuilder(
+      column: $table.totalTemplatesCreated, builder: (column) => column);
+
+  GeneratedColumn<String> get unlockedThemes => $composableBuilder(
+      column: $table.unlockedThemes, builder: (column) => column);
+
+  GeneratedColumn<String> get unlockedIcons => $composableBuilder(
+      column: $table.unlockedIcons, builder: (column) => column);
+
+  GeneratedColumn<String> get unlockedAnimations => $composableBuilder(
+      column: $table.unlockedAnimations, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $$UserStatsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $UserStatsTable,
+    UserStat,
+    $$UserStatsTableFilterComposer,
+    $$UserStatsTableOrderingComposer,
+    $$UserStatsTableAnnotationComposer,
+    $$UserStatsTableCreateCompanionBuilder,
+    $$UserStatsTableUpdateCompanionBuilder,
+    (UserStat, BaseReferences<_$AppDatabase, $UserStatsTable, UserStat>),
+    UserStat,
+    PrefetchHooks Function()> {
+  $$UserStatsTableTableManager(_$AppDatabase db, $UserStatsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserStatsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserStatsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserStatsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> xp = const Value.absent(),
+            Value<int> level = const Value.absent(),
+            Value<int> currentStreak = const Value.absent(),
+            Value<int> longestStreak = const Value.absent(),
+            Value<DateTime?> lastActiveDate = const Value.absent(),
+            Value<int> totalTasksCompleted = const Value.absent(),
+            Value<int> totalGoalsCompleted = const Value.absent(),
+            Value<int> totalTemplatesCreated = const Value.absent(),
+            Value<String?> unlockedThemes = const Value.absent(),
+            Value<String?> unlockedIcons = const Value.absent(),
+            Value<String?> unlockedAnimations = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              UserStatsCompanion(
+            id: id,
+            xp: xp,
+            level: level,
+            currentStreak: currentStreak,
+            longestStreak: longestStreak,
+            lastActiveDate: lastActiveDate,
+            totalTasksCompleted: totalTasksCompleted,
+            totalGoalsCompleted: totalGoalsCompleted,
+            totalTemplatesCreated: totalTemplatesCreated,
+            unlockedThemes: unlockedThemes,
+            unlockedIcons: unlockedIcons,
+            unlockedAnimations: unlockedAnimations,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> xp = const Value.absent(),
+            Value<int> level = const Value.absent(),
+            Value<int> currentStreak = const Value.absent(),
+            Value<int> longestStreak = const Value.absent(),
+            Value<DateTime?> lastActiveDate = const Value.absent(),
+            Value<int> totalTasksCompleted = const Value.absent(),
+            Value<int> totalGoalsCompleted = const Value.absent(),
+            Value<int> totalTemplatesCreated = const Value.absent(),
+            Value<String?> unlockedThemes = const Value.absent(),
+            Value<String?> unlockedIcons = const Value.absent(),
+            Value<String?> unlockedAnimations = const Value.absent(),
+            required DateTime createdAt,
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              UserStatsCompanion.insert(
+            id: id,
+            xp: xp,
+            level: level,
+            currentStreak: currentStreak,
+            longestStreak: longestStreak,
+            lastActiveDate: lastActiveDate,
+            totalTasksCompleted: totalTasksCompleted,
+            totalGoalsCompleted: totalGoalsCompleted,
+            totalTemplatesCreated: totalTemplatesCreated,
+            unlockedThemes: unlockedThemes,
+            unlockedIcons: unlockedIcons,
+            unlockedAnimations: unlockedAnimations,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$UserStatsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $UserStatsTable,
+    UserStat,
+    $$UserStatsTableFilterComposer,
+    $$UserStatsTableOrderingComposer,
+    $$UserStatsTableAnnotationComposer,
+    $$UserStatsTableCreateCompanionBuilder,
+    $$UserStatsTableUpdateCompanionBuilder,
+    (UserStat, BaseReferences<_$AppDatabase, $UserStatsTable, UserStat>),
+    UserStat,
+    PrefetchHooks Function()>;
+typedef $$HobbiesTableCreateCompanionBuilder = HobbiesCompanion Function({
+  Value<int> id,
+  required String name,
+  Value<String?> description,
+  required String category,
+  Value<int?> icon,
+  Value<int?> color,
+  Value<String> frequency,
+  Value<String?> customFrequencyJson,
+  Value<int?> targetDurationMinutes,
+  Value<int?> goalId,
+  Value<bool> isActive,
+  required DateTime createdAt,
+  Value<DateTime?> updatedAt,
+});
+typedef $$HobbiesTableUpdateCompanionBuilder = HobbiesCompanion Function({
+  Value<int> id,
+  Value<String> name,
+  Value<String?> description,
+  Value<String> category,
+  Value<int?> icon,
+  Value<int?> color,
+  Value<String> frequency,
+  Value<String?> customFrequencyJson,
+  Value<int?> targetDurationMinutes,
+  Value<int?> goalId,
+  Value<bool> isActive,
+  Value<DateTime> createdAt,
+  Value<DateTime?> updatedAt,
+});
+
+final class $$HobbiesTableReferences
+    extends BaseReferences<_$AppDatabase, $HobbiesTable, Hobby> {
+  $$HobbiesTableReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static $GoalsTable _goalIdTable(_$AppDatabase db) => db.goals
+      .createAlias($_aliasNameGenerator(db.hobbies.goalId, db.goals.id));
+
+  $$GoalsTableProcessedTableManager? get goalId {
+    final $_column = $_itemColumn<int>('goal_id');
+    if ($_column == null) return null;
+    final manager = $$GoalsTableTableManager($_db, $_db.goals)
+        .filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_goalIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static MultiTypedResultKey<$HobbySessionsTable, List<HobbySession>>
+      _hobbySessionsRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.hobbySessions,
+              aliasName: $_aliasNameGenerator(
+                  db.hobbies.id, db.hobbySessions.hobbyId));
+
+  $$HobbySessionsTableProcessedTableManager get hobbySessionsRefs {
+    final manager = $$HobbySessionsTableTableManager($_db, $_db.hobbySessions)
+        .filter((f) => f.hobbyId.id.sqlEquals($_itemColumn<int>('id')!));
+
+    final cache = $_typedResult.readTableOrNull(_hobbySessionsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $$HobbiesTableFilterComposer
+    extends Composer<_$AppDatabase, $HobbiesTable> {
+  $$HobbiesTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get icon => $composableBuilder(
+      column: $table.icon, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get color => $composableBuilder(
+      column: $table.color, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get frequency => $composableBuilder(
+      column: $table.frequency, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get customFrequencyJson => $composableBuilder(
+      column: $table.customFrequencyJson,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get targetDurationMinutes => $composableBuilder(
+      column: $table.targetDurationMinutes,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isActive => $composableBuilder(
+      column: $table.isActive, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  $$GoalsTableFilterComposer get goalId {
+    final $$GoalsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableFilterComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<bool> hobbySessionsRefs(
+      Expression<bool> Function($$HobbySessionsTableFilterComposer f) f) {
+    final $$HobbySessionsTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.hobbySessions,
+        getReferencedColumn: (t) => t.hobbyId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$HobbySessionsTableFilterComposer(
+              $db: $db,
+              $table: $db.hobbySessions,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$HobbiesTableOrderingComposer
+    extends Composer<_$AppDatabase, $HobbiesTable> {
+  $$HobbiesTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get name => $composableBuilder(
+      column: $table.name, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get category => $composableBuilder(
+      column: $table.category, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get icon => $composableBuilder(
+      column: $table.icon, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get color => $composableBuilder(
+      column: $table.color, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get frequency => $composableBuilder(
+      column: $table.frequency, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get customFrequencyJson => $composableBuilder(
+      column: $table.customFrequencyJson,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get targetDurationMinutes => $composableBuilder(
+      column: $table.targetDurationMinutes,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isActive => $composableBuilder(
+      column: $table.isActive, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+
+  $$GoalsTableOrderingComposer get goalId {
+    final $$GoalsTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableOrderingComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$HobbiesTableAnnotationComposer
+    extends Composer<_$AppDatabase, $HobbiesTable> {
+  $$HobbiesTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get name =>
+      $composableBuilder(column: $table.name, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get category =>
+      $composableBuilder(column: $table.category, builder: (column) => column);
+
+  GeneratedColumn<int> get icon =>
+      $composableBuilder(column: $table.icon, builder: (column) => column);
+
+  GeneratedColumn<int> get color =>
+      $composableBuilder(column: $table.color, builder: (column) => column);
+
+  GeneratedColumn<String> get frequency =>
+      $composableBuilder(column: $table.frequency, builder: (column) => column);
+
+  GeneratedColumn<String> get customFrequencyJson => $composableBuilder(
+      column: $table.customFrequencyJson, builder: (column) => column);
+
+  GeneratedColumn<int> get targetDurationMinutes => $composableBuilder(
+      column: $table.targetDurationMinutes, builder: (column) => column);
+
+  GeneratedColumn<bool> get isActive =>
+      $composableBuilder(column: $table.isActive, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  $$GoalsTableAnnotationComposer get goalId {
+    final $$GoalsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.goalId,
+        referencedTable: $db.goals,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$GoalsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.goals,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  Expression<T> hobbySessionsRefs<T extends Object>(
+      Expression<T> Function($$HobbySessionsTableAnnotationComposer a) f) {
+    final $$HobbySessionsTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.hobbySessions,
+        getReferencedColumn: (t) => t.hobbyId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$HobbySessionsTableAnnotationComposer(
+              $db: $db,
+              $table: $db.hobbySessions,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $$HobbiesTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $HobbiesTable,
+    Hobby,
+    $$HobbiesTableFilterComposer,
+    $$HobbiesTableOrderingComposer,
+    $$HobbiesTableAnnotationComposer,
+    $$HobbiesTableCreateCompanionBuilder,
+    $$HobbiesTableUpdateCompanionBuilder,
+    (Hobby, $$HobbiesTableReferences),
+    Hobby,
+    PrefetchHooks Function({bool goalId, bool hobbySessionsRefs})> {
+  $$HobbiesTableTableManager(_$AppDatabase db, $HobbiesTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$HobbiesTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$HobbiesTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$HobbiesTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> name = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+            Value<String> category = const Value.absent(),
+            Value<int?> icon = const Value.absent(),
+            Value<int?> color = const Value.absent(),
+            Value<String> frequency = const Value.absent(),
+            Value<String?> customFrequencyJson = const Value.absent(),
+            Value<int?> targetDurationMinutes = const Value.absent(),
+            Value<int?> goalId = const Value.absent(),
+            Value<bool> isActive = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              HobbiesCompanion(
+            id: id,
+            name: name,
+            description: description,
+            category: category,
+            icon: icon,
+            color: color,
+            frequency: frequency,
+            customFrequencyJson: customFrequencyJson,
+            targetDurationMinutes: targetDurationMinutes,
+            goalId: goalId,
+            isActive: isActive,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String name,
+            Value<String?> description = const Value.absent(),
+            required String category,
+            Value<int?> icon = const Value.absent(),
+            Value<int?> color = const Value.absent(),
+            Value<String> frequency = const Value.absent(),
+            Value<String?> customFrequencyJson = const Value.absent(),
+            Value<int?> targetDurationMinutes = const Value.absent(),
+            Value<int?> goalId = const Value.absent(),
+            Value<bool> isActive = const Value.absent(),
+            required DateTime createdAt,
+            Value<DateTime?> updatedAt = const Value.absent(),
+          }) =>
+              HobbiesCompanion.insert(
+            id: id,
+            name: name,
+            description: description,
+            category: category,
+            icon: icon,
+            color: color,
+            frequency: frequency,
+            customFrequencyJson: customFrequencyJson,
+            targetDurationMinutes: targetDurationMinutes,
+            goalId: goalId,
+            isActive: isActive,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $$HobbiesTableReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({goalId = false, hobbySessionsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (hobbySessionsRefs) db.hobbySessions
+              ],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (goalId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.goalId,
+                    referencedTable: $$HobbiesTableReferences._goalIdTable(db),
+                    referencedColumn:
+                        $$HobbiesTableReferences._goalIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (hobbySessionsRefs)
+                    await $_getPrefetchedData<Hobby, $HobbiesTable,
+                            HobbySession>(
+                        currentTable: table,
+                        referencedTable: $$HobbiesTableReferences
+                            ._hobbySessionsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $$HobbiesTableReferences(db, table, p0)
+                                .hobbySessionsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.hobbyId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$HobbiesTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $HobbiesTable,
+    Hobby,
+    $$HobbiesTableFilterComposer,
+    $$HobbiesTableOrderingComposer,
+    $$HobbiesTableAnnotationComposer,
+    $$HobbiesTableCreateCompanionBuilder,
+    $$HobbiesTableUpdateCompanionBuilder,
+    (Hobby, $$HobbiesTableReferences),
+    Hobby,
+    PrefetchHooks Function({bool goalId, bool hobbySessionsRefs})>;
+typedef $$HobbySessionsTableCreateCompanionBuilder = HobbySessionsCompanion
+    Function({
+  Value<int> id,
+  Value<int?> hobbyId,
+  required DateTime startTime,
+  Value<DateTime?> endTime,
+  Value<int?> durationMinutes,
+  Value<int?> mood,
+  Value<String?> notes,
+  required DateTime createdAt,
+});
+typedef $$HobbySessionsTableUpdateCompanionBuilder = HobbySessionsCompanion
+    Function({
+  Value<int> id,
+  Value<int?> hobbyId,
+  Value<DateTime> startTime,
+  Value<DateTime?> endTime,
+  Value<int?> durationMinutes,
+  Value<int?> mood,
+  Value<String?> notes,
+  Value<DateTime> createdAt,
+});
+
+final class $$HobbySessionsTableReferences
+    extends BaseReferences<_$AppDatabase, $HobbySessionsTable, HobbySession> {
+  $$HobbySessionsTableReferences(
+      super.$_db, super.$_table, super.$_typedResult);
+
+  static $HobbiesTable _hobbyIdTable(_$AppDatabase db) =>
+      db.hobbies.createAlias(
+          $_aliasNameGenerator(db.hobbySessions.hobbyId, db.hobbies.id));
+
+  $$HobbiesTableProcessedTableManager? get hobbyId {
+    final $_column = $_itemColumn<int>('hobby_id');
+    if ($_column == null) return null;
+    final manager = $$HobbiesTableTableManager($_db, $_db.hobbies)
+        .filter((f) => f.id.sqlEquals($_column));
+    final item = $_typedResult.readTableOrNull(_hobbyIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $$HobbySessionsTableFilterComposer
+    extends Composer<_$AppDatabase, $HobbySessionsTable> {
+  $$HobbySessionsTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get startTime => $composableBuilder(
+      column: $table.startTime, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get endTime => $composableBuilder(
+      column: $table.endTime, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get durationMinutes => $composableBuilder(
+      column: $table.durationMinutes,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get mood => $composableBuilder(
+      column: $table.mood, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  $$HobbiesTableFilterComposer get hobbyId {
+    final $$HobbiesTableFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.hobbyId,
+        referencedTable: $db.hobbies,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$HobbiesTableFilterComposer(
+              $db: $db,
+              $table: $db.hobbies,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$HobbySessionsTableOrderingComposer
+    extends Composer<_$AppDatabase, $HobbySessionsTable> {
+  $$HobbySessionsTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get startTime => $composableBuilder(
+      column: $table.startTime, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get endTime => $composableBuilder(
+      column: $table.endTime, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get durationMinutes => $composableBuilder(
+      column: $table.durationMinutes,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get mood => $composableBuilder(
+      column: $table.mood, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get notes => $composableBuilder(
+      column: $table.notes, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  $$HobbiesTableOrderingComposer get hobbyId {
+    final $$HobbiesTableOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.hobbyId,
+        referencedTable: $db.hobbies,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$HobbiesTableOrderingComposer(
+              $db: $db,
+              $table: $db.hobbies,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$HobbySessionsTableAnnotationComposer
+    extends Composer<_$AppDatabase, $HobbySessionsTable> {
+  $$HobbySessionsTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startTime =>
+      $composableBuilder(column: $table.startTime, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get endTime =>
+      $composableBuilder(column: $table.endTime, builder: (column) => column);
+
+  GeneratedColumn<int> get durationMinutes => $composableBuilder(
+      column: $table.durationMinutes, builder: (column) => column);
+
+  GeneratedColumn<int> get mood =>
+      $composableBuilder(column: $table.mood, builder: (column) => column);
+
+  GeneratedColumn<String> get notes =>
+      $composableBuilder(column: $table.notes, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  $$HobbiesTableAnnotationComposer get hobbyId {
+    final $$HobbiesTableAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.hobbyId,
+        referencedTable: $db.hobbies,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $$HobbiesTableAnnotationComposer(
+              $db: $db,
+              $table: $db.hobbies,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $$HobbySessionsTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $HobbySessionsTable,
+    HobbySession,
+    $$HobbySessionsTableFilterComposer,
+    $$HobbySessionsTableOrderingComposer,
+    $$HobbySessionsTableAnnotationComposer,
+    $$HobbySessionsTableCreateCompanionBuilder,
+    $$HobbySessionsTableUpdateCompanionBuilder,
+    (HobbySession, $$HobbySessionsTableReferences),
+    HobbySession,
+    PrefetchHooks Function({bool hobbyId})> {
+  $$HobbySessionsTableTableManager(_$AppDatabase db, $HobbySessionsTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$HobbySessionsTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$HobbySessionsTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$HobbySessionsTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int?> hobbyId = const Value.absent(),
+            Value<DateTime> startTime = const Value.absent(),
+            Value<DateTime?> endTime = const Value.absent(),
+            Value<int?> durationMinutes = const Value.absent(),
+            Value<int?> mood = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+          }) =>
+              HobbySessionsCompanion(
+            id: id,
+            hobbyId: hobbyId,
+            startTime: startTime,
+            endTime: endTime,
+            durationMinutes: durationMinutes,
+            mood: mood,
+            notes: notes,
+            createdAt: createdAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int?> hobbyId = const Value.absent(),
+            required DateTime startTime,
+            Value<DateTime?> endTime = const Value.absent(),
+            Value<int?> durationMinutes = const Value.absent(),
+            Value<int?> mood = const Value.absent(),
+            Value<String?> notes = const Value.absent(),
+            required DateTime createdAt,
+          }) =>
+              HobbySessionsCompanion.insert(
+            id: id,
+            hobbyId: hobbyId,
+            startTime: startTime,
+            endTime: endTime,
+            durationMinutes: durationMinutes,
+            mood: mood,
+            notes: notes,
+            createdAt: createdAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $$HobbySessionsTableReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({hobbyId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (hobbyId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.hobbyId,
+                    referencedTable:
+                        $$HobbySessionsTableReferences._hobbyIdTable(db),
+                    referencedColumn:
+                        $$HobbySessionsTableReferences._hobbyIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $$HobbySessionsTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $HobbySessionsTable,
+    HobbySession,
+    $$HobbySessionsTableFilterComposer,
+    $$HobbySessionsTableOrderingComposer,
+    $$HobbySessionsTableAnnotationComposer,
+    $$HobbySessionsTableCreateCompanionBuilder,
+    $$HobbySessionsTableUpdateCompanionBuilder,
+    (HobbySession, $$HobbySessionsTableReferences),
+    HobbySession,
+    PrefetchHooks Function({bool hobbyId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -5823,4 +8774,10 @@ class $AppDatabaseManager {
   $$GoalNotificationOverrideTableTableManager get goalNotificationOverride =>
       $$GoalNotificationOverrideTableTableManager(
           _db, _db.goalNotificationOverride);
+  $$UserStatsTableTableManager get userStats =>
+      $$UserStatsTableTableManager(_db, _db.userStats);
+  $$HobbiesTableTableManager get hobbies =>
+      $$HobbiesTableTableManager(_db, _db.hobbies);
+  $$HobbySessionsTableTableManager get hobbySessions =>
+      $$HobbySessionsTableTableManager(_db, _db.hobbySessions);
 }
