@@ -115,13 +115,18 @@
 
 ---
 
-## Phase 4: Hobbies & Habits (IN PROGRESS)
+## Phase 4: Hobbies & Habits ✅ COMPLETED
 - [x] Database schema for Hobbies and HobbySessions (migration v8)
 - [x] HobbyModel and HobbySessionModel with JSON serialization
 - [x] HobbiesDao and HobbySessionsDao with CRUD + watch streams
-- [ ] Recurring engine (daily/weekly/custom)
-- [ ] Session tracking with mood
-- [ ] Insights charts (time allocation, correlations)
+- [x] Recurring engine (daily/weekly/custom) — `RecurrenceEngine` in `lib/core/utils/`
+- [x] Session tracking with mood — start/end sessions, mood picker (1-5), notes
+- [x] Insights & stats — `HobbyStats` compute (total sessions, time, streaks, avg mood, mood distribution, sessions by day)
+- [x] HobbiesPage — list with All/Due Today tabs, FilterChip filtering (All/Active/Daily/Weekly/Custom)
+- [x] HobbyDetailPage — info, stats grid, session history, start session, edit, delete
+- [x] HobbyCreateEditPage — form with frequency picker, icon/color picker, goal linking, target duration
+- [x] HobbyCard widget — color/icon, frequency badge, target duration, goal link, start/edit/delete actions
+- [x] SessionCard widget — duration, mood indicator, date/time, streak context
 
 ---
 
