@@ -101,13 +101,16 @@ class XpLevelCard extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: PlSpacing.sm),
-              ClipRRect(
-                borderRadius: PlSpacing.borderRadiusFull,
-                child: LinearProgressIndicator(
-                  value: stats.levelProgress,
-                  minHeight: 8,
-                  backgroundColor: colorScheme.surfaceContainerHighest,
-                  valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+              SizedBox(
+                height: 8,
+                child: ClipRRect(
+                  borderRadius: PlSpacing.borderRadiusFull,
+                  child: LinearProgressIndicator(
+                    value: stats.levelProgress,
+                    minHeight: 8,
+                    backgroundColor: colorScheme.surfaceContainerHighest,
+                    valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+                  ),
                 ),
               ),
               const SizedBox(height: PlSpacing.sm),

@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:planza/features/goal_managment/presentation/pages/goals_page.dart';
 import 'package:planza/features/gamification/presentation/pages/profile_page.dart';
 import 'package:planza/features/home/presentation/pages/home_page.dart';
+import 'package:planza/features/hobbies_habits/presentation/pages/hobbies_page.dart';
 
 import 'core/locale/app_localizations.dart';
 import 'features/task_managment/presentation/pages/tasks_page.dart';
@@ -23,6 +24,7 @@ class _RootPageState extends State<RootPage> {
     const HomePage(),
     const TasksPage(),
     const GoalsPage(),
+    const HobbiesPage(),
     const ProfilePage(),
   ];
 
@@ -73,6 +75,7 @@ class _RootPageState extends State<RootPage> {
             Icon(Icons.home_rounded, size: 30),
             Icon(Icons.task_alt_rounded, size: 30),
             Icon(Icons.golf_course_rounded, size: 30),
+            Icon(Icons.track_changes, size: 30),
             Icon(Icons.person_rounded, size: 30),
           ],
           onTap: (index) {

@@ -12,6 +12,63 @@ class PlButton extends StatelessWidget {
   final bool isFullWidth;
   final EdgeInsetsGeometry? padding;
 
+  factory PlButton.primary({
+    required String label,
+    VoidCallback? onPressed,
+    IconData? icon,
+    PlButtonSize size = PlButtonSize.md,
+    bool isLoading = false,
+    bool isFullWidth = false,
+  }) {
+    return PlButton(
+      label: label,
+      onPressed: onPressed,
+      icon: icon,
+      style: PlButtonStyle.filled,
+      size: size,
+      isLoading: isLoading,
+      isFullWidth: isFullWidth,
+    );
+  }
+
+  factory PlButton.secondary({
+    required String label,
+    VoidCallback? onPressed,
+    IconData? icon,
+    PlButtonSize size = PlButtonSize.md,
+    bool isLoading = false,
+    bool isFullWidth = false,
+  }) {
+    return PlButton(
+      label: label,
+      onPressed: onPressed,
+      icon: icon,
+      style: PlButtonStyle.outlined,
+      size: size,
+      isLoading: isLoading,
+      isFullWidth: isFullWidth,
+    );
+  }
+
+  factory PlButton.destructive({
+    required String label,
+    VoidCallback? onPressed,
+    IconData? icon,
+    PlButtonSize size = PlButtonSize.md,
+    bool isLoading = false,
+    bool isFullWidth = false,
+  }) {
+    return PlButton(
+      label: label,
+      onPressed: onPressed,
+      icon: icon,
+      style: PlButtonStyle.destructive,
+      size: size,
+      isLoading: isLoading,
+      isFullWidth: isFullWidth,
+    );
+  }
+
   const PlButton({
     super.key,
     required this.label,
@@ -119,13 +176,3 @@ class PlButton extends StatelessWidget {
 enum PlButtonStyle { filled, filledTonal, outlined, text, destructive }
 
 enum PlButtonSize { sm, md, lg }
-
-
-
-
-
-
-
-
-
-
