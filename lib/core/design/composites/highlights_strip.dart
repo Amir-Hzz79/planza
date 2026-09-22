@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:planza/core/design/tokens/colors.dart';
 import 'package:planza/core/design/tokens/spacing.dart';
-import 'package:planza/core/design/tokens/border_radius.dart';
 import 'package:planza/core/design/primitives/glassy_container.dart';
 
 /// A horizontally scrollable highlights strip — the Telegram Stories analogue
@@ -194,7 +193,7 @@ class _PinnedGoalCard extends StatelessWidget {
                       color: goal.color,
                     ),
                   ),
-                  SizedBox(width: PlSpacing.xsm),
+                  SizedBox(width: PlSpacing.xs),
                   Expanded(
                     child: Text(
                       goal.name,
@@ -502,7 +501,6 @@ class _RecentSessionCard extends StatelessWidget {
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
-                    flexible: true,
                   ),
                 ],
               ),

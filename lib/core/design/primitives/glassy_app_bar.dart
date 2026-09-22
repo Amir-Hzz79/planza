@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:planza/core/design/tokens/colors.dart';
 import 'package:planza/core/design/tokens/spacing.dart';
-import 'package:planza/core/design/tokens/border_radius.dart';
 
 /// A compact, glassy app bar for the Liquid Glass design language.
 ///
@@ -24,7 +23,7 @@ class GlassyAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final Widget? leading;
   final List<Widget> actions;
-  final Widget? subtitle;
+  final String? subtitle;
   final VoidCallback? onSearchTap;
   final bool showBackButton;
   final Color? backgroundColor;
@@ -82,8 +81,7 @@ class GlassyAppBar extends StatelessWidget implements PreferredSizeWidget {
           else if (leading != null) ...[
             leading!,
             const SizedBox(width: PlSpacing.md),
-          ]
-          else
+          ] else
             const SizedBox(width: PlSpacing.md),
 
           // Title + subtitle
@@ -168,7 +166,8 @@ class GlassyAppBar extends StatelessWidget implements PreferredSizeWidget {
                 ),
               ),
               const SizedBox(width: PlSpacing.xs),
-              const Icon(Icons.keyboard_arrow_down, size: 14, color: Colors.grey),
+              const Icon(Icons.keyboard_arrow_down,
+                  size: 14, color: Colors.grey),
             ],
           ),
         ),

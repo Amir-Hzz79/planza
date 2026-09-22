@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/data/models/task_model.dart';
@@ -8,11 +9,13 @@ import 'package:planza/core/data/models/hobby_model.dart';
 import 'package:planza/core/design/composites/highlights_strip.dart';
 import 'package:planza/core/design/primitives/glassy_container.dart'
     as glassy_container;
+import 'package:planza/core/design/primitives/glassy_container.dart';
 import 'package:planza/core/design/primitives/glassy_fab.dart';
 import 'package:planza/core/design/tokens/colors.dart';
 import 'package:planza/core/design/tokens/spacing.dart';
 import 'package:planza/core/design/tokens/border_radius.dart';
 import 'package:planza/core/design/tokens/index.dart';
+import 'package:planza/features/hobbies_habits/presentation/bloc/hobbies_bloc_builder.dart';
 
 import 'package:planza/features/home/presentation/widgets/section_header.dart';
 import 'package:planza/features/home/presentation/widgets/goals_carousel.dart';
@@ -20,12 +23,10 @@ import 'package:planza/features/home/presentation/widgets/tag_analysis_chart.dar
 import 'package:planza/features/home/presentation/widgets/drawer/drawer_section.dart';
 
 import '../../../../core/data/bloc/goal_bloc/goal_bloc_builder.dart';
+import '../../../../core/data/bloc/goal_bloc/goal_bloc.dart';
 import '../../../../core/data/bloc/task_bloc/task_bloc_builder.dart';
 import '../../../../core/data/bloc/task_bloc/task_bloc.dart';
 import '../../../../core/data/bloc/user_stats_bloc/user_stats_bloc.dart';
-import '../../../../core/data/bloc/user_stats_bloc/user_stats_state.dart';
-import '../../../../core/data/bloc/hobbies_bloc/hobbies_bloc.dart';
-import '../../../../core/data/bloc/hobbies_bloc/hobbies_bloc_builder.dart';
 import '../../../../core/locale/bloc/locale_bloc.dart';
 import '../../../../core/locale/bloc/locale_state.dart';
 
@@ -36,6 +37,7 @@ import '../../../../core/data/database/database.dart';
 
 import '../../../task_managment/presentation/widgets/glassy_task_tile.dart';
 import '../../../task_managment/presentation/widgets/task_entry_sheet.dart';
+import '../../../../features/goal_managment/presentation/pages/goal_entry_page.dart';
 import '../../../../features/goal_managment/presentation/pages/goal_entry_page.dart';
 
 class HomePage extends StatefulWidget {

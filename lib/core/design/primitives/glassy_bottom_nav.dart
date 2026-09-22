@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:planza/core/design/tokens/colors.dart';
 import 'package:planza/core/design/tokens/spacing.dart';
-import 'package:planza/core/design/tokens/border_radius.dart';
 
 /// A Liquid Glass persistent bottom navigation bar.
 ///
@@ -64,7 +63,8 @@ class GlassyBottomNavigationBar extends StatelessWidget {
           child: Container(
             decoration: BoxDecoration(
               color: colors.surface.withOpacity(barOpacity),
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(28)),
+              borderRadius:
+                  const BorderRadius.vertical(top: Radius.circular(28)),
               border: Border(
                 top: BorderSide(
                   color: colors.outlineVariant.withOpacity(isDark ? 0.45 : 0.2),

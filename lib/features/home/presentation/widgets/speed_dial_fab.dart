@@ -112,7 +112,7 @@ class _SpeedDialFabState extends State<SpeedDialFab>
                 child: item,
               ),
             );
-          }).reversed.toList(),
+          }).reversed,
         ],
 
         // Main FAB (glassy, with rotation animation)

@@ -23,6 +23,7 @@ class GlassyContainer extends StatelessWidget {
   final Color? tintColor;
   final List<BoxShadow>? shadows;
   final BorderRadius? borderRadius;
+  final Border? border;
   final VoidCallback? onTap;
   final bool clipContent;
 
@@ -36,6 +37,7 @@ class GlassyContainer extends StatelessWidget {
     this.tintColor,
     this.shadows,
     this.borderRadius,
+    this.border,
     this.onTap,
     this.clipContent = true,
   });
@@ -196,11 +198,6 @@ class GlassyCard extends StatelessWidget {
           spreadRadius: 0,
         ),
       ],
-      border: border ??
-          Border.all(
-            color: colors.outlineVariant.withOpacity(isDark ? 0.35 : 0.2),
-            width: 0.5,
-          ),
       onTap: onTap,
       child: child,
     );
@@ -268,7 +265,7 @@ class GlassyChip extends StatelessWidget {
           Expanded(
             child: Text(
               label,
-              style: PlTypography.labelMedium?.copyWith(
+              style: PlTypography.labelMedium.copyWith(
                 color: isActive ? colors.primary : colors.onSurfaceVariant,
                 fontWeight: isActive ? FontWeight.w600 : FontWeight.normal,
               ),
@@ -285,68 +282,10 @@ class GlassyChip extends StatelessWidget {
               ),
               child: Text(
                 count.toString(),
-                style: PlTypography.labelSmall?.copyWith(
+                style: PlTypography.labelSmall.copyWith(
                   color: colors.primary,
                   fontWeight: FontWeight.w600,
                 ),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
-}
-
-/// A glass-style FAB — a translucent, blurred, rounded floating action button.
-class GlassyFAB extends StatelessWidget {
-  final VoidCallback? onPressed;
-  final IconData icon;
-  final String? label;
-  final double? size;
-
-  const GlassyFAB({
-    super.key,
-    required this.onPressed,
-    required this.icon,
-    this.label,
-    this.size,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final isDark = theme.brightness == Brightness.dark;
-    final colors = isDark ? darkColors : lightColors;
-
-    final fabSize = size ?? 56.0;
-    final iconSize = size != null ? (fabSize / 56 * 24) : 24.0;
-
-    return GlassyContainer(
-      blur: 16,
-      opacity: 0.5,
-      borderRadius: PlBorderRadius.radiusFull,
-      onTap: onPressed,
-      shadows: [
-        BoxShadow(
-          color: colors.primary.withOpacity(0.2),
-          offset: const Offset(0, 6),
-          blurRadius: 20,
-          spreadRadius: 0,
-        ),
-      ],
-      padding: EdgeInsets.all(fabSize * 0.12),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, size: iconSize, color: colors.primary),
-          if (label != null) ...[
-            const SizedBox(width: PlSpacing.xs),
-            Text(
-              label,
-              style: PlTypography.labelLarge?.copyWith(
-                color: colors.primary,
-                fontWeight: FontWeight.w600,
               ),
             ),
           ],
