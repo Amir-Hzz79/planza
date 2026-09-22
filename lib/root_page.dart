@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/services.dart';
 
+import 'package:planza/core/design/primitives/glassy_bottom_nav.dart';
 import 'package:planza/features/goal_managment/presentation/pages/goals_page.dart';
 import 'package:planza/features/gamification/presentation/pages/profile_page.dart';
 import 'package:planza/features/home/presentation/pages/home_page.dart';
@@ -63,26 +63,40 @@ class _RootPageState extends State<RootPage> {
           index: _currentIndex,
           children: _pages,
         ),
-        bottomNavigationBar: CurvedNavigationBar(
-          backgroundColor: Colors.transparent,
-          color: Theme.of(context).brightness == Brightness.dark
-              ? Colors.black
-              : Colors.grey[100]!,
-          animationDuration: Duration(milliseconds: 300),
-          height: 50,
-          items: <Widget>[
-            /* Icon(Icons.home_rounded, size: 30), */
-            Icon(Icons.home_rounded, size: 30),
-            Icon(Icons.task_alt_rounded, size: 30),
-            Icon(Icons.golf_course_rounded, size: 30),
-            Icon(Icons.track_changes, size: 30),
-            Icon(Icons.person_rounded, size: 30),
-          ],
+        bottomNavigationBar: GlassyBottomNavigationBar(
+          currentIndex: _currentIndex,
           onTap: (index) {
             setState(() {
               _currentIndex = index;
             });
           },
+          tabs: const [
+            BottomNavTab(
+              icon: Icons.home_rounded,
+              activeIcon: Icons.home,
+              label: 'Home',
+            ),
+            BottomNavTab(
+              icon: Icons.task_alt_rounded,
+              activeIcon: Icons.task_alt,
+              label: 'Tasks',
+            ),
+            BottomNavTab(
+              icon: Icons.golf_course_rounded,
+              activeIcon: Icons.golf_course,
+              label: 'Goals',
+            ),
+            BottomNavTab(
+              icon: Icons.track_changes,
+              activeIcon: Icons.track_changes,
+              label: 'Hobbies',
+            ),
+            BottomNavTab(
+              icon: Icons.person_rounded,
+              activeIcon: Icons.person,
+              label: 'Profile',
+            ),
+          ],
         ),
       ),
     );

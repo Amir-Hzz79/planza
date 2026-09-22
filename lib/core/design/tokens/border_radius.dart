@@ -17,6 +17,9 @@ class PlBorderRadius {
   static const BorderRadius radiusLg = BorderRadius.all(Radius.circular(lg));
   static const BorderRadius radiusXl = BorderRadius.all(Radius.circular(xl));
   static const BorderRadius radiusXxl = BorderRadius.all(Radius.circular(xxl));
+  static const BorderRadius radiusLiquid = BorderRadius.all(Radius.circular(28));
+  static const BorderRadius radiusLiquidSm = BorderRadius.all(Radius.circular(20));
+  static const BorderRadius radiusLiquidLg = BorderRadius.all(Radius.circular(32));
   static const BorderRadius radiusFull = BorderRadius.all(Radius.circular(full));
 
   static const BorderRadius topSm = BorderRadius.vertical(top: Radius.circular(sm));
