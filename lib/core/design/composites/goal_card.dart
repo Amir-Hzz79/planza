@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/design/primitives/index.dart';
-import 'package:planza/core/design/tokens/index.dart';
 import '../../data/models/goal_model.dart';
 
 class GoalCard extends StatelessWidget {

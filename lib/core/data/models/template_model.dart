@@ -3,9 +3,6 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart' show Color, Colors, IconData, Icons;
 
 import '../database/database.dart' show Template, TemplatesCompanion;
-import 'goal_model.dart';
-import 'task_model.dart';
-import 'tag_model.dart';
 
 class TemplateModel extends Equatable {
   @override

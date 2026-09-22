@@ -1,7 +1,6 @@
-library notification_settings_event;
+library;
 
 import 'package:equatable/equatable.dart';
-import 'package:planza/core/data/models/user_settings_model.dart';
 
 abstract class NotificationSettingsEvent extends Equatable {
   const NotificationSettingsEvent();

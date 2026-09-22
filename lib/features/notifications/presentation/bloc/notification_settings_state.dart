@@ -1,4 +1,4 @@
-library notification_settings_state;
+library;
 
 import 'package:equatable/equatable.dart';
 import 'package:planza/core/data/models/user_settings_model.dart';

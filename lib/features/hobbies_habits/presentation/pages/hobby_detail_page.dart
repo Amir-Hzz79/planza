@@ -8,7 +8,6 @@ import 'package:planza/core/design/primitives/pl_card.dart';
 import 'package:planza/core/design/tokens/spacing.dart';
 import 'package:planza/core/design/tokens/typography.dart';
 import 'package:planza/features/hobbies_habits/presentation/bloc/hobbies_bloc.dart';
-import 'package:planza/features/hobbies_habits/presentation/widgets/hobby_card.dart';
 import 'package:planza/features/hobbies_habits/presentation/widgets/session_card.dart';
 import 'package:planza/core/utils/recurrence_engine.dart';
 import 'package:planza/core/utils/hobby_stats.dart';

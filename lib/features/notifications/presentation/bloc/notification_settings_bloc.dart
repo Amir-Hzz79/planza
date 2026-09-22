@@ -1,5 +1,4 @@
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../../../../core/data/data_access_object/user_setting_dao.dart';

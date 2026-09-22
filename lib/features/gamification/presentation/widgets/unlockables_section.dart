@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/design/primitives/pl_card.dart';
-import 'package:planza/core/design/primitives/pl_button.dart';
-import 'package:planza/core/design/tokens/colors.dart';
 import 'package:planza/core/design/tokens/spacing.dart';
 import 'package:planza/core/design/tokens/typography.dart';
 

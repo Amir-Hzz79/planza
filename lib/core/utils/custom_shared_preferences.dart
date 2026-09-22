@@ -2,7 +2,6 @@
 // This replaces the shared_preferences package
 
 import 'dart:async';
-import 'dart:collection';
 import 'package:flutter/services.dart';
 
 class CustomSharedPreferences {

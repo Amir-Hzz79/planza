@@ -1,7 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:planza/core/data/database/database.dart'
     show Hobby, HobbiesCompanion, HobbySession, HobbySessionsCompanion;
-import 'package:uuid/uuid.dart';
 
 class HobbyModel {
   final int id;

@@ -189,7 +189,7 @@ class _ReorderableGridItem extends StatelessWidget {
   final int index;
   final Widget child;
 
-  const _ReorderableGridItem({super.key, required this.index, required this.child});
+  const _ReorderableGridItem({required this.index, required this.child});
 
   @override
   Widget build(BuildContext context) {

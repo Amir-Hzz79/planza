@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/data/models/hobby_model.dart';
 import 'package:planza/core/design/primitives/pl_button.dart';
-import 'package:planza/core/design/primitives/pl_card.dart';
 import 'package:planza/core/design/primitives/pl_text_field.dart';
 import 'package:planza/core/design/tokens/border_radius.dart';
 import 'package:planza/core/design/tokens/spacing.dart';

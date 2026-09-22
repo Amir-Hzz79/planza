@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:planza/core/design/tokens/index.dart';
 
 class PlSwitch extends StatelessWidget {
   final bool value;

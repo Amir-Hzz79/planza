@@ -47,7 +47,8 @@ class StatsGrid extends StatelessWidget {
       ),
       _StatItem(
         label: 'Unlockables',
-        value: '${stats.unlockedThemes.length + stats.unlockedIcons.length + stats.unlockedAnimations.length}',
+        value:
+            '${stats.unlockedThemes.length + stats.unlockedIcons.length + stats.unlockedAnimations.length}',
         icon: Icons.lock_open,
         color: Colors.pink,
       ),
@@ -68,7 +69,7 @@ class StatsGrid extends StatelessWidget {
             crossAxisCount: 2,
             crossAxisSpacing: PlSpacing.md,
             mainAxisSpacing: PlSpacing.md,
-            childAspectRatio: 1.3,
+            childAspectRatio: 1.25,
           ),
           itemCount: statItems.length,
           itemBuilder: (context, index) {

@@ -1,6 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:planza/core/data/data_access_object/goal_dao.dart';
+import 'package:planza/core/data/data_access_object/hobbies_dao.dart';
+import 'package:planza/core/data/data_access_object/hobby_sessions_dao.dart';
 import 'package:planza/core/data/data_access_object/task_dao.dart';
+import 'package:planza/core/data/data_access_object/user_stats_dao.dart';
 import 'package:planza/core/data/database/database.dart';
 
 import 'data/data_access_object/tag_dao.dart';
@@ -33,6 +36,16 @@ Future<void> initServices() async {
 
   GetIt.instance.registerLazySingleton(
     () => LocalePreferenceService(),
+  );
+
+  GetIt.instance.registerLazySingleton(
+    () => UserStatsDao(database),
+  );
+  GetIt.instance.registerLazySingleton(
+    () => HobbiesDao(database),
+  );
+  GetIt.instance.registerLazySingleton(
+    () => HobbySessionsDao(database),
   );
 
   final notificationService = await NotificationService().init();

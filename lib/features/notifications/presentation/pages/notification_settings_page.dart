@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:planza/core/design/primitives/pl_app_bar.dart';
 import 'package:planza/core/design/primitives/pl_button.dart';
 import 'package:planza/core/design/primitives/pl_card.dart';
-import 'package:planza/core/design/primitives/pl_switch.dart';
 import 'package:planza/core/design/tokens/spacing.dart';
 import 'package:planza/core/design/tokens/typography.dart';
 import 'package:planza/core/data/models/user_settings_model.dart';

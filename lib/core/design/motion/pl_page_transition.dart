@@ -81,7 +81,7 @@ class PlSharedAxisTransition extends PageRouteBuilder {
     this.transitionType = SharedAxisTransitionType.horizontal,
     this.duration = PlMotion.pageTransition,
     this.curve = PlMotion.pageTransitionCurve,
-    RouteSettings? settings,
+    super.settings,
   }) : super(
           pageBuilder: (context, animation, secondaryAnimation) => child,
           transitionsBuilder: (context, animation, secondaryAnimation, child) {
@@ -94,7 +94,6 @@ class PlSharedAxisTransition extends PageRouteBuilder {
           },
           transitionDuration: duration,
           reverseTransitionDuration: duration,
-          settings: settings,
         );
 }
 

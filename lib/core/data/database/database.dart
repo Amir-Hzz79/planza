@@ -1,4 +1,4 @@
-﻿import 'dart:io';
+import 'dart:io';
 
 import 'package:drift/drift.dart';
 import 'package:drift/native.dart';
@@ -49,7 +49,7 @@ class AppDatabase extends _$AppDatabase {
   static QueryExecutor _openConnection() {
     return LazyDatabase(() async {
       final dbFolder = await AppPaths.getApplicationSupportDirectory();
-      final dbFolderPath = '${dbFolder.path}';
+      final dbFolderPath = dbFolder.path;
       final file = File('$dbFolderPath/planza_db.sqlite');
 
       // Ensure the directory exists

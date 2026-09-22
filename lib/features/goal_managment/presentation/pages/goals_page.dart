@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:planza/core/data/bloc/goal_bloc/goal_bloc.dart';
 import 'package:planza/core/data/bloc/goal_bloc/goal_bloc_builder.dart';
 import 'package:planza/core/data/models/goal_model.dart';
 import 'package:planza/core/design/composites/goal_tree_view.dart';
@@ -9,9 +7,7 @@ import 'package:planza/core/design/composites/goal_tree_view.dart';
 import '../../../../core/locale/app_localizations.dart';
 import '../../../../core/widgets/appbar/general_app_bar.dart';
 import '../../../home/presentation/widgets/drawer/drawer_section.dart';
-import '../widgets/goal_cards/active_goal_card.dart';
 import '../widgets/goal_cards/complete_goal_card.dart';
-import '../widgets/goal_cards/featured_goal_card.dart';
 import 'goal_entry_page.dart';
 
 class GoalsPage extends StatefulWidget {

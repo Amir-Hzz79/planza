@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:planza/core/design/primitives/index.dart';
-import 'package:planza/core/design/tokens/index.dart';
 import '../../data/models/tag_model.dart';
 
 class TagChip extends StatelessWidget {
