@@ -75,20 +75,20 @@ Transform personal goal management into a social, template-driven ecosystem.
 
 ---
 
-## Phase 4: Hobbies & Habits 🟡 In Progress
+## Phase 4: Hobbies & Habits ✅ Complete
 
-### Database & Backend ✅
+### Completed
 - Database schema for Hobbies and HobbySessions (migration v8)
 - HobbyModel and HobbySessionModel with JSON serialization
 - HobbiesDao and HobbySessionsDao with CRUD + watch streams
-- Database migration v8 with Hobbies and HobbySessions tables
-- Fixed Impeller crash by disabling hardware acceleration
-
-### Remaining
-- [ ] Recurring engine (daily/weekly/custom)
-- [ ] Session tracking with mood
-- [ ] Insights charts (time allocation, correlations)
-- [ ] Hobby UI pages (list, detail, create/edit)
+- Recurring engine (`RecurrenceEngine`) — daily/weekly/custom
+- Session tracking with mood (1-5) and notes
+- Insights & stats (`HobbyStats`) — sessions, time, streaks, avg mood, mood distribution
+- HobbiesPage — All/Due Today tabs, FilterChip filtering, search, add
+- HobbyDetailPage — stats grid, session history, start/edit/delete
+- HobbyCreateEditPage — frequency picker, icon/color picker, goal linking
+- HobbyCard & SessionCard widgets
+- HobbiesBloc with full CRUD + session management
 
 ---
 
