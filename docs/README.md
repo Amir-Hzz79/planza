@@ -6,7 +6,8 @@ Welcome to the Planza documentation. This folder contains all project documentat
 
 || Document | Description |
 |----------|-------------|
-|| [ROADMAP.md](ROADMAP.md) | High-level project roadmap and phases |
+||| [AGENTS.md](AGENTS.md) | AI agent onboarding: conventions, patterns, gotchas, workflow **(read first)** |
+||| [ROADMAP.md](ROADMAP.md) | High-level project roadmap and phases |
 || [PLAN.md](PLAN.md) | Full development plan: vision, phases, git flow |
 || [DEVELOPMENT.md](DEVELOPMENT.md) | Development setup, commands, build, test |
 || [CHANGELOG.md](CHANGELOG.md) | Version history and release notes |
@@ -20,12 +21,12 @@ Welcome to the Planza documentation. This folder contains all project documentat
 
 | Feature | Documentation |
 |---------|---------------|
-|| Goals & Tasks | [GOALS_TASKS.md](GOALS_TASKS.md) |
-|| Templates | [TEMPLATES.md](TEMPLATES.md) |
-|| Notifications | [NOTIFICATIONS.md](NOTIFICATIONS.md) |
-|| Gamification | [GAMIFICATION.md](GAMIFICATION.md) |
-|| Hobbies & Habits | [HOBBIES_HABITS.md](HOBBIES_HABITS.md) |
-|| Template Gallery | [TEMPLATE_GALLERY.md](TEMPLATE_GALLERY.md) |
+| Goals & Tasks | [features/GOALS_TASKS.md](features/GOALS_TASKS.md) |
+| Templates | [features/TEMPLATES.md](features/TEMPLATES.md) |
+| Notifications | [features/NOTIFICATIONS.md](features/NOTIFICATIONS.md) |
+| Gamification | [features/GAMIFICATION.md](features/GAMIFICATION.md) |
+| Hobbies & Habits | [features/HOBBIES_HABITS.md](features/HOBBIES_HABITS.md) |
+| Home Dashboard | [features/HOME.md](features/HOME.md) |
 
 ## Technical Documentation
 
@@ -35,8 +36,9 @@ Welcome to the Planza documentation. This folder contains all project documentat
 || Database Schema | [DATABASE.md](DATABASE.md) |
 || State Management | [STATE_MANAGEMENT.md](STATE_MANAGEMENT.md) |
 || Design System | [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) |
-|| Database Migrations | [DATABASE.md#migrations](DATABASE.md#migrations) |
-|| Git Workflow | [GIT_WORKFLOW.md](GIT_WORKFLOW.md) |
+| Database Migrations | [DATABASE.md#migrations](DATABASE.md#migrations) |
+| Git Workflow | [PLAN.md#git-flow](PLAN.md#git-flow) |
+| AI Agent Onboarding | [AGENTS.md](AGENTS.md) |
 
 ## Project Overview
 
