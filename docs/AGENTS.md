@@ -19,6 +19,56 @@ This document tells an AI coding agent everything it needs to work effectively o
 5. Read docs/ARCHITECTURE.md + docs/STATE_MANAGEMENT.md for patterns
 6. Use docs/DEVELOPMENT.md for commands
 
+## How to Use These Docs
+
+This folder is the single source of truth for the project. Read it in this order:
+
+### 1. Orientation (read once per session)
+- **docs/AGENTS.md** (this file) — conventions, gotchas, codebase map, workflow. Read first.
+- **docs/README.md** — index of all docs with one-line descriptions. Use it to find the right doc.
+- **docs/PLAN.md** — vision, the master phase checklist (what exists vs. what's planned), git flow.
+- **docs/ROADMAP.md** — phase-by-phase status table. Tells you what's done and what's next.
+
+→ After these four, you know what the project is, what's built, and what remains.
+
+### 2. Working on a feature
+- **docs/features/<feature>.md** — one doc per feature. Tells you: what the feature does, its key files, BLoCs/events/states, data models, navigation paths, integration points. Read this before touching the feature's code.
+- Feature docs available: GOALS_TASKS, TEMPLATES, NOTIFICATIONS, GAMIFICATION, HOBBIES_HABITS, HOME.
+
+### 3. Working on infrastructure / patterns
+- **docs/ARCHITECTURE.md** — how the code is structured (data layer, BLoCs, design system, navigation, error handling). Read when creating new BLoCs, DAOs, or features.
+- **docs/STATE_MANAGEMENT.md** — BLoC pattern details: event/state shapes, registration in app.dart, optimistic updates, stream cleanup, testing. Read when writing BLoC code.
+- **docs/DATABASE.md** — full schema for every table, migration history, Drift usage, model/DAO patterns. Read when changing the database.
+- **docs/DESIGN_SYSTEM.md** — tokens, primitives, composites, layouts, theme controller, unlockable palettes, RTL. Read when building UI.
+
+### 4. Doing operations
+- **docs/DEVELOPMENT.md** — all commands: setup, build, test, analyze, codegen, IDE setup, common issues. Run `flutter analyze` after every change; 0 errors required.
+
+### 5. Historical context
+- **docs/CHANGELOG.md** — version history in Keep a Changelog format. Read when you need to know what changed in a past release.
+
+### Doc map by task
+
+| If you need to... | Read this |
+|---|---|
+| Understand the whole project | AGENTS.md → README.md → PLAN.md → ROADMAP.md |
+| Add a new feature | ARCHITECTURE.md (structure) + STATE_MANAGEMENT.md (BLoC) + the nearest feature doc for patterns |
+| Add a screen/page | The relevant `docs/features/<name>.md` + ARCHITECTURE.md navigation section |
+| Add a BLoC | STATE_MANAGEMENT.md + ARCHITECTURE.md data layer + an existing feature's BLoC files |
+| Change the database | DATABASE.md (schema) + an existing *Dao file for patterns |
+| Build UI | DESIGN_SYSTEM.md (tokens/components) + the feature doc for existing widget patterns |
+| Fix a bug | AGENTS.md gotchas section + the relevant feature doc + STATE_MANAGEMENT.md (BLoC flow) |
+| Run commands | DEVELOPMENT.md |
+| Know what's done vs planned | PLAN.md (checklist) + ROADMAP.md (status table) |
+| Write a commit message | PLAN.md#commit-message-convention |
+| Submit a PR | PLAN.md#git-flow |
+
+### Conventions (summary)
+- **One doc per feature** under `docs/features/`. If you create a new feature, add its doc here.
+- **Reference docs** (ARCHITECTURE.md, DATABASE.md, etc.) cover cross-cutting concerns — they apply to all features.
+- **Don't duplicate** — if content belongs in a feature doc, don't repeat it in a reference doc. Reference docs explain patterns; feature docs show concrete instances.
+- **Keep docs current** — if you change a BLoC, update its feature doc and STATE_MANAGEMENT.md if the pattern changed.
+
 ## Codebase Map (abbreviated)
 
 ```
